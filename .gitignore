@@ -1,0 +1,39 @@
+# Raw Excel Data Folders (Excluded for repository performance)
+Estructura base/
+archivos/
+base de comparacion/
+Auditoria_Visual_Discrepancias.xlsx
+
+# Python & Virtual Environments
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Excel lock files
+~$*.xlsx
+~$*.xls
+~$*.csv
+
+# Tools & Local Scratch
+tools/
+download_portable_git.py
+inspect_*.py
+audit_*.py
+test_*.py
+check_*.py
+compare_*.py
+pipeline_output.txt
+inspect_output.txt
+auditoria.ipynb
+all_headers.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*.log
+
+# Workspace / IDE settings
+.vscode/
+.idea/
