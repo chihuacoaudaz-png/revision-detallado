@@ -1,0 +1,324 @@
+let
+    // =========================================================================
+    // 1. FUNCIONES AUXILIARES (Réplica de clean_number_value de Python)
+    // =========================================================================
+    FnCleanNum = (val) => 
+        if val = null then null 
+        else if Value.Is(val, type number) then val 
+        else try 
+            let
+                txt1 = Text.From(val),
+                txt2 = Text.Clean(Text.Trim(txt1)),
+                txt3 = Text.Remove(txt2, {"'", """", "´", "`", "’", "‘", Character.FromNumber(160)}),
+                txt4 = Text.Replace(txt3, ",", ".")
+            in 
+                if List.Contains({"", "NAN", "NULL", "NONE", "FALSO", "VERDADERO", "-"}, Text.Upper(txt4)) then null
+                else Number.From(txt4, "en-US") 
+        otherwise null,
+
+    // =========================================================================
+    // 2. MAESTRO DE MÁQUINAS SAP (Deduplicación por CTR + Nombre Erroneo)
+    // =========================================================================
+    RutaBase = "C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Rockdrill_Control_Operaciones",
+    RutaMaestro = RutaBase & "\Maestro_Maquinas\Maestros_Maquinas.xlsx",
+    
+    MaestroBin = try File.Contents(RutaMaestro) otherwise null,
+    MaestroWB = if MaestroBin <> null then Excel.Workbook(MaestroBin, null, true) else null,
+    BusquedaHoja = if MaestroWB <> null then Table.SelectRows(MaestroWB, each Text.Contains(Text.Upper([Name]), "EXEP") or Text.Contains(Text.Upper([Name]), "EXCEP")) else null,
+    HojaExcepciones = if BusquedaHoja <> null and Table.RowCount(BusquedaHoja) > 0 then BusquedaHoja{0}[Data] else null,
+    PromotedExcepciones = if HojaExcepciones <> null then try Table.PromoteHeaders(HojaExcepciones, [PromoteAllScalars=true]) otherwise #table({"CTR", "Nombre Erroneo", "Nombre Oficial"}, {}) else #table({"CTR", "Nombre Erroneo", "Nombre Oficial"}, {}),
+    
+    MaestroTextosLimpios = if Table.HasColumns(PromotedExcepciones, {"CTR", "Nombre Erroneo", "Nombre Oficial"}) then 
+        Table.TransformColumns(PromotedExcepciones, {
+            {"CTR", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text},
+            {"Nombre Erroneo", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text},
+            {"Nombre Oficial", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text}
+        })
+    else if Table.HasColumns(PromotedExcepciones, {"Nombre Erroneo", "Nombre Oficial"}) then 
+        Table.TransformColumns(PromotedExcepciones, {
+            {"Nombre Erroneo", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text},
+            {"Nombre Oficial", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text}
+        })
+    else #table({"CTR", "Nombre Erroneo", "Nombre Oficial"}, {}),
+    
+    // CRÍTICO: Deduplicar por CTR + Nombre Erroneo para evitar duplicación de filas en Merge
+    MaestroLimpiado = if Table.HasColumns(MaestroTextosLimpios, {"CTR", "Nombre Erroneo"}) then
+        Table.Distinct(MaestroTextosLimpios, {"CTR", "Nombre Erroneo"})
+    else
+        Table.Distinct(MaestroTextosLimpios, {"Nombre Erroneo"}),
+
+    // =========================================================================
+    // 3. EXTRACCIÓN EXPLÍCITA BASADA EN RUTAS DE CARPETAS
+    // =========================================================================
+    CarpetasRaiz = Folder.Contents(RutaBase),
+    CarpetasCTR = Table.SelectRows(CarpetasRaiz, each 
+        [Attributes]?[Directory]? = true and 
+        Text.StartsWith(Text.Upper([Name]), "CTR_") and 
+        Text.Upper([Name]) <> "CTR_COLQUIJIRCA" // Exclusión de Negocio
+    ),
+    
+    ExtraerDetallados = Table.AddColumn(CarpetasCTR, "Archivos", each try Folder.Contents([Folder Path] & [Name] & "\02_Detallado\") otherwise null),
+    CarpetasConArchivos = Table.SelectRows(ExtraerDetallados, each [Archivos] <> null),
+    
+    SoloColumnaArchivos = Table.SelectColumns(CarpetasConArchivos, {"Archivos"}),
+    ArchivosExpandidos = Table.ExpandTableColumn(SoloColumnaArchivos, "Archivos", {"Content", "Name", "Extension", "Date modified", "Folder Path"}, {"Content", "FileName", "Extension", "Date modified", "Folder Path"}),
+    
+    ArchivosFiltrados = Table.SelectRows(ArchivosExpandidos, each Text.Upper([Extension]) = ".XLSX" and not Text.StartsWith([FileName], "~$")),
+    #"Filas Ordenadas" = Table.Sort(ArchivosFiltrados, {{"Date modified", Order.Descending}}),
+    
+    #"Columna CTR agregada" = Table.AddColumn(#"Filas Ordenadas", "CTR", each 
+        let 
+            rutaHomogenea = Text.Replace(Text.Upper([Folder Path]), "\", "/"),
+            partesRuta = Text.Split(rutaHomogenea, "/"),
+            carpetaCTR = List.Select(partesRuta, each Text.Contains(_, "CTR_")),
+            contratoLimpio = if List.Count(carpetaCTR) > 0 then Text.Trim(Text.AfterDelimiter(carpetaCTR{0}, "CTR_")) else "OTRO",
+            contratoSinGuion = Text.Replace(contratoLimpio, "_", " "),
+            contratoFinal = Text.Replace(Text.Replace(Text.Replace(Text.Replace(Text.Replace(contratoSinGuion, "Á", "A"), "É", "E"), "Í", "I"), "Ó", "O"), "Ú", "U")
+        in 
+            contratoFinal, type text),
+
+    #"Lectura Directa" = Table.AddColumn(#"Columna CTR agregada", "Workbook", each try Excel.Workbook(Binary.Buffer([Content]), null, true) otherwise null),
+    #"Libros Validos" = Table.SelectRows(#"Lectura Directa", each [Workbook] <> null),
+    #"Expandir Workbook" = Table.ExpandTableColumn(#"Libros Validos", "Workbook", {"Name", "Data", "Kind", "Hidden"}, {"SheetName", "Data", "Kind", "Hidden"}),
+    
+    // Filtro estricto de hojas VISIBLES operativas
+    #"Hojas Operativas" = Table.SelectRows(#"Expandir Workbook", each [Kind] = "Sheet" and [Hidden] = false and 
+        not List.Contains({"ADITIVOS", "GENERAL", "LISTAS", "TIEMPOS", "HOJA1", "HOJA2", "HOJA3", "RESUMEN", "TABLAS", "COMPA", "R. DETALLADO"}, Text.Upper([SheetName])) and
+        not Text.StartsWith(Text.Upper([SheetName]), "MAQUINA ") and
+        not Text.StartsWith(Text.Upper([SheetName]), "MÁQUINA ")
+    ),
+    #"Hojas Con Datos" = Table.SelectRows(#"Hojas Operativas", each try Table.RowCount([Data]) > 24 otherwise false),
+    
+    // =========================================================================
+    // 4. PARSEO DE CABECERAS DUALES Y FILTRADO OPERATIVO PRE-PROPAGACIÓN
+    // =========================================================================
+    #"Tabla Cabeceras" = Table.AddColumn(#"Hojas Con Datos", "Tabla_Final", each try (
+        let
+            TablaBase = Table.FirstN(Table.Skip([Data], 22), 200),
+            ValidarFilas = if Table.RowCount(TablaBase) < 2 then null else 
+            let
+                Titulos23 = Record.FieldValues(TablaBase{0}),
+                Titulos24 = Record.FieldValues(TablaBase{1}),
+                Titulos23_Rellenos = List.Accumulate(Titulos23, {}, (estado, actual) =>
+                    let
+                        clean = Text.Clean(Text.Trim(Text.From(actual ?? ""))),
+                        lastVal = if List.IsEmpty(estado) then "XP" else List.Last(estado),
+                        newVal = if clean <> "" then clean else lastVal
+                    in
+                        estado & {newVal}
+                ),
+                NuevosEncabezados = List.Transform(List.Zip({Titulos23_Rellenos, Titulos24}), each
+                    let
+                        t1 = _{0},
+                        t2 = Text.Clean(Text.Trim(Text.From(_{1} ?? "")))
+                    in
+                        if t1 = "XP" then (if t2 <> "" then t2 else "XP") else if t2 = "" then t1 else t1 & "_" & t2
+                ),
+                EncabezadosUnicos = List.Accumulate(NuevosEncabezados, {}, (state, current) =>
+                    let
+                        count = List.Count(List.Select(state, each _ = current or Text.StartsWith(_, current & "_"))),
+                        name = if count = 0 then current else current & "_" & Text.From(count)
+                    in
+                        state & {name}
+                ),
+                DatosSinEncabezados = Table.Skip(TablaBase, 2),
+                TablaConHeaders = Table.RenameColumns(DatosSinEncabezados, List.Zip({Table.ColumnNames(DatosSinEncabezados), EncabezadosUnicos})),
+                
+                // 1. FECHA FFILL
+                ColFechaNom = Table.ColumnNames(TablaConHeaders){0},
+                RenombrarFecha = Table.RenameColumns(TablaConHeaders, {{ColFechaNom, "FECHA"}}),
+                ReplaceBlankFechas = Table.ReplaceValue(RenombrarFecha, "", null, Replacer.ReplaceValue, {"FECHA"}),
+                FillDownAplicado = Table.FillDown(ReplaceBlankFechas, {"FECHA"}),
+                
+                Cols = Table.ColumnNames(FillDownAplicado),
+                ColSondajeNom = if List.Count(Cols) > 1 then Cols{1} else null,
+                ColMetrajeNom = List.First(List.Select(Cols, each Text.Contains(Text.Upper(_), "METRAJE") and not Text.Contains(Text.Upper(_), "RIMADO") and not Text.Contains(Text.Upper(_), "REPERFOR")), null),
+                ColHastaNom = List.First(List.Select(Cols, each Text.Contains(Text.Upper(_), "HASTA") and not Text.Contains(Text.Upper(_), "RIMADO") and not Text.Contains(Text.Upper(_), "REPERFOR")), null),
+                ColDesdeNom = List.First(List.Select(Cols, each Text.Contains(Text.Upper(_), "DESDE") and not Text.Contains(Text.Upper(_), "RIMADO") and not Text.Contains(Text.Upper(_), "REPERFOR")), null),
+                ColTurnoNom = List.First(List.Select(Cols, each Text.Contains(Text.Upper(_), "TURNO")), null),
+                ColGrupoNom = List.First(List.Select(Cols, each Text.Contains(Text.Upper(_), "GRUPO")), null),
+                ColPerfNom = List.First(List.Select(Cols, each Text.Contains(Text.Upper(_), "PERFORISTA")), null),
+                
+                // 2. FILTRAR FILAS OPERATIVAS REALES PRIMERO (sobre sondaje original sin rellenar)
+                // Evita que filas vacías de plantilla se conserven y dupliquen registros
+                FilaFiltrada = Table.SelectRows(FillDownAplicado, each 
+                    let
+                        valF = Text.Upper(Text.Clean(Text.Trim(Text.From(Record.FieldOrDefault(_, "FECHA", ""))))),
+                        sondRaw = if ColSondajeNom <> null then Text.Trim(Text.From(Record.FieldOrDefault(_, ColSondajeNom, ""))) else "",
+                        turno = if ColTurnoNom <> null then Text.Trim(Text.From(Record.FieldOrDefault(_, ColTurnoNom, ""))) else "",
+                        grupo = if ColGrupoNom <> null then Text.Trim(Text.From(Record.FieldOrDefault(_, ColGrupoNom, ""))) else "",
+                        hasta = if ColHastaNom <> null then Text.Trim(Text.From(Record.FieldOrDefault(_, ColHastaNom, ""))) else "",
+                        desde = if ColDesdeNom <> null then Text.Trim(Text.From(Record.FieldOrDefault(_, ColDesdeNom, ""))) else "",
+                        perf = if ColPerfNom <> null then Text.Trim(Text.From(Record.FieldOrDefault(_, ColPerfNom, ""))) else "",
+                        
+                        metRaw = if ColMetrajeNom <> null then Record.FieldOrDefault(_, ColMetrajeNom, null) else null,
+                        met = FnCleanNum(metRaw),
+                        
+                        hasMetadata = sondRaw <> "" or turno <> "" or grupo <> "" or hasta <> "" or perf <> "",
+                        hasMetraje = met <> null and met > 0,
+                        hasHastaDesde = (hasta <> "" and hasta <> "0" and hasta <> "0.0") or (desde <> "" and desde <> "0" and desde <> "0.0"),
+                        
+                        isNotTotal = valF <> "" and valF <> "XP" and valF <> "NULL"
+                            and not Text.Contains(valF, "TOTAL")
+                            and not Text.Contains(Text.Upper(sondRaw), "TOTAL")
+                            and not Text.Contains(Text.Upper(sondRaw), "ACUMULADO")
+                            and not Text.Contains(Text.Upper(sondRaw), "PROMEDIO")
+                    in
+                        isNotTotal and hasMetadata and (hasMetraje or hasHastaDesde or sondRaw <> "")
+                ),
+
+                // 3. PROPAGACIÓN FFILL + BFILL DE SONDAJE SOBRE LAS FILAS OPERATIVAS FILTRADAS
+                // Morococha (FillDown) y Chungar LM110U-001 Fila 46 (FillUp)
+                ReplaceBlankSond = if ColSondajeNom <> null then Table.ReplaceValue(FilaFiltrada, "", null, Replacer.ReplaceValue, {ColSondajeNom}) else FilaFiltrada,
+                FillDownSond = if ColSondajeNom <> null then Table.FillDown(ReplaceBlankSond, {ColSondajeNom}) else ReplaceBlankSond,
+                FillUpSond = if ColSondajeNom <> null then Table.FillUp(FillDownSond, {ColSondajeNom}) else FillDownSond,
+
+                RenombrarSondajeFinal = if ColSondajeNom <> null then Table.RenameColumns(FillUpSond, {{ColSondajeNom, "SONDAJE_REF"}}) else FillUpSond
+            in
+                RenombrarSondajeFinal
+        in
+            ValidarFilas
+    ) otherwise null),
+
+    #"Filas OK" = Table.SelectRows(#"Tabla Cabeceras", each [Tabla_Final] <> null),
+    
+    #"Tablas Preparadas" = Table.AddColumn(#"Filas OK", "Tabla_Preparada", each try 
+        let
+            CurrentCTR = [CTR],
+            CurrentName = [FileName],
+            CurrentSheet = [SheetName],
+            Tbl = [Tabla_Final],
+            Add1 = Table.AddColumn(Tbl, "CTR_Master", (inner) => CurrentCTR, type text),
+            Add2 = Table.AddColumn(Add1, "ARCHIVO ORIGEN", (inner) => CurrentName, type text),
+            Add3 = Table.AddColumn(Add2, "HOJA DE TRABAJO ORIGEN", (inner) => CurrentSheet, type text),
+            Add4 = Table.AddColumn(Add3, "MAQUINA", (inner) => Text.Upper(Text.Clean(Text.Trim(Text.From(CurrentSheet)))), type text)
+        in
+            Add4
+     otherwise null),
+
+    #"Tablas Validas Finales" = Table.SelectRows(#"Tablas Preparadas", each [Tabla_Preparada] <> null),
+
+    // =========================================================================
+    // 5. CONSOLIDACIÓN Y DICCIONARIO DE COLUMNAS
+    // =========================================================================
+    ListaTablasValidadas = #"Tablas Validas Finales"[Tabla_Preparada],
+    ConsolidadoPlano = if List.Count(ListaTablasValidadas) > 0 then Table.Combine(ListaTablasValidadas) else Table.FromRecords({}, {"CTR_Master", "ARCHIVO ORIGEN", "HOJA DE TRABAJO ORIGEN", "MAQUINA", "FECHA", "SONDAJE_REF", "OBSERVACIONES", "Otros*", "Otros*_3"}),
+
+    #"Renombrar Sondaje" = Table.RenameColumns(ConsolidadoPlano, {{"SONDAJE_REF", "NOMBRE"}}, MissingField.Ignore),
+
+    #"Aplicar Diccionario Columnas" = try Table.RenameColumns(#"Renombrar Sondaje", {
+        {"DATOS DE PERFORACION_METRAJE", "METRAJE"}, {"DATOS DE PERFORACIÓN_METRAJE", "METRAJE"}, {"DATOS GENERALES_METRAJE", "METRAJE"},
+        {"DATOS DE PERFORACION_TURNO (A=1;B=2)", "TURNO (A=1;B=2)"}, {"DATOS DE PERFORACIÓN_TURNO (A=1;B=2)", "TURNO (A=1;B=2)"},
+        {"TURNO", "TURNO (A=1;B=2)"}, {"DATOS DE PERFORACION_TURNO", "TURNO (A=1;B=2)"},
+        {"DATOS DE PERFORACION_DESDE", "DESDE"}, {"DATOS DE PERFORACIÓN_DESDE", "DESDE"}, {"DATOS GENERALES_DESDE", "DESDE"},
+        {"DATOS DE PERFORACION_HASTA", "HASTA"}, {"DATOS DE PERFORACIÓN_HASTA", "HASTA"}, {"DATOS GENERALES_HASTA", "HASTA"},
+        {"DATOS DE PERFORACION_INCLINACIÓN", "INCLINACIÓN"}, {"DATOS GENERALES_INCLINACIÓN", "INCLINACIÓN"},
+        
+        {"NOMBRE", "SONDAJE"}, {"PROFUNDIDAD", "PROFUNDIDAD DE SONDAJE"}, {"ACUMULADO", "METROS ACUMULADO"},
+        {"PROYECTADO", "METROS PROYECTADO"}, {"META", "METROS META"}, {"MARCA", "MARCA BROCA"},
+        {"SERIE", "SERIE DE BROCA"}, {"MARCA_1", "MARCA ESCARIADOR"}, {"MARCA_2", "MARCA ESCARIADOR"}, {"HORAS EXTAS", "HORAS EXTRAS"},
+        {"PERFORISTA", "PERFORISTA"}, {"AYUDANTE", "AYUDANTE"}, {"AYUDANTE_1", "AYUDANTE 2"},
+        {"BENTONITA_PRODUCTO", "BENTONITA"}, {"BENTONITA_CANT.", "CANT. DE BENTONITA"}, {"BENTONITA_UND.", "UND. DE BENTONITA"},
+        {"PAC_PRODUCTO", "PAC"}, {"PAC_CANT.", "CANT. DE PAC"}, {"PAC_UND.", "UND. DE PAC"},
+        {"POLIMERO_PRODUCTO", "POLIMERO"}, {"POLIMERO_CANT.", "CANT. DE POLIMERO"}, {"POLIMERO_UND.", "UND. DE POLIMERO"},
+        {"LUBRICANTES_PRODUCTO", "LUBRICANTES"}, {"LUBRICANTES_CANT.", "CANT. DE LUBRICANTE"}, {"LUBRICANTES_UND.", "UND. DE LUBRICANTE"},
+        {"INHIBIDORES_PRODUCTO", "INHIBIDORES"}, {"INHIBIDORES_CANT.", "CANT. DE INHIBIDOR"}, {"INHIBIDORES_UND.", "UND. DE INHIBIDOR"},
+        {"ESTABILIZADOR_PRODUCTO", "ESTABILIZADOR"}, {"ESTABILIZADOR_CANT.", "CANT. DE ESTABILIZADOR"}, {"ESTABILIZADOR_UND.", "UND. DE ESTABILIZADOR"},
+        {"OTROS_CLASIFICACIÓN", "CLASIFICACIÓN OTROS"}, {"OTROS_PRODUCTO", "OTROS PRODUCTOS"}, {"OTROS_CANT.", "CANT. DE OTROS"},
+        {"OTROS_UND.", "UND. DE OTROS"}, {"PETROLEO_CANT.", "CANT. DE PETROLEO"}, {"PETROLEO_GLN", "GLN DE PETROLEO"},
+        {"Mantenimiento", "TOTAL MANTTO."}, {"Stand By Operativo", "STAND BY OPERATIVO"}, {"Stand By Inoperativo", "STAND BY INOPERATIVO"},
+        {"Stand By Cliente", "STAND BY CLIENTE"}, {"RIMADO CON CASING            HWT/HQ_DESDE", "RIMADO HWT/HQ DESDE"},
+        {"RIMADO CON CASING            HWT/HQ_HASTA", "RIMADO HWT/HQ HASTA"}, {"RIMADO CON CASING            HWT/HQ_METRAJE", "RIMADO HWT/HQ METRAJE"},
+        {"RIMADO CON CASING            HWT/HQ_TOTAL", "RIMADO HWT/HQ TOTAL"}, {"RE-PERFORACIÓN_DESDE", "REPERFORACIÓN DESDE"},
+        {"RE-PERFORACIÓN_HASTA", "REPERFORACIÓN HASTA"}, {"RE-PERFORACIÓN_METRAJE", "REPERFORACIÓN METRAJE"},
+        {"RE-PERFORACIÓN_TOTAL", "REPERFORACIÓN TOTAL"}, {"HOROMETRO_DESDE", "HOROMETRO DESDE"},
+        {"HOROMETRO_HASTA", "HOROMETRO HASTA"}, {"HOROMETRO_ACUMULADO", "HOROMETRO ACUMULADO"},
+        {"HOROMETRO_TOTAL", "HOROMETRO TOTAL"}, {"BITACORA DE MANTENIMIENTO_TRABAJOS REALIZADOS", "TRABAJOS REALIZADOS BITACORA DE MANTTO."},
+        {"BITACORA DE MANTENIMIENTO_REPUESTOS UTILIZADOS", "REPUESTOS UTILIZADOS BITACORA DE MANTTO."},
+        {"DESCRIPCIÒN LITOLÓGICA", "DESCRIPCIÓN LITOLÓGICA"}
+    }, MissingField.Ignore) otherwise #"Renombrar Sondaje",
+
+    // =========================================================================
+    // 6. CRUCE MAESTRO SAP Y TURNO ESTANDARIZADO (Merge Seguro por CTR + MAQUINA)
+    // =========================================================================
+    HasCTRInMaestro = Table.HasColumns(MaestroLimpiado, {"CTR"}),
+    
+    #"Merge SAP" = if HasCTRInMaestro then 
+        Table.NestedJoin(#"Aplicar Diccionario Columnas", {"CTR_Master", "MAQUINA"}, MaestroLimpiado, {"CTR", "Nombre Erroneo"}, "MatchSAP", JoinKind.LeftOuter)
+    else
+        Table.NestedJoin(#"Aplicar Diccionario Columnas", {"MAQUINA"}, MaestroLimpiado, {"Nombre Erroneo"}, "MatchSAP", JoinKind.LeftOuter),
+        
+    #"Expandir SAP" = Table.ExpandTableColumn(#"Merge SAP", "MatchSAP", {"Nombre Oficial"}, {"Nombre Oficial"}),
+    #"Reemplazar Maquina" = Table.AddColumn(#"Expandir SAP", "MAQUINA_SAP", each if [Nombre Oficial] <> null and [Nombre Oficial] <> "" then [Nombre Oficial] else [MAQUINA]),
+    #"Cols Limpias SAP" = Table.RemoveColumns(#"Reemplazar Maquina", {"MAQUINA", "Nombre Oficial"}),
+    #"MAQUINA Lista" = Table.RenameColumns(#"Cols Limpias SAP", {{"MAQUINA_SAP", "MAQUINA"}}),
+
+    #"Turno Estandarizado" = Table.AddColumn(#"MAQUINA Lista", "TURNO_ESTANDAR", each 
+        let
+            rawT = Text.Clean(Text.Upper(Text.From([#"TURNO (A=1;B=2)"]? ?? ""))),
+            rawG = Text.Clean(Text.Upper(Text.From([GRUPO]? ?? "")))
+        in
+            if List.Contains({"1", "1.0", "1.00", "1,0", "1,00", "A", "D", "DIA", "G1"}, rawT) or List.Contains({"1", "1.0", "1.00"}, rawG) then "A"
+            else if List.Contains({"2", "2.0", "2.00", "2,0", "2,00", "B", "N", "NOCHE", "G2"}, rawT) or List.Contains({"2", "2.0", "2.00"}, rawG) then "B"
+            else "A", type text),
+
+    // =========================================================================
+    // 7. ENRIQUECIMIENTO, CLAVE ÚNICA, SONDAJE PARALELO Y ALERTA COMENTARIOS
+    // =========================================================================
+    #"Columna ZONA agregada" = Table.AddColumn(#"Turno Estandarizado", "ZONA", each if List.Contains({"AMERICANA", "CHUNGAR", "TICLIO", "MOROCOCHA", "YAULIYACU", "SAN CRISTOBAL", "COLQUIJIRCA", "ANDAYCHAGUA", "CERRO"}, [CTR_Master]?) then "CENTRO" else "PERIFERICO", type text),
+        
+    #"Columna MES agregada" = Table.AddColumn(#"Columna ZONA agregada", "MES", each try (
+            let
+                d = try Date.From([FECHA]?) otherwise null,
+                mesReal = if d <> null and Date.Day(d) >= 26 then Date.AddMonths(d, 1) else d,
+                mesNum = if mesReal <> null then Date.Month(mesReal) else 1,
+                meses = {"ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"}
+            in
+                Text.Upper(meses{mesNum - 1})
+        ) otherwise "ENERO", type text),
+        
+    #"ID_CLAVE_UNICA Agregado" = Table.AddColumn(#"Columna MES agregada", "ID_CLAVE_UNICA", each 
+        (try Date.ToText(Date.From([FECHA]?), "yyyy-MM-dd") otherwise "SIN_FECHA") & "|" & Text.Upper([CTR_Master]?) & "|" & [MAQUINA] & "|" & [TURNO_ESTANDAR], type text),
+
+    // Campo SONDAJE_PARALELO (Default 1 para todos los registros)
+    #"SONDAJE_PARALELO Agregado" = Table.AddColumn(#"ID_CLAVE_UNICA Agregado", "SONDAJE_PARALELO", each 1, Int64.Type),
+
+    // Campo Alerta_Comentarios
+    #"Alerta_Comentarios Agregada" = Table.AddColumn(#"SONDAJE_PARALELO Agregado", "Alerta_Comentarios", each 
+        let
+            metOtros = try FnCleanNum([#"Otros*"]?) otherwise null,
+            coment = Text.Trim(Text.From([COMENTARIOS]? ?? "")),
+            motivo = Text.Trim(Text.From([#"SI ES OTROS * INDICAR EL MOTIVO (BREVE EXPLICACION)"]? ?? ""))
+        in
+            if (metOtros <> null and metOtros > 0) and (coment = "" and motivo = "") then "FALTA COMENTARIO" else "OK", type text),
+
+    #"Indice agregado" = Table.AddIndexColumn(#"Alerta_Comentarios Agregada", "N°", 1, 1, Int64.Type),
+    #"CTR Renombrado" = try Table.RenameColumns(#"Indice agregado", {{"CTR_Master", "CTR"}}, MissingField.Ignore) otherwise #"Indice agregado",
+
+    // =========================================================================
+    // 8. ORDEN OFICIAL (135 COLUMNAS) Y APLICACIÓN DE TIPOS SEGUROS
+    // =========================================================================
+    ColsOficiales = {
+        "N°", "ZONA", "CTR", "MAQUINA", "TURNO (A=1;B=2)", "GRUPO", "MES", "FECHA", "SONDAJE", "PROFUNDIDAD DE SONDAJE", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "METRAJE", "HORAS EXTRAS", "PERFORISTA", "AYUDANTE", "AYUDANTE 2", "TOTAL", "METROS ACUMULADO", "METROS PROYECTADO", "METROS META", "MARCA BROCA", "SERIE DE BROCA", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA ESCARIADOR", "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", "BENTONITA", "CANT. DE BENTONITA", "UND. DE BENTONITA", "PAC", "CANT. DE PAC", "UND. DE PAC", "POLIMERO", "CANT. DE POLIMERO", "UND. DE POLIMERO", "LUBRICANTES", "CANT. DE LUBRICANTE", "UND. DE LUBRICANTE", "INHIBIDORES", "CANT. DE INHIBIDOR", "UND. DE INHIBIDOR", "ESTABILIZADOR", "CANT. DE ESTABILIZADOR", "UND. DE ESTABILIZADOR", "CLASIFICACIÓN OTROS", "OTROS PRODUCTOS", "CANT. DE OTROS", "UND. DE OTROS", "CANT. DE PETROLEO", "GLN DE PETROLEO", "Perforación", "Rimado", "Asentado / Retiro DE REVESTIMIENTO (CASING)", "Instalación PVC", "RePerforación", "MANTTO. PREVENTIVO", "MANTTO. CORRECTIVO", "LAVADO DE SONDAJE", "MEZCLADO DE LODOS", "MANIPULACIÓN DE TUBERÍAS", "ACONDICIONAMIENTO DE SONDAJE", "CAMBIO DE LINEA", "RECUPERACIÓN DE SONDAJE", "TRASLADO ENTRE CÁMARAS DE PERFORACIÓN", "MANIOBRAS DE PROBLEMAS GEOLÓGICOS", "MEDICIÓN DE DESVIACIÓN", "PRUEBAS DE SUELO", "PERFORACIÓN DE PERNO DE ANCLAJE", "CEMENTACIÓN", "DESATE DE ROCAS", "ORDEN Y LIMPIEZA", "RECOJO DE LAMA", "POZA DE SEDIMENTACIÓN", "ESTANDARIZACIÓN", "INSTALACIÓN DE RED DE AGUA O DRENAJE", "INSTALACIÓN / DESINSTALACIÓN DE EQUIPOS", "TRASLADO DE ACCESORIOS", "AUDITORÍA INTERNA", "CAPACITACIÓN", "CAMBIO DE PUNTO", "TRASLADO DE MÁQUINA", "ESPERA DE REPUESTO", "TRASLADO DE PERSONAL", "REFRIGERIO", "Otros*", "VOLADURA", "FALTA DE AGUA", "FALTA DE ENERGÍA", "FALTA DE VENTILACIÓN", "FALTA DE SERVICIOS", "ESPERA DE PROGRAMA", "ESPERA DE CÁMARA", "ESPERA DE SOSTENIMIENTO", "ESPERA DE SCOOP", "ESPERA DE MARCADO DE PUNTO", "APOYO A GEOLOGÍA", "AUDITORÍA EXTERNA", "FALTA DE HABILITACIÓN DE CÁMARA O PLATAFORMA", "ESPERA DE ORDEN CLIENTE", "CONDICIONES CLIMATICAS", "OTROS* 1", "SI ES OTROS * INDICAR EL MOTIVO (BREVE EXPLICACION)", "TIEMPO TOTAL", "TIEMPO EFECTIVO - OPERATIVO", "LOST TIME", "TOTAL MANTTO.", "STAND BY OPERATIVO", "STAND BY INOPERATIVO", "STAND BY CLIENTE", "RIMADO HWT/HQ DESDE", "RIMADO HWT/HQ HASTA", "RIMADO HWT/HQ METRAJE", "RIMADO HWT/HQ TOTAL", "REPERFORACIÓN DESDE", "REPERFORACIÓN HASTA", "REPERFORACIÓN METRAJE", "REPERFORACIÓN TOTAL", "HOROMETRO DESDE", "HOROMETRO HASTA", "HOROMETRO ACUMULADO", "HOROMETRO TOTAL", "TRABAJOS REALIZADOS BITACORA DE MANTTO.", "REPUESTOS UTILIZADOS BITACORA DE MANTTO.", "DESCRIPCIÓN LITOLÓGICA", "COMENTARIOS",
+        "HOJA DE TRABAJO ORIGEN", "ARCHIVO ORIGEN", "TURNO_ESTANDAR", "ID_CLAVE_UNICA", "SONDAJE_PARALELO", "Alerta_Comentarios"
+    },
+    
+    AgregarFaltantes = List.Accumulate(ColsOficiales, #"CTR Renombrado", (state, current) => if List.Contains(Table.ColumnNames(state), current) then state else Table.AddColumn(state, current, each null)),
+    EstructuraFinalHolistica = Table.SelectColumns(AgregarFaltantes, ColsOficiales),
+
+    ColsTexto = {"ZONA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "TURNO (A=1;B=2)", "GRUPO", "MES", "SONDAJE", "LINEA", "PERFORISTA", "AYUDANTE", "AYUDANTE 2", "MARCA BROCA", "SERIE DE BROCA", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA ESCARIADOR", "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", "BENTONITA", "UND. DE BENTONITA", "PAC", "UND. DE PAC", "POLIMERO", "UND. DE POLIMERO", "LUBRICANTES", "UND. DE LUBRICANTE", "INHIBIDORES", "UND. DE INHIBIDOR", "ESTABILIZADOR", "UND. DE ESTABILIZADOR", "CLASIFICACIÓN OTROS", "OTROS PRODUCTOS", "UND. DE OTROS", "SI ES OTROS * INDICAR EL MOTIVO (BREVE EXPLICACION)", "TRABAJOS REALIZADOS BITACORA DE MANTTO.", "REPUESTOS UTILIZADOS BITACORA DE MANTTO.", "DESCRIPCIÓN LITOLÓGICA", "COMENTARIOS", "HOJA DE TRABAJO ORIGEN", "ARCHIVO ORIGEN", "ID_CLAVE_UNICA", "Alerta_Comentarios"},
+    ColsNumericas = {"PROFUNDIDAD DE SONDAJE", "INCLINACIÓN", "DESDE", "HASTA", "METRAJE", "HORAS EXTRAS", "TOTAL", "METROS ACUMULADO", "METROS PROYECTADO", "METROS META", "CANT. DE BENTONITA", "CANT. DE PAC", "CANT. DE POLIMERO", "CANT. DE LUBRICANTE", "CANT. DE INHIBIDOR", "CANT. DE ESTABILIZADOR", "CANT. DE OTROS", "CANT. DE PETROLEO", "GLN DE PETROLEO", "Perforación", "Rimado", "Asentado / Retiro DE REVESTIMIENTO (CASING)", "Instalación PVC", "RePerforación", "MANTTO. PREVENTIVO", "MANTTO. CORRECTIVO", "LAVADO DE SONDAJE", "MEZCLADO DE LODOS", "MANIPULACIÓN DE TUBERÍAS", "ACONDICIONAMIENTO DE SONDAJE", "CAMBIO DE LINEA", "RECUPERACIÓN DE SONDAJE", "TRASLADO ENTRE CÁMARAS DE PERFORACIÓN", "MANIOBRAS DE PROBLEMAS GEOLÓGICOS", "MEDICIÓN DE DESVIACIÓN", "PRUEBAS DE SUELO", "PERFORACIÓN DE PERNO DE ANCLAJE", "CEMENTACIÓN", "DESATE DE ROCAS", "ORDEN Y LIMPIEZA", "RECOJO DE LAMA", "POZA DE SEDIMENTACIÓN", "ESTANDARIZACIÓN", "INSTALACIÓN DE RED DE AGUA O DRENAJE", "INSTALACIÓN / DESINSTALACIÓN DE EQUIPOS", "TRASLADO DE ACCESORIOS", "AUDITORÍA INTERNA", "CAPACITACIÓN", "CAMBIO DE PUNTO", "TRASLADO DE MÁQUINA", "ESPERA DE REPUESTO", "TRASLADO DE PERSONAL", "REFRIGERIO", "VOLADURA", "FALTA DE AGUA", "FALTA DE ENERGÍA", "FALTA DE VENTILACIÓN", "FALTA DE SERVICIOS", "ESPERA DE PROGRAMA", "ESPERA DE CÁMARA", "ESPERA DE SOSTENIMIENTO", "ESPERA DE SCOOP", "ESPERA DE MARCADO DE PUNTO", "APOYO A GEOLOGÍA", "AUDITORÍA EXTERNA", "FALTA DE HABILITACIÓN DE CÁMARA O PLATAFORMA", "ESPERA DE ORDEN CLIENTE", "CONDICIONES CLIMATICAS", "Otros*", "OTROS* 1", "TIEMPO TOTAL", "TIEMPO EFECTIVO - OPERATIVO", "LOST TIME", "TOTAL MANTTO.", "STAND BY OPERATIVO", "STAND BY INOPERATIVO", "STAND BY CLIENTE", "RIMADO HWT/HQ DESDE", "RIMADO HWT/HQ HASTA", "RIMADO HWT/HQ METRAJE", "RIMADO HWT/HQ TOTAL", "REPERFORACIÓN DESDE", "REPERFORACIÓN HASTA", "REPERFORACIÓN METRAJE", "REPERFORACIÓN TOTAL", "HOROMETRO DESDE", "HOROMETRO HASTA", "HOROMETRO ACUMULADO", "HOROMETRO TOTAL"},
+    ColsFecha = {"FECHA"},
+    ColsEntero = {"N°", "SONDAJE_PARALELO"},
+
+    TextosExist = List.Select(ColsTexto, each Table.HasColumns(EstructuraFinalHolistica, _)),
+    NumExist = List.Select(ColsNumericas, each Table.HasColumns(EstructuraFinalHolistica, _)),
+    FechasExist = List.Select(ColsFecha, each Table.HasColumns(EstructuraFinalHolistica, _)),
+    EnterosExist = List.Select(ColsEntero, each Table.HasColumns(EstructuraFinalHolistica, _)),
+
+    T1 = Table.TransformColumns(EstructuraFinalHolistica, List.Transform(TextosExist, each {_, (v) => try Text.Trim(Text.From(v)) otherwise null, type text})),
+    T2 = Table.TransformColumns(T1, List.Transform(EnterosExist, each {_, (v) => try Int64.From(v) otherwise null, Int64.Type})),
+    T3 = Table.TransformColumns(T2, List.Transform(FechasExist, each {_, (v) => try Date.From(v) otherwise null, type date})),
+    T4 = Table.TransformColumns(T3, List.Transform(NumExist, each {_, FnCleanNum, type number}))
+in
+    T4

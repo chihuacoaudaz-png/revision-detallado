@@ -77,9 +77,22 @@ revision-detallado/
 
 ## 📊 Resultados de Conciliación de Metrajes (Auditoría Empírica)
 
-- **15 de los 18 CTRs** registran **0.00 m de diferencia acumulada** (coincidencia exacta al centímetro).
-- **CHUNGAR**: `2,347.55 m` vs `2,347.55 m` (Diferencia: **0.00 m**).
+- **17 de los 18 CTRs** registran **0.00 m de diferencia acumulada** (coincidencia exacta al centímetro).
+- **CHUNGAR**: `2,347.55 m` vs `2,347.55 m` (Diferencia: **0.00 m**). Resuelto caso de metraje inicial (06-jul Turno B 1.50m) mediante regla secuencial `.ffill().bfill()` de asignación de sondaje.
 - **MOROCOCHA**: `1,842.80 m` vs `1,842.80 m` (Diferencia: **0.00 m**).
-- **YAULIYACU**: `2,553.80 m` vs `2,428.40 m` (Diferencia: **+125.40 m** debido a la operación de **taladro paralelo** en la máquina `XRD125USS-001`).
-- **CONDESTABLE (+196.10 m)** y **CUCULÍ (+117.65 m)**: Corresponden a metrajes históricos de meses anteriores presentes en el parte detallado.
+- **YAULIYACU**: `2,553.80 m` vs `2,428.40 m` (Diferencia: **+125.40 m**). Explicado por la perforación de un **sondaje paralelo no cobrable** en la máquina `XRD125USS-001`. Se incorporó el campo `SONDAJE_PARALELO` (default = `1`) al final del dataset para su gestión en Power Query.
+- **CONDESTABLE (0.00 m)** y **CUCULÍ (0.00 m)**: Resueltos al aplicar filtro de hojas visibles (`sheet.visible`).
 - **COLQUIJIRCA**: Excluido de negocio por no llevarse control de metrajes.
+
+---
+
+## 🛠️ Estructura de Columnas Exportadas (135 Columnas)
+
+1. **Matriz Nativa Original (Columnas 1 - 129)**: Preserva los 129 campos del reporte diario `RD.402.P.01.F.01`, incluyendo `TURNO (A=1;B=2)` en su ubicación original de la matriz.
+2. **Campos Calculados / Metadatos (al final del dataset)**:
+   - `HOJA DE TRABAJO ORIGEN`: Nombre de la pestaña de origen.
+   - `ARCHIVO ORIGEN`: Nombre del libro Excel de origen.
+   - `TURNO_ESTANDAR`: Turno estandarizado en `'A'` (Día) o `'B'` (Noche).
+   - `ID_CLAVE_UNICA`: Clave de trazabilidad `{FECHA}|{CTR}|{MAQUINA}|{TURNO_ESTANDAR}`.
+   - `SONDAJE_PARALELO`: Indicador entero/booleano para marcar sondajes paralelos (default `1`).
+   - `Alerta_Comentarios`: 'OK' o 'FALTA COMENTARIO'.

@@ -134,7 +134,7 @@ COLUMN_RENAME_DICT: Dict[str, str] = {
 }
 
 COLS_OFICIALES: List[str] = [
-    "N°", "ZONA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "TURNO (A=1;B=2)", "GRUPO", "MES", "FECHA",
+    "N°", "ZONA", "CTR", "MAQUINA", "TURNO (A=1;B=2)", "GRUPO", "MES", "FECHA",
     "SONDAJE", "PROFUNDIDAD DE SONDAJE", "LINEA", "INCLINACIÓN", "DESDE", "HASTA",
     "METRAJE", "HORAS EXTRAS", "PERFORISTA", "AYUDANTE", "AYUDANTE 2",
     "TOTAL", "METROS ACUMULADO", "METROS PROYECTADO", "METROS META",
@@ -174,8 +174,7 @@ COLS_OFICIALES: List[str] = [
     "REPERFORACIÓN DESDE", "REPERFORACIÓN HASTA", "REPERFORACIÓN METRAJE", "REPERFORACIÓN TOTAL",
     "HOROMETRO DESDE", "HOROMETRO HASTA", "HOROMETRO ACUMULADO", "HOROMETRO TOTAL",
     "TRABAJOS REALIZADOS BITACORA DE MANTTO.", "REPUESTOS UTILIZADOS BITACORA DE MANTTO.",
-    "DESCRIPCIÓN LITOLÓGICA", "COMENTARIOS",
-    "HOJA DE TRABAJO ORIGEN", "ARCHIVO ORIGEN", "ID_CLAVE_UNICA"
+    "DESCRIPCIÓN LITOLÓGICA", "COMENTARIOS"
 ]
 
 COLS_NUMERICAS: List[str] = [
@@ -286,31 +285,32 @@ def clean_number_value(val: Union[int, float, str, None, pd.Series, list]) -> Un
 
 def standardize_turno(row: pd.Series, row_seq_in_day: int = 1) -> str:
     """
-    Estandariza los valores heterogéneos de turnos a 'A' (Día / Guardia 1) o 'B' (Noche / Guardia 2):
-    - Turno '1', '1.0', 'A', 'D', 'DIA', 'G1' -> 'A'
-    - Turno '2', '2.0', 'B', 'N', 'NOCHE', 'G2' -> 'B'
-    - Para AMERICANA / CERRO con combinaciones B/C o Grupo 1/2:
-      Si GRUPO == 1.0 -> 'A', Si GRUPO == 2.0 -> 'B'
-    - Fallback: Si no hay información explícita, usa la secuencia de la máquina en el día (1->'A', 2->'B').
+    Estandariza los valores heterogéneos de turnos a 'A' (Día / Guardia 1) o 'B' (Noche / Guardia 2).
     """
     raw_t = str(row.get("TURNO (A=1;B=2)", "")).strip().upper() if pd.notna(row.get("TURNO (A=1;B=2)")) else ""
     raw_g = str(row.get("GRUPO", "")).strip().upper() if pd.notna(row.get("GRUPO")) else ""
+    ctr = str(row.get("CTR", "")).strip().upper() if pd.notna(row.get("CTR")) else ""
     
-    if raw_t in ("1", "1.0", "A", "D", "DIA", "G1"):
+    # 1. Caso especial AMERICANA
+    if "AMERICANA" in ctr:
+        if raw_t == "B" and raw_g in ("1", "1.0", "1,0"):
+            return "A"
+        if raw_t == "C" and raw_g in ("2", "2.0", "2,0"):
+            return "B"
+
+    # 2. EVALUAR TURNO (Columna H)
+    if raw_t in ("1", "1.0", "1,0", "A", "D", "DIA", "G1"):
         return "A"
-    if raw_t in ("2", "2.0", "N", "NOCHE", "G2"):
+    if raw_t in ("2", "2.0", "2,0", "B", "N", "NOCHE", "G2"):
         return "B"
-    
-    if raw_g in ("1", "1.0"):
+        
+    # 3. EVALUAR GRUPO (Columna I)
+    if raw_g in ("1", "1.0", "1,0"):
         return "A"
-    if raw_g in ("2", "2.0"):
+    if raw_g in ("2", "2.0", "2,0"):
         return "B"
-    
-    if raw_t == "B" and raw_g in ("1", "1.0"):
-        return "A"
-    if raw_t == "C" and raw_g in ("2", "2.0"):
-        return "B"
-    
+        
+    # 4. Fallback por orden de secuencia en la fecha
     return "A" if row_seq_in_day == 1 else "B"
 
 
@@ -507,9 +507,9 @@ def extract_sheet_data_from_rows(rows: List[List], headers: List[str], skip: int
     
     df = df[df.apply(is_valid_operational_row, axis=1)].copy()
     
-    # REGLA CRÍTICA 3: Forward-fill de SONDAJE a nivel de hoja para las filas secundarias conservadas
+    # REGLA CRÍTICA 3: Forward-fill y Backward-fill de SONDAJE a nivel de hoja para resolver secuencias sin sondaje inicial
     if col_sondaje:
-        df[col_sondaje] = df[col_sondaje].replace(r'^\s*$', np.nan, regex=True).ffill()
+        df[col_sondaje] = df[col_sondaje].replace(r'^\s*$', np.nan, regex=True).ffill().bfill()
     
     if df.empty:
         return None
@@ -749,13 +749,21 @@ def run_pipeline() -> pd.DataFrame:
             return "OK"
     
     consolidated["Alerta_Comentarios"] = consolidated.apply(check_alert, axis=1)
+    consolidated["SONDAJE_PARALELO"] = 1
     
     print("\n[PASO 13-14] Aplicando estructura oficial (133 columnas) y limpieza numérica...", flush=True)
     for col in COLS_OFICIALES:
         if col not in consolidated.columns:
             consolidated[col] = None
     
-    extra_cols = ["Alerta_Comentarios"]
+    extra_cols = [
+        "HOJA DE TRABAJO ORIGEN",
+        "ARCHIVO ORIGEN",
+        "TURNO_ESTANDAR",
+        "ID_CLAVE_UNICA",
+        "SONDAJE_PARALELO",
+        "Alerta_Comentarios"
+    ]
     final_cols = COLS_OFICIALES + extra_cols
     
     available = [c for c in final_cols if c in consolidated.columns]

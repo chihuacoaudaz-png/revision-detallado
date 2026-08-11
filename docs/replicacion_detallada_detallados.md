@@ -34,26 +34,30 @@ Este documento constituye una guía técnica paso a paso para replicar desde cer
 [Extracción de Datos: Desde Fila 25 (index 24)]
        │
        ├─► Reemplazar cadenas vacías "" por NULL
-       ├─► REGLA CRÍTICA: Forward-fill de FECHA a nivel de hoja
-       └─► Filtrar filas donde SONDAJE (Columna 2) sea NULL
+       ├─► REGLA CRÍTICA 1: Forward-fill (`ffill`) de FECHA a nivel de hoja
+       ├─► REGLA CRÍTICA 2: Forward-fill + Backward-fill (`ffill().bfill()`) de SONDAJE a nivel de hoja
+       │     ├─► FillDown (ffill): Resuelve filas intermedias (Caso Morococha)
+       │     └─► FillUp (bfill): Resuelve metraje inicial sin sondaje (Caso Chungar LM110U-001 Fila 46)
+       └─► Filtrar filas operativas (con metraje o datos de perforación validos)
        │
        ▼
-[Normalización de Campos y Mapeo M de 53 Columnas]
+[Normalización de Campos y Mapeo de Columnas Oficiales (129 nativas)]
        │
        ▼
 [Estandarización de Máquinas mediante Maestros SAP]
        │
        ▼
-[Estandarización de Turno a 'A' (Día) y 'B' (Noche)]
-       │
-       ▼
-[Generación de ID_CLAVE_UNICA = {FECHA}|{CTR}|{MAQUINA}|{TURNO_ESTANDAR}]
+[Generación de Metadatos al Final de la Tabla]
+       ├─► HOJA DE TRABAJO ORIGEN, ARCHIVO ORIGEN
+       ├─► TURNO_ESTANDAR ('A' o 'B') y ID_CLAVE_UNICA
+       ├─► SONDAJE_PARALELO (Default 1; 0 para paralelos no cobrados en Yauliyacu)
+       └─► Alerta_Comentarios ('OK' / 'FALTA COMENTARIO')
        │
        ▼
 [Limpieza Numérica Profunda: clean_number_value()]
        │
        ▼
-[Exportación Consolidada: detallados_consolidados.xlsx / csv]
+[Exportación Consolidada: detallados_consolidados.xlsx / csv (135 columnas)]
 ```
 
 ---
