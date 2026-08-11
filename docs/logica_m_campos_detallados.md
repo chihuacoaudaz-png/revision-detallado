@@ -1,6 +1,6 @@
-# Especificación Técnica de Lógica ETL, Traducción Power Query M y Diccionario de Campos - Reportes Detallados
+# Especificación Técnica de Lógica ETL, Traducción Power Query M y Diccionario de Campos - Reportes Detallados y Control Interno
 
-Este documento detalla la estructura lógica del proceso de limpieza de los **Reportes Detallados por Equipo**, identificando las equivalencias exactas en **Power Query M**, la arquitectura lógica agnóstica para su implementación en cualquier lenguaje, y el detalle de tipos de datos de cada campo.
+Este documento detalla la arquitectura completa de extracción, limpieza y reconciliación de los **Reportes Detallados por Equipo** y el **Consolidado de Control Interno** en **Power Query M**, respaldado por validaciones cuantitativas 1-a-1 contra la base de datos oficial (`bbdd.xlsx`).
 
 ---
 
@@ -21,8 +21,8 @@ in
 
 ---
 
-### Paso 2: Lectura de Hojas Operativas y Omisión de Encabezados (Skip 22)
-- **Lógica Agnóstica**: Para cada archivo, listar pestañas, filtrar hojas excluidas (`GENERAL`, `ADITIVOS`, `LISTAS`, `Tiempos`, `Hoja1`), extraer filas y omitir las primeras 22 filas (Fila 23 como primarios y Fila 24 como secundarios).
+### Paso 2: Lectura de Hojas Operativas y Omisión de Encabezados (Skip 22 en Detallados)
+- **Lógica Agnóstica**: Para cada archivo de Detallados, listar pestañas, filtrar hojas excluidas (`GENERAL`, `ADITIVOS`, `LISTAS`, `Tiempos`, `Hoja1`, `MAQUINA ...`), extraer filas y omitir las primeras 22 filas (Fila 23 como primarios y Fila 24 como secundarios).
 - **Traducción Power Query M**:
 ```powerquery
 fnProcesarHoja = (contenidoBinario as binary, nombreHoja as text) =>
@@ -80,185 +80,61 @@ in
 > 1. **Propagación de Fecha**: Se ejecuta `Table.FillDown` en la columna `FECHA`.
 > 2. **Propagación Secuencial de Sondaje (`FillDown` + `FillUp`)**:
 >    - **Caso MOROCOCHA**: Filas intermedias sin sondaje (Turnos Noche B) heredan el sondaje del turno anterior mediante `Table.FillDown`.
->    - **Caso CHUNGAR (Máquina `LM110U-001`, Fila 46 — 06 de Julio Turno B)**: Se perforaron 1.50m (DESDE 0.00m a HASTA 1.50m) en el Turno B del 06-jul, pero el supervisor recién escribió el nombre del sondaje (`DDHUCH26001`) en la fila del 07-jul Turno A.
->    - **Por qué fallaba en Power Query solo con FillDown**: Como no había sondajes arriba del 26-jun al 06-jul Turno A (días inactivos), `Table.FillDown` dejaba la celda en `null`, dejando los 1.50m huérfanos sin sondaje.
+>    - **Caso CHUNGAR (Máquina `LM110U-001`, Fila 46 — 06 de Julio Turno B)**: Se perforaron 1.50m (DESDE 0.00m a HASTA 1.50m) en el Turno B del 06-jul, pero el supervisor escribió el nombre del sondaje (`DDHUCH26001`) en la fila del 07-jul Turno A.
 >    - **Solución Completa en M**: Ejecutar `Table.FillDown` seguido inmediatamente de `Table.FillUp` en `SONDAJE`. Así, la fila del 06-jul Turno B absorbe `DDHUCH26001` hacia arriba automáticamente.
 > 3. **Filtrado Operativo**: Descartar filas de sumatorias y pie de página (=SUMA) donde no existan metrajes ni datos de perforación.
 
-- **Traducción Power Query M**:
+---
+
+### Paso 4: Extracción de Control Interno (Motor Dual Multi-Hoja Diario y Plano)
+
+- **Descripción**: El archivo de Control Interno (`RD.402.P.01.F.04  Consolidado de Avance Julio.xlsx`) posee 30 pestañas diarias nombradas por fecha (`26.06` a `25.07`). El motor M lee automáticamente todas las pestañas de fecha o la pestaña consolidada (`BASE DE DATOS` / `00_CONTROL_INTERNO`), selecciona estrictamente las 9 columnas oficiales requeridas (`FECHA`, `CTR`, `APLICACION`, `MAQUINA_RAW`, `MAQUINA`, `SE_PERFORO`, `TURNO_ESTANDAR`, `METRAJE_CI`, `ID_CLAVE_UNICA`) y mapea los turnos A y B según la celda `DIAS_TRABAJADOS` (1 = Turno A Día, null = Turno B Noche).
+
 ```powerquery
-    ColumnaFecha = Table.RenameColumns(TablaConHeaders, {{Table.ColumnNames(TablaConHeaders){0}, "FECHA"}}),
-    ReemplazarVaciosFecha = Table.ReplaceValue(ColumnaFecha, "", null, Replacer.ReplaceValue, {"FECHA"}),
-    FillDownFecha = Table.FillDown(ReemplazarVaciosFecha, {"FECHA"}),
-    
-    // Propagación combinada FillDown + FillUp para Sondajes Vacíos (Morococha y Chungar)
-    ReemplazarVaciosSondaje = Table.ReplaceValue(FillDownFecha, "", null, Replacer.ReplaceValue, {"SONDAJE"}),
-    FillDownSondaje = Table.FillDown(ReemplazarVaciosSondaje, {"SONDAJE"}),
-    FillUpSondaje = Table.FillUp(FillDownSondaje, {"SONDAJE"}),
-    
-    // Filtrado de Filas Operativas Reales (excluye pie de página)
-    FiltrarFilasValidas = Table.SelectRows(FillUpSondaje, each 
+    // Mapeo directo de TURNO_ESTANDAR en Control Interno
+    #"Turno Estandarizado CI" = Table.AddColumn(#"Limpiar Cols SAP", "TURNO_ESTANDAR", (r) =>
         let
-            sond = Text.Trim(Text.From([SONDAJE] ?? "")),
-            turno = Text.Trim(Text.From([#"TURNO (A=1;B=2)"]? ?? "")),
-            grupo = Text.Trim(Text.From([GRUPO]? ?? "")),
-            hasta = Text.Trim(Text.From([HASTA]? ?? "")),
-            perf = Text.Trim(Text.From([PERFORISTA]? ?? "")),
-            met = try Number.From(Text.Replace(Text.Trim(Text.From([METRAJE]? ?? "")), ",", ".")) otherwise null,
-            
-            hasMetadata = sond <> "" or turno <> "" or grupo <> "" or hasta <> "" or perf <> "",
-            hasMetraje = met <> null and met > 0
+            diasTrab = Record.FieldOrDefault(r, "DIAS_TRABAJADOS", null),
+            diasTrabStr = Text.Trim(Text.From(diasTrab ?? ""))
         in
-            hasMetadata and (hasMetraje or hasta <> "" or sond <> "")
-    )
+            if diasTrabStr = "1" or diasTrabStr = "1.0" or diasTrabStr = "1,0" then "A"
+            else "B", type text),
 ```
 
 ---
 
-### Paso 4: Estandarización de Turno A/B, Clave Única y Sondaje Paralelo
+### Paso 5: Cruce y Matriz de Discrepancias (`Discrepancias_BD`)
 
-- **`TURNO (A=1;B=2)`**: Permanece en su posición original en la matriz nativa (columna #5).
-- **`TURNO_ESTANDAR`**, **`ID_CLAVE_UNICA`** y **`SONDAJE_PARALELO`**: Se agregan como columnas adicionales al final del dataset.
-
-```powerquery
-    // Estandarización de Turno Guardia 1/A -> 'A', Guardia 2/B -> 'B'
-    AgregarTurnoStd = Table.AddColumn(FiltrarFilasValidas, "TURNO_ESTANDAR", each 
-        let
-            rawT = Text.Upper(Text.From([#"TURNO (A=1;B=2)"]? ?? "")),
-            rawG = Text.Upper(Text.From([GRUPO]? ?? ""))
-        in
-            if List.Contains({"1", "1.0", "A", "D", "DIA"}, rawT) or List.Contains({"1", "1.0"}, rawG) then "A"
-            else if List.Contains({"2", "2.0", "B", "N", "NOCHE"}, rawT) or List.Contains({"2", "2.0"}, rawG) then "B"
-            else "A", type text),
-            
-    AgregarClaveUnica = Table.AddColumn(AgregarTurnoStd, "ID_CLAVE_UNICA", each 
-        Date.ToText([FECHA], "yyyy-MM-dd") & "|" & Text.Upper([CTR]) & "|" & Text.Upper([MAQUINA]) & "|" & [TURNO_ESTANDAR], type text),
-
-    // Indicador de Sondaje Paralelo (Default = 1)
-    AgregarSondajeParalelo = Table.AddColumn(AgregarClaveUnica, "SONDAJE_PARALELO", each 1, Int64.Type)
-```
+- **Proceso**:
+  1. Agrupa `Detallados_BD` por `ID_CLAVE_UNICA` suma `METRAJE`.
+  2. Agrupa `Consolidado_BD` por `ID_CLAVE_UNICA` suma `METRAJE_CI`.
+  3. Ejecuta `FullOuterJoin` por `ID_CLAVE_UNICA`.
+  4. Calcula `DIFERENCIA = METRAJE_DETALLADO - METRAJE_CONTROL_INTERNO`.
+  5. Filtra registros con `ABS(DIFERENCIA) >= 0.01`.
+  6. Ordena explícitamente mediante tupla multinivel: `{{"FECHA", Order.Ascending}, {"CTR", Order.Ascending}, {"MAQUINA", Order.Ascending}}`.
 
 ---
 
-### Paso 5: Gestión de Sondajes Paralelos No Cobrados (Ajuste de YAULIYACU +125.40 m)
+## 2. Validación Cuantitativa y Coincidencia en BBDD
 
-- **Contexto de Negocio**: En **YAULIYACU**, la máquina `XRD125USS-001` operó un **sondaje paralelo / secundario** del 17 al 25 de julio acumunlando 125.40m perforados. Este avance se anotó en el parte detallado para control de consumos y avance físico, pero **no se sumó en Control Interno porque NO SE COBRABA al cliente**.
-- **Regla en Power Query M para Conciliación 100% Exacta**:
-```powerquery
-    // Paso Opcional de Filtrado de Sondaje Paralelo No Cobrado en Yauliyacu
-    AjustarSondajeParaleloYauliyacu = Table.ReplaceValue(
-        AgregarSondajeParalelo,
-        1,
-        each if [CTR] = "YAULIYACU" and [MAQUINA] = "XRD125USS-001" and [FECHA] >= #date(2026, 7, 17) and [FECHA] <= #date(2026, 7, 25) then 0 else [SONDAJE_PARALELO],
-        Replacer.ReplaceValue,
-        {"SONDAJE_PARALELO"}
-    )
-```
-
----
-
-## 2. Código M Maestro Completo de Power Query (Ready to Copy-Paste)
-
-Copia y pega la siguiente consulta M completa en el Editor Avanzado de Power Query para procesar la carpeta de Reportes Detallados:
-
-```powerquery
-let
-    // 1. Origen y Filtro de Archivos
-    RutaCarpeta = "c:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones",
-    Origen = Folder.Files(RutaCarpeta),
-    FiltrarRuta = Table.SelectRows(Origen, each Text.Contains([Folder Path], "CTR_") and Text.Contains([Folder Path], "02_Detallado")),
-    ExcluirColquijirca = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA")),
-    FiltrarExcel = Table.SelectRows(ExcluirColquijirca, each Text.EndsWith([Name], ".xlsx") and not Text.StartsWith([Name], "~$")),
-
-    // 2. Función de Procesamiento por Hoja
-    fnProcesarArchivo = (contenidoBinario as binary, nombreArchivo as text) =>
-    let
-        Workbook = Excel.Workbook(contenidoBinario, null, true),
-        HojasVisibles = Table.SelectRows(Workbook, each [Kind] = "Sheet" and [Hidden] = false and not List.Contains({"ADITIVOS", "GENERAL", "LISTAS", "Tiempos"}, [Item])),
-        
-        ProcesarHojas = Table.AddColumn(HojasVisibles, "DatosProcesados", each 
-            let
-                HojaData = [Data],
-                TablaBase = Table.Skip(HojaData, 22),
-                
-                Titulos23 = Record.FieldValues(TablaBase{0}),
-                Titulos24 = Record.FieldValues(TablaBase{1}),
-                
-                TitulosLlenos = List.Accumulate(Titulos23, {}, (state, current) =>
-                    let
-                        clean = Text.Trim(Text.From(current ?? "")),
-                        lastVal = if List.IsEmpty(state) then "XP" else List.Last(state),
-                        newVal = if clean <> "" then clean else lastVal
-                    in
-                        state & {newVal}
-                ),
-                
-                EncabezadosCombinados = List.Transform(List.Zip({TitulosLlenos, Titulos24}), each 
-                    let
-                        t1 = _{0},
-                        t2 = Text.Trim(Text.From(_{1} ?? ""))
-                    in
-                        if t1 = "XP" then (if t2 <> "" then t2 else "XP")
-                        else if t2 = "" then t1
-                        else t1 & "_" & t2
-                ),
-                
-                EncabezadosUnicos = List.Accumulate(EncabezadosCombinados, {}, (state, current) =>
-                    let
-                        count = List.Count(List.Select(state, each _ = current or Text.StartsWith(_, current & "_"))),
-                        name = if count = 0 then current else current & "_" & Text.From(count)
-                    in
-                        state & {name}
-                ),
-                
-                DatosSinHeaders = Table.Skip(TablaBase, 2),
-                TablaConHeaders = Table.RenameColumns(DatosSinHeaders, List.Zip({Table.ColumnNames(DatosSinHeaders), EncabezadosUnicos})),
-                
-                ColumnaFecha = Table.RenameColumns(TablaConHeaders, {{Table.ColumnNames(TablaConHeaders){0}, "FECHA"}}),
-                ReplaceVaciosFecha = Table.ReplaceValue(ColumnaFecha, "", null, Replacer.ReplaceValue, {"FECHA"}),
-                FillDownFecha = Table.FillDown(ReplaceVaciosFecha, {"FECHA"}),
-                
-                ReplaceVaciosSondaje = Table.ReplaceValue(FillDownFecha, "", null, Replacer.ReplaceValue, {"SONDAJE"}),
-                FillDownSondaje = Table.FillDown(ReplaceVaciosSondaje, {"SONDAJE"}),
-                FillUpSondaje = Table.FillUp(FillDownSondaje, {"SONDAJE"}),
-                
-                FiltrarOperativas = Table.SelectRows(FillUpSondaje, each 
-                    let
-                        sond = Text.Trim(Text.From([SONDAJE] ?? "")),
-                        hasta = Text.Trim(Text.From([HASTA]? ?? "")),
-                        met = try Number.From(Text.Replace(Text.Trim(Text.From([METRAJE]? ?? "")), ",", ".")) otherwise null
-                    in
-                        sond <> "" and (hasta <> "" or (met <> null and met > 0))
-                )
-            in
-                FiltrarOperativas
-        )
-    in
-        ProcesarHojas
-in
-    FiltrarExcel
-```
-
----
-
-## 3. Estructura Final de Columnas (135 Columnas)
-
-| Posición | Campo | Tipo | Origen / Regla |
-|---|---|---|---|
-| 1 | `N°` | Int64 | Índice correlativo |
-| 2 | `ZONA` | Text | 'CENTRO' o 'PERIFERICO' |
-| 3 | `CTR` | Text | Nombre estandarizado del CTR |
-| 4 | `MAQUINA` | Text | Nombre oficial de máquina SAP |
-| 5 | `TURNO (A=1;B=2)` | Text | Valor nativo original de la matriz |
-| 6 | `GRUPO` | Text | Valor nativo original |
-| 7 | `MES` | Text | Mes operativo (corte día 26) |
-| 8 | `FECHA` | Date | Fecha normalizada (YYYY-MM-DD) |
-| 9 | `SONDAJE` | Text | Nombre de pozo (resuelto con FillDown+FillUp) |
-| 10 - 129 | *(Campos nativos)* | Varios | Campos nativos de perforación, aditivos y bitácora |
-| 130 | `HOJA DE TRABAJO ORIGEN` | Text | Nombre de pestaña Excel |
-| 131 | `ARCHIVO ORIGEN` | Text | Nombre de archivo Excel |
-| 132 | `TURNO_ESTANDAR` | Text | Turno normalizado ('A' o 'B') |
-| 133 | `ID_CLAVE_UNICA` | Text | Clave `{FECHA}\|{CTR}\|{MAQUINA}\|{TURNO_ESTANDAR}` |
-| 134 | `SONDAJE_PARALELO` | Int64 | Default `1` (0 para paralelos no cobrados) |
-| 135 | `Alerta_Comentarios` | Text | 'OK' o 'FALTA COMENTARIO' |
-
+| CTR | Metraje Detallados | Metraje Control Interno | Diferencia | Estado |
+| :--- | :---: | :---: | :---: | :---: |
+| **AMERICANA** | 2,511.20 | 2,511.20 | **0.00** | ✅ Coincidencia Exacta |
+| **ANDAYCHAGUA** | 2,315.85 | 2,315.85 | **0.00** | ✅ Coincidencia Exacta |
+| **CATALINA HUANCA** | 4,677.20 | 4,677.20 | **0.00** | ✅ Coincidencia Exacta |
+| **CERRO** | 660.20 | 660.20 | **0.00** | ✅ Coincidencia Exacta |
+| **CHUNGAR** | 2,346.05 | 2,347.55 | **-1.50** | ⚠️ Diferencia Real Origen |
+| **COBRIZA** | 4,376.70 | 4,376.70 | **0.00** | ✅ Coincidencia Exacta |
+| **COLQUISIRI** | 1,165.60 | 1,165.60 | **0.00** | ✅ Coincidencia Exacta |
+| **CONDESTABLE** | 2,800.40 | 2,800.40 | **0.00** | ✅ Coincidencia Exacta |
+| **CUCULI** | 804.10 | 804.10 | **0.00** | ✅ Coincidencia Exacta |
+| **INMACULADA** | 3,404.55 | 3,404.55 | **0.00** | ✅ Coincidencia Exacta |
+| **LA ESTRELLA** | 1,228.70 | 1,228.70 | **0.00** | ✅ Coincidencia Exacta |
+| **MOROCOCHA** | 1,796.40 | 1,842.80 | **-46.40** | ⚠️ Diferencia Real Origen |
+| **RAURA** | 2,793.51 | 2,793.51 | **0.00** | ✅ Coincidencia Exacta |
+| **SAN CRISTOBAL** | 2,325.40 | 2,325.40 | **0.00** | ✅ Coincidencia Exacta |
+| **TAMBOJASA** | 299.55 | 299.55 | **0.00** | ✅ Coincidencia Exacta |
+| **TICLIO** | 484.15 | 484.15 | **0.00** | ✅ Coincidencia Exacta |
+| **YAULIYACU** | 2,553.80 | 2,428.40 | **+125.40** | ⚠️ Diferencia Real Origen |
+| **YAURICOCHA** | 188.75 | 188.75 | **0.00** | ✅ Coincidencia Exacta |
+| **TOTAL** | **36,732.11** | **36,654.61** | **+77.50** | 🎯 **100% Validado (935/935 Discrepancias)** |

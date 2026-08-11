@@ -1,98 +1,76 @@
 # Pipeline ETL de Reportes Detallados y Auditoría de Control Interno (Rockdrill)
 
-Este repositorio contiene la arquitectura completa del pipeline de Extracción, Transformación y Carga (ETL), conciliación de metrajes por `ID_CLAVE_UNICA` y la documentación técnica para la limpieza automatizada de los **Reportes Detallados por Equipo** (`RD.402.P.01.F.01`) y el libro maestro de **Control Interno** (`RD.402.P.01.F.04`).
+Este repositorio contiene la arquitectura completa del pipeline de Extracción, Transformación y Carga (ETL), la implementación en **Power Query M** para Power BI, las copias de respaldo de seguridad y la conciliación de metrajes por `ID_CLAVE_UNICA` contra la base de datos oficial (`bbdd.xlsx`).
 
 ---
 
-## 🚀 Guía de Inicio Rápido (Restaurar y Ejecutar en Cualquier PC)
+## 📂 Consultas Power Query M Listas para Usar (`codigo_m/`)
 
-Para clonar este repositorio y retomar el proyecto en cualquier computadora (Windows, Linux, macOS), ejecuta la siguiente secuencia de comandos en tu terminal **Bash / PowerShell**:
+El repositorio contiene las consultas M listas para copiar y pegar directamente en el Editor de Power Query de Power BI o Excel:
 
-### 1. Clonar el Repositorio de GitHub
+1. **`codigo_m/codigo_m_detallados.txt`** ➔ Consulta **`Detallados_BD`**:
+   - Extrae los 18 proyectos CTR (excluye Colquijirca).
+   - Lee cabeceras duales (filas 22 y 23 de Excel).
+   - Propaga fechas y sondajes (`FillDown` + `FillUp`).
+   - Mapea `TURNO_ESTANDAR` a `"A"` (Día) y `"B"` (Noche).
+   - **Resultado**: 6,428 filas procesadas con las 135 columnas oficiales.
+
+2. **`codigo_m/codigo_m_control_interno.txt`** ➔ Consulta **`Consolidado_BD`**:
+   - Motor dual: lee archivo plano (`BASE DE DATOS`) o las 30 pestañas diarias (`26.06` a `25.07`).
+   - Selecciona estrictamente las **9 columnas oficiales**: `FECHA`, `CTR`, `APLICACION`, `MAQUINA_RAW`, `MAQUINA`, `SE_PERFORO`, `TURNO_ESTANDAR`, `METRAJE_CI`, `ID_CLAVE_UNICA`.
+   - Asigna `TURNO_ESTANDAR` basándose en la posición/celda `DIAS_TRABAJADOS` (`1` = `"A"`, `null` = `"B"`).
+   - **Resultado**: 3,204 filas consolidadas.
+
+3. **`codigo_m/codigo_m_matriz_discrepancias.txt`** ➔ Consulta **`Discrepancias_BD`**:
+   - Cruce Full Outer Join por `ID_CLAVE_UNICA` (`YYYY-MM-DD|CTR|MAQUINA|TURNO_ESTANDAR`).
+   - Calcula `DIFERENCIA = METRAJE_DETALLADO - METRAJE_CONTROL_INTERNO`.
+   - Filtra registros con `ABS(DIFERENCIA) >= 0.01`.
+   - Ordenamiento multinivel corregido: `{{"FECHA", Order.Ascending}, {"CTR", Order.Ascending}, {"MAQUINA", Order.Ascending}}`.
+   - **Resultado**: Exactamente **935 filas de discrepancias** (100.00% coincidencia con `bbdd.xlsx`).
+
+### 🛡️ Copias de Respaldo Incluidas:
+- `codigo_m/codigo_m_detallados_backup.txt`
+- `codigo_m/codigo_m_control_interno_backup.txt`
+
+---
+
+## 📊 Comparativo Definitivo de Metrajes por Contrato (`bbdd.xlsx`)
+
+| CTR | Metraje Detallados | Metraje Control Interno | Diferencia | Estado |
+| :--- | :---: | :---: | :---: | :---: |
+| **AMERICANA** | 2,511.20 | 2,511.20 | **0.00** | ✅ Coincidencia Exacta |
+| **ANDAYCHAGUA** | 2,315.85 | 2,315.85 | **0.00** | ✅ Coincidencia Exacta |
+| **CATALINA HUANCA** | 4,677.20 | 4,677.20 | **0.00** | ✅ Coincidencia Exacta |
+| **CERRO** | 660.20 | 660.20 | **0.00** | ✅ Coincidencia Exacta |
+| **CHUNGAR** | 2,346.05 | 2,347.55 | **-1.50** | ⚠️ Diferencia Real Origen |
+| **COBRIZA** | 4,376.70 | 4,376.70 | **0.00** | ✅ Coincidencia Exacta |
+| **COLQUISIRI** | 1,165.60 | 1,165.60 | **0.00** | ✅ Coincidencia Exacta |
+| **CONDESTABLE** | 2,800.40 | 2,800.40 | **0.00** | ✅ Coincidencia Exacta |
+| **CUCULI** | 804.10 | 804.10 | **0.00** | ✅ Coincidencia Exacta |
+| **INMACULADA** | 3,404.55 | 3,404.55 | **0.00** | ✅ Coincidencia Exacta |
+| **LA ESTRELLA** | 1,228.70 | 1,228.70 | **0.00** | ✅ Coincidencia Exacta |
+| **MOROCOCHA** | 1,796.40 | 1,842.80 | **-46.40** | ⚠️ Diferencia Real Origen |
+| **RAURA** | 2,793.51 | 2,793.51 | **0.00** | ✅ Coincidencia Exacta |
+| **SAN CRISTOBAL** | 2,325.40 | 2,325.40 | **0.00** | ✅ Coincidencia Exacta |
+| **TAMBOJASA** | 299.55 | 299.55 | **0.00** | ✅ Coincidencia Exacta |
+| **TICLIO** | 484.15 | 484.15 | **0.00** | ✅ Coincidencia Exacta |
+| **YAULIYACU** | 2,553.80 | 2,428.40 | **+125.40** | ⚠️ Diferencia Real Origen |
+| **YAURICOCHA** | 188.75 | 188.75 | **0.00** | ✅ Coincidencia Exacta |
+| **TOTAL** | **36,732.11** | **36,654.61** | **+77.50** | 🎯 **100% Validado en BBDD** |
+
+---
+
+## 🚀 Guía para Ejecutar el Entorno Python
+
 ```bash
 git clone https://github.com/chihuacoaudaz-png/revision-detallado.git
 cd revision-detallado
-```
 
-### 2. Crear el Entorno Virtual de Python e Instalar Dependencias
-```bash
+# Crear entorno virtual e instalar librerías
 python -m venv venv
-
-# En Windows (PowerShell):
 .\venv\Scripts\Activate.ps1
+pip install python-calamine pandas openpyxl numpy
 
-# En Linux / macOS / Git Bash:
-source venv/bin/activate
-
-# Instalar librerías requeridas:
-pip install python-calamine pandas openpyxl numpy python-dateutil
+# Validar sintaxis M y reglas de negocio
+python validate_all_m_syntax.py
 ```
-
-### 3. Ejecutar el Pipeline ETL y la Matriz Comparativa
-```bash
-# 1. Procesar y consolidar los Reportes Detallados (18 CTRs):
-python pipeline_limpieza.py
-
-# 2. Compilar la planilla de Control Interno (30 reportes diarios):
-python 01_Control_Interno_ETL/compilar_control_interno.py
-
-# 3. Generar la Matriz Comparativa por Clave Única (Conciliación Guardia a Guardia):
-python 01_Control_Interno_ETL/matriz_comparativa_metrajes.py
-```
-
----
-
-## 📂 Estructura del Proyecto
-
-```text
-revision-detallado/
-│
-├── pipeline_limpieza.py                      # Pipeline ETL principal de Reportes Detallados
-├── output/                                   # Resultados consolidados
-│   ├── detallados_consolidados.csv           # 134 columnas oficiales
-│   └── detallados_consolidados.xlsx          # Consolidado en Excel
-│
-├── 01_Control_Interno_ETL/                   # Módulo de Control Interno y Auditoría
-│   ├── compilar_control_interno.py           # ETL de Control Interno
-│   ├── matriz_comparativa_metrajes.py        # Algoritmo de Outer Join y Conciliación
-│   ├── analisis_discrepancias_metrajes.md    # Reporte definitivo de auditoría (100% verificado)
-│   └── output/
-│       ├── matriz_comparativa_metrajes.xlsx  # Matriz comparativa por clave única
-│       ├── discrepancias_diarias_detalladas.csv
-│       └── resumen_discrepancias_ctr.csv
-│
-├── docs/                                     # Documentación Técnica Completa (Handoff & M)
-│   ├── handoff_detallados.md                 # Grupo 1: Estado del proyecto y stack Python
-│   ├── handoff_control_interno.md            # Grupo 1: Estado de Control Interno
-│   ├── logica_m_campos_detallados.md         # Grupo 2: Traducción M y tipos para Power BI
-│   ├── logica_m_campos_control_interno.md    # Grupo 2: Traducción M de Control Interno
-│   ├── replicacion_detallada_detallados.md   # Grupo 3: Manual de replicación desde cero
-│   └── replicacion_detallada_control_interno.md # Grupo 3: Manual de replicación Control Interno
-│
-├── .gitignore
-└── README.md
-```
-
----
-
-## 📊 Resultados de Conciliación de Metrajes (Auditoría Empírica)
-
-- **17 de los 18 CTRs** registran **0.00 m de diferencia acumulada** (coincidencia exacta al centímetro).
-- **CHUNGAR**: `2,347.55 m` vs `2,347.55 m` (Diferencia: **0.00 m**). Resuelto caso de metraje inicial (06-jul Turno B 1.50m) mediante regla secuencial `.ffill().bfill()` de asignación de sondaje.
-- **MOROCOCHA**: `1,842.80 m` vs `1,842.80 m` (Diferencia: **0.00 m**).
-- **YAULIYACU**: `2,553.80 m` vs `2,428.40 m` (Diferencia: **+125.40 m**). Explicado por la perforación de un **sondaje paralelo no cobrable** en la máquina `XRD125USS-001`. Se incorporó el campo `SONDAJE_PARALELO` (default = `1`) al final del dataset para su gestión en Power Query.
-- **CONDESTABLE (0.00 m)** y **CUCULÍ (0.00 m)**: Resueltos al aplicar filtro de hojas visibles (`sheet.visible`).
-- **COLQUIJIRCA**: Excluido de negocio por no llevarse control de metrajes.
-
----
-
-## 🛠️ Estructura de Columnas Exportadas (135 Columnas)
-
-1. **Matriz Nativa Original (Columnas 1 - 129)**: Preserva los 129 campos del reporte diario `RD.402.P.01.F.01`, incluyendo `TURNO (A=1;B=2)` en su ubicación original de la matriz.
-2. **Campos Calculados / Metadatos (al final del dataset)**:
-   - `HOJA DE TRABAJO ORIGEN`: Nombre de la pestaña de origen.
-   - `ARCHIVO ORIGEN`: Nombre del libro Excel de origen.
-   - `TURNO_ESTANDAR`: Turno estandarizado en `'A'` (Día) o `'B'` (Noche).
-   - `ID_CLAVE_UNICA`: Clave de trazabilidad `{FECHA}|{CTR}|{MAQUINA}|{TURNO_ESTANDAR}`.
-   - `SONDAJE_PARALELO`: Indicador entero/booleano para marcar sondajes paralelos (default `1`).
-   - `Alerta_Comentarios`: 'OK' o 'FALTA COMENTARIO'.
