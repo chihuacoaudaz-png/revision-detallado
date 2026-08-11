@@ -69,6 +69,6 @@ let
         {"ID_CLAVE_UNICA_FINAL", "ID_CLAVE_UNICA"}
     }),
 
-    SortFinal = Table.Sort(RenombrarCols, {"FECHA", "CTR", "MAQUINA"})
+    SortFinal = Table.Sort(RenombrarCols, {{"FECHA", Order.Ascending}, {"CTR", Order.Ascending}, {"MAQUINA", Order.Ascending}})
 in
     SortFinal
