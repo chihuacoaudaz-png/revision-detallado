@@ -22,9 +22,43 @@ from datetime import datetime, date
 from typing import Optional, Union, Dict, List, Tuple
 from dateutil.relativedelta import relativedelta
 
+import zipfile
+import xml.etree.ElementTree as ET
 import pandas as pd
 import numpy as np
 from python_calamine import CalamineWorkbook
+
+def get_visible_sheet_names(excel_path: Path) -> set[str]:
+    """
+    Extrae los nombres de hojas VISIBLES de un archivo Excel .xlsx usando zipfile y XML.
+    Ignora hojas ocultas (hidden / veryHidden) replicando el filtro de Power Query (sheet.visible / Hidden = false).
+    """
+    visible_sheets = set()
+    try:
+        with zipfile.ZipFile(excel_path, 'r') as z:
+            if 'xl/workbook.xml' not in z.namelist():
+                return set()
+            with z.open('xl/workbook.xml') as f:
+                tree = ET.parse(f)
+                root = tree.getroot()
+                ns = {'main': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+                sheets_node = root.find('main:sheets', ns)
+                if sheets_node is None:
+                    for elem in root.iter():
+                        if elem.tag.endswith('sheet'):
+                            name = elem.attrib.get('name')
+                            state = elem.attrib.get('state', 'visible')
+                            if name and state not in ('hidden', 'veryHidden'):
+                                visible_sheets.add(name)
+                else:
+                    for sheet in sheets_node.findall('main:sheet', ns):
+                        name = sheet.attrib.get('name')
+                        state = sheet.attrib.get('state', 'visible')
+                        if name and state not in ('hidden', 'veryHidden'):
+                            visible_sheets.add(name)
+    except Exception:
+        return set()
+    return visible_sheets
 
 # ============================================================
 # CONFIGURACIÓN DE RUTAS Y CONSTANTES GLOBALES
@@ -602,8 +636,9 @@ def run_pipeline() -> pd.DataFrame:
             continue
         
         sheet_names = workbook.sheet_names
-        op_sheets = [s for s in sheet_names if is_operative_sheet_name(s)]
-        print(f"  Hojas: {len(sheet_names)} total, {len(op_sheets)} operativas: {op_sheets}", flush=True)
+        visible_sheets = get_visible_sheet_names(filepath)
+        op_sheets = [s for s in sheet_names if is_operative_sheet_name(s) and (not visible_sheets or s in visible_sheets)]
+        print(f"  Hojas: {len(sheet_names)} total, {len(op_sheets)} operativas visibles: {op_sheets}", flush=True)
         
         for sheet_name in op_sheets:
             try:
