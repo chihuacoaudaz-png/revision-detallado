@@ -64,24 +64,13 @@ def get_visible_sheet_names(excel_path: Path) -> set[str]:
 # CONFIGURACIÓN DE RUTAS Y CONSTANTES GLOBALES
 # ============================================================
 
-def _resolve_base_path() -> Path:
-    candidates = [
-        Path(__file__).parent / "Estructura base" / "Rockdrill_Control_Operaciones",
-        Path(r"c:\Proyectos Pyhton\rddata\Rockdrill_Control_Operaciones"),
-        Path(r"c:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones"),
-        Path(r"c:\Proyectos Pyhton\detallados\Estructura base\Rockdrill_Control_Operaciones"),
-        Path(__file__).parent.parent / "Estructura base" / "Rockdrill_Control_Operaciones",
-        Path(__file__).parent / "Rockdrill_Control_Operaciones",
-    ]
-    for p in candidates:
-        if p.exists():
-            return p
-    return candidates[0]
-
-BASE_PATH: Path = _resolve_base_path()
-MAESTRO_PATH: Path = BASE_PATH / "Maestro_Maquinas" / "Maestros_Maquinas.xlsx"
-OUTPUT_PATH: Path = Path(__file__).parent / "output"
-OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
+try:
+    from config import BASE_PATH, MAESTRO_PATH, OUTPUT_PATH
+except ImportError:
+    BASE_PATH = Path(__file__).parent / "Estructura base" / "Rockdrill_Control_Operaciones"
+    MAESTRO_PATH = BASE_PATH / "Maestro_Maquinas" / "Maestros_Maquinas.xlsx"
+    OUTPUT_PATH = Path(__file__).parent / "output"
+    OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
 
 HOJAS_EXCLUIDAS: set[str] = {"ADITIVOS", "GENERAL", "LISTAS", "Tiempos"}
 CTRS_EXCLUIDOS: set[str] = {"COLQUIJIRCA"}  # Exclusión explícita según solicitud del usuario
