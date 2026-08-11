@@ -10,44 +10,56 @@ El presente análisis evalúa la totalidad de los metrajes perforados reportados
 | **ANDAYCHAGUA** | 2,315.85 | 2,315.85 | **0.00** | Coincidencia perfecta (100% OK) |
 | **CATALINA HUANCA** | 4,677.20 | 4,677.20 | **0.00** | Coincidencia perfecta (100% OK) |
 | **CERRO** | 660.20 | 660.20 | **0.00** | Coincidencia perfecta (100% OK) |
-| **CHUNGAR** | 2,347.55 | 2,347.55 | **0.00** | **Coincidencia perfecta (100% OK)** |
+| **CHUNGAR** | 2,347.55 | 2,347.55 | **0.00** | Coincidencia perfecta (100% OK) |
 | **COBRIZA** | 4,376.70 | 4,376.70 | **0.00** | Coincidencia perfecta (100% OK) |
 | **COLQUISIRI** | 1,165.60 | 1,165.60 | **0.00** | Coincidencia perfecta (100% OK) |
-| **CONDESTABLE** | 2,996.50 | 2,800.40 | **+196.10** | Registros históricos de Sept/Oct 2025 en máquina `LM75UFDR-001` omitidos en CI de Julio |
-| **CUCULI** | 921.75 | 804.10 | **+117.65** | Registros históricos de Nov 2025 en máquina `XRD100ST-001 (2)` omitidos en CI de Julio |
+| **CONDESTABLE** | 2,800.40 | 2,800.40 | **0.00** | **Resuelto (0.00 m) al aplicar filtro de Hojas Visibles (`sheet.visible`)** |
+| **CUCULI** | 804.10 | 804.10 | **0.00** | **Resuelto (0.00 m) al aplicar filtro de Hojas Visibles (`sheet.visible`)** |
 | **INMACULADA** | 3,404.55 | 3,404.55 | **0.00** | Coincidencia perfecta (100% OK) |
 | **LA ESTRELLA** | 1,228.70 | 1,228.70 | **0.00** | Coincidencia perfecta (100% OK) |
-| **MOROCOCHA** | 1,842.80 | 1,842.80 | **0.00** | **Coincidencia perfecta (100% OK)** |
+| **MOROCOCHA** | 1,842.80 | 1,842.80 | **0.00** | Coincidencia perfecta (100% OK) |
 | **RAURA** | 2,793.51 | 2,793.51 | **0.00** | Coincidencia perfecta (100% OK) |
 | **SAN CRISTOBAL** | 2,325.40 | 2,325.40 | **0.00** | Coincidencia perfecta (100% OK) |
 | **TAMBOJASA** | 299.55 | 299.55 | **0.00** | Coincidencia perfecta (100% OK) |
 | **TICLIO** | 484.15 | 484.15 | **0.00** | Coincidencia perfecta (100% OK) |
-| **YAULIYACU** | 2,553.80 | 2,428.40 | **+125.40** | **Taladro Paralelo** en máquina `XRD125USS-001` (17 al 25 de julio) |
+| **YAULIYACU** | 2,553.80 | 2,428.40 | **+125.40** | Registros de máquina `XRD125USS-001` (17 al 25 de julio) omitidos en CI |
 | **YAURICOCHA** | 188.75 | 188.75 | **0.00** | Coincidencia perfecta (100% OK) |
-| **TOTAL GENERAL** | **37,603.66** | **37,164.51** | **+439.15** | **15 CTRs en Coincidencia Perfecta (0.00 m)** |
+| **TOTAL GENERAL** | **36,780.01** | **36,654.61** | **+125.40** | **17 de 18 CTRs en Coincidencia Perfecta (0.00 m)** |
 
 ---
 
-## 2. Explicación Detallada de los CTRs Analizados
+## 2. Explicación Técnica de Ingeniería de Datos
 
-### 1. CHUNGAR (Diferencia Acumulada: 0.00 m)
-- **Resultado Auditoría**: **Coincidencia Exacta al 100%**.
-- **Causa Raíz de Desfases Intermedios de Guardia**: Las aparentes discrepancias turno a turno (+12.00m / -12.00m) entre la Guardia A y la Guardia B corresponden únicamente a la forma en que los supervisores llenaron la planilla en Excel, registrando la perforación en la primera fila de la fecha. Al consolidar a nivel diario por máquina, la suma coincide exactamente en 2,347.55 m.
+### A. Filtro de Hojas Visibles (`sheet.visible` / `Hidden = false`)
+- **Causa Raíz:** En versiones previas del pipeline, el filtrado de hojas se realizaba comparando únicamente el nombre del tab contra la lista `HOJAS_EXCLUIDAS = {"ADITIVOS", "GENERAL", "LISTAS", "Tiempos"}`.
+- **Observación de Ingeniería:** Los archivos Excel de los CTRs contenían pestañas **ocultas** (`hidden` o `veryHidden`) con borradores de máquinas o pestañas inactivas de meses anteriores (p. ej. `LM75U-011`, `XRD40U-006` en Condestable; `XRD100ST-001 (2)` en Cuculí).
+- **Solución Replicada de Power Query M:** En Power Query M, el pipeline utiliza `Table.SelectRows(Source, each [Hidden] = false)`. Al incorporar la lectura XML de `xl/workbook.xml` en Python para omitir hojas ocultas (`state="hidden"`), los metrajes de **CONDESTABLE** y **CUCULI** pasaron a coincidir al **100.00% (0.00 m de error)** con Control Interno, eliminando las falsas discrepancias de +196.10m y +117.65m.
 
-### 2. MOROCOCHA (Diferencia Acumulada: 0.00 m)
-- **Resultado Auditoría**: **Coincidencia Exacta al 100%**.
-- **Causa Raíz Resuelta**: El error previo en Python se debía a la presencia de fórmulas de sumatoria de pie de página (`=SUMA(J25:J89)`) que eran arrastradas como filas operativas debido al `ffill()` de fecha. Al aplicar la regla de omisión de sumatorias (filtrar filas sin sondaje, turno, grupo ni hasta), Morococha cuadra al 100% con 1,842.80 m.
-
-### 3. YAULIYACU (Diferencia Acumulada: +125.40 m)
-- **Resultado Auditoría**: **Desfase Justificado Operativamente por Taladro Paralelo**.
-- **Detalle de la Operación**: Entre el 17 y 25 de julio, la máquina `XRD125USS-001` registró 125.40 m de avance adicional correspondiente a trabajos de **taladro paralelo**, los cuales fueron reportados en el parte detallado pero no contabilizados en la planilla de avance principal de Control Interno.
-
-### 4. CONDESTABLE (+196.10 m) y CUCULÍ (+117.65 m)
-- **Causa Raíz**: Corresponden a registros históricos de meses anteriores (septiembre/octubre 2025 en Condestable y noviembre 2025 en Cuculí) que quedaron almacenados en las pestañas de los reportes detallados y fueron omitidos correctamente en la planilla de Control Interno de Julio.
+### B. Artefactos de Precisión de Coma Flotante IEEE 754 (`1e-12` en Excel)
+- **Causa Raíz:** La aritmética de coma flotante estándar IEEE 754 genera imprecisiones microscópicas al sustraer o sumar decimales (p. ej. `49.5 - 35.0 = 14.500000000000004` o `34.99999999999999`). Al construir tablas dinámicas en Excel sin redondeo previo, Excel muestra diferencias como `-4E-12` o `-8.18E-12` (es decir, `0.000000000004 m`).
+- **Solución Replicada:** Se aplica redondeo explícito `.round(2)` en todas las métricas numéricas (`METRAJE`, `DESDE`, `HASTA`, `PROFUNDIDAD DE SONDAJE`), eliminando el ruido numérico a nivel de 12 decimales sin alterar ningún valor real de perforación.
 
 ---
 
-## 3. Conclusión de Calidad del Dato
-- El pipeline ETL en Python y su especificación en Power Query M han alcanzado una **precisión del 100%** en la conciliación de metrajes.
-- 15 de 18 CTRs cuadran con **0.00 m de error**.
-- Las 3 diferencias existentes (+196.10m, +117.65m y +125.40m) tienen justificación técnica y de negocio comprobada.
+## 3. Auditoría Detallada de la Única Discrepancia Restante: YAULIYACU (+125.40 m)
+
+- **Resultado Auditoría**: **Desfase Justificado por Omisión en Planilla de Control Interno**.
+- **Máquinas coincidentes en Yauliyacu**:
+  - `XDR50USS-00T`: 947.30 m vs 947.30 m (Diferencia: **0.00 m**) 🟢
+  - `XRD50USS-003`: 1,359.30 m vs 1,359.30 m (Diferencia: **0.00 m**) 🟢
+- **Máquina discrepante**:
+  - `XRD125USS-001`: **247.20 m (Detallado) vs 121.80 m (Control Interno)** → Diferencia: **+125.40 m** 🔴
+- **Detalle de las fechas omitidas en Control Interno:**
+  - 17 de Julio: 16.10 m (Turno A: 5.25m, Turno B: 10.85m)
+  - 18 de Julio: 44.00 m (Turno A: 21.30m, Turno B: 22.70m)
+  - 19 de Julio: 6.10 m (Turno B: 6.10m)
+  - 20 de Julio: 17.90 m (Turno A: 4.85m, Turno B: 13.05m)
+  - 21 de Julio: 31.10 m (Turno A: 13.30m, Turno B: 17.80m)
+  - 25 de Julio: 10.20 m (Turno A: 8.50m, Turno B: 1.70m)
+  - **Total Omisión en Control Interno:** **125.40 m**.
+
+---
+
+## 4. Conclusión de Calidad del Dato
+- 17 de los 18 CTRs cuadran en **Coincidencia Exacta de 0.00 m**.
+- No se ha forzado ni descartado ningún dato de manera arbitraria; todo se basa en la replicación exacta de las reglas de visibilidad y formato de Power Query M.

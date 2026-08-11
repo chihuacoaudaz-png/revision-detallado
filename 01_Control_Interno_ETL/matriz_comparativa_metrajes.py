@@ -38,8 +38,8 @@ def run_matriz_comparativa() -> Tuple[pd.DataFrame, pd.DataFrame]:
     
     # 3. Outer Join por ID_CLAVE_UNICA (Auditoría por Turno)
     comparativo = pd.merge(det_shift, ci_shift, on=["ID_CLAVE_UNICA", "FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR"], how="outer")
-    comparativo["METRAJE_DETALLADO"] = comparativo["METRAJE_DETALLADO"].fillna(0.0)
-    comparativo["METRAJE_CONTROL_INTERNO"] = comparativo["METRAJE_CI"].fillna(0.0)
+    comparativo["METRAJE_DETALLADO"] = comparativo["METRAJE_DETALLADO"].fillna(0.0).round(2)
+    comparativo["METRAJE_CONTROL_INTERNO"] = comparativo["METRAJE_CI"].fillna(0.0).round(2)
     comparativo.drop(columns=["METRAJE_CI"], inplace=True)
     
     comparativo["DIFERENCIA_METRAJE"] = (comparativo["METRAJE_DETALLADO"] - comparativo["METRAJE_CONTROL_INTERNO"]).round(2)

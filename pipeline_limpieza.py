@@ -770,6 +770,8 @@ def run_pipeline() -> pd.DataFrame:
             if isinstance(ser, pd.DataFrame):
                 ser = ser.iloc[:, 0]
             result[col] = ser.apply(clean_number_value)
+            if col in ["METRAJE", "HASTA", "DESDE", "PROFUNDIDAD DE SONDAJE", "METROS ACUMULADO", "METROS PROYECTADO", "METROS META"]:
+                result[col] = result[col].round(2)
     
     # Formatear FECHA como texto ISO (YYYY-MM-DD)
     result["FECHA"] = result["FECHA"].dt.strftime("%Y-%m-%d")
@@ -779,11 +781,17 @@ def run_pipeline() -> pd.DataFrame:
     csv_file = OUTPUT_PATH / "detallados_consolidados.csv"
     
     print(f"\n[EXPORTAR] Guardando en {output_file}...", flush=True)
-    result.to_excel(str(output_file), index=False, sheet_name="R. DETALLADO", engine="openpyxl")
-    print(f"  [OK] Excel guardado exitosamente", flush=True)
-    
-    result.to_csv(str(csv_file), index=False, encoding="utf-8-sig")
-    print(f"  [OK] CSV guardado en {csv_file}", flush=True)
+    try:
+        result.to_excel(str(output_file), index=False, sheet_name="R. DETALLADO", engine="openpyxl")
+        print(f"  [OK] Excel guardado exitosamente", flush=True)
+    except PermissionError:
+        print(f"  [WARN] {output_file.name} está bloqueado por otro programa. No se pudo sobrescribir Excel.", flush=True)
+        
+    try:
+        result.to_csv(str(csv_file), index=False, encoding="utf-8-sig")
+        print(f"  [OK] CSV guardado en {csv_file}", flush=True)
+    except PermissionError:
+        print(f"  [WARN] {csv_file.name} está bloqueado por otro programa. No se pudo sobrescribir CSV.", flush=True)
     
     print(f"\n{'=' * 80}", flush=True)
     print("ESTADISTICAS FINALES ETL DETALLADOS", flush=True)
