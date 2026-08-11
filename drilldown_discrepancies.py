@@ -25,8 +25,16 @@ import re
 df_det = pd.read_csv("output/detallados_consolidados.csv")
 df_det["CTR_NORM"] = df_det["CTR"].apply(lambda x: "CUCULI" if "CUCUL" in str(x).upper() else str(x).upper().strip())
 
+base_candidates = [
+    Path(__file__).parent / "Estructura base" / "Rockdrill_Control_Operaciones",
+    Path(r"c:\Proyectos Pyhton\rddata\Rockdrill_Control_Operaciones"),
+    Path(r"c:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones"),
+    Path(r"c:\Proyectos Pyhton\detallados\Estructura base\Rockdrill_Control_Operaciones"),
+]
+base_path = next((p for p in base_candidates if p.exists()), base_candidates[0])
+
 # Estandarización de máquinas en Detallados
-maestro_path = Path(r"c:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones\Maestro_Maquinas\Maestros_Maquinas.xlsx")
+maestro_path = base_path / "Maestro_Maquinas" / "Maestros_Maquinas.xlsx"
 exceptions_map = {}
 if maestro_path.exists():
     wb_m = CalamineWorkbook.from_path(str(maestro_path))
@@ -44,7 +52,7 @@ det_grouped = df_det.groupby(["FECHA", "CTR_NORM", "MAQUINA"])["METRAJE"].sum().
 det_grouped.rename(columns={"METRAJE": "METRAJE_DETALLADOS"}, inplace=True)
 
 # 2. Cargar Control Interno
-path = Path(r"c:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones\00_Control_Interno\RD.402.P.01.F.04  Consolidado de Avance Julio.xlsx")
+path = base_path / "00_Control_Interno" / "RD.402.P.01.F.04  Consolidado de Avance Julio.xlsx"
 wb = CalamineWorkbook.from_path(str(path))
 
 ci_rows = []

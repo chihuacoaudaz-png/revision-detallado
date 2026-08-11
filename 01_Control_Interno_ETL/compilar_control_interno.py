@@ -22,11 +22,22 @@ import pandas as pd
 import numpy as np
 from python_calamine import CalamineWorkbook
 
-BASE_DIR: Path = Path(r"c:\Proyectos Python\Detallados")
-CONTROL_INTERNO_PATH: Path = BASE_DIR / "Estructura base" / "Rockdrill_Control_Operaciones" / "00_Control_Interno" / "RD.402.P.01.F.04  Consolidado de Avance Julio.xlsx"
-MAESTRO_PATH: Path = BASE_DIR / "Estructura base" / "Rockdrill_Control_Operaciones" / "Maestro_Maquinas" / "Maestros_Maquinas.xlsx"
-OUTPUT_DIR: Path = BASE_DIR / "01_Control_Interno_ETL" / "output"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+def _resolve_paths() -> Tuple[Path, Path, Path]:
+    base_candidates = [
+        Path(__file__).parent.parent / "Estructura base" / "Rockdrill_Control_Operaciones",
+        Path(r"c:\Proyectos Pyhton\rddata\Rockdrill_Control_Operaciones"),
+        Path(r"c:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones"),
+        Path(r"c:\Proyectos Pyhton\detallados\Estructura base\Rockdrill_Control_Operaciones"),
+        Path(__file__).parent.parent / "Rockdrill_Control_Operaciones",
+    ]
+    base_path = next((p for p in base_candidates if p.exists()), base_candidates[0])
+    ci_path = base_path / "00_Control_Interno" / "RD.402.P.01.F.04  Consolidado de Avance Julio.xlsx"
+    maestro_path = base_path / "Maestro_Maquinas" / "Maestros_Maquinas.xlsx"
+    output_dir = Path(__file__).parent / "output"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    return ci_path, maestro_path, output_dir
+
+CONTROL_INTERNO_PATH, MAESTRO_PATH, OUTPUT_DIR = _resolve_paths()
 
 CTRS_EXCLUIDOS: set[str] = {"COLQUIJIRCA"}
 

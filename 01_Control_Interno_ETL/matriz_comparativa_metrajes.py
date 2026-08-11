@@ -5,9 +5,23 @@ import pandas as pd
 from pathlib import Path
 from typing import Tuple
 
-DETALLADOS_CSV = Path(r"c:\Proyectos Python\Detallados\output\detallados_consolidados.csv")
-CI_CSV = Path(r"c:\Proyectos Python\Detallados\01_Control_Interno_ETL\output\control_interno_compilado.csv")
-OUTPUT_DIR = Path(r"c:\Proyectos Python\Detallados\01_Control_Interno_ETL\output")
+def _resolve_csv_paths() -> Tuple[Path, Path, Path]:
+    repo_root = Path(__file__).parent.parent
+    det_candidates = [
+        repo_root / "output" / "detallados_consolidados.csv",
+        Path(r"c:\Proyectos Python\Detallados\output\detallados_consolidados.csv"),
+    ]
+    ci_candidates = [
+        Path(__file__).parent / "output" / "control_interno_compilado.csv",
+        Path(r"c:\Proyectos Python\Detallados\01_Control_Interno_ETL\output\control_interno_compilado.csv"),
+    ]
+    det_csv = next((p for p in det_candidates if p.exists()), det_candidates[0])
+    ci_csv = next((p for p in ci_candidates if p.exists()), ci_candidates[0])
+    output_dir = Path(__file__).parent / "output"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    return det_csv, ci_csv, output_dir
+
+DETALLADOS_CSV, CI_CSV, OUTPUT_DIR = _resolve_csv_paths()
 
 def run_matriz_comparativa() -> Tuple[pd.DataFrame, pd.DataFrame]:
     print("=" * 80)
