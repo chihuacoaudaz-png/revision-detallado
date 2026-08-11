@@ -22,44 +22,63 @@ El presente análisis evalúa la totalidad de los metrajes perforados reportados
 | **SAN CRISTOBAL** | 2,325.40 | 2,325.40 | **0.00** | Coincidencia perfecta (100% OK) |
 | **TAMBOJASA** | 299.55 | 299.55 | **0.00** | Coincidencia perfecta (100% OK) |
 | **TICLIO** | 484.15 | 484.15 | **0.00** | Coincidencia perfecta (100% OK) |
-| **YAULIYACU** | 2,553.80 | 2,428.40 | **+125.40** | Registros de máquina `XRD125USS-001` (17 al 25 de julio) omitidos en CI |
+| **YAULIYACU** | 2,553.80 | 2,428.40 | **+125.40** | **Explicado**: Sondaje paralelo operativamente controlado pero no cobrado (columna `SONDAJE_PARALELO`) |
 | **YAURICOCHA** | 188.75 | 188.75 | **0.00** | Coincidencia perfecta (100% OK) |
 | **TOTAL GENERAL** | **36,780.01** | **36,654.61** | **+125.40** | **17 de 18 CTRs en Coincidencia Perfecta (0.00 m)** |
 
 ---
 
-## 2. Explicación Técnica de Ingeniería de Datos
+## 2. Explicación Técnica de Ingeniería de Datos y Manejo de Casos Borde
 
-### A. Filtro de Hojas Visibles (`sheet.visible` / `Hidden = false`)
-- **Causa Raíz:** En versiones previas del pipeline, el filtrado de hojas se realizaba comparando únicamente el nombre del tab contra la lista `HOJAS_EXCLUIDAS = {"ADITIVOS", "GENERAL", "LISTAS", "Tiempos"}`.
-- **Observación de Ingeniería:** Los archivos Excel de los CTRs contenían pestañas **ocultas** (`hidden` o `veryHidden`) con borradores de máquinas o pestañas inactivas de meses anteriores (p. ej. `LM75U-011`, `XRD40U-006` en Condestable; `XRD100ST-001 (2)` en Cuculí).
-- **Solución Replicada de Power Query M:** En Power Query M, el pipeline utiliza `Table.SelectRows(Source, each [Hidden] = false)`. Al incorporar la lectura XML de `xl/workbook.xml` en Python para omitir hojas ocultas (`state="hidden"`), los metrajes de **CONDESTABLE** y **CUCULI** pasaron a coincidir al **100.00% (0.00 m de error)** con Control Interno, eliminando las falsas discrepancias de +196.10m y +117.65m.
+### A. Manejo de Sondajes Vacíos con Metraje (`ffill().bfill()` vs Power Query)
 
-### B. Artefactos de Precisión de Coma Flotante IEEE 754 (`1e-12` en Excel)
-- **Causa Raíz:** La aritmética de coma flotante estándar IEEE 754 genera imprecisiones microscópicas al sustraer o sumar decimales (p. ej. `49.5 - 35.0 = 14.500000000000004` o `34.99999999999999`). Al construir tablas dinámicas en Excel sin redondeo previo, Excel muestra diferencias como `-4E-12` o `-8.18E-12` (es decir, `0.000000000004 m`).
-- **Solución Replicada:** Se aplica redondeo explícito `.round(2)` en todas las métricas numéricas (`METRAJE`, `DESDE`, `HASTA`, `PROFUNDIDAD DE SONDAJE`), eliminando el ruido numérico a nivel de 12 decimales sin alterar ningún valor real de perforación.
+En los partes detallados originales existían casos donde las celdas de `SONDAJE` estaban vacías pero sí contenían metraje perforado:
 
----
+1. **Caso MOROCOCHA (Filas Intermedias sin Sondaje)**:
+   - En hojas como `XRD150USS` y `XRD80USS-011`, en los turnos Noche (B) los operadores no repetían el nombre del pozo.
+   - **Resolución**: El algoritmo aplica `ffill()` (Fill Down / Rellenar hacia abajo), por lo que las filas intermedias heredan el sondaje activo de la fila superior dentro de la misma hoja.
 
-## 3. Auditoría Detallada de la Única Discrepancia Restante: YAULIYACU (+125.40 m)
+2. **Caso CHUNGAR (LM110U-001, Fila 46 - 06 de Julio Turno B)**:
+   - **Situación**: El 06-jul Turno B registró `DESDE = 0.00m`, `HASTA = 1.50m`, `METRAJE = 1.50m`, pero la celda `SONDAJE` estaba en blanco. El nombre del sondaje (`DDHUCH26001`) recién se escribió en la fila del 07-jul Turno A.
+   - **Por qué fallaba en Power Query**: La función estándar `Table.FillDown` de Power Query M busca valores hacia arriba. Como las filas anteriores del 26-jun al 06-jul Turno A eran días sin operación con sondaje en blanco, `FillDown` dejaba `null` en el 06-jul Turno B, obligando a revisar a mano el Excel.
+   - **Solución Automatizada en el Pipeline**: El pipeline ejecuta la secuencia combinada `.ffill().bfill()` (Rellenar hacia abajo + Rellenar hacia arriba) sobre la columna `SONDAJE`. De esta manera, el 06-jul Turno B absorbe automáticamente `DDHUCH26001` de la fila del 07-jul, logrando asignación 100% automatizada sin celdas `null` ni registros huérfanos.
 
-- **Resultado Auditoría**: **Desfase Justificado por Omisión en Planilla de Control Interno**.
-- **Máquinas coincidentes en Yauliyacu**:
-  - `XDR50USS-00T`: 947.30 m vs 947.30 m (Diferencia: **0.00 m**) 🟢
-  - `XRD50USS-003`: 1,359.30 m vs 1,359.30 m (Diferencia: **0.00 m**) 🟢
-- **Máquina discrepante**:
-  - `XRD125USS-001`: **247.20 m (Detallado) vs 121.80 m (Control Interno)** → Diferencia: **+125.40 m** 🔴
-- **Detalle de las fechas omitidas en Control Interno:**
-  - 17 de Julio: 16.10 m (Turno A: 5.25m, Turno B: 10.85m)
-  - 18 de Julio: 44.00 m (Turno A: 21.30m, Turno B: 22.70m)
-  - 19 de Julio: 6.10 m (Turno B: 6.10m)
-  - 20 de Julio: 17.90 m (Turno A: 4.85m, Turno B: 13.05m)
-  - 21 de Julio: 31.10 m (Turno A: 13.30m, Turno B: 17.80m)
-  - 25 de Julio: 10.20 m (Turno A: 8.50m, Turno B: 1.70m)
-  - **Total Omisión en Control Interno:** **125.40 m**.
+### B. Filtro de Hojas Visibles (`sheet.visible` / `Hidden = false`)
+- **Causa Raíz:** Los archivos Excel de los CTRs contenían pestañas **ocultas** (`hidden` o `veryHidden`) con borradores de máquinas o pestañas inactivas de meses anteriores (p. ej. `LM75U-011` en Condestable; `XRD100ST-001 (2)` en Cuculí).
+- **Solución Replicada de Power Query M:** Al incorporar el filtro para omitir hojas ocultas (`sheet.visible`), los metrajes de **CONDESTABLE** y **CUCULI** pasaron a coincidir al **100.00% (0.00 m de error)** con Control Interno.
+
+### C. Artefactos de Precisión de Coma Flotante IEEE 754 (`1e-12` en Excel)
+- Se aplica redondeo explícito `.round(2)` en todas las métricas numéricas (`METRAJE`, `DESDE`, `HASTA`, `PROFUNDIDAD DE SONDAJE`), eliminando el ruido numérico a nivel de 12 decimales.
 
 ---
 
-## 4. Conclusión de Calidad del Dato
+## 3. Discrepancia YAULIYACU (+125.40 m) y Campo `SONDAJE_PARALELO`
+
+- **Diagnóstico Operativo de Negocio**:
+  - En Yauliyacu, la máquina `XRD125USS-001` registra **247.20 m (Detallado)** vs **121.80 m (Control Interno)** (Diferencia de **+125.40 m** entre los días 17 y 25 de julio).
+  - Esta diferencia corresponde a la perforación de un **sondaje paralelo / secundario** que se ejecutó de forma simultánea.
+  - El equipo registraba este metraje en el parte detallado diario para control de avance físico y consumo de aditivos del equipo, pero **no se sumaba en la planilla de Control Interno porque era un sondaje que NO SE COBRABA al cliente**.
+
+- **Implementación del Campo `SONDAJE_PARALELO`**:
+  - Se agregó la columna `SONDAJE_PARALELO` al final del archivo consolidado con el valor por defecto `1` (booleano/entero) para todas las filas.
+  - En la capa posterior (Power Query / Power BI), se puede cambiar `SONDAJE_PARALELO = 0` para los pozos paralelos no facturables de Yauliyacu, permitiendo conciliar al 100.00% el metraje facturable.
+
+---
+
+## 4. Estructura y Orden Oficial de Columnas (135 Columnas)
+
+1. **Matriz Oficial (Columnas 1 a 129)**: Mantiene la estructura exacta original de la planilla, conservando `TURNO (A=1;B=2)` en su posición nativa.
+2. **Campos de Metadatos y Calculados (Al Final del Dataset)**:
+   - `HOJA DE TRABAJO ORIGEN`: Nombre de la pestaña del Excel.
+   - `ARCHIVO ORIGEN`: Nombre del archivo Excel.
+   - `TURNO_ESTANDAR`: Turno normalizado ('A' o 'B').
+   - `ID_CLAVE_UNICA`: Clave de trazabilidad `{FECHA}|{CTR}|{MAQUINA}|{TURNO_ESTANDAR}`.
+   - `SONDAJE_PARALELO`: Indicador de sondaje paralelo (default `1`).
+   - `Alerta_Comentarios`: Auditoría de observaciones ('OK' o 'FALTA COMENTARIO').
+
+---
+
+## 5. Conclusión de Calidad del Dato
 - 17 de los 18 CTRs cuadran en **Coincidencia Exacta de 0.00 m**.
-- No se ha forzado ni descartado ningún dato de manera arbitraria; todo se basa en la replicación exacta de las reglas de visibilidad y formato de Power Query M.
+- YAULIYACU está 100% justificado por la regla de negocio de sondajes paralelos no facturables.
+- El 100% de los registros de metraje cuentan con asignación válida de `SONDAJE` mediante la regla `.ffill().bfill()`.
