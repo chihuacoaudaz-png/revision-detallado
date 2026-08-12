@@ -1,134 +1,69 @@
 let
-    // =========================================================================
     // 1. CARGA DE ARCHIVO Y MAESTRO DE MÁQUINAS SAP
-    // =========================================================================
-    RutaBase = "C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Rockdrill_Control_Operaciones",
-    RutaCI = RutaBase & "\00_Control_Interno",
+    RutaBase = "C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones",
+    RutaCI = RutaBase & "\00_Control_Interno\RD.402.P.01.F.04  Consolidado de Avance Julio.xlsx",
     RutaMaestro = RutaBase & "\Maestro_Maquinas\Maestros_Maquinas.xlsx",
     
-    // Carga de Excepciones de Máquinas desde Maestro
     MaestroBin = try File.Contents(RutaMaestro) otherwise null,
     MaestroWB = if MaestroBin <> null then Excel.Workbook(MaestroBin, null, true) else null,
     BusquedaHoja = if MaestroWB <> null then Table.SelectRows(MaestroWB, each Text.Contains(Text.Upper([Name]), "EXEP") or Text.Contains(Text.Upper([Name]), "EXCEP")) else null,
     HojaExcepciones = if BusquedaHoja <> null and Table.RowCount(BusquedaHoja) > 0 then BusquedaHoja{0}[Data] else null,
-    PromotedExcepciones = if HojaExcepciones <> null then try Table.PromoteHeaders(HojaExcepciones, [PromoteAllScalars=true]) otherwise #table({"CTR", "Nombre Erroneo", "Nombre Oficial"}, {}) else #table({"CTR", "Nombre Erroneo", "Nombre Oficial"}, {}),
+    PromotedExcepciones = if HojaExcepciones <> null then try Table.PromoteHeaders(HojaExcepciones, [PromoteAllScalars=true]) otherwise #table({"Nombre Erroneo", "Nombre Oficial"}, {}) else #table({"Nombre Erroneo", "Nombre Oficial"}, {}),
     
-    MaestroTextosLimpios = if Table.HasColumns(PromotedExcepciones, {"CTR", "Nombre Erroneo", "Nombre Oficial"}) then 
-        Table.TransformColumns(PromotedExcepciones, {
-            {"CTR", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text},
-            {"Nombre Erroneo", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text},
-            {"Nombre Oficial", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text}
-        })
-    else if Table.HasColumns(PromotedExcepciones, {"Nombre Erroneo", "Nombre Oficial"}) then 
+    MaestroLimpiado = if Table.HasColumns(PromotedExcepciones, {"Nombre Erroneo", "Nombre Oficial"}) then 
         Table.TransformColumns(PromotedExcepciones, {
             {"Nombre Erroneo", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text},
             {"Nombre Oficial", each Text.Upper(Text.Trim(Text.From(_ ?? ""))), type text}
         })
-    else #table({"CTR", "Nombre Erroneo", "Nombre Oficial"}, {}),
-    
-    MaestroLimpiado = if Table.HasColumns(MaestroTextosLimpios, {"CTR", "Nombre Erroneo"}) then
-        Table.Distinct(MaestroTextosLimpios, {"CTR", "Nombre Erroneo"})
-    else
-        Table.Distinct(MaestroTextosLimpios, {"Nombre Erroneo"}),
+    else #table({"Nombre Erroneo", "Nombre Oficial"}, {}),
 
-    // Búsqueda del archivo Control Interno
-    ContenidoCarpetaCI = try Folder.Contents(RutaCI) otherwise null,
-    FiltroArchivosCI = if ContenidoCarpetaCI <> null then Table.SelectRows(ContenidoCarpetaCI, each Text.EndsWith(Text.Upper([Name]), ".XLSX") and not Text.StartsWith([Name], "~$")) else null,
-    ColFechaModCI = if FiltroArchivosCI <> null then List.First(List.Select(Table.ColumnNames(FiltroArchivosCI), each Text.Contains(Text.Upper(_), "DATE") or Text.Contains(Text.Upper(_), "FECHA")), null) else null,
-    SortArchivosCI = if FiltroArchivosCI <> null and Table.RowCount(FiltroArchivosCI) > 0 then (if ColFechaModCI <> null then Table.ReverseRows(Table.Sort(FiltroArchivosCI, {ColFechaModCI})) else FiltroArchivosCI) else null,
-    ArchivoCI = if SortArchivosCI <> null and Table.RowCount(SortArchivosCI) > 0 then SortArchivosCI{0}[Content] else null,
+    // 2. LECTURA ADAPTATIVA DE HOJAS DIARIAS (26.06 a 25.07)
+    CIBin = File.Contents(RutaCI),
+    CIWB = Excel.Workbook(CIBin, null, true),
+    HojasDiarias = Table.SelectRows(CIWB, each [Kind] = "Sheet" and Text.Length([Name]) = 5 and Text.Middle([Name], 2, 1) = "."),
     
-    // Carga dual (Soporta archivo plano 'BASE DE DATOS' / 'BD' / '00_CONTROL_INTERNO' o formato multi-hoja diario '26.06', '27.06', etc.)
-    WorkbookCI = if ArchivoCI <> null then Excel.Workbook(Binary.Buffer(ArchivoCI), null, true) else null,
-    HojaBDDirecta = if WorkbookCI <> null then Table.SelectRows(WorkbookCI, each Text.Upper([Name]) = "BASE DE DATOS" or Text.Upper([Name]) = "BD" or Text.Upper([Name]) = "00_CONTROL_INTERNO") else null,
-    
-    DataRawCI = if HojaBDDirecta <> null and Table.RowCount(HojaBDDirecta) > 0 then 
-        Table.PromoteHeaders(HojaBDDirecta{0}[Data], [PromoteAllScalars=true])
-    else if WorkbookCI <> null then
+    ProcesarHojas = Table.AddColumn(HojasDiarias, "TablaExtraida", each 
         let
-            HojasDiarias = Table.SelectRows(WorkbookCI, each [Kind] = "Sheet" and Text.Contains([Name], ".")),
-            ProcesarHojas = Table.AddColumn(HojasDiarias, "TablaExtraida", (sheetRec) =>
-                try (
-                    let
-                        rawSheet = sheetRec[Data],
-                        numRows = Table.RowCount(rawSheet),
-                        cutSheet = if numRows >= 9 then Table.Skip(rawSheet, 8) else null,
-                        
-                        colsOrig = if cutSheet <> null then Table.ColumnNames(cutSheet) else {},
-                        headersNuevos = {"CTR", "APLICACION", "MAQUINA_RAW", "DIAS_TRABAJADOS", "SE_PERFORO", "DIAS_AVANCE", "METRAJE_CI"},
-                        pairsToRename = List.FirstN(List.Zip({colsOrig, headersNuevos}), List.Min({List.Count(colsOrig), List.Count(headersNuevos)})),
-                        
-                        renamed = if cutSheet <> null then Table.RenameColumns(cutSheet, pairsToRename, MissingField.Ignore) else null,
-                        sinHeaderRow = if renamed <> null then Table.Skip(renamed, 1) else null,
-                        
-                        replaceBlank = if sinHeaderRow <> null and Table.HasColumns(sinHeaderRow, "CTR") then Table.ReplaceValue(sinHeaderRow, "", null, Replacer.ReplaceValue, {"CTR"}) else sinHeaderRow,
-                        filledCTR = if replaceBlank <> null and Table.HasColumns(replaceBlank, "CTR") then Table.FillDown(replaceBlank, {"CTR"}) else replaceBlank,
-                        
-                        // Seleccionar estrictamente solo las columnas útiles
-                        cleanCols = if filledCTR <> null then Table.SelectColumns(filledCTR, {"CTR", "APLICACION", "MAQUINA_RAW", "DIAS_TRABAJADOS", "SE_PERFORO", "DIAS_AVANCE", "METRAJE_CI"}, MissingField.Ignore) else null,
-                        
-                        // Determinar fecha de la hoja (ej. '26.06' -> #date(2026, 6, 26))
-                        sheetName = sheetRec[Name],
-                        partes = Text.Split(sheetName, "."),
-                        dayNum = try Number.From(partes{0}) otherwise 1,
-                        monthNum = try Number.From(partes{1}) otherwise 6,
-                        yearNum = 2026,
-                        fechaHoja = try #date(yearNum, monthNum, dayNum) otherwise null,
-                        
-                        addFecha = if cleanCols <> null then Table.AddColumn(cleanCols, "FECHA", each fechaHoja, type date) else null,
-                        
-                        filtrado = if addFecha <> null then Table.SelectRows(addFecha, each 
-                            let
-                                cVal = Record.FieldOrDefault(_, "CTR", null),
-                                mVal = Record.FieldOrDefault(_, "MAQUINA_RAW", null),
-                                strC = Text.Clean(Text.Upper(Text.From(cVal ?? ""))),
-                                strM = Text.Clean(Text.Upper(Text.From(mVal ?? "")))
-                            in
-                                cVal <> null and strC <> "" and not Text.Contains(strC, "TOTAL") and not Text.Contains(strC, "CONTRATO") and not Text.Contains(strC, "SISTEMA") and not Text.Contains(strC, "SDR")
-                                and mVal <> null and strM <> "" and not Text.Contains(strM, "EQUIPO") and strM <> "SUB" and strM <> "SUP"
-                        ) else null
-                    in
-                        filtrado
-                ) otherwise null, type table
+            hNombre = [Name],
+            hData = [Data],
+            diaStr = Text.Start(hNombre, 2),
+            mesStr = Text.End(hNombre, 2),
+            fechaISO = try Date.From("2026-" & mesStr & "-" & diaStr) otherwise null,
+            
+            Filas9 = Table.Skip(hData, 9),
+            PosTotal = List.PositionOf(Table.Column(Filas9, "Column3"), "TOTAL AVANCE", Occurrence.First, (val, criteria) => Text.Contains(Text.Upper(Text.From(val ?? "")), "TOTAL AVANCE")),
+            Acotada = if PosTotal <> -1 then Table.FirstN(Filas9, PosTotal) else Filas9,
+            
+            RenombrarColsRaw = Table.RenameColumns(Acotada, {
+                {"Column1", "CTR_RAW"}, {"Column3", "MAQUINA_RAW"}, {"Column5", "SE_PERFORO"}, {"Column7", "METRAJE_CI"}
+            }, MissingField.Ignore),
+            
+            ReplaceCTRBlank = Table.ReplaceValue(RenombrarColsRaw, each [CTR_RAW], each 
+                let 
+                    txt = Text.Upper(Text.Trim(Text.From([CTR_RAW] ?? "")))
+                in 
+                    if List.Contains({"CONTRATO", "EQUIPO", "AVANCE", "SISTEMA", "TOTAL", "SDR", ""}, txt) then null else [CTR_RAW], 
+                Replacer.ReplaceValue, {"CTR_RAW"}),
+                
+            FillDownCTR = Table.FillDown(ReplaceCTRBlank, {"CTR_RAW"}),
+            
+            FiltrarMaquinas = Table.SelectRows(FillDownCTR, each 
+                let 
+                    mTxt = Text.Upper(Text.Trim(Text.From([MAQUINA_RAW] ?? "")))
+                in 
+                    mTxt <> "" and mTxt <> "EQUIPO" and mTxt <> "SUB" and mTxt <> "SUP"
             ),
-            validos = Table.SelectRows(ProcesarHojas, each [TablaExtraida] <> null),
-            consolidadoHojas = if Table.RowCount(validos) > 0 then Table.Combine(validos[TablaExtraida]) else #table({}, {})
+            
+            AddFecha = Table.AddColumn(FiltrarMaquinas, "FECHA", each fechaISO, type date)
         in
-            consolidadoHojas
-    else #table({}, {}),
-    
-    // =========================================================================
-    // 2. LIMPIEZA DE CAMPOS BASE Y MAPEO DE DICCIONARIO CONTROL INTERNO
-    // =========================================================================
-    RenombrarCI = Table.RenameColumns(DataRawCI, {
-        {"CONTRATO", "CTR"}, {"CONTRATOS", "CTR"}, {"PROYECTO", "CTR"}, {"UNIDAD", "CTR"}, {"CLIENTE", "CTR"},
-        {"MAQUINA", "MAQUINA_RAW"}, {"EQUIPO", "MAQUINA_RAW"}, {"SDR", "MAQUINA_RAW"},
-        {"TURNO", "TURNO (A=1;B=2)"}, {"TURNO_RAW", "TURNO (A=1;B=2)"},
-        {"GRUPO", "GRUPO"},
-        {"MES", "MES"}, {"FECHA", "FECHA"}, {"SONDAJE", "SONDAJE"},
-        {"DESDE", "DESDE"}, {"HASTA", "HASTA"}, {"METRAJE", "METRAJE_CI"},
-        {"METRAJE_CI", "METRAJE_CI"}, {"METROS", "METRAJE_CI"}, {"METRAJE TOTAL", "METRAJE_CI"}
-    }, MissingField.Ignore),
-    
-    // Garantizar existencia de columnas obligatorias
-    EnsureCTR = if Table.HasColumns(RenombrarCI, "CTR") then RenombrarCI else Table.AddColumn(RenombrarCI, "CTR", each "SIN_CTR", type text),
-    EnsureFecha = if Table.HasColumns(EnsureCTR, "FECHA") then EnsureCTR else Table.AddColumn(EnsureCTR, "FECHA", each null, type date),
-    EnsureMaq = if Table.HasColumns(EnsureFecha, "MAQUINA_RAW") then EnsureFecha else Table.AddColumn(EnsureFecha, "MAQUINA_RAW", each "SIN_MAQUINA", type text),
-    EnsureMet = if Table.HasColumns(EnsureMaq, "METRAJE_CI") then EnsureMaq else Table.AddColumn(EnsureMaq, "METRAJE_CI", each 0.0, type number),
-    
-    // Filtrar filas de metraje válido o nulo no deseado
-    FiltrarValidos = Table.SelectRows(EnsureMet, each 
-        [FECHA] <> null and 
-        [CTR] <> null and 
-        Text.Trim(Text.From([CTR])) <> "" and 
-        not Text.Contains(Text.Upper(Text.From([CTR])), "TOTAL")
+            AddFecha
     ),
-
-    // =========================================================================
-    // 3. ESTANDARIZACIÓN DE NOMBRES DE CONTRATO (CTR) Y MÁQUINA
-    // =========================================================================
-    CleanCTR = Table.TransformColumns(FiltrarValidos, {
-        {"CTR", (c) => 
+    
+    ConsolidadoCI = Table.Combine(ProcesarHojas[TablaExtraida]),
+    
+    // 3. ESTANDARIZACIÓN DE CTR Y MÁQUINA CON MAESTRO SAP
+    CleanCTR = Table.TransformColumns(ConsolidadoCI, {
+        {"CTR_RAW", (c) => 
             let
                 c1 = Text.Upper(Text.Clean(Text.Trim(Text.From(c ?? "")))),
                 c2 = if c1 = "CUCULII" or c1 = "CUCULÍ" then "CUCULI" 
@@ -138,57 +73,43 @@ let
             in
                 c2, type text}
     }),
-            
-    ExcluirColquijirca = Table.SelectRows(CleanCTR, each [CTR] <> "COLQUIJIRCA"),
+    RenameCTRCol = Table.RenameColumns(CleanCTR, {{"CTR_RAW", "CTR"}}),
+    ExcluirColquijirca = Table.SelectRows(RenameCTRCol, each [CTR] <> "COLQUIJIRCA"),
     CleanMaquinaRaw = Table.AddColumn(ExcluirColquijirca, "MAQUINA_TEMP", each Text.Upper(Text.Clean(Text.Trim(Text.From([MAQUINA_RAW] ?? "")))), type text),
 
-    // CRUCE CON MAESTRO SAP PARA NORMALIZAR NOMBRE DE MÁQUINA EN CONTROL INTERNO
-    HasCTRInMaestro = Table.HasColumns(MaestroLimpiado, {"CTR"}),
-    #"Merge SAP" = if HasCTRInMaestro then 
-        Table.NestedJoin(CleanMaquinaRaw, {"CTR", "MAQUINA_TEMP"}, MaestroLimpiado, {"CTR", "Nombre Erroneo"}, "MatchSAP", JoinKind.LeftOuter)
-    else
-        Table.NestedJoin(CleanMaquinaRaw, {"MAQUINA_TEMP"}, MaestroLimpiado, {"Nombre Erroneo"}, "MatchSAP", JoinKind.LeftOuter),
-        
+    // Cruce con Maestro SAP
+    #"Merge SAP" = Table.NestedJoin(CleanMaquinaRaw, {"MAQUINA_TEMP"}, MaestroLimpiado, {"Nombre Erroneo"}, "MatchSAP", JoinKind.LeftOuter),
     #"Expandir SAP" = Table.ExpandTableColumn(#"Merge SAP", "MatchSAP", {"Nombre Oficial"}, {"Nombre Oficial"}),
     #"Reemplazar Maquina SAP" = Table.AddColumn(#"Expandir SAP", "MAQUINA", each if [Nombre Oficial] <> null and [Nombre Oficial] <> "" then [Nombre Oficial] else [MAQUINA_TEMP]),
     #"Limpiar Cols SAP" = Table.RemoveColumns(#"Reemplazar Maquina SAP", {"MAQUINA_TEMP", "Nombre Oficial"}),
 
-    // =========================================================================
-    // 4. FÓRMULA DE TURNO ESTÁNDAR ('A' / 'B') BASADA EN DIAS_TRABAJADOS / POSICIÓN
-    // =========================================================================
-    #"Turno Estandarizado CI" = Table.AddColumn(#"Limpiar Cols SAP", "TURNO_ESTANDAR", (r) =>
-        let
-            diasTrab = Record.FieldOrDefault(r, "DIAS_TRABAJADOS", null),
-            diasTrabStr = Text.Trim(Text.From(diasTrab ?? "")),
-            rawT = Text.Clean(Text.Upper(Text.From(if Table.HasColumns(#"Limpiar Cols SAP", "TURNO (A=1;B=2)") then Record.FieldOrDefault(r, "TURNO (A=1;B=2)", "") else ""))),
-            rawG = Text.Clean(Text.Upper(Text.From(if Table.HasColumns(#"Limpiar Cols SAP", "GRUPO") then Record.FieldOrDefault(r, "GRUPO", "") else "")))
-        in
-            if diasTrabStr = "1" or diasTrabStr = "1.0" or diasTrabStr = "1,0" then "A"
-            else if diasTrabStr = "" or diasTrabStr = "0" or diasTrabStr = "null" then "B"
-            else if List.Contains({"1", "1.0", "1.00", "1,0", "D", "DIA", "G1"}, rawT) or List.Contains({"1", "1.0", "1.00"}, rawG) then "A"
-            else if List.Contains({"2", "2.0", "2.00", "2,0", "N", "NOCHE", "G2"}, rawT) or List.Contains({"2", "2.0", "2.00"}, rawG) then "B"
-            else "A", type text),
-    
-    // =========================================================================
-    // 5. GENERACIÓN DE ID_CLAVE_UNICA CON MÁQUINA OFICIAL SAP Y TURNO ESTÁNDAR
-    // =========================================================================
-    IDClaveAgregado = Table.AddColumn(#"Turno Estandarizado CI", "ID_CLAVE_UNICA", each 
-        (try Date.ToText(Date.From([FECHA]), "yyyy-MM-dd") otherwise "SIN_FECHA") & "|" & Text.Upper([CTR]) & "|" & [MAQUINA] & "|" & [TURNO_ESTANDAR], type text),
+    // 4. LÓGICA DE TURNOS HÍBRIDA EN CONTROL INTERNO (1ª aparición -> 'A', 2ª -> 'B')
+    AgruparPorMaquina = Table.Group(#"Limpiar Cols SAP", {"FECHA", "MAQUINA"}, {
+        {"FilasConTurno", (subTable) => 
+            let
+                Indexado = Table.AddIndexColumn(subTable, "Secuencia", 1, 1, Int64.Type),
+                TurnoStd = Table.AddColumn(Indexado, "TURNO_ESTANDAR", each if [Secuencia] = 1 then "A" else "B", type text)
+            in
+                TurnoStd, type table}
+    }),
+    ExpandirTabla = Table.Combine(AgruparPorMaquina[FilasConTurno]),
 
-    // Seleccionar de forma limpia y exclusiva las 9 columnas finales requeridas
-    ColsFinales = {"FECHA", "CTR", "APLICACION", "MAQUINA_RAW", "MAQUINA", "SE_PERFORO", "TURNO_ESTANDAR", "METRAJE_CI", "ID_CLAVE_UNICA"},
+    // 5. CLAVE ÚNICA ESTRICTA: {FECHA}|{MAQUINA}|{TURNO_ESTANDAR}
+    IDClaveAgregado = Table.AddColumn(ExpandirTabla, "ID_CLAVE_UNICA", each 
+        (try Date.ToText(Date.From([FECHA]), "yyyy-MM-dd") otherwise "SIN_FECHA") & "|" & [MAQUINA] & "|" & [TURNO_ESTANDAR], type text),
+
+    ColsFinales = {"FECHA", "CTR", "MAQUINA_RAW", "MAQUINA", "SE_PERFORO", "TURNO_ESTANDAR", "METRAJE_CI", "ID_CLAVE_UNICA"},
     FiltrarColsFinales = Table.SelectColumns(IDClaveAgregado, ColsFinales, MissingField.Ignore),
 
     TypeTexto = Table.TransformColumns(FiltrarColsFinales, {
         {"CTR", (v) => try Text.Trim(Text.From(v)) otherwise null, type text},
-        {"APLICACION", (v) => try Text.Trim(Text.From(v)) otherwise null, type text},
         {"MAQUINA_RAW", (v) => try Text.Trim(Text.From(v)) otherwise null, type text},
         {"MAQUINA", (v) => try Text.Trim(Text.From(v)) otherwise null, type text},
         {"SE_PERFORO", (v) => try Text.Trim(Text.From(v)) otherwise null, type text},
         {"TURNO_ESTANDAR", (v) => try Text.Trim(Text.From(v)) otherwise null, type text},
         {"ID_CLAVE_UNICA", (v) => try Text.Trim(Text.From(v)) otherwise null, type text}
     }),
-    TypeNum = Table.TransformColumns(TypeTexto, {{"METRAJE_CI", (v) => try Number.From(v) otherwise 0.0, type number}}),
+    TypeNum = Table.TransformColumns(TypeTexto, {{"METRAJE_CI", (v) => try Number.From(Text.Replace(Text.Trim(Text.From(v)), ",", ".")) otherwise 0.0, type number}}),
     TypeFecha = Table.TransformColumnTypes(TypeNum, {{"FECHA", type date}})
 in
     TypeFecha
