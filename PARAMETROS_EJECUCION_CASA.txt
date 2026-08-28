@@ -1,0 +1,96 @@
+================================================================================
+ROCKDRILL GROUP - GUIA DE PARAMETROS Y EJECUCION REMOTA / CASA
+PROYECTO: Sistema Unificado de Business Intelligence y Analitica de Perforacion
+REPOSITORIO: Detallados (Rockdrill Control Operaciones)
+FECHA DE GENERACION: 2026-08-28
+================================================================================
+
+--------------------------------------------------------------------------------
+1. REQUISITOS PREVIOS EN TU COMPUTADORA DE CASA
+--------------------------------------------------------------------------------
+A) Python 3.10 o superior (Recomendado: Python 3.11 o 3.12).
+B) Microsoft Excel (para abrir el Consolidador de Power Query) o Power BI Desktop.
+C) Git instalado.
+
+--------------------------------------------------------------------------------
+2. PASO A PASO PARA CLONAR E INSTALAR
+--------------------------------------------------------------------------------
+1. Abre tu terminal (PowerShell o Git Bash) y clona el repositorio:
+   git clone <URL_DEL_REPOSITORIO_GIT> Detallados
+   cd Detallados
+
+2. Crea y activa un entorno virtual (opcional pero recomendado):
+   python -m venv venv
+   .\venv\Scripts\activate      # En Windows PowerShell
+   # source venv/bin/activate   # En Linux / Mac
+
+3. Instala las dependencias necesarias:
+   pip install -r requirements.txt
+   pip install openpyxl pandas numpy python-calamine reportlab dulwich
+
+--------------------------------------------------------------------------------
+3. CONFIGURACION DE PARAMETROS DE RUTA (config.py)
+--------------------------------------------------------------------------------
+El proyecto viene preconfigurado en MODO_ENTORNO = "PORTABLE" / "AUTO".
+Si en tu casa la carpeta del proyecto esta en otra ruta (ej. D:\Rockdrill\Detallados),
+puedes abrir 'config.py' y verificar:
+
+- MODO_ENTORNO = "AUTO" (Detecta automaticamente 'Estructura base' dentro del proyecto)
+- RUTA_CUSTOM: Si usas OneDrive personal, especifica la ruta de tu carpeta aqui.
+
+--------------------------------------------------------------------------------
+4. EJECUCION DE LOS MOTORES DEL PROYECTO
+--------------------------------------------------------------------------------
+
+[A] EJECUTAR EL PIPELINE COMPLETO DE EXTRACCION Y RECONCILIACION:
+    python ejecutar_pipeline.py --export-star-schema
+
+    Que hace este comando?
+    1. Lee los 18 CTRs de 'Estructura base/Rockdrill_Control_Operaciones/CTR_*/02_Detallado/'.
+    2. Compila Control Interno desde '00_Control_Interno/RD.402.P.01.F.04...xlsx'.
+    3. Cruza turno por turno (ID_CLAVE_UNICA = YYYYMMDD-MAQUINA-TURNO).
+    4. Genera los entregables en la carpeta 'output/':
+       - output/detallados_consolidados.xlsx
+       - output/control_interno/control_interno_compilado.xlsx
+       - output/matriz_comparativa_metrajes.xlsx
+       - output/powerbi_star_schema/ (Fact_Metraje, Fact_Tiempos, Dims)
+
+[B] EJECUTAR EL AGENTE AUDITOR DE SENTIDO COMUN:
+    python src/auditor_sentido_comun.py
+
+    Que valida este comando?
+    1. Que la maquina AMERICANA XRD50U-002 tenga 100.00% de coincidencia exacta (0.00m).
+    2. Que AMERICANA XRD50USS-001 reporte la omision exacta de -35.00m.
+    3. Que CATALINA HUANCA este extraida en Columna J.
+    4. Emite el veredicto oficial: APROBADO_CON_CUADRATURA_COMPROBADA.
+
+[C] DISTRIBUIR NUEVOS DETALLADOS DE UN CICLO NUEVO:
+    Si descargas nuevos detallados en la carpeta 'distribucion/', ejecuta:
+    python src/distribuir_y_limpiar_detallados.py
+    (Borra los archivos viejos y copia los nuevos en cada CTR_*/02_Detallado/).
+
+--------------------------------------------------------------------------------
+5. CONFIGURACION Y ACTUALIZACION DEL EXCEL CON POWER QUERY NATIVO
+--------------------------------------------------------------------------------
+1. Abre el archivo:
+   output/CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx
+
+2. Para actualizar los datos:
+   Haz clic en: Pestaña 'Datos' -> 'Actualizar todo' (o presiona Ctrl + Alt + F5).
+
+3. Para cambiar la ruta del origen en Power Query:
+   - Ve a: Datos -> Consultas y conexiones -> Editar en Power Query.
+   - En el panel izquierdo, selecciona el parametro 'RutaOrigenLocal' y escribe
+     la ruta donde clonaste la carpeta 'Estructura base\Rockdrill_Control_Operaciones'.
+   - Haz clic en 'Cerrar y aplicar'.
+
+--------------------------------------------------------------------------------
+6. ARCHIVOS CLAVE DE CONSULTA Y CONTEXTO
+--------------------------------------------------------------------------------
+- docs/00_MASTER_INDEX.md: Indice maestro con enlaces a toda la documentacion.
+- docs/05_GUIA_CONSTRUCCION_EXCEL_POWERQUERY_Y_MCP.md: Guia detallada de Power Query M.
+- docs/06_REGLA_DE_NEGOCIO_CONCILIACION_Y_AUDITORIA_SENTIDO_COMUN.md: Axioma de conciliacion 1-a-1.
+- docs/07_RESUMEN_EJECUTIVO_Y_DECISIONES_ARQUITECTURA.md: Bitacora de arquitectura.
+- docs/07_HISTORIAL_Y_CONTEXTO_CONVERSACION.jsonl: Historial integro de la conversacion.
+- power_query_m/CONSULTAS_POWERQUERY_M_PARAMETRIZADAS.txt: Codigo M raw para copiar y pegar.
+================================================================================

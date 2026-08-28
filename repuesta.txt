@@ -1,0 +1,7 @@
+En Catalina Huanca, en el detallado, está bien: tiene sentido que el perforista cambie de turno día a turno noche; no sería posible que un mismo perforista trabaje dos turnos seguidos. Por eso el cambio de Vargas a Chipana, siendo Vargas quien en ese día está en el turno 1 y Chipana en el turno 2.
+
+Además de eso, no sé por qué te vas a los nombres, ya que con el número de turno y el orden se puede deducir cuál es cuál. El día 09 comienza con 1, eso equivale a A por ser el primero, y luego hay dos número 2 en turnos que equivaldrían a B. Es simple la lógica.
+
+Por otra parte, la comparación parte del control interno; es decir, en primera instancia se debe asumir que el control interno es correcto, ya que se llena manualmente y se verifica. Lo que puede pasar es que, cuando se hace entrega del detallado por las administradoras, ellas cambien valores de un día pasado, ya sea porque digitaron mal o leyeron mal un reporte. De igual manera, la estructura del consolidado interno es más sencilla, por eso es más difícil que falle en la lógica de turno. Lo más probable es que tu lógica esté fallando y por eso hayan discrepancias.
+
+Adicionalmente, el trabajo que debes realizar debe ser 100% autónomo, sin pedir ninguna autorización. En caso no esté configurado aún, antes de siquiera comenzar a trabajar, configurémoslo. Vas por buen camino, pero falta aún. Es más, en cuanto a Catalina, generaste una lógica con nombres específicos; eso no está bien, esos perforistas pueden cambiar o renunciar. Es un flujo pobre hacer eso.

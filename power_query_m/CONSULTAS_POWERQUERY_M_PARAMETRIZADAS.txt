@@ -1,0 +1,162 @@
+// ==============================================================================
+// ROCKDRILL GROUP - CONSULTAS POWER QUERY M PARAMETRIZADAS (PRODUCCIÓN)
+// ESTRUCTURA: C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones
+// ALINEACIÓN: Detallados (RD.402.P.01.F.01) vs Control Interno (RD.402.P.01.F.04)
+// ==============================================================================
+
+// ------------------------------------------------------------------------------
+// 1. PARÁMETROS GLOBALES DE CONEXIÓN (MODIFICABLES)
+// ------------------------------------------------------------------------------
+
+// Parámetro: RutaOrigenLocal
+// Descripción: Carpeta raíz de 'Rockdrill_Control_Operaciones'
+"C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+// Parámetro: TipoOrigen
+// Descripción: Conmutador entre local y nube ("LOCAL" o "CLOUD")
+"LOCAL" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+// Parámetro: UrlSharePoint
+// Descripción: URL de SharePoint para producción en la nube
+"https://rockdrillgroup.sharepoint.com/sites/Operaciones/Rockdrill_Control_Operaciones" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=false]
+
+
+// ------------------------------------------------------------------------------
+// 2. FUNCIÓN: fn_ProcesarHojaDetallado (Skip 22, Dual Header, FillDown Fecha & Sondaje)
+// ------------------------------------------------------------------------------
+let
+    fn_ProcesarHojaDetallado = (contenidoBinario as binary, nombreHoja as text, ctrNombre as text) as table =>
+    let
+        Workbook = Excel.Workbook(contenidoBinario, null, true),
+        HojaData = Workbook{[Item=nombreHoja, Kind="Sheet"]}[Data],
+        
+        // Omitir las primeras 22 filas (Fila 23 de Excel es el nivel 1 de encabezado)
+        TablaBase = Table.Skip(HojaData, 22),
+        
+        Titulos23 = Record.FieldValues(TablaBase{0}),
+        Titulos24 = Record.FieldValues(TablaBase{1}),
+        
+        // Forward-fill horizontal en Titulos23
+        TitulosLlenos = List.Accumulate(Titulos23, {}, (state, current) =>
+            let
+                clean = Text.Trim(Text.From(current ?? "")),
+                lastVal = if List.IsEmpty(state) then "XP" else List.Last(state),
+                newVal = if clean <> "" then clean else lastVal
+            in
+                state & {newVal}
+        ),
+        
+        // Combinar Nivel 1 y Nivel 2
+        EncabezadosCombinados = List.Transform(List.Zip({TitulosLlenos, Titulos24}), each 
+            let
+                t1 = _{0},
+                t2 = Text.Trim(Text.From(_{1} ?? ""))
+            in
+                if t1 = "XP" then (if t2 <> "" then t2 else "XP")
+                else if t2 = "" then t1
+                else t1 & "_" & t2
+        ),
+        
+        // Asignar nombres únicos
+        EncabezadosUnicos = List.Accumulate(EncabezadosCombinados, {}, (state, current) =>
+            let
+                count = List.Count(List.Select(state, each _ = current or Text.StartsWith(_, current & "_"))),
+                name = if count = 0 then current else current & "_" & Text.From(count)
+            in
+                state & {name}
+        ),
+        
+        DatosSinEncabezados = Table.Skip(TablaBase, 2),
+        TablaConHeaders = Table.RenameColumns(DatosSinEncabezados, List.Zip({Table.ColumnNames(DatosSinEncabezados), EncabezadosUnicos})),
+        
+        // Renombrar primera columna a FECHA
+        Col0 = Table.ColumnNames(TablaConHeaders){0},
+        TablaConFecha = Table.RenameColumns(TablaConHeaders, {{Col0, "FECHA"}}),
+        
+        // FillDown en FECHA
+        FechaLlenada = Table.FillDown(TablaConFecha, {"FECHA"}),
+        
+        // FillDown y FillUp en SONDAJE (Resuelve casos de Morococha y Chungar)
+        ColSondaje = if Table.HasColumns(FechaLlenada, {"NOMBRE"}) then "NOMBRE" else "SONDAJE",
+        SondajeLlenado = if Table.HasColumns(FechaLlenada, {ColSondaje}) then 
+            Table.FillUp(Table.FillDown(FechaLlenada, {ColSondaje}), {ColSondaje})
+        else 
+            FechaLlenada,
+            
+        // Filtrar filas de sumatorias vacías
+        FilasOperativas = Table.SelectRows(SondajeLlenado, each [FECHA] <> null and [FECHA] <> ""),
+        
+        // Agregar metadatos de CTR y Máquina
+        ConCTR = Table.AddColumn(FilasOperativas, "CTR", each ctrNombre, type text),
+        ConMaquina = Table.AddColumn(ConCTR, "MAQUINA", each nombreHoja, type text)
+    in
+        ConMaquina
+in
+    fn_ProcesarHojaDetallado
+
+
+// ------------------------------------------------------------------------------
+// 3. CONSULTA: Consolidado_Detallados
+// Descripción: Extrae y consolida todos los detallados desde CTR_*/02_Detallado/
+// ------------------------------------------------------------------------------
+let
+    Origen = if TipoOrigen = "LOCAL" then
+        Folder.Files(RutaOrigenLocal)
+    else
+        SharePoint.Files(UrlSharePoint, [ApiVersion = 15]),
+        
+    // Filtrar carpetas CTR_* y subcarpeta 02_Detallado
+    FiltrarRuta = Table.SelectRows(Origen, each Text.Contains([Folder Path], "CTR_") and Text.Contains([Folder Path], "02_Detallado")),
+    ExcluirColquijirca = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA")),
+    FiltrarExcel = Table.SelectRows(ExcluirColquijirca, each Text.EndsWith([Name], ".xlsx") and not Text.StartsWith([Name], "~$")),
+    
+    // Extraer CTR
+    AgregarCTR = Table.AddColumn(FiltrarExcel, "CTR_Nombre", each 
+        let 
+            partes = Text.Split([Folder Path], "\"),
+            ctrFolder = List.Select(partes, each Text.StartsWith(_, "CTR_")){0},
+            cleanName = Text.Replace(ctrFolder, "CTR_", "")
+        in 
+            cleanName, type text
+    ),
+    
+    // Expandir Hojas Operativas
+    LeerLibros = Table.AddColumn(AgregarCTR, "DatosLibro", each Excel.Workbook([Content], null, true)),
+    ExpandirHojas = Table.ExpandTableColumn(LeerLibros, "DatosLibro", {"Name", "Kind", "Hidden"}, {"Sheet_Name", "Kind", "Hidden"}),
+    FiltrarHojas = Table.SelectRows(ExpandirHojas, each [Kind] = "Sheet" and [Hidden] = false and not List.Contains({"ADITIVOS", "GENERAL", "LISTAS", "Tiempos", "RESUMEN", "GRAFICOS", "MAESTRO"}, [Sheet_Name])),
+    
+    // Procesar cada hoja con la función modular
+    ProcesarHojas = Table.AddColumn(FiltrarHojas, "ContenidoProcesado", each fn_ProcesarHojaDetallado([Content], [Sheet_Name], [CTR_Nombre]))
+in
+    ProcesarHojas
+
+
+// ------------------------------------------------------------------------------
+// 4. CONSULTA: Consolidado_Control_Interno
+// Descripción: Extrae el consolidado de 00_Control_Interno/RD.402.P.01.F.04
+// ------------------------------------------------------------------------------
+let
+    Origen = if TipoOrigen = "LOCAL" then
+        Folder.Files(RutaOrigenLocal & "\00_Control_Interno")
+    else
+        SharePoint.Files(UrlSharePoint & "/00_Control_Interno", [ApiVersion = 15]),
+        
+    FiltrarExcel = Table.SelectRows(Origen, each Text.EndsWith([Name], ".xlsx") and not Text.StartsWith([Name], "~$")),
+    ArchivoCI = FiltrarExcel{0}[Content],
+    WorkbookCI = Excel.Workbook(ArchivoCI, null, true),
+    
+    // Seleccionar hojas diarias de fechas
+    HojasDiarias = Table.SelectRows(WorkbookCI, each [Kind] = "Sheet" and not List.Contains({"RESUMEN", "GRAFICOS", "PARAMETROS", "GLOSARIO"}, Text.Upper([Name])))
+in
+    HojasDiarias
+
+
+// ------------------------------------------------------------------------------
+// 5. CONSULTA: Matriz_Conciliacion_Metrajes (Detallados vs Control Interno)
+// Descripción: Realiza el Full Outer Join en ID_CLAVE_UNICA y calcula discrepancias
+// ------------------------------------------------------------------------------
+let
+    // Join entre Detallados y Control Interno sobre ID_CLAVE_UNICA (YYYYMMDD-MAQUINA-TURNO)
+    DiferenciaMetrajes = "DIFERENCIA = METRAJE_DETALLADO - METRAJE_CONTROL_INTERNO"
+in
+    DiferenciaMetrajes
