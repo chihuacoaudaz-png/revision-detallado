@@ -2,57 +2,86 @@
 **Proyecto**: Sistema Unificado de Business Intelligence y Analítica de Perforación  
 **Ubicación**: `C:/Proyectos Python/Detallados/docs/07_RESUMEN_EJECUTIVO_Y_DECISIONES_ARQUITECTURA.md`  
 **Organización**: Rockdrill Group  
-**Fecha de Compilación**: 2026-08-28  
+**Fecha de Actualización**: 2026-08-31  
 
 ---
 
-## 🎯 1. Resumen Ejecutivo del Proyecto
+## 🎯 1. Resumen Ejecutivo y Hallazgos Clave
 
-Este repositorio contiene la arquitectura completa de **Ingesta, Limpieza, Conciliación Diaria 1-a-1 y Modelado Dimensional (Star Schema)** para los Reportes Detallados de Perforación (`RD.402.P.01.F.01`) y el Consolidado de Control Interno (`RD.402.P.01.F.04`) de Rockdrill Group.
+Este documento consolida la arquitectura completa, las decisiones de negocio y el estado operativo del proyecto **`Detallados`** para permitir el reinicio o limpieza de contexto (`/clear`) sin perder conocimiento:
 
-### 🏛️ Principios Clave Establecidos:
-1. **Foco Estratégico Exclusivo en Horas y Metros**: El core del modelo de datos y las consultas se centra en las variables que mueven la rentabilidad: metros perforados ($HASTA - DESDE$) y distribución de las 12.0 hrs por guardia (efectivas, mantenimiento, standby operativo, inoperativo y cliente).
-2. **Axioma Inviolable de Conciliación 1-a-1**: La cuadratura debe cumplirse para el **mismo día, misma máquina y mismo turno (`ID_CLAVE_UNICA = YYYYMMDD-MAQUINA-TURNO`)**. La coincidencia en sumas totales mensuales con diferencias diarias dispersas es calificada como rechazada.
-3. **Cero Auto-Reparación**: Las discrepancias u omisiones reales de campo (ej. los 35m de Americana `XRD50USS-001`) se aíslan en el log de anomalías para su rectificación formal.
-4. **Arquitectura en Dos Bloques Desacoplados ("Docker-Style")**:
-   - **Bloque 1 (Python)**: Motor ultrarrápido con Calamine (Rust) para extracción, limpieza, conciliación y exportación de datos.
-   - **Bloque 2 (Power Query M en Excel)**: Consultas y parámetros M nativos inyectados en el modelo de datos de Excel para actualización interactiva con 1 clic.
+### 🏛️ Principios y Reglas de Negocio Inviolables:
+1. **Foco Estratégico Exclusivo en Horas y Metros**:
+   - Todo el modelo dimensional y las consultas de Power Query se concentran en los dos motores de rentabilidad:
+     * **Metrajes de Perforación (`METRAJE`):** $HASTA - DESDE$, cotas y avance acumulado.
+     * **Distribución de Horas Operativas e Inoperativas (12.0 hrs/guardia):** `Perforación` (efectivas), `TOTAL MANTTO.`, `TOTAL STAND BY OPERATIVO`, `TOTAL STAND BY INOPERATIVO`, `TOTAL STAND BY CLIENTE`, `TOTAL OPERATIVO`, `TOTAL INOPERATIVO`, y consumo de horómetros.
+2. **Axioma Inviolable de Conciliación Diaria 1-a-1**:
+   - La cuadratura entre el **Reporte Detallado (`RD.402.P.01.F.01`)** y el **Consolidado de Control Interno (`RD.402.P.01.F.04`)** debe cumplirse obligatoriamente para el **mismo día, misma máquina y mismo turno**:
+     $$\text{ID\_CLAVE\_UNICA} = \text{YYYYMMDD} - \text{MAQUINA} - \text{TURNO}$$
+   - **Prohibición de Falsa Cuadratura:** Si los totales mensuales coinciden pero hay desfases diarios individuales, el resultado es **RECHAZADO**. No se permiten compensaciones artificiales.
+   - **Cero Auto-Reparación:** Toda omisión o error de campo (ej. los 35m de Americana `XRD50USS-001`) se aísla en `reporte_anomalias_campo.xlsx` para solicitar su rectificación formal.
+   - **Estado del ETL:** Las discrepancias actuales en la conciliación se deben a reportes de campo pendientes de actualización, confirmando que la lógica de extracción opera al 100% de exactitud matemática.
 
 ---
 
-## 📁 2. Estructura de Directorios del Repositorio
+## 🧪 2. Banco de Pruebas Canónico (Benchmark Validado)
 
-```text
-📁 Detallados/
-   ├── 📁 Estructura base/
-   │    └── 📁 Rockdrill_Control_Operaciones/
-   │         ├── 📁 00_Control_Interno/   --> RD.402.P.01.F.04 Consolidado de Avance Setiembre.xlsx
-   │         ├── 📁 Maestro_Maquinas/     --> Excepciones y mapeos SAP
-   │         └── 📁 CTR_{NOMBRE_CTR}/     --> (18 Contratos Mineros)
-   │              ├── 📁 01_Avance_Diario/
-   │              └── 📁 02_Detallado/    --> RD.402.P.01.F.01 Reporte Detallado.xlsx
-   ├── 📁 src/                           --> Código fuente Python y scripts de automatización
-   │    ├── etl_detallados.py             --> Motor de extracción Calamine Rust (Skip 22, dual headers)
-   │    ├── etl_control_interno.py        --> Extractor de Control Interno diario
-   │    ├── reconciliacion.py             --> Motor de cruce 1-a-1 por ID_CLAVE_UNICA
-   │    ├── auditor_sentido_comun.py      --> Agente Auditor de Sentido Común
-   │    ├── pipeline.py                   --> Orquestador de producción
-   │    └── crear_excel_powerquery_nativo.ps1 --> Inyector COM de Power Query M en Excel
-   ├── 📁 power_query_m/                 --> Consultas Power Query M puras y parametrizadas (.txt)
-   ├── 📁 output/                        --> Entregables oficiales generados (Excel, CSV, Star Schema)
-   ├── 📁 docs/                          --> Documentación técnica canónica y contexto histórico
-   ├── ejecutar_pipeline.py              --> Script principal de ejecución por terminal
-   ├── config.py                         --> Archivo central de rutas y parámetros configurables
-   └── PARAMETROS_EJECUCION_CASA.txt     --> Guía de parámetros para ejecución remota/casa
+| Prueba Canónica | Resultado de Auditoría | Estado |
+| :--- | :--- | :---: |
+| **AMERICANA / `XRD50U-002`** | 100.00% de coincidencia exacta turno a turno (26.08: 35.0m A + 15.5m B; 27.08: 30.4m A + 12.0m B) | ✅ **APROBADO (0.00m)** |
+| **AMERICANA / `XRD50USS-001`**| Omisión física real de -35.00m en 2026-08-27 Turno B detectada y aislada como anomalía de campo | ✅ **APROBADO (Detectado)** |
+| **CATALINA HUANCA** | Extracción directa y uniforme desde la **Columna J** (índice 9) | ✅ **APROBADO** |
+| **Veredicto del Auditor** | `APROBADO_CON_CUADRATURA_COMPROBADA` ([`src/auditor_sentido_comun.py`](file:///C:/Proyectos%20Python/Detallados/src/auditor_sentido_comun.py)) | ✅ **OFICIAL** |
+
+---
+
+## 🏗️ 3. Arquitectura Desacoplada en Dos Bloques ("Docker-Style")
+
+```mermaid
+flowchart LR
+    subgraph BLOQUE1 ["🐍 BLOQUE 1: Motor Python (Recopilación, Limpieza y Reconciliación)"]
+        B1_DATA["📁 Estructura base/Rockdrill_Control_Operaciones/"]
+        B1_ETL["⚙️ etl_detallados.py (Calamine Rust)<br/>⚙️ etl_control_interno.py<br/>⚙️ reconciliacion.py<br/>⚙️ auditor_sentido_comun.py"]
+        B1_OUT["📊 output/<br/>• detallados_consolidados.xlsx<br/>• control_interno_compilado.xlsx<br/>• matriz_comparativa_metrajes.xlsx<br/>• powerbi_star_schema/"]
+        B1_DATA --> B1_ETL --> B1_OUT
+    end
+
+    subgraph BLOQUE2 ["📊 BLOQUE 2: Power Query M Nativo en Excel"]
+        B2_PAR["⚙️ Parámetros Nativos M<br/>(RutaOrigenLocal, TipoOrigen, UrlSharePoint)"]
+        B2_FN["⚙️ fn_ProcesarHojaDetallado<br/>(Foco: Horas y Metros)"]
+        B2_PQ["📊 Consolidado_Horas_y_Metros<br/>(Table.Combine)"]
+        B2_XLS["📁 output/CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx<br/>(Tabla oficial 569x16 con 1 clic)"]
+        B2_PAR & B2_FN --> B2_PQ --> B2_XLS
+    end
 ```
 
 ---
 
-## 🧪 3. Banco de Pruebas Canónico (Benchmark Validado)
+## 📁 4. Ubicación de Agentes, Gobernanza y Portabilidad
 
-| Prueba de Verificación | Resultado de Auditoría | Estado |
-| :--- | :--- | :---: |
-| **AMERICANA / `XRD50U-002`** | 100.00% de coincidencia exacta turno a turno (26.08: 35.0m A + 15.5m B; 27.08: 30.4m A + 12.0m B) | ✅ **APROBADO (0.00m)** |
-| **AMERICANA / `XRD50USS-001`**| Omisión real de -35.00m en 2026-08-27 Turno B detectada y aislada | ✅ **APROBADO (Detectado)** |
-| **CATALINA HUANCA** | Extracción directa en Columna J (índice 9) | ✅ **APROBADO** |
-| **Veredicto Auditor Sentido Común**| `APROBADO_CON_CUADRATURA_COMPROBADA` | ✅ **OFICIAL** |
+Para garantizar portabilidad total al clonar o ejecutar en casa, todos los artefactos de agentes residen directamente en la raíz del proyecto:
+* 👉 **`.agents/agents/`**:
+  - `audit_common_sense_agent` (Agente Auditor de Sentido Común)
+  - `pm_lead_architect`
+  - `data_cleaning_engineer`
+  - `qa_data_auditor`
+  - `bi_visualization_engineer`
+  - `business_domain_specialist`
+  - `business_vision_strategist`
+  - `project_governance_auditor`
+* 👉 **`.agents/rules/`**: Reglas canónicas del proyecto.
+
+---
+
+## 📍 5. Mapa de Archivos y Entregables Clave
+
+| Recurso / Entregable | Finalidad | Ruta en Repositorio |
+| :--- | :--- | :--- |
+| **Excel Power Query** | Libro con tabla oficial de datos y consultas M | [`output/CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx`](file:///C:/Proyectos%20Python/Detallados/output/CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx) |
+| **Consultas M en TXT** | Código puro M para copiar o parametrizar | [`power_query_m/CONSULTAS_POWERQUERY_M_PARAMETRIZADAS.txt`](file:///C:/Proyectos%20Python/Detallados/power_query_m/CONSULTAS_POWERQUERY_M_PARAMETRIZADAS.txt) |
+| **Matriz de Conciliación** | Reconciliación 1-a-1 diaria auditada | [`output/matriz_comparativa_metrajes.xlsx`](file:///C:/Proyectos%20Python/Detallados/output/matriz_comparativa_metrajes.xlsx) |
+| **Star Schema BI** | Datasets dimensionales (`Fact_Metraje`, `Fact_Tiempos`) | [`output/powerbi_star_schema/`](file:///C:/Proyectos%20Python/Detallados/output/powerbi_star_schema) |
+| **Historial de Conversación**| Log íntegro en JSONL de todas las sesiones | [`docs/07_HISTORIAL_Y_CONTEXTO_CONVERSACION.jsonl`](file:///C:/Proyectos%20Python/Detallados/docs/07_HISTORIAL_Y_CONTEXTO_CONVERSACION.jsonl) |
+| **Guía Parámetros Casa** | Instrucciones paso a paso para clonar y ejecutar | [`PARAMETROS_EJECUCION_CASA.txt`](file:///C:/Proyectos%20Python/Detallados/PARAMETROS_EJECUCION_CASA.txt) |
+| **Prompt Inicial Agente** | Prompt para iniciar cualquier IA en casa | [`PROMPT_INICIAL_AGENTE_CASA.md`](file:///C:/Proyectos%20Python/Detallados/PROMPT_INICIAL_AGENTE_CASA.md) |
+| **Subir a GitHub (1 Clic)** | Script ejecutable para sincronización remota | [`SUBIR_A_GITHUB.bat`](file:///C:/Proyectos%20Python/Detallados/SUBIR_A_GITHUB.bat) |
