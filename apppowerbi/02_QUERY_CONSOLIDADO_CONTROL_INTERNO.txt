@@ -1,9 +1,9 @@
 // ==============================================================================
-// QUERY 2: Consolidado_Control_Interno (Normalización Canónica)
+// QUERY 2: Consolidado_Control_Interno (Normalización Canónica y Clave con CTR)
 // Nombre de la consulta en Power Query: Consolidado_Control_Interno
 // Ubicación: apppowerbi/02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt
 // Descripción: Extrae y compila las pestañas diarias (dd.mm) de Control Interno (RD.402.P.01.F.04)
-// desde SharePoint con nombres canónicos exactos de CTR y Máquinas SAP.
+// desde SharePoint con nombres canónicos exactos de CTR y Máquinas SAP, y clave única con CTR.
 // ==============================================================================
 let
     // -------------------------------------------------------------------------
@@ -93,7 +93,8 @@ let
                 else if Text.Contains(c, "INMACULADA") and m = "XRD150-004" then "XRD150USS-004"
                 else if Text.Contains(c, "MOROCOCHA") and m = "XRD90USS-002" then "XRD90USS-005"
                 else if Text.Contains(c, "TICLIO") and m = "XRD150USS-001" then "XRD150U-007"
-                else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XDR50USS-00T"
+                else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XRD50USS-00T"
+                else if Text.Contains(m, "XRD125") then "XRD125USS-001"
                 else m, type text
         ),
         
@@ -116,11 +117,11 @@ let
             else try Number.From(v, "es-PE") otherwise 0.0, type number
         ),
         
-        // Columnas de Fecha y Clave Única
+        // Columnas de Fecha y Clave Única con CTR
         ConFecha = Table.AddColumn(ConMetraje, "FECHA", each fechaISO, type text),
         ConFechaKey = Table.AddColumn(ConFecha, "FECHA_KEY", each fechaKey, type text),
         ConClave = Table.AddColumn(ConFechaKey, "ID_CLAVE_UNICA", each 
-            [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
+            [FECHA_KEY] & "-" & [CTR] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
         ),
         
         SeleccionFinalHoja = Table.SelectColumns(ConClave, {
