@@ -2,7 +2,7 @@
 // QUERY 1: Consolidado_Operaciones (Motor de Alto Rendimiento y Soporte Multi-Fila)
 // Nombre de la consulta en Power Query: Consolidado_Operaciones
 // Ubicación: apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt
-// Descripción: Extrae y consolida los reportes detallados en SharePoint a máxima velocidad,
+// Descripción: Extrae y consolida los reportes detallados en SharePoint a máxima velocidad (~70s),
 // soporta días multi-fila (sondajes múltiples), normaliza fechas de ciclo (26.08 al 25.09),
 // descarta pies de página TOTAL y genera ID_CLAVE_UNICA canónica.
 // ==============================================================================
