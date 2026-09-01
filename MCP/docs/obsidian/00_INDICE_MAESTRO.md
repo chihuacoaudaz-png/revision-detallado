@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > **Propósito del Vault:**
-> Esta base de conocimientos documenta íntegramente la arquitectura de datos, el pipeline ETL en Polars, el modelo relacional tabular y el catálogo exhaustivo de fórmulas DAX del sistema de Business Intelligence **`RESIDENTES.pbix`** de **Rock Drill**.
+> Esta base de conocimientos documenta íntegramente la arquitectura de datos, el pipeline ETL en Python/Polars, el recopilador en Power Query M (168 columnas), el modelo relacional tabular y el catálogo exhaustivo de fórmulas DAX del sistema de Business Intelligence **`RESIDENTES.pbix`** de **Rock Drill**.
 >
 > Diseñado para consulta rápida en **Obsidian**, auditoría técnica y reconstrucción total del dashboard desde cero.
 
@@ -15,9 +15,19 @@ mindmap
   root((BI Residentes Rock Drill))
     Arquitectura y ETL
       [[01_ARQUITECTURA_Y_ETL]]
-      Pipeline Polars procesarv2.py
+      Pipeline Polars y Python
       Rutas de Archivos y Fuentes
       Esquema Estrella de Salida
+    Recopilador Power Query M
+      [[07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS]]
+      Ecosistema 168 Columnas A:FL
+      Corrección Duplicado 2X
+      Auditoría vs Control Interno
+    Motor Encabezados y Casos Borde
+      [[08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL]]
+      Cabeceras Dual-Row Fills
+      Aislamiento FillDown
+      Homologación SAP
     Diccionario de Datos
       [[02_DICCIONARIO_DE_DATOS]]
       Tablas de Hechos (Facts)
@@ -58,6 +68,8 @@ mindmap
 | **04** | [[04_CATALOGO_MEDIDAS_DAX\|Catálogo de Medidas DAX]] | Diccionario de más de 116 medidas DAX clasificadas por área funcional y fórmulas completas. |
 | **05** | [[05_SISTEMA_METRAJE_PERDIDO_AJUSTADO\|Sistema de Metraje Perdido]] | Formulación matemática de ROP Efectivo, factor $f_{\text{efectivo}}$ por CTR y matriz de stand-by. |
 | **06** | [[06_GUIA_RECONSTRUCCION_TOTAL\|Guía de Reconstrucción Total]] | Manual paso a paso para levantar el proyecto desde cero en un `.pbix` en blanco. |
+| **07** | [[07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS\|Recopilador Power Query M y 168 Cols]] | Arquitectura Power Query M de 168 columnas, corrección del duplicado 2X y conciliación diaria. |
+| **08** | [[08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL\|Motor de Encabezados y Casos Borde]] | Construcción dual-row de cabeceras, forward-fill horizontal, `FillDown`/`FillUp` y homologación SAP. |
 
 ---
 
@@ -65,7 +77,7 @@ mindmap
 
 * **Proyecto:** Dashboard de Residentes / Control de Operaciones de Perforación Diamantina (DDH) e Interior Mina.
 * **Organización:** Rock Drill - Control de Proyectos.
-* **Ruta de Trabajo Local:** `C:\Mis Archivos Locales\MCP BI`
+* **Ruta de Trabajo Local:** `C:\Proyectos Python\Detallados`
 * **Ruta PBIX Oficial:** `C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard Previo\Residentes\BD\DashboardsV2\RESIDENTES.pbix`
-* **Tecnologías:** Power BI Desktop / Analysis Services Tabular Engine, Python (Polars, Calamine, PBIXRay), Obsidian Markdown.
-* **Última Actualización del Modelo:** Agosto 2026.
+* **Tecnologías:** Power BI Desktop / Analysis Services Tabular Engine, Python (Polars, Calamine, OpenPyXL), Power Query M, Obsidian Markdown.
+* **Última Actualización del Modelo:** Setiembre 2026.
