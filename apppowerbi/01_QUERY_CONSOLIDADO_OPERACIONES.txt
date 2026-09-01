@@ -1,0 +1,188 @@
+// ==============================================================================
+// QUERY 1: Consolidado_Operaciones (Origen SharePoint en la Nube)
+// Nombre de la consulta en Power Query: Consolidado_Operaciones
+// Ubicación: apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt
+// Descripción: Consulta oficial que consolida los 18 reportes detallados en SharePoint,
+// corta a 62 filas exactas, excluye la fila 87 de total mes, recupera Copias y genera ID_CLAVE_UNICA.
+// ==============================================================================
+let
+    // -------------------------------------------------------------------------
+    // 1. FUNCIÓN DE TRANSFORMACIÓN (CORREGIDA: EXACTAMENTE 62 FILAS OPERATIVAS)
+    // -------------------------------------------------------------------------
+    fn_ProcesarHojaDetallado = (TablaDatos as table, NombreMaquina as text, NombreContrato as text) as table =>
+    let
+        ValidacionColumnas = if Table.ColumnCount(TablaDatos) < 168 then error "Estructura inválida" else TablaDatos,
+        SaltoAdministrativo = Table.Skip(ValidacionColumnas, 24),
+        
+        // CORRECCIÓN CLAVE 1: Tomar estrictamente 62 filas (días 26 al 25 = 31 días x 2 turnos = 62 filas)
+        // Esto elimina la Fila 87 (Fila de TOTAL MES) que causaba la duplicación del metraje (2X).
+        RecorteVertical = Table.FirstN(SaltoAdministrativo, 62),
+        ColumnasFisicas = List.FirstN(Table.ColumnNames(RecorteVertical), 168),
+        Tabla168 = Table.SelectColumns(RecorteVertical, ColumnasFisicas),
+        
+        NombresCanonicos = {
+            "FECHA", "NOMBRE", "PROFUNDIDAD", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "TURNO (A=1;B=2)", 
+            "GRUPO", "METRAJE", "HORAS EXTRAS", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", "TOTAL metraje del dia", 
+            "ACUMULADO", "PROYECTADO", "META", "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", 
+            "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", "BENTONITA_PRODUCTO", "BENTONITA_CANT.", "BENTONITA_UND.", 
+            "PAC_PRODUCTO", "PAC_CANT.", "PAC_UND.", "POLIMERO_PRODUCTO", "POLIMERO_CANT.", "POLIMERO_UND.", 
+            "LUBRICANTES_PRODUCTO", "LUBRICANTES_CANT.", "LUBRICANTES_UND.", "CONTROLADOR DE PH Y DUREZA_PRODUCTO", 
+            "CONTROLADOR DE PH Y DUREZA_CANT.", "CONTROLADOR DE PH Y DUREZA_UND.", "INHIBIDORES_PRODUCTO", 
+            "INHIBIDORES_CANT.", "INHIBIDORES_UND.", "ESTABILIZADOR_PRODUCTO", "ESTABILIZADOR_CANT.", 
+            "ESTABILIZADOR_UND.", "OTROS_CLASIFICACIÓN", "OTROS_PRODUCTO", "OTROS_CANT.", "OTROS_UND.", 
+            "PETROLEO_CANT.", "PETROLEO_GLN", "Perforación", "Rimado", "Asentado / Retiro de revestimiento (Casing)", 
+            "RePerforación", "Preventivo", "Correctivo", "Lavado de sondaje", "Mezclado de lodos", "Manipulación de tuberías", 
+            "Acondicionamiento de sondaje", "Cambio de línea", "Recuperación de sondaje por problemas geologicos", 
+            "Recuperación de materiales y o maniobras por atrapamiento", "Maniobras por descarga y carga de tuberías (por problemas geologicos)", 
+            "Perforación en fallas y/o terrenos altamente fracturados", "Medición de Desviación", "Traslado entre cámaras de perforación", 
+            "Cambio de punto de perforacion", "Anclado de máquina de perforación", "Perforación de perno de anclaje", 
+            "Cementación de perno de anclaje y fraguado", "Cementado y fraguado de sondaje", "Obturación/Sellado de sondaje con packer", 
+            "Sellado de Sondaje", "Inyección de lechada de cemento", "Ensayo Lefranc", "Ensayo Lugeon", "Prueba SPT", 
+            "Prueba Shelby", "Pruebas Geotécnicas", "Prueba de nivel freático", "Ensayo Air Lift", "Ensayo Slug Test", 
+            "Instalación de piezómetro Casagrande", "Instalación de piezómetro de cuerda vibrante", "Instalación de inclinómetro", 
+            "Instalación de piezómetro multinivel", "Instrumentación, toma de presión de agua y caudal", 
+            "Prueba de lectura de inclinómetro", "Toma de lecturas cuerda vibrante", "SBO1", "SBO2", "SBO3", "SBO4", "SBO5", 
+            "Desate de rocas", "Orden y limpieza", "Recojo de lama", "Poza de sedimentación", "Estandarización y Desestandarización", 
+            "Instalación de red de agua o drenaje", "Instalación / Desinstalación de maquina", "Traslado de accesorios", 
+            "Auditoría Interna", "Charla, reparto de guardia, llenado de herramientas y reportes", "Espera de repuestos mecánicos", 
+            "Espera de materiales e insumos de perforación", "Traslado de personal", "Refrigerio", "Falta de personal", 
+            "Paralización por fiestas", "Pare RD/ seguridad", "SBI1", "SBI2", "SBI3", "SBI4", "Voladura", "Falta de agua", 
+            "Falta de energía", "Falta de ventilación", "Falta de servicios", "Espera Orden Cliente", "Espera de programa", 
+            "Espera de cámara", "Espera de sostenimiento", "Espera de scoop", "Espera de marcado de punto", "Espera de Topografía", 
+            "Espera de grúa", "Espera por puebas de permeabilidad y/o ensayos", "Auditoría externa/ Osinergmin", 
+            "Capacitación (Externa Cliente)", "Falta de habilitación de cámara o plataforma", "Espera de orden cliente", 
+            "Condiciones climáticas", "Inundación", "Paralización por estrés térmico o alta temperatura", "Parada por sismo/microsismo", 
+            "Conflicto social", "SBC1", "SBC2", "SBC3", "SBC4", "TIEMPO TOTAL", "TIEMPO EFECTIVO - OPERATIVO", "LOST TIME", 
+            "Mantenimiento", "Stand By Operativo", "Stand By Inoperativo", "Stand By Cliente", "RIMADO CON CASING HWT/HQ_DESDE", 
+            "RIMADO CON CASING HWT/HQ_HASTA", "RIMADO CON CASING HWT/HQ_METRAJE", "RIMADO CON CASING HWT/HQ_TOTAL", 
+            "RE-PERFORACIÓN_DESDE", "RE-PERFORACIÓN_HASTA", "RE-PERFORACIÓN_METRAJE", "RE-PERFORACIÓN_TOTAL", 
+            "HOROMETRO_DESDE", "HOROMETRO_HASTA", "HOROMETRO_ACUMULADO", "HOROMETRO_TOTAL", 
+            "BITACORA DE MANTENIMIENTO_TRABAJOS REALIZADOS", "BITACORA DE MANTENIMIENTO_REPUESTOS UTILIZADOS", 
+            "DESCRIPCIÒN LITOLÓGICA", "COMENTARIOS"
+        },
+        
+        TablaRenombrada = Table.RenameColumns(Tabla168, List.Zip({ColumnasFisicas, NombresCanonicos})),
+        TablaEnMemoria = Table.Buffer(TablaRenombrada),
+        
+        RellenoFecha = Table.FillDown(TablaEnMemoria, {"FECHA"}),
+        RellenoSondaje = Table.FillUp(Table.FillDown(RellenoFecha, {"NOMBRE"}), {"NOMBRE"}),
+        
+        // CORRECCIÓN CLAVE 2: Filtro anti-totales reforzado
+        FilasOperativas = Table.SelectRows(RellenoSondaje, each 
+            ([FECHA] <> null) and 
+            (try not Text.StartsWith(Text.Trim(Text.From([FECHA])), ">") otherwise true) and 
+            (try not Text.Contains(Text.Upper(Text.From([FECHA])), "TOTAL") otherwise true) and 
+            (try not Text.Contains(Text.Upper(Text.From([NOMBRE])), "TOTAL") otherwise true) and 
+            (try not Text.Contains(Text.Upper(Text.From([#"TURNO (A=1;B=2)"])), "TOTAL") otherwise true) and
+            (try Text.Trim(Text.From([#"TURNO (A=1;B=2)"])) <> "" otherwise false)
+        ),
+        
+        AddCTR = Table.AddColumn(FilasOperativas, "CTR", each NombreContrato, type text),
+        AddMaquina = Table.AddColumn(AddCTR, "MAQUINA", each NombreMaquina, type text),
+        AddTurno = Table.AddColumn(AddMaquina, "TURNO_ESTANDAR", each if Text.Upper(Text.From([#"TURNO (A=1;B=2)"])) = "A" or Text.From([#"TURNO (A=1;B=2)"]) = "1" then "A" else "B", type text),
+        
+        // Homologación SAP de nombres de máquina en la Clave Única
+        AddMaquinaHomologada = Table.AddColumn(AddTurno, "MAQUINA_HOMOLOGADA", each 
+            let 
+                c = Text.Upper([CTR]),
+                m = Text.Upper(Text.Trim([MAQUINA]))
+            in 
+                if Text.Contains(c, "CHUNGAR") and (m = "XRD90U-03" or m = "XRD90U-003") then "XRD90U-021"
+                else if Text.Contains(c, "ANDAYCHAGUA") and m = "LF90DST-002" then "LF90D ST-002"
+                else if Text.Contains(c, "ANDAYCHAGUA") and m = "XRD90U-017" then "XRD150U-001"
+                else if Text.Contains(c, "CATALINA") and m = "XRD50-003" then "XRD50U-003"
+                else if Text.Contains(c, "COBRIZA") and m = "XRD90U-008" then "XRD150U-008"
+                else if Text.Contains(c, "INMACULADA") and m = "XRD150-004" then "XRD150USS-004"
+                else if Text.Contains(c, "MOROCOCHA") and m = "XRD90USS-002" then "XRD90USS-005"
+                else if Text.Contains(c, "TICLIO") and m = "XRD150USS-001" then "XRD150U-007"
+                else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XDR50USS-00T"
+                else m, type text
+        ),
+        
+        AddClaveUnica = Table.AddColumn(AddMaquinaHomologada, "ID_CLAVE_UNICA", each 
+            let FechaTxt = try Date.ToText(Date.From([FECHA]), "yyyyMMdd") otherwise "ERR_FECHA" 
+            in FechaTxt & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
+        )
+    in
+        AddClaveUnica,
+
+    // -------------------------------------------------------------------------
+    // 2. EXTRACCIÓN ROBUSTA DE ARCHIVOS SHAREPOINT
+    // -------------------------------------------------------------------------
+    Origen = SharePoint.Files("https://rovheco-my.sharepoint.com/personal/pedro_gamarra_rockdrillgroup_com", [ApiVersion = 15]),
+    
+    FiltrarRuta = Table.SelectRows(Origen, each 
+        Text.Contains([Folder Path], "Rockdrill_Control_Operaciones") and 
+        Text.Contains([Folder Path], "02_Detallado")
+    ),
+    
+    // CORRECCIÓN CLAVE 3: Permitir archivos con prefijo "Copia de" si son el único reporte del contrato (ej. Cobriza y Morococha)
+    FiltrarExcel = Table.SelectRows(FiltrarRuta, each 
+        ([Extension] = ".xlsx" or [Extension] = ".xlsm") and 
+        Text.Contains([Name], "RD.402.P.01.F.01", Comparer.OrdinalIgnoreCase) and
+        not Text.StartsWith([Name], "~$")
+    ),
+    
+    ExcluirCTRs = Table.SelectRows(FiltrarExcel, each 
+        not Text.Contains(Text.Upper([Folder Path]), "CTR_CAPITANA") and 
+        not Text.Contains(Text.Upper([Folder Path]), "CTR_COLQUIJIRCA")
+    ),
+    
+    ExtraerCTR = Table.AddColumn(ExcluirCTRs, "Nombre_CTR", each 
+        let Partes = Text.Split([Folder Path], "/"), CTR_Folder = List.Select(Partes, (x) => Text.StartsWith(x, "CTR_"))
+        in if List.Count(CTR_Folder) > 0 then CTR_Folder{0} else "SIN_CTR"
+    ),
+    
+    // Selección estricta del archivo más reciente por contrato (Anti-Duplicados de SharePoint)
+    AgruparArchivos = Table.Group(ExtraerCTR, {"Nombre_CTR"}, {
+        {"UltimoArchivo", each Table.Max(_, "Date modified")}
+    }),
+    ExpandirArchivo = Table.ExpandRecordColumn(AgruparArchivos, "UltimoArchivo", {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path"}),
+    
+    AbrirLibros = Table.AddColumn(ExpandirArchivo, "WorkbookData", each try Excel.Workbook([Content], false) otherwise null),
+    ExpandirLibros = Table.ExpandTableColumn(AbrirLibros, "WorkbookData", {"Name", "Data", "Item", "Kind", "Hidden"}, {"SheetName", "Data", "Item", "Kind", "Hidden"}),
+    
+    HojasVisibles = Table.SelectRows(ExpandirLibros, each ([Hidden] = false) and ([Kind] = "Sheet")),
+    HojasExcluidas = {"ADITIVOS", "GENERAL", "LISTAS", "TIEMPOS", "Tiempos", "RESUMEN", "GRAFICOS", "MAESTRO", "PARAMETROS", "GLOSARIO"},
+    HojasOperativas = Table.SelectRows(HojasVisibles, each not List.Contains(HojasExcluidas, Text.Upper([SheetName]))),
+    
+    ProcesarHojas = Table.AddColumn(HojasOperativas, "TablaNormalizada", each 
+        try fn_ProcesarHojaDetallado([Data], [SheetName], [Nombre_CTR]) otherwise null
+    ),
+    
+    HojasExitosas = Table.SelectRows(ProcesarHojas, each [TablaNormalizada] <> null and not Table.IsEmpty([TablaNormalizada])),
+    ColumnasFinales = Table.ColumnNames(HojasExitosas{0}[TablaNormalizada]),
+    ExpandirFinal = Table.ExpandTableColumn(HojasExitosas, "TablaNormalizada", ColumnasFinales),
+    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "SheetName", "Data", "Item", "Kind", "Hidden", "Nombre_CTR"}),
+
+    // -------------------------------------------------------------------------
+    // 3. TIPADO Y LIMPIEZA MASIVA (Rápida y tolerante a fallos)
+    // -------------------------------------------------------------------------
+    ColsFecha = {"FECHA"},
+    ColsTexto = {
+        "NOMBRE", "LINEA", "TURNO (A=1;B=2)", "GRUPO", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", 
+        "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", 
+        "BENTONITA_PRODUCTO", "BENTONITA_UND.", "PAC_PRODUCTO", "PAC_UND.", "POLIMERO_PRODUCTO", "POLIMERO_UND.", 
+        "LUBRICANTES_PRODUCTO", "LUBRICANTES_UND.", "CONTROLADOR DE PH Y DUREZA_PRODUCTO", "CONTROLADOR DE PH Y DUREZA_UND.", 
+        "INHIBIDORES_PRODUCTO", "INHIBIDORES_UND.", "ESTABILIZADOR_PRODUCTO", "ESTABILIZADOR_UND.", 
+        "OTROS_CLASIFICACIÓN", "OTROS_PRODUCTO", "OTROS_UND.", "PETROLEO_GLN", 
+        "BITACORA DE MANTENIMIENTO_TRABAJOS REALIZADOS", "BITACORA DE MANTENIMIENTO_REPUESTOS UTILIZADOS", 
+        "DESCRIPCIÒN LITOLÓGICA", "COMENTARIOS", "CTR", "MAQUINA", "TURNO_ESTANDAR", "MAQUINA_HOMOLOGADA", "ID_CLAVE_UNICA"
+    },
+    
+    TodasLasColumnas = Table.ColumnNames(LimpiezaSistema),
+    ColsNumero = List.Difference(TodasLasColumnas, List.Union({ColsFecha, ColsTexto})),
+    
+    TiposFecha = List.Transform(ColsFecha, each {_, type date}),
+    TiposTexto = List.Transform(ColsTexto, each {_, type text}),
+    TiposNumero = List.Transform(ColsNumero, each {_, type number}),
+    ListaDeTipos = List.Combine({TiposFecha, TiposTexto, TiposNumero}),
+    
+    TablaTipada = Table.TransformColumnTypes(LimpiezaSistema, ListaDeTipos, "es-PE"),
+    ReemplazarErrores = Table.ReplaceErrorValues(TablaTipada, List.Transform(ColsNumero, each {_, 0})),
+    ReemplazarNulos = Table.ReplaceValue(ReemplazarErrores, null, 0, Replacer.ReplaceValue, ColsNumero),
+    RedondearNumeros = Table.TransformColumns(ReemplazarNulos, 
+        List.Transform(ColsNumero, (col) => {col, each Number.Round(_, 2), type number})
+    )
+in
+    RedondearNumeros
