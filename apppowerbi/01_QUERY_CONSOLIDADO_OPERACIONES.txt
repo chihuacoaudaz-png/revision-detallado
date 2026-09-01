@@ -1,10 +1,10 @@
 // ==============================================================================
-// QUERY 1: Consolidado_Operaciones (Motor de Alto Rendimiento y Soporte Multi-Fila)
+// QUERY 1: Consolidado_Operaciones (Exclusión Estricta de Filas de Totales)
 // Nombre de la consulta en Power Query: Consolidado_Operaciones
 // Ubicación: apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt
-// Descripción: Extrae y consolida los reportes detallados en SharePoint a máxima velocidad (~70s),
-// soporta días multi-fila (sondajes múltiples), normaliza fechas de ciclo (26.08 al 25.09),
-// descarta pies de página TOTAL y genera ID_CLAVE_UNICA canónica.
+// Descripción: Extrae y consolida los reportes detallados en SharePoint eliminando
+// las filas de totales de mes/columna (sin turno y sin perforista) para evitar duplicaciones 2X,
+// normaliza fechas de ciclo (26.08 al 25.09) y genera ID_CLAVE_UNICA canónica.
 // ==============================================================================
 let
     // -------------------------------------------------------------------------
@@ -52,28 +52,35 @@ let
     },
 
     // -------------------------------------------------------------------------
-    // 2. FUNCIÓN ULTRA-RÁPIDA DE TRANSFORMACIÓN POR HOJA
+    // 2. FUNCIÓN DE TRANSFORMACIÓN SIN FILAS DE TOTALES
     // -------------------------------------------------------------------------
     fn_ProcesarHojaDetallado = (TablaDatos as table, NombreMaquina as text, NombreContrato as text) as table =>
     let
         SaltoAdministrativo = Table.Skip(TablaDatos, 24),
-        PrimerasFilas = Table.FirstN(SaltoAdministrativo, 64),
-        ColumnasFisicas = List.FirstN(Table.ColumnNames(PrimerasFilas), 168),
-        Tabla168 = Table.SelectColumns(PrimerasFilas, ColumnasFisicas),
+        ColumnasFisicas = List.FirstN(Table.ColumnNames(SaltoAdministrativo), 168),
+        Tabla168 = Table.SelectColumns(SaltoAdministrativo, ColumnasFisicas),
         TablaRenombrada = Table.RenameColumns(Tabla168, List.Zip({ColumnasFisicas, NombresCanonicos})),
         
-        // Relleno de fecha y sondaje (agrupa filas secundarias del mismo día)
-        FillFecha = Table.FillDown(TablaRenombrada, {"FECHA_RAW", "NOMBRE"}),
-        
-        // Descartar filas vacías o pie de página TOTAL
-        FiltrarTotal = Table.SelectRows(FillFecha, each 
-            [FECHA_RAW] <> null and 
-            not Text.Contains(Text.Upper(Text.From([FECHA_RAW])), "TOTAL") and
-            not Text.Contains(Text.Upper(Text.From([NOMBRE] ?? "")), "TOTAL")
+        // 1. FILTRAR FILAS DE TOTALES Y RESÚMENES (Descartar filas sin Turno y sin Perforista, o con palabra TOTAL)
+        FiltrarTotalesYVacios = Table.SelectRows(TablaRenombrada, each 
+            let
+                t = Text.Upper(Text.Trim(Text.From([#"TURNO (A=1;B=2)"] ?? ""))),
+                p = Text.Upper(Text.Trim(Text.From([PERFORISTA] ?? ""))),
+                f = Text.Upper(Text.Trim(Text.From([FECHA_RAW] ?? ""))),
+                n = Text.Upper(Text.Trim(Text.From([NOMBRE] ?? "")))
+            in
+                not Text.Contains(f, "TOTAL") and 
+                not Text.Contains(n, "TOTAL") and 
+                not Text.Contains(t, "TOTAL") and 
+                not Text.Contains(p, "TOTAL") and
+                (t <> "" or p <> "")
         ),
         
-        // Normalización Inteligente de Fecha del Ciclo (Agosto / Setiembre 2026)
-        ConFecha = Table.AddColumn(FiltrarTotal, "FECHA", each 
+        // 2. Relleno hacia abajo de FECHA y SONDAJE
+        FillFecha = Table.FillDown(FiltrarTotalesYVacios, {"FECHA_RAW", "NOMBRE"}),
+        
+        // 3. Normalizar Fecha de Ciclo (Agosto / Setiembre 2026)
+        ConFecha = Table.AddColumn(FillFecha, "FECHA", each 
             let
                 raw = [FECHA_RAW],
                 d = try Date.Day(Date.From(raw, "es-PE")) otherwise (try Number.From(raw) otherwise 26),
@@ -86,13 +93,13 @@ let
         ConFechaISO = Table.AddColumn(ConFecha, "FECHA_ISO", each Date.ToText([FECHA], "yyyy-MM-dd"), type text),
         ConFechaKey = Table.AddColumn(ConFechaISO, "FECHA_KEY", each Date.ToText([FECHA], "yyyyMMdd"), type text),
         
-        // Estandarización de Turno
+        // 4. Estandarizar Turno
         ConTurno = Table.AddColumn(ConFechaKey, "TURNO_ESTANDAR", each 
             let t = Text.Upper(Text.Trim(Text.From([#"TURNO (A=1;B=2)"] ?? "A"))) in
             if t = "B" or t = "2" or Text.StartsWith(t, "N") then "B" else "A", type text
         ),
         
-        // Normalización de CTR
+        // 5. Normalizar CTR
         ConCTR = Table.AddColumn(ConTurno, "CTR", each 
             let raw = Text.Replace(Text.Replace(NombreContrato, "CTR_", ""), "_", " ") in
             Text.Upper(Text.Trim(raw)), type text
@@ -100,7 +107,7 @@ let
         
         ConMaquina = Table.AddColumn(ConCTR, "MAQUINA", each Text.Upper(Text.Trim(NombreMaquina)), type text),
         
-        // Homologación SAP de Nombres de Máquina
+        // 6. Homologación SAP de Nombres de Máquina
         ConMaquinaHomologada = Table.AddColumn(ConMaquina, "MAQUINA_HOMOLOGADA", each 
             let 
                 c = [CTR],
@@ -118,7 +125,7 @@ let
                 else m, type text
         ),
         
-        // Clave Única Canónica (YYYYMMDD-MAQUINA-TURNO)
+        // 7. Clave Única Canónica (YYYYMMDD-MAQUINA-TURNO)
         ConClaveUnica = Table.AddColumn(ConMaquinaHomologada, "ID_CLAVE_UNICA", each 
             [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
         )

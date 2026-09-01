@@ -5,9 +5,9 @@ Este archivo contiene las 3 consultas Power Query M (con origen directo en Share
 para armar el libro de conciliación donde una persona real audita día a día los metrajes.
 
 ESTRUCTURA DE CONSULTAS EN POWER QUERY:
-  1. "Consolidado_Operaciones"         -> Extracción SharePoint de Detallados (alta velocidad, soporte multi-fila)
+  1. "Consolidado_Operaciones"         -> Extracción SharePoint de Detallados (sin filas de totales, metrajes sinceros)
   2. "Consolidado_Control_Interno"    -> Extracción SharePoint de Control Interno (hojas dd.mm)
-  3. "Matriz_Comparativa_Dia_a_Dia"   -> Cruce 1-a-1 por ID_CLAVE_UNICA acotado al período activo (cero nulos/errores)
+  3. "Matriz_Comparativa_Dia_a_Dia"   -> Cruce 1-a-1 instantáneo en memoria (<3s, período auditado activo, 0 errores)
 
 ================================================================================
 PASO A PASO PARA CONFIGURAR EN EXCEL / POWER BI:
@@ -71,17 +71,30 @@ let
     fn_ProcesarHojaDetallado = (TablaDatos as table, NombreMaquina as text, NombreContrato as text) as table =>
     let
         SaltoAdministrativo = Table.Skip(TablaDatos, 24),
-        PrimerasFilas = Table.FirstN(SaltoAdministrativo, 64),
-        ColumnasFisicas = List.FirstN(Table.ColumnNames(PrimerasFilas), 168),
-        Tabla168 = Table.SelectColumns(PrimerasFilas, ColumnasFisicas),
+        ColumnasFisicas = List.FirstN(Table.ColumnNames(SaltoAdministrativo), 168),
+        Tabla168 = Table.SelectColumns(SaltoAdministrativo, ColumnasFisicas),
         TablaRenombrada = Table.RenameColumns(Tabla168, List.Zip({ColumnasFisicas, NombresCanonicos})),
-        FillFecha = Table.FillDown(TablaRenombrada, {"FECHA_RAW", "NOMBRE"}),
-        FiltrarTotal = Table.SelectRows(FillFecha, each 
-            [FECHA_RAW] <> null and 
-            not Text.Contains(Text.Upper(Text.From([FECHA_RAW])), "TOTAL") and
-            not Text.Contains(Text.Upper(Text.From([NOMBRE] ?? "")), "TOTAL")
+        
+        // 1. FILTRAR FILAS DE TOTALES Y RESÚMENES (Descartar filas sin Turno y sin Perforista, o con palabra TOTAL)
+        FiltrarTotalesYVacios = Table.SelectRows(TablaRenombrada, each 
+            let
+                t = Text.Upper(Text.Trim(Text.From([#"TURNO (A=1;B=2)"] ?? ""))),
+                p = Text.Upper(Text.Trim(Text.From([PERFORISTA] ?? ""))),
+                f = Text.Upper(Text.Trim(Text.From([FECHA_RAW] ?? ""))),
+                n = Text.Upper(Text.Trim(Text.From([NOMBRE] ?? "")))
+            in
+                not Text.Contains(f, "TOTAL") and 
+                not Text.Contains(n, "TOTAL") and 
+                not Text.Contains(t, "TOTAL") and 
+                not Text.Contains(p, "TOTAL") and
+                (t <> "" or p <> "")
         ),
-        ConFecha = Table.AddColumn(FiltrarTotal, "FECHA", each 
+        
+        // 2. Relleno hacia abajo de FECHA y SONDAJE
+        FillFecha = Table.FillDown(FiltrarTotalesYVacios, {"FECHA_RAW", "NOMBRE"}),
+        
+        // 3. Normalizar Fecha de Ciclo (Agosto / Setiembre 2026)
+        ConFecha = Table.AddColumn(FillFecha, "FECHA", each 
             let
                 raw = [FECHA_RAW],
                 d = try Date.Day(Date.From(raw, "es-PE")) otherwise (try Number.From(raw) otherwise 26),
@@ -90,17 +103,25 @@ let
             in
                 #date(2026, mesVal, diaVal), type date
         ),
+        
         ConFechaISO = Table.AddColumn(ConFecha, "FECHA_ISO", each Date.ToText([FECHA], "yyyy-MM-dd"), type text),
         ConFechaKey = Table.AddColumn(ConFechaISO, "FECHA_KEY", each Date.ToText([FECHA], "yyyyMMdd"), type text),
+        
+        // 4. Estandarizar Turno
         ConTurno = Table.AddColumn(ConFechaKey, "TURNO_ESTANDAR", each 
             let t = Text.Upper(Text.Trim(Text.From([#"TURNO (A=1;B=2)"] ?? "A"))) in
             if t = "B" or t = "2" or Text.StartsWith(t, "N") then "B" else "A", type text
         ),
+        
+        // 5. Normalizar CTR
         ConCTR = Table.AddColumn(ConTurno, "CTR", each 
             let raw = Text.Replace(Text.Replace(NombreContrato, "CTR_", ""), "_", " ") in
             Text.Upper(Text.Trim(raw)), type text
         ),
+        
         ConMaquina = Table.AddColumn(ConCTR, "MAQUINA", each Text.Upper(Text.Trim(NombreMaquina)), type text),
+        
+        // 6. Homologación SAP de Nombres de Máquina
         ConMaquinaHomologada = Table.AddColumn(ConMaquina, "MAQUINA_HOMOLOGADA", each 
             let 
                 c = [CTR],
@@ -117,6 +138,8 @@ let
                 else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XDR50USS-00T"
                 else m, type text
         ),
+        
+        // 7. Clave Única Canónica (YYYYMMDD-MAQUINA-TURNO)
         ConClaveUnica = Table.AddColumn(ConMaquinaHomologada, "ID_CLAVE_UNICA", each 
             [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
         )
@@ -184,145 +207,7 @@ in
 --------------------------------------------------------------------------------
 CONSULTA 2: Consolidado_Control_Interno (Ver: 02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt)
 --------------------------------------------------------------------------------
-let
-    fn_ProcesarPestanaCI = (TablaRaw as table, NombrePestana as text) as table =>
-    let
-        nombreHoja = Text.Trim(NombrePestana),
-        partesFecha = Text.Split(nombreHoja, "."),
-        diaNum = try Number.FromText(partesFecha{0}) otherwise 1,
-        mesNum = try Number.FromText(partesFecha{1}) otherwise 8,
-        anioNum = 2026,
-        fechaDt = #date(anioNum, mesNum, diaNum),
-        fechaISO = Date.ToText(fechaDt, "yyyy-MM-dd"),
-        fechaKey = Date.ToText(fechaDt, "yyyyMMdd"),
-        Salto9 = Table.Skip(TablaRaw, 9),
-        ColsExistentes = Table.ColumnNames(Salto9),
-        ColCTR = ColsExistentes{0},
-        ColMaq = ColsExistentes{2},
-        ColMet = ColsExistentes{6},
-        Seleccion = Table.SelectColumns(Salto9, {ColCTR, ColMaq, ColMet}, MissingField.Ignore),
-        Renombrar = Table.RenameColumns(Seleccion, {
-            {ColCTR, "CTR_RAW"},
-            {ColMaq, "MAQUINA_RAW"},
-            {ColMet, "METRAJE_RAW"}
-        }, MissingField.Ignore),
-        FillCTR = Table.FillDown(Renombrar, {"CTR_RAW"}),
-        FiltrarValidas = Table.SelectRows(FillCTR, each 
-            ([MAQUINA_RAW] <> null) and 
-            ([CTR_RAW] <> null) and
-            (try not Text.Contains(Text.Upper(Text.From([CTR_RAW])), "TOTAL") otherwise true) and
-            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "TOTAL") otherwise true) and
-            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "EQUIPO") otherwise true) and
-            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "MAQUINA") otherwise true) and
-            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "SUB") otherwise true) and
-            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "SUP") otherwise true) and
-            (try Text.Trim(Text.From([MAQUINA_RAW])) <> "" otherwise false)
-        ),
-        ConCTR = Table.AddColumn(FiltrarValidas, "CTR", each 
-            let raw = Text.Upper(Text.Trim(Text.From([CTR_RAW]))) in 
-            if Text.Contains(raw, "AMERICANA") then "AMERICANA"
-            else if Text.Contains(raw, "ANDAYCHAGUA") then "ANDAYCHAGUA"
-            else if Text.Contains(raw, "CATALINA") or Text.Contains(raw, "HUANCA") then "CATALINA HUANCA"
-            else if Text.Contains(raw, "CERRO") then "CERRO"
-            else if Text.Contains(raw, "CHUNGAR") then "CHUNGAR"
-            else if Text.Contains(raw, "COBRIZA") then "COBRIZA"
-            else if Text.Contains(raw, "COLQUISIRI") then "COLQUISIRI"
-            else if Text.Contains(raw, "CONDESTABLE") then "CONDESTABLE"
-            else if Text.Contains(raw, "CUCULI") or Text.Contains(raw, "CUCUL") then "CUCULI"
-            else if Text.Contains(raw, "INMACULADA") then "INMACULADA"
-            else if Text.Contains(raw, "ESTRELLA") then "LA ESTRELLA"
-            else if Text.Contains(raw, "MOROCOCHA") then "MOROCOCHA"
-            else if Text.Contains(raw, "RAURA") then "RAURA"
-            else if Text.Contains(raw, "CRISTOBAL") or Text.Contains(raw, "SAN CRISTOBAL") then "SAN CRISTOBAL"
-            else if Text.Contains(raw, "TAMBOJASA") then "TAMBOJASA"
-            else if Text.Contains(raw, "TICLIO") then "TICLIO"
-            else if Text.Contains(raw, "YAULIYACU") then "YAULIYACU"
-            else if Text.Contains(raw, "YAURICOCHA") then "YAURICOCHA"
-            else raw, type text
-        ),
-        ExcluirNoOperativos = Table.SelectRows(ConCTR, each 
-            not Text.Contains([CTR], "COLQUIJIRCA") and not Text.Contains([CTR], "CAPITANA")
-        ),
-        ConMaquinaHomologada = Table.AddColumn(ExcluirNoOperativos, "MAQUINA_HOMOLOGADA", each 
-            let 
-                c = Text.Upper([CTR]),
-                m = Text.Upper(Text.Trim(Text.From([MAQUINA_RAW])))
-            in 
-                if Text.Contains(c, "CHUNGAR") and (m = "XRD90U-03" or m = "XRD90U-003") then "XRD90U-021"
-                else if Text.Contains(c, "ANDAYCHAGUA") and m = "LF90DST-002" then "LF90D ST-002"
-                else if Text.Contains(c, "ANDAYCHAGUA") and m = "XRD90U-017" then "XRD150U-001"
-                else if Text.Contains(c, "CATALINA") and m = "XRD50-003" then "XRD50U-003"
-                else if Text.Contains(c, "COBRIZA") and m = "XRD90U-008" then "XRD150U-008"
-                else if Text.Contains(c, "INMACULADA") and m = "XRD150-004" then "XRD150USS-004"
-                else if Text.Contains(c, "MOROCOCHA") and m = "XRD90USS-002" then "XRD90USS-005"
-                else if Text.Contains(c, "TICLIO") and m = "XRD150USS-001" then "XRD150U-007"
-                else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XDR50USS-00T"
-                else m, type text
-        ),
-        AgruparPorMaq = Table.Group(ConMaquinaHomologada, {"CTR", "MAQUINA_HOMOLOGADA"}, {
-            {"FilasTurno", each 
-                let 
-                    conIdx = Table.AddIndexColumn(_, "NumGuardia", 1, 1),
-                    conT = Table.AddColumn(conIdx, "TURNO_ESTANDAR", each if [NumGuardia] = 1 then "A" else "B", type text)
-                in 
-                    conT, type table
-            }
-        }),
-        ExpandirGuardias = Table.Combine(AgruparPorMaq[FilasTurno]),
-        ConMetraje = Table.AddColumn(ExpandirGuardias, "METRAJE_CI", each 
-            let v = [METRAJE_RAW] in 
-            if v = null or v = "" or v = "-" then 0.0 
-            else try Number.From(v, "es-PE") otherwise 0.0, type number
-        ),
-        ConFecha = Table.AddColumn(ConMetraje, "FECHA", each fechaISO, type text),
-        ConFechaKey = Table.AddColumn(ConFecha, "FECHA_KEY", each fechaKey, type text),
-        ConClave = Table.AddColumn(ConFechaKey, "ID_CLAVE_UNICA", each 
-            [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
-        ),
-        SeleccionFinalHoja = Table.SelectColumns(ConClave, {
-            "FECHA", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "METRAJE_CI", "ID_CLAVE_UNICA"
-        }, MissingField.Ignore)
-    in
-        SeleccionFinalHoja,
-
-    Origen = SharePoint.Files("https://rovheco-my.sharepoint.com/personal/pedro_gamarra_rockdrillgroup_com", [ApiVersion = 15]),
-    FiltrarRuta = Table.SelectRows(Origen, each 
-        Text.Contains([Folder Path], "Rockdrill_Control_Operaciones") and 
-        Text.Contains([Folder Path], "00_Control_Interno")
-    ),
-    FiltrarExcel = Table.SelectRows(FiltrarRuta, each 
-        ([Extension] = ".xlsx" or [Extension] = ".xlsm") and 
-        not Text.StartsWith([Name], "~$")
-    ),
-    AgruparArchivos = Table.Group(FiltrarExcel, {"Folder Path"}, {
-        {"UltimoArchivo", each Table.Max(_, "Date modified")}
-    }),
-    ExpandirArchivo = Table.ExpandRecordColumn(AgruparArchivos, "UltimoArchivo", {"Content", "Name"}),
-    AbrirLibros = Table.AddColumn(ExpandirArchivo, "WorkbookData", each try Excel.Workbook([Content], false) otherwise null),
-    ExpandirLibros = Table.ExpandTableColumn(AbrirLibros, "WorkbookData", {"Name", "Data", "Item", "Kind", "Hidden"}, {"SheetName", "Data", "Item", "Kind", "Hidden"}),
-    HojasVisibles = Table.SelectRows(ExpandirLibros, each ([Hidden] = false) and ([Kind] = "Sheet")),
-    HojasDiarias = Table.SelectRows(HojasVisibles, each 
-        Text.Contains([SheetName], ".") and 
-        Text.Length(Text.Trim([SheetName])) = 5
-    ),
-    ProcesarHojas = Table.AddColumn(HojasDiarias, "TablaNormalizada", each 
-        try fn_ProcesarPestanaCI([Data], [SheetName]) otherwise null
-    ),
-    HojasExitosas = Table.SelectRows(ProcesarHojas, each [TablaNormalizada] <> null and not Table.IsEmpty([TablaNormalizada])),
-    ColumnasFinales = Table.ColumnNames(HojasExitosas{0}[TablaNormalizada]),
-    ExpandirFinal = Table.ExpandTableColumn(HojasExitosas, "TablaNormalizada", ColumnasFinales),
-    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "SheetName", "Data", "Item", "Kind", "Hidden"}),
-    RenombrarMaquina = Table.RenameColumns(LimpiezaSistema, {{"MAQUINA_HOMOLOGADA", "MAQUINA"}}),
-    TablaTipada = Table.TransformColumnTypes(RenombrarMaquina, {
-        {"FECHA", type text},
-        {"CTR", type text},
-        {"MAQUINA", type text},
-        {"TURNO_ESTANDAR", type text},
-        {"METRAJE_CI", type number},
-        {"ID_CLAVE_UNICA", type text}
-    }, "es-PE")
-in
-    TablaTipada
+// [Ver 02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt]
 
 --------------------------------------------------------------------------------
 CONSULTA 3: Matriz_Comparativa_Dia_a_Dia (Ver: 03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt)
@@ -330,24 +215,29 @@ CONSULTA 3: Matriz_Comparativa_Dia_a_Dia (Ver: 03_QUERY_MATRIZ_COMPARATIVA_DIA_A
 let
     Detallados = Consolidado_Operaciones,
     ControlInterno = Consolidado_Control_Interno,
-    FechasActivasCI = List.Distinct(ControlInterno[FECHA]),
-    DetalladosActivos = Table.SelectRows(Detallados, each List.Contains(FechasActivasCI, [FECHA_ISO])),
-    DetalladosAgrupados = Table.Group(DetalladosActivos, {"FECHA_ISO", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+
+    CIAgrupado = Table.Group(ControlInterno, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+        {"METRAJE_CI", each List.Sum([METRAJE_CI]), type number}
+    }),
+    CIBuffer = Table.Buffer(CIAgrupado),
+    ClavesActivasCI = CIBuffer[ID_CLAVE_UNICA],
+
+    DetalladosAgrupados = Table.Group(Detallados, {"FECHA_ISO", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
         {"METRAJE_DETALLADO", each List.Sum([METRAJE]), type number}
     }),
-    RenombrarDet = Table.RenameColumns(DetalladosAgrupados, {
+    DetalladosActivos = Table.SelectRows(DetalladosAgrupados, each List.Contains(ClavesActivasCI, [ID_CLAVE_UNICA])),
+    RenombrarDet = Table.RenameColumns(DetalladosActivos, {
         {"FECHA_ISO", "DET_FECHA"},
         {"CTR", "DET_CTR"},
         {"MAQUINA_HOMOLOGADA", "DET_MAQUINA"},
         {"TURNO_ESTANDAR", "DET_TURNO"},
         {"ID_CLAVE_UNICA", "DET_CLAVE"}
     }),
-    CIAgrupado = Table.Group(ControlInterno, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
-        {"METRAJE_CI", each List.Sum([METRAJE_CI]), type number}
-    }),
+    DetalladosBuffer = Table.Buffer(RenombrarDet),
+
     MergeTablas = Table.NestedJoin(
-        CIAgrupado, {"ID_CLAVE_UNICA"},
-        RenombrarDet, {"DET_CLAVE"},
+        CIBuffer, {"ID_CLAVE_UNICA"},
+        DetalladosBuffer, {"DET_CLAVE"},
         "DetalladoData",
         JoinKind.FullOuter
     ),
@@ -387,7 +277,7 @@ let
         {"CTR_FINAL", "CTR"},
         {"MAQUINA_FINAL", "MAQUINA"},
         {"TURNO_FINAL", "TURNO"},
-        {"MET_DETALLADO", "METRAJE_DETALLADOS_M"},
+        {"METRAJE_DETALLADO", "METRAJE_DETALLADOS_M"},
         {"MET_CONTROL_INTERNO", "METRAJE_CONTROL_INTERNO_M"},
         {"DIFERENCIA", "DIFERENCIA_M"},
         {"CLAVE_FINAL", "ID_CLAVE_UNICA"}

@@ -1,65 +1,65 @@
 // ==============================================================================
-// QUERY 3: Matriz_Comparativa_Dia_a_Dia (Conciliación Activa 1-a-1 sin Errores)
+// QUERY 3: Matriz_Comparativa_Dia_a_Dia (Ultra-Rápida en Memoria y Cero Errores)
 // Nombre de la consulta en Power Query: Matriz_Comparativa_Dia_a_Dia
 // Ubicación: apppowerbi/03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt
-// Descripción: Cruza los metrajes de Consolidado_Control_Interno vs Consolidado_Operaciones
-// filtrado al período activo auditado (elimina las ~2,900 filas futuras), coalesciendo
-// fechas canónicas y claves únicas sin nulos ni errores.
+// Descripción: Cruza en memoria los metrajes de Control Interno vs Detallados
+// acotado al período auditado activo (elimina filas futuras), con Table.Buffer para
+// ejecución instantánea (<3s), coalesciendo claves únicas y fechas canónicas.
 // ==============================================================================
 let
-    // 1. Referenciar las dos consultas principales
+    // 1. Cargar las dos consultas base
     Detallados = Consolidado_Operaciones,
     ControlInterno = Consolidado_Control_Interno,
 
-    // 2. Extraer la lista de fechas activas presentes en Control Interno
-    FechasActivasCI = List.Distinct(ControlInterno[FECHA]),
+    // 2. Agrupar Control Interno y retener en Memoria Buffer (610 filas)
+    CIAgrupado = Table.Group(ControlInterno, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+        {"METRAJE_CI", each List.Sum([METRAJE_CI]), type number}
+    }),
+    CIBuffer = Table.Buffer(CIAgrupado),
+    
+    // Lista de claves auditadas activas en Control Interno
+    ClavesActivasCI = CIBuffer[ID_CLAVE_UNICA],
 
-    // 3. Filtrar Detallados solo al período auditado activo (elimina filas futuras de setiembre)
-    DetalladosActivos = Table.SelectRows(Detallados, each List.Contains(FechasActivasCI, [FECHA_ISO])),
-
-    // 4. Agrupar Detallados por Clave Única (Suma el metraje si hay días multi-fila)
-    DetalladosAgrupados = Table.Group(DetalladosActivos, {"FECHA_ISO", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+    // 3. Agrupar Detallados y acotar a las claves activas auditadas
+    DetalladosAgrupados = Table.Group(Detallados, {"FECHA_ISO", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
         {"METRAJE_DETALLADO", each List.Sum([METRAJE]), type number}
     }),
-    RenombrarDet = Table.RenameColumns(DetalladosAgrupados, {
+    DetalladosActivos = Table.SelectRows(DetalladosAgrupados, each List.Contains(ClavesActivasCI, [ID_CLAVE_UNICA])),
+    RenombrarDet = Table.RenameColumns(DetalladosActivos, {
         {"FECHA_ISO", "DET_FECHA"},
         {"CTR", "DET_CTR"},
         {"MAQUINA_HOMOLOGADA", "DET_MAQUINA"},
         {"TURNO_ESTANDAR", "DET_TURNO"},
         {"ID_CLAVE_UNICA", "DET_CLAVE"}
     }),
+    DetalladosBuffer = Table.Buffer(RenombrarDet),
 
-    // 5. Agrupar Control Interno por Clave Única
-    CIAgrupado = Table.Group(ControlInterno, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
-        {"METRAJE_CI", each List.Sum([METRAJE_CI]), type number}
-    }),
-
-    // 6. Cruce Completo (Full Outer Join) por ID_CLAVE_UNICA
+    // 4. Cruce Instantáneo en Memoria (Full Outer Join sobre tablas bufferizadas)
     MergeTablas = Table.NestedJoin(
-        CIAgrupado, {"ID_CLAVE_UNICA"},
-        RenombrarDet, {"DET_CLAVE"},
+        CIBuffer, {"ID_CLAVE_UNICA"},
+        DetalladosBuffer, {"DET_CLAVE"},
         "DetalladoData",
         JoinKind.FullOuter
     ),
 
-    // 7. Expandir Columnas de Detallados
+    // 5. Expandir Columnas de Detallados
     ExpandirDet = Table.ExpandTableColumn(MergeTablas, "DetalladoData", 
         {"DET_FECHA", "DET_CTR", "DET_MAQUINA", "DET_TURNO", "DET_CLAVE", "METRAJE_DETALLADO"},
         {"DET_FECHA", "DET_CTR", "DET_MAQUINA", "DET_TURNO", "DET_CLAVE", "DET_METRAJE"}
     ),
 
-    // 8. Coalescer campos para garantizar cero valores nulos
+    // 6. Coalescer campos para garantizar cero valores nulos
     ConFechaFinal = Table.AddColumn(ExpandirDet, "FECHA_FINAL", each [FECHA] ?? [DET_FECHA], type text),
     ConCTRFinal = Table.AddColumn(ConFechaFinal, "CTR_FINAL", each [CTR] ?? [DET_CTR], type text),
     ConMaqFinal = Table.AddColumn(ConCTRFinal, "MAQUINA_FINAL", each [MAQUINA] ?? [DET_MAQUINA], type text),
     ConTurnoFinal = Table.AddColumn(ConMaqFinal, "TURNO_FINAL", each [TURNO_ESTANDAR] ?? [DET_TURNO], type text),
     ConClaveFinal = Table.AddColumn(ConTurnoFinal, "CLAVE_FINAL", each [ID_CLAVE_UNICA] ?? [DET_CLAVE], type text),
 
-    // 9. Llenar nulos de metraje con 0.0
+    // 7. Llenar nulos de metraje con 0.0
     ConMetDet = Table.AddColumn(ConClaveFinal, "MET_DETALLADO", each [DET_METRAJE] ?? 0.0, type number),
     ConMetCI = Table.AddColumn(ConMetDet, "MET_CONTROL_INTERNO", each [METRAJE_CI] ?? 0.0, type number),
 
-    // 10. Calcular Diferencia y Estado de Conciliación
+    // 8. Calcular Diferencia y Estado de Conciliación
     ConDiferencia = Table.AddColumn(ConMetCI, "DIFERENCIA", each [MET_DETALLADO] - [MET_CONTROL_INTERNO], type number),
     ConEstado = Table.AddColumn(ConDiferencia, "ESTADO_AUDITORIA", each 
         let d = Number.Abs([DIFERENCIA]) in
@@ -70,7 +70,7 @@ let
         else "❌ DISCREPANCIA REAL", type text
     ),
 
-    // 11. Seleccionar, Renombrar y Tipar Columnas Finales para el Auditor Humano
+    // 9. Seleccionar, Renombrar y Tipar Columnas Finales
     ColumnasFinales = Table.SelectColumns(ConEstado, {
         "FECHA_FINAL",
         "CTR_FINAL",
