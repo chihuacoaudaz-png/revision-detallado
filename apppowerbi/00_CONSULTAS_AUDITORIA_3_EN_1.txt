@@ -5,9 +5,9 @@ Este archivo contiene las 3 consultas Power Query M (con origen directo en Share
 para armar el libro de conciliación donde una persona real audita día a día los metrajes.
 
 ESTRUCTURA DE HOJAS / CONSULTAS EN POWER QUERY:
-  1. "Consolidado_Operaciones"         -> Extracción SharePoint de los 18 Detallados (168 cols, fecha de ciclo posicional)
+  1. "Consolidado_Operaciones"         -> Extracción SharePoint de Detallados (soporte multi-fila por día)
   2. "Consolidado_Control_Interno"    -> Extracción SharePoint de Control Interno (hojas dd.mm)
-  3. "Matriz_Comparativa_Dia_a_Dia"   -> Cruce 1-a-1 por ID_CLAVE_UNICA con Metrajes y Diferencias
+  3. "Matriz_Comparativa_Dia_a_Dia"   -> Cruce 1-a-1 por ID_CLAVE_UNICA con Suma por Turno y Diferencias
 
 ================================================================================
 PASO A PASO PARA CONFIGURAR EN EXCEL / POWER BI:
@@ -27,15 +27,17 @@ PASO A PASO PARA CONFIGURAR EN EXCEL / POWER BI:
 CONSULTA 1: Consolidado_Operaciones (Ver: 01_QUERY_CONSOLIDADO_OPERACIONES.txt)
 --------------------------------------------------------------------------------
 let
+    FechaInicioCiclo = #date(2026, 8, 26),
+
     fn_ProcesarHojaDetallado = (TablaDatos as table, NombreMaquina as text, NombreContrato as text) as table =>
     let
         ValidacionColumnas = if Table.ColumnCount(TablaDatos) < 168 then error "Estructura inválida" else TablaDatos,
         SaltoAdministrativo = Table.Skip(ValidacionColumnas, 24),
-        RecorteVertical = Table.FirstN(SaltoAdministrativo, 62),
-        ColumnasFisicas = List.FirstN(Table.ColumnNames(RecorteVertical), 168),
-        Tabla168 = Table.SelectColumns(RecorteVertical, ColumnasFisicas),
+        ColumnasFisicas = List.FirstN(Table.ColumnNames(SaltoAdministrativo), 168),
+        Tabla168 = Table.SelectColumns(SaltoAdministrativo, ColumnasFisicas),
+        
         NombresCanonicos = {
-            "FECHA_ORIGINAL", "NOMBRE", "PROFUNDIDAD", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "TURNO (A=1;B=2)", 
+            "FECHA_RAW", "NOMBRE", "PROFUNDIDAD", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "TURNO (A=1;B=2)", 
             "GRUPO", "METRAJE", "HORAS EXTRAS", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", "TOTAL metraje del dia", 
             "ACUMULADO", "PROYECTADO", "META", "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", 
             "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", "BENTONITA_PRODUCTO", "BENTONITA_CANT.", "BENTONITA_UND.", 
@@ -74,27 +76,54 @@ let
             "BITACORA DE MANTENIMIENTO_TRABAJOS REALIZADOS", "BITACORA DE MANTENIMIENTO_REPUESTOS UTILIZADOS", 
             "DESCRIPCIÒN LITOLÓGICA", "COMENTARIOS"
         },
+        
         TablaRenombrada = Table.RenameColumns(Tabla168, List.Zip({ColumnasFisicas, NombresCanonicos})),
         TablaEnMemoria = Table.Buffer(TablaRenombrada),
-        ConIndice = Table.AddIndexColumn(TablaEnMemoria, "IndiceGuardia", 0, 1),
-        ConFechaCalculada = Table.AddColumn(ConIndice, "FECHA", each 
+        
+        FiltrarHastaTotal = Table.SelectRows(TablaEnMemoria, each 
             let
-                diaOffset = Number.IntegerDivide([IndiceGuardia], 2),
-                fechaCiclo = Date.AddDays(#date(2026, 8, 26), diaOffset)
+                f = Text.Upper(Text.From([FECHA_RAW] ?? "")),
+                n = Text.Upper(Text.From([NOMBRE] ?? "")),
+                t = Text.Upper(Text.From([#"TURNO (A=1;B=2)"] ?? ""))
             in
-                fechaCiclo, type date
+                not Text.Contains(f, "TOTAL") and not Text.Contains(n, "TOTAL") and not Text.Contains(t, "TOTAL")
         ),
+        
+        ConMarcadorDia = Table.AddColumn(FiltrarHastaTotal, "EsNuevoDia", each 
+            let f = [FECHA_RAW] in
+            if f <> null and f <> "" and not Text.StartsWith(Text.Trim(Text.From(f)), ">") then 1 else 0, type number
+        ),
+        
+        FillFechaRaw = Table.FillDown(ConMarcadorDia, {"FECHA_RAW"}),
+        
+        ConFechaCalculada = Table.AddColumn(FillFechaRaw, "FECHA", each 
+            let
+                fVal = [FECHA_RAW],
+                fDate = try Date.From(fVal) otherwise null,
+                diaMes = if fDate <> null then Date.Day(fDate) else 26,
+                mesNormalizado = if diaMes >= 26 then 8 else 9,
+                fechaNormalizada = try #date(2026, mesNormalizado, diaMes) otherwise FechaInicioCiclo
+            in
+                fechaNormalizada, type date
+        ),
+        
         ConFechaISO = Table.AddColumn(ConFechaCalculada, "FECHA_ISO", each Date.ToText([FECHA], "yyyy-MM-dd"), type text),
         ConFechaKey = Table.AddColumn(ConFechaISO, "FECHA_KEY", each Date.ToText([FECHA], "yyyyMMdd"), type text),
+        
         RellenoSondaje = Table.FillUp(Table.FillDown(ConFechaKey, {"NOMBRE"}), {"NOMBRE"}),
+        
         AddTurno = Table.AddColumn(RellenoSondaje, "TURNO_ESTANDAR", each 
-            if Number.Mod([IndiceGuardia], 2) = 0 then "A" else "B", type text
+            let t = Text.Upper(Text.Trim(Text.From([#"TURNO (A=1;B=2)"] ?? "A"))) in
+            if t = "A" or t = "1" or Text.StartsWith(t, "D") then "A" else "B", type text
         ),
+        
         AddCTR = Table.AddColumn(AddTurno, "CTR", each 
             let raw = Text.Replace(Text.Replace(NombreContrato, "CTR_", ""), "_", " ") in
             Text.Upper(Text.Trim(raw)), type text
         ),
+        
         AddMaquina = Table.AddColumn(AddCTR, "MAQUINA", each Text.Upper(Text.Trim(NombreMaquina)), type text),
+        
         AddMaquinaHomologada = Table.AddColumn(AddMaquina, "MAQUINA_HOMOLOGADA", each 
             let 
                 c = [CTR],
@@ -111,6 +140,7 @@ let
                 else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XDR50USS-00T"
                 else m, type text
         ),
+        
         AddClaveUnica = Table.AddColumn(AddMaquinaHomologada, "ID_CLAVE_UNICA", each 
             [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
         )
@@ -150,10 +180,10 @@ let
     HojasExitosas = Table.SelectRows(ProcesarHojas, each [TablaNormalizada] <> null and not Table.IsEmpty([TablaNormalizada])),
     ColumnasFinales = Table.ColumnNames(HojasExitosas{0}[TablaNormalizada]),
     ExpandirFinal = Table.ExpandTableColumn(HojasExitosas, "TablaNormalizada", ColumnasFinales),
-    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "SheetName", "Data", "Item", "Kind", "Hidden", "Nombre_CTR", "IndiceGuardia"}),
+    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "SheetName", "Data", "Item", "Kind", "Hidden", "Nombre_CTR", "EsNuevoDia"}),
     ColsFecha = {"FECHA"},
     ColsTexto = {
-        "FECHA_ORIGINAL", "NOMBRE", "LINEA", "TURNO (A=1;B=2)", "GRUPO", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", 
+        "FECHA_RAW", "NOMBRE", "LINEA", "TURNO (A=1;B=2)", "GRUPO", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", 
         "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", 
         "BENTONITA_PRODUCTO", "BENTONITA_UND.", "PAC_PRODUCTO", "PAC_UND.", "POLIMERO_PRODUCTO", "POLIMERO_UND.", 
         "LUBRICANTES_PRODUCTO", "LUBRICANTES_UND.", "CONTROLADOR DE PH Y DUREZA_PRODUCTO", "CONTROLADOR DE PH Y DUREZA_UND.", 

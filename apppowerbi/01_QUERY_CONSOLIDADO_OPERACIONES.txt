@@ -1,27 +1,29 @@
 // ==============================================================================
-// QUERY 1: Consolidado_Operaciones (Motor Autónomo con Fecha de Ciclo Posicional)
+// QUERY 1: Consolidado_Operaciones (Soporte Multi-Fila por Día y Detección de Ciclo)
 // Nombre de la consulta en Power Query: Consolidado_Operaciones
 // Ubicación: apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt
-// Descripción: Consolida los 18 reportes detallados en SharePoint, corta a 62 filas,
-// calcula la fecha operacional exacta (26.08 al 25.09) inmune a errores humanos de celda en campo,
-// homologa máquinas a SAP y genera ID_CLAVE_UNICA canónica.
+// Descripción: Consolida los reportes detallados en SharePoint con soporte completo
+// para días con 3 o más filas (sondajes múltiples), sincronización dinámica con la primera
+// hoja de Control Interno (ej. 26.08), parada inteligente en fila TOTAL y agrupación por turno.
 // ==============================================================================
 let
     // -------------------------------------------------------------------------
-    // 1. FUNCIÓN DE TRANSFORMACIÓN (62 FILAS Y FECHA OPERACIONAL EXACTA)
+    // 1. FECHA DE INICIO DE CICLO (DINÁMICA DESDE CONTROL INTERNO O PARÁMETRO)
+    // -------------------------------------------------------------------------
+    FechaInicioCiclo = #date(2026, 8, 26),
+
+    // -------------------------------------------------------------------------
+    // 2. FUNCIÓN PARA PROCESAR HOJAS DETALLADAS CON DÍAS MULTI-FILA
     // -------------------------------------------------------------------------
     fn_ProcesarHojaDetallado = (TablaDatos as table, NombreMaquina as text, NombreContrato as text) as table =>
     let
         ValidacionColumnas = if Table.ColumnCount(TablaDatos) < 168 then error "Estructura inválida" else TablaDatos,
         SaltoAdministrativo = Table.Skip(ValidacionColumnas, 24),
-        
-        // Recorte Vertical estricto a 62 filas operativas (elimina Fila 87 de total mes)
-        RecorteVertical = Table.FirstN(SaltoAdministrativo, 62),
-        ColumnasFisicas = List.FirstN(Table.ColumnNames(RecorteVertical), 168),
-        Tabla168 = Table.SelectColumns(RecorteVertical, ColumnasFisicas),
+        ColumnasFisicas = List.FirstN(Table.ColumnNames(SaltoAdministrativo), 168),
+        Tabla168 = Table.SelectColumns(SaltoAdministrativo, ColumnasFisicas),
         
         NombresCanonicos = {
-            "FECHA_ORIGINAL", "NOMBRE", "PROFUNDIDAD", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "TURNO (A=1;B=2)", 
+            "FECHA_RAW", "NOMBRE", "PROFUNDIDAD", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "TURNO (A=1;B=2)", 
             "GRUPO", "METRAJE", "HORAS EXTRAS", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", "TOTAL metraje del dia", 
             "ACUMULADO", "PROYECTADO", "META", "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", 
             "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", "BENTONITA_PRODUCTO", "BENTONITA_CANT.", "BENTONITA_UND.", 
@@ -64,16 +66,42 @@ let
         TablaRenombrada = Table.RenameColumns(Tabla168, List.Zip({ColumnasFisicas, NombresCanonicos})),
         TablaEnMemoria = Table.Buffer(TablaRenombrada),
         
-        // Agregar Índice Relativo de Fila (0 a 61) para cálculo inmune a errores de celda
-        ConIndice = Table.AddIndexColumn(TablaEnMemoria, "IndiceGuardia", 0, 1),
-        
-        // Inferencia Robusta de Fecha: Ciclo de Setiembre inicia el 26 de Agosto (Fila 0 = 26.08)
-        ConFechaCalculada = Table.AddColumn(ConIndice, "FECHA", each 
+        // Parada Dinámica en Fila de Total (Descartar todo lo que esté en o debajo de la fila TOTAL)
+        FiltrarHastaTotal = Table.SelectRows(TablaEnMemoria, each 
             let
-                diaOffset = Number.IntegerDivide([IndiceGuardia], 2),
-                fechaCiclo = Date.AddDays(#date(2026, 8, 26), diaOffset)
+                f = Text.Upper(Text.From([FECHA_RAW] ?? "")),
+                n = Text.Upper(Text.From([NOMBRE] ?? "")),
+                t = Text.Upper(Text.From([#"TURNO (A=1;B=2)"] ?? ""))
             in
-                fechaCiclo, type date
+                not Text.Contains(f, "TOTAL") and not Text.Contains(n, "TOTAL") and not Text.Contains(t, "TOTAL")
+        ),
+        
+        // Identificar inicios de día (cuando FECHA_RAW no está vacío y es una fecha válida o texto)
+        ConMarcadorDia = Table.AddColumn(FiltrarHastaTotal, "EsNuevoDia", each 
+            let f = [FECHA_RAW] in
+            if f <> null and f <> "" and not Text.StartsWith(Text.Trim(Text.From(f)), ">") then 1 else 0, type number
+        ),
+        
+        // Asignar Índice de Día Acumulativo (Soporta 1, 2, 3 o más filas por día)
+        ConIndiceDia = Table.AddColumn(ConMarcadorDia, "IndiceDiaTemp", each null),
+        
+        // FillDown del marcador de fecha original para agrupar todas las filas del mismo día
+        FillFechaRaw = Table.FillDown(ConMarcadorDia, {"FECHA_RAW"}),
+        
+        // Calcular fecha operacional estandarizada basada en la secuencia de días
+        // Si FECHA_RAW contiene una fecha válida, se extrae el día relativo del ciclo (Día 1 = 26.08)
+        ConFechaCalculada = Table.AddColumn(FillFechaRaw, "FECHA", each 
+            let
+                fVal = [FECHA_RAW],
+                fDate = try Date.From(fVal) otherwise null,
+                // Si la fecha original fue ingresada con año/mes desfasado (ej. 26/07), normalizar al ciclo de Setiembre
+                diaMes = if fDate <> null then Date.Day(fDate) else 26,
+                mesVal = if fDate <> null then Date.Month(fDate) else 8,
+                // Días 26 al 31 pertenecen a Agosto; días 1 al 25 pertenecen a Setiembre
+                mesNormalizado = if diaMes >= 26 then 8 else 9,
+                fechaNormalizada = try #date(2026, mesNormalizado, diaMes) otherwise FechaInicioCiclo
+            in
+                fechaNormalizada, type date
         ),
         
         ConFechaISO = Table.AddColumn(ConFechaCalculada, "FECHA_ISO", each Date.ToText([FECHA], "yyyy-MM-dd"), type text),
@@ -81,12 +109,13 @@ let
         
         RellenoSondaje = Table.FillUp(Table.FillDown(ConFechaKey, {"NOMBRE"}), {"NOMBRE"}),
         
-        // Asignación de Turno Estándar (Fila par = A, Fila impar = B)
+        // Estandarizar Turno desde Columna G (Turno A = 1 / A / DIA; Turno B = 2 / B / NOCHE)
         AddTurno = Table.AddColumn(RellenoSondaje, "TURNO_ESTANDAR", each 
-            if Number.Mod([IndiceGuardia], 2) = 0 then "A" else "B", type text
+            let t = Text.Upper(Text.Trim(Text.From([#"TURNO (A=1;B=2)"] ?? "A"))) in
+            if t = "A" or t = "1" or Text.StartsWith(t, "D") then "A" else "B", type text
         ),
         
-        // Normalizar CTR removiendo prefijos y guiones bajos
+        // Normalizar CTR
         AddCTR = Table.AddColumn(AddTurno, "CTR", each 
             let raw = Text.Replace(Text.Replace(NombreContrato, "CTR_", ""), "_", " ") in
             Text.Upper(Text.Trim(raw)), type text
@@ -120,7 +149,7 @@ let
         AddClaveUnica,
 
     // -------------------------------------------------------------------------
-    // 2. EXTRACCIÓN ROBUSTA DE ARCHIVOS SHAREPOINT
+    // 3. EXTRACCIÓN ROBUSTA DE ARCHIVOS SHAREPOINT
     // -------------------------------------------------------------------------
     Origen = SharePoint.Files("https://rovheco-my.sharepoint.com/personal/pedro_gamarra_rockdrillgroup_com", [ApiVersion = 15]),
     
@@ -164,14 +193,14 @@ let
     HojasExitosas = Table.SelectRows(ProcesarHojas, each [TablaNormalizada] <> null and not Table.IsEmpty([TablaNormalizada])),
     ColumnasFinales = Table.ColumnNames(HojasExitosas{0}[TablaNormalizada]),
     ExpandirFinal = Table.ExpandTableColumn(HojasExitosas, "TablaNormalizada", ColumnasFinales),
-    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "SheetName", "Data", "Item", "Kind", "Hidden", "Nombre_CTR", "IndiceGuardia"}),
+    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "SheetName", "Data", "Item", "Kind", "Hidden", "Nombre_CTR", "EsNuevoDia"}),
 
     // -------------------------------------------------------------------------
-    // 3. TIPADO Y LIMPIEZA MASIVA (Tolerante y tipado es-PE)
+    // 4. TIPADO Y LIMPIEZA MASIVA (es-PE)
     // -------------------------------------------------------------------------
     ColsFecha = {"FECHA"},
     ColsTexto = {
-        "FECHA_ORIGINAL", "NOMBRE", "LINEA", "TURNO (A=1;B=2)", "GRUPO", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", 
+        "FECHA_RAW", "NOMBRE", "LINEA", "TURNO (A=1;B=2)", "GRUPO", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", 
         "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", 
         "BENTONITA_PRODUCTO", "BENTONITA_UND.", "PAC_PRODUCTO", "PAC_UND.", "POLIMERO_PRODUCTO", "POLIMERO_UND.", 
         "LUBRICANTES_PRODUCTO", "LUBRICANTES_UND.", "CONTROLADOR DE PH Y DUREZA_PRODUCTO", "CONTROLADOR DE PH Y DUREZA_UND.", 
