@@ -176,123 +176,144 @@ in
 CONSULTA 2: Consolidado_Control_Interno (Ver: 02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt)
 --------------------------------------------------------------------------------
 let
+    fn_ProcesarPestanaCI = (TablaRaw as table, NombrePestana as text) as table =>
+    let
+        nombreHoja = Text.Trim(NombrePestana),
+        partesFecha = Text.Split(nombreHoja, "."),
+        diaNum = try Number.FromText(partesFecha{0}) otherwise 1,
+        mesNum = try Number.FromText(partesFecha{1}) otherwise 8,
+        anioNum = 2026,
+        fechaDt = #date(anioNum, mesNum, diaNum),
+        fechaISO = Date.ToText(fechaDt, "yyyy-MM-dd"),
+        fechaKey = Date.ToText(fechaDt, "yyyyMMdd"),
+        Salto9 = Table.Skip(TablaRaw, 9),
+        ColsExistentes = Table.ColumnNames(Salto9),
+        ColCTR = ColsExistentes{0},
+        ColMaq = ColsExistentes{2},
+        ColMet = ColsExistentes{6},
+        Seleccion = Table.SelectColumns(Salto9, {ColCTR, ColMaq, ColMet}, MissingField.Ignore),
+        Renombrar = Table.RenameColumns(Seleccion, {
+            {ColCTR, "CTR_RAW"},
+            {ColMaq, "MAQUINA_RAW"},
+            {ColMet, "METRAJE_RAW"}
+        }, MissingField.Ignore),
+        FillCTR = Table.FillDown(Renombrar, {"CTR_RAW"}),
+        FiltrarValidas = Table.SelectRows(FillCTR, each 
+            ([MAQUINA_RAW] <> null) and 
+            ([CTR_RAW] <> null) and
+            (try not Text.Contains(Text.Upper(Text.From([CTR_RAW])), "TOTAL") otherwise true) and
+            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "TOTAL") otherwise true) and
+            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "EQUIPO") otherwise true) and
+            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "MAQUINA") otherwise true) and
+            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "SUB") otherwise true) and
+            (try not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "SUP") otherwise true) and
+            (try Text.Trim(Text.From([MAQUINA_RAW])) <> "" otherwise false)
+        ),
+        ConCTR = Table.AddColumn(FiltrarValidas, "CTR", each 
+            let raw = Text.Upper(Text.Trim(Text.From([CTR_RAW]))) in 
+            if Text.Contains(raw, "AMERICANA") then "CTR_AMERICANA"
+            else if Text.Contains(raw, "ANDAYCHAGUA") then "CTR_ANDAYCHAGUA"
+            else if Text.Contains(raw, "CATALINA") or Text.Contains(raw, "HUANCA") then "CTR_CATALINA HUANCA"
+            else if Text.Contains(raw, "CERRO") then "CTR_CERRO"
+            else if Text.Contains(raw, "CHUNGAR") then "CTR_CHUNGAR"
+            else if Text.Contains(raw, "COBRIZA") then "CTR_COBRIZA"
+            else if Text.Contains(raw, "COLQUISIRI") then "CTR_COLQUISIRI"
+            else if Text.Contains(raw, "CONDESTABLE") then "CTR_CONDESTABLE"
+            else if Text.Contains(raw, "CUCULI") or Text.Contains(raw, "CUCUL") then "CTR_CUCULI"
+            else if Text.Contains(raw, "INMACULADA") then "CTR_INMACULADA"
+            else if Text.Contains(raw, "ESTRELLA") then "CTR_LA ESTRELLA"
+            else if Text.Contains(raw, "MOROCOCHA") then "CTR_MOROCOCHA"
+            else if Text.Contains(raw, "RAURA") then "CTR_RAURA"
+            else if Text.Contains(raw, "CRISTOBAL") or Text.Contains(raw, "SAN CRISTOBAL") then "CTR_SAN CRISTOBAL"
+            else if Text.Contains(raw, "TAMBOJASA") then "CTR_TAMBOJASA"
+            else if Text.Contains(raw, "TICLIO") then "CTR_TICLIO"
+            else if Text.Contains(raw, "YAULIYACU") then "CTR_YAULIYACU"
+            else if Text.Contains(raw, "YAURICOCHA") then "CTR_YAURICOCHA"
+            else raw, type text
+        ),
+        ExcluirNoOperativos = Table.SelectRows(ConCTR, each 
+            not Text.Contains([CTR], "COLQUIJIRCA") and not Text.Contains([CTR], "CAPITANA")
+        ),
+        ConMaquinaHomologada = Table.AddColumn(ExcluirNoOperativos, "MAQUINA_HOMOLOGADA", each 
+            let 
+                c = Text.Upper([CTR]),
+                m = Text.Upper(Text.Trim(Text.From([MAQUINA_RAW])))
+            in 
+                if Text.Contains(c, "CHUNGAR") and (m = "XRD90U-03" or m = "XRD90U-003") then "XRD90U-021"
+                else if Text.Contains(c, "ANDAYCHAGUA") and (m = "LF90DST-002" or m = "LF90D ST-002") then "LF90D ST-002"
+                else if Text.Contains(c, "ANDAYCHAGUA") and m = "XRD90U-017" then "XRD150U-001"
+                else if Text.Contains(c, "CATALINA") and (m = "XRD50-003" or m = "XRD50U-003") then "XRD50U-003"
+                else if Text.Contains(c, "COBRIZA") and (m = "XRD90U-008" or m = "XRD150U-008") then "XRD150U-008"
+                else if Text.Contains(c, "INMACULADA") and (m = "XRD150-004" or m = "XRD150USS-004") then "XRD150USS-004"
+                else if Text.Contains(c, "MOROCOCHA") and (m = "XRD90USS-002" or m = "XRD90USS-005") then "XRD90USS-005"
+                else if Text.Contains(c, "TICLIO") and (m = "XRD150USS-001" or m = "XRD150U-007") then "XRD150U-007"
+                else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XDR50USS-00T"
+                else m, type text
+        ),
+        AgruparPorMaq = Table.Group(ConMaquinaHomologada, {"CTR", "MAQUINA_HOMOLOGADA"}, {
+            {"FilasTurno", each 
+                let 
+                    conIdx = Table.AddIndexColumn(_, "NumGuardia", 1, 1),
+                    conT = Table.AddColumn(conIdx, "TURNO_ESTANDAR", each if [NumGuardia] = 1 then "A" else "B", type text)
+                in 
+                    conT, type table
+            }
+        }),
+        ExpandirGuardias = Table.Combine(AgruparPorMaq[FilasTurno]),
+        ConMetraje = Table.AddColumn(ExpandirGuardias, "METRAJE_CI", each 
+            let v = [METRAJE_RAW] in 
+            if v = null or v = "" or v = "-" then 0.0 
+            else try Number.From(v, "es-PE") otherwise 0.0, type number
+        ),
+        ConFecha = Table.AddColumn(ConMetraje, "FECHA", each fechaISO, type text),
+        ConFechaKey = Table.AddColumn(ConFecha, "FECHA_KEY", each fechaKey, type text),
+        ConClave = Table.AddColumn(ConFechaKey, "ID_CLAVE_UNICA", each 
+            [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
+        ),
+        SeleccionFinalHoja = Table.SelectColumns(ConClave, {
+            "FECHA", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "METRAJE_CI", "ID_CLAVE_UNICA"
+        }, MissingField.Ignore)
+    in
+        SeleccionFinalHoja,
+
     Origen = SharePoint.Files("https://rovheco-my.sharepoint.com/personal/pedro_gamarra_rockdrillgroup_com", [ApiVersion = 15]),
     FiltrarRuta = Table.SelectRows(Origen, each 
         Text.Contains([Folder Path], "Rockdrill_Control_Operaciones") and 
-        Text.Contains([Folder Path], "00_Control_Interno") and
+        Text.Contains([Folder Path], "00_Control_Interno")
+    ),
+    FiltrarExcel = Table.SelectRows(FiltrarRuta, each 
         ([Extension] = ".xlsx" or [Extension] = ".xlsm") and 
         not Text.StartsWith([Name], "~$")
     ),
-    ArchivoReciente = Table.Max(FiltrarRuta, "Date modified"),
-    Contenido = ArchivoReciente[Content],
-    WorkbookCI = Excel.Workbook(Contenido, false),
-    HojasDiarias = Table.SelectRows(WorkbookCI, each 
-        [Kind] = "Sheet" and 
-        Text.Length([Name]) <= 6 and 
-        Text.Contains([Name], ".") and
-        try Value.Is(Number.From(Text.BeforeDelimiter([Name], ".")), type number) otherwise false
-    ),
-    ProcesarPestanaDiaria = Table.AddColumn(HojasDiarias, "DatosPestana", each 
-        let
-            nombrePestana = [Name],
-            tablaDatos = [Data],
-            diaTexto = Text.BeforeDelimiter(nombrePestana, "."),
-            mesTexto = Text.AfterDelimiter(nombrePestana, "."),
-            diaNum = Number.From(diaTexto),
-            mesNum = Number.From(mesTexto),
-            anioNum = 2026,
-            fechaDt = #date(anioNum, mesNum, diaNum),
-            fechaISO = Date.ToText(fechaDt, "yyyy-MM-dd"),
-            fechaKey = Date.ToText(fechaDt, "yyyyMMdd"),
-            SaltoCabecera = Table.Skip(tablaDatos, 9),
-            SeleccionCols = Table.SelectColumns(SaltoCabecera, {
-                Table.ColumnNames(SaltoCabecera){0},
-                Table.ColumnNames(SaltoCabecera){2},
-                Table.ColumnNames(SaltoCabecera){6}
-            }),
-            RenombrarCols = Table.RenameColumns(SeleccionCols, {
-                {Table.ColumnNames(SeleccionCols){0}, "CTR_RAW"},
-                {Table.ColumnNames(SeleccionCols){1}, "MAQUINA_RAW"},
-                {Table.ColumnNames(SeleccionCols){2}, "METRAJE_CI_RAW"}
-            }),
-            FillCTR = Table.FillDown(RenombrarCols, {"CTR_RAW"}),
-            FiltrarFilas = Table.SelectRows(FillCTR, each 
-                [MAQUINA_RAW] <> null and 
-                [CTR_RAW] <> null and
-                not Text.Contains(Text.Upper(Text.From([CTR_RAW])), "TOTAL") and
-                not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "TOTAL") and
-                not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "EQUIPO") and
-                not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "MAQUINA")
-            ),
-            ConCTRNorm = Table.AddColumn(FiltrarFilas, "CTR", each 
-                let raw = Text.Upper(Text.Trim(Text.From([CTR_RAW]))) in 
-                if Text.Contains(raw, "AMERICANA") then "CTR_AMERICANA"
-                else if Text.Contains(raw, "ANDAYCHAGUA") then "CTR_ANDAYCHAGUA"
-                else if Text.Contains(raw, "CATALINA") or Text.Contains(raw, "HUANCA") then "CTR_CATALINA HUANCA"
-                else if Text.Contains(raw, "CERRO") then "CTR_CERRO"
-                else if Text.Contains(raw, "CHUNGAR") then "CTR_CHUNGAR"
-                else if Text.Contains(raw, "COBRIZA") then "CTR_COBRIZA"
-                else if Text.Contains(raw, "COLQUISIRI") then "CTR_COLQUISIRI"
-                else if Text.Contains(raw, "CONDESTABLE") then "CTR_CONDESTABLE"
-                else if Text.Contains(raw, "CUCULI") then "CTR_CUCULI"
-                else if Text.Contains(raw, "INMACULADA") then "CTR_INMACULADA"
-                else if Text.Contains(raw, "ESTRELLA") then "CTR_LA ESTRELLA"
-                else if Text.Contains(raw, "MOROCOCHA") then "CTR_MOROCOCHA"
-                else if Text.Contains(raw, "RAURA") then "CTR_RAURA"
-                else if Text.Contains(raw, "CRISTOBAL") or Text.Contains(raw, "SAN CRISTOBAL") then "CTR_SAN CRISTOBAL"
-                else if Text.Contains(raw, "TAMBOJASA") then "CTR_TAMBOJASA"
-                else if Text.Contains(raw, "TICLIO") then "CTR_TICLIO"
-                else if Text.Contains(raw, "YAULIYACU") then "CTR_YAULIYACU"
-                else if Text.Contains(raw, "YAURICOCHA") then "CTR_YAURICOCHA"
-                else raw, type text
-            ),
-            FiltrarExcluidos = Table.SelectRows(ConCTRNorm, each not Text.Contains([CTR], "COLQUIJIRCA") and not Text.Contains([CTR], "CAPITANA")),
-            ConMaquinaHomologada = Table.AddColumn(FiltrarExcluidos, "MAQUINA_HOMOLOGADA", each 
-                let 
-                    ctr = [CTR],
-                    maq = Text.Upper(Text.Trim(Text.From([MAQUINA_RAW])))
-                in 
-                    if (ctr = "CTR_CHUNGAR" or ctr = "CHUNGAR") and (maq = "XRD90U-03" or maq = "XRD90U-003") then "XRD90U-021"
-                    else if (ctr = "CTR_ANDAYCHAGUA" or ctr = "ANDAYCHAGUA") and (maq = "LF90DST-002" or maq = "LF90D ST-002") then "LF90D ST-002"
-                    else if (ctr = "CTR_ANDAYCHAGUA" or ctr = "ANDAYCHAGUA") and maq = "XRD90U-017" then "XRD150U-001"
-                    else if (ctr = "CTR_CATALINA HUANCA" or ctr = "CATALINA HUANCA") and (maq = "XRD50-003" or maq = "XRD50U-003") then "XRD50U-003"
-                    else if (ctr = "CTR_COBRIZA" or ctr = "COBRIZA") and (maq = "XRD90U-008" or maq = "XRD150U-008") then "XRD150U-008"
-                    else if (ctr = "CTR_INMACULADA" or ctr = "INMACULADA") and (maq = "XRD150-004" or maq = "XRD150USS-004") then "XRD150USS-004"
-                    else if (ctr = "CTR_MOROCOCHA" or ctr = "MOROCOCHA") and (maq = "XRD90USS-002" or maq = "XRD90USS-005") then "XRD90USS-005"
-                    else if (ctr = "CTR_TICLIO" or ctr = "TICLIO") and (maq = "XRD150USS-001" or maq = "XRD150U-007") then "XRD150U-007"
-                    else if (ctr = "CTR_YAULIYACU" or ctr = "YAULIYACU") and (maq = "XRD50USS-001" or maq = "XRD50USS-00T") then "XDR50USS-00T"
-                    else maq, type text
-            ),
-            AgruparTurnos = Table.Group(ConMaquinaHomologada, {"CTR", "MAQUINA_HOMOLOGADA"}, {
-                {"FilasMaq", each 
-                    let 
-                        conIndice = Table.AddIndexColumn(_, "IndiceTurno", 1, 1),
-                        conTurno = Table.AddColumn(conIndice, "TURNO_ESTANDAR", each if [IndiceTurno] = 1 then "A" else "B", type text)
-                    in 
-                        conTurno, type table
-                }
-            }),
-            ExpandirTurnos = Table.Combine(AgruparTurnos[FilasMaq]),
-            ConMetraje = Table.AddColumn(ExpandirTurnos, "METRAJE_CI", each 
-                let v = [METRAJE_CI_RAW] in 
-                if v = null or v = "" or v = "-" then 0.0 
-                else try Number.From(v, "es-PE") otherwise 0.0, type number
-            ),
-            ConFecha = Table.AddColumn(ConMetraje, "FECHA", each fechaISO, type text),
-            ConFechaKey = Table.AddColumn(ConFecha, "FECHA_KEY", each fechaKey, type text),
-            ConClave = Table.AddColumn(ConFechaKey, "ID_CLAVE_UNICA", each 
-                [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
-            )
-        in
-            ConClave
-    ),
-    TablaConsolidadaCI = Table.Combine(ProcesarPestanaDiaria[DatosPestana]),
-    ColumnasFinales = Table.SelectColumns(TablaConsolidadaCI, {
-        "FECHA", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "METRAJE_CI", "ID_CLAVE_UNICA"
+    AgruparArchivos = Table.Group(FiltrarExcel, {"Folder Path"}, {
+        {"UltimoArchivo", each Table.Max(_, "Date modified")}
     }),
-    RenombrarColsFinal = Table.RenameColumns(ColumnasFinales, {{"MAQUINA_HOMOLOGADA", "MAQUINA"}})
+    ExpandirArchivo = Table.ExpandRecordColumn(AgruparArchivos, "UltimoArchivo", {"Content", "Name"}),
+    AbrirLibros = Table.AddColumn(ExpandirArchivo, "WorkbookData", each try Excel.Workbook([Content], false) otherwise null),
+    ExpandirLibros = Table.ExpandTableColumn(AbrirLibros, "WorkbookData", {"Name", "Data", "Item", "Kind", "Hidden"}, {"SheetName", "Data", "Item", "Kind", "Hidden"}),
+    HojasVisibles = Table.SelectRows(ExpandirLibros, each ([Hidden] = false) and ([Kind] = "Sheet")),
+    HojasDiarias = Table.SelectRows(HojasVisibles, each 
+        Text.Contains([SheetName], ".") and 
+        Text.Length(Text.Trim([SheetName])) <= 5
+    ),
+    ProcesarHojas = Table.AddColumn(HojasDiarias, "TablaNormalizada", each 
+        try fn_ProcesarPestanaCI([Data], [SheetName]) otherwise null
+    ),
+    HojasExitosas = Table.SelectRows(ProcesarHojas, each [TablaNormalizada] <> null and not Table.IsEmpty([TablaNormalizada])),
+    ColumnasFinales = Table.ColumnNames(HojasExitosas{0}[TablaNormalizada]),
+    ExpandirFinal = Table.ExpandTableColumn(HojasExitosas, "TablaNormalizada", ColumnasFinales),
+    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "SheetName", "Data", "Item", "Kind", "Hidden"}),
+    RenombrarMaquina = Table.RenameColumns(LimpiezaSistema, {{"MAQUINA_HOMOLOGADA", "MAQUINA"}}),
+    TablaTipada = Table.TransformColumnTypes(RenombrarMaquina, {
+        {"FECHA", type text},
+        {"CTR", type text},
+        {"MAQUINA", type text},
+        {"TURNO_ESTANDAR", type text},
+        {"METRAJE_CI", type number},
+        {"ID_CLAVE_UNICA", type text}
+    }, "es-PE")
 in
-    RenombrarColsFinal
+    TablaTipada
 
 --------------------------------------------------------------------------------
 CONSULTA 3: Matriz_Comparativa_Dia_a_Dia (Ver: 03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt)
