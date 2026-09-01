@@ -1,61 +1,76 @@
 // ==============================================================================
-// QUERY 3: Matriz_Comparativa_Dia_a_Dia (Conciliación 1-a-1 por ID_CLAVE_UNICA)
+// QUERY 3: Matriz_Comparativa_Dia_a_Dia (Conciliación Activa 1-a-1 sin Errores)
 // Nombre de la consulta en Power Query: Matriz_Comparativa_Dia_a_Dia
 // Ubicación: apppowerbi/03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt
-// Descripción: Cruza los metrajes de Consolidado_Operaciones vs Consolidado_Control_Interno
-// guardia a guardia por ID_CLAVE_UNICA, calcula la Diferencia y marca el Estado para auditoría humana.
+// Descripción: Cruza los metrajes de Consolidado_Control_Interno vs Consolidado_Operaciones
+// filtrado al período activo auditado (elimina las ~2,900 filas futuras), coalesciendo
+// fechas canónicas y claves únicas sin nulos ni errores.
 // ==============================================================================
 let
-    // 1. Referenciar las dos consultas principales en la nube
+    // 1. Referenciar las dos consultas principales
     Detallados = Consolidado_Operaciones,
     ControlInterno = Consolidado_Control_Interno,
 
-    // 2. Agrupar Detallados por Clave Única (suma de metraje de la guardia)
-    DetalladosAgrupados = Table.Group(Detallados, {"FECHA_ISO", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+    // 2. Extraer la lista de fechas activas presentes en Control Interno
+    FechasActivasCI = List.Distinct(ControlInterno[FECHA]),
+
+    // 3. Filtrar Detallados solo al período auditado activo (elimina filas futuras de setiembre)
+    DetalladosActivos = Table.SelectRows(Detallados, each List.Contains(FechasActivasCI, [FECHA_ISO])),
+
+    // 4. Agrupar Detallados por Clave Única (Suma el metraje si hay días multi-fila)
+    DetalladosAgrupados = Table.Group(DetalladosActivos, {"FECHA_ISO", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
         {"METRAJE_DETALLADO", each List.Sum([METRAJE]), type number}
     }),
-    RenombrarDet = Table.RenameColumns(DetalladosAgrupados, {{"FECHA_ISO", "FECHA"}, {"MAQUINA_HOMOLOGADA", "MAQUINA"}}),
+    RenombrarDet = Table.RenameColumns(DetalladosAgrupados, {
+        {"FECHA_ISO", "DET_FECHA"},
+        {"CTR", "DET_CTR"},
+        {"MAQUINA_HOMOLOGADA", "DET_MAQUINA"},
+        {"TURNO_ESTANDAR", "DET_TURNO"},
+        {"ID_CLAVE_UNICA", "DET_CLAVE"}
+    }),
 
-    // 3. Agrupar Control Interno por Clave Única
+    // 5. Agrupar Control Interno por Clave Única
     CIAgrupado = Table.Group(ControlInterno, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
         {"METRAJE_CI", each List.Sum([METRAJE_CI]), type number}
     }),
 
-    // 4. Merge Completo (Full Outer Join) por ID_CLAVE_UNICA
+    // 6. Cruce Completo (Full Outer Join) por ID_CLAVE_UNICA
     MergeTablas = Table.NestedJoin(
         CIAgrupado, {"ID_CLAVE_UNICA"},
-        RenombrarDet, {"ID_CLAVE_UNICA"},
+        RenombrarDet, {"DET_CLAVE"},
         "DetalladoData",
         JoinKind.FullOuter
     ),
 
-    // 5. Expandir Detallados
+    // 7. Expandir Columnas de Detallados
     ExpandirDet = Table.ExpandTableColumn(MergeTablas, "DetalladoData", 
-        {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "METRAJE_DETALLADO"},
-        {"DET_FECHA", "DET_CTR", "DET_MAQUINA", "DET_TURNO", "DET_METRAJE"}
+        {"DET_FECHA", "DET_CTR", "DET_MAQUINA", "DET_TURNO", "DET_CLAVE", "METRAJE_DETALLADO"},
+        {"DET_FECHA", "DET_CTR", "DET_MAQUINA", "DET_TURNO", "DET_CLAVE", "DET_METRAJE"}
     ),
 
-    // 6. Coalescer campos clave
+    // 8. Coalescer campos para garantizar cero valores nulos
     ConFechaFinal = Table.AddColumn(ExpandirDet, "FECHA_FINAL", each [FECHA] ?? [DET_FECHA], type text),
     ConCTRFinal = Table.AddColumn(ConFechaFinal, "CTR_FINAL", each [CTR] ?? [DET_CTR], type text),
     ConMaqFinal = Table.AddColumn(ConCTRFinal, "MAQUINA_FINAL", each [MAQUINA] ?? [DET_MAQUINA], type text),
     ConTurnoFinal = Table.AddColumn(ConMaqFinal, "TURNO_FINAL", each [TURNO_ESTANDAR] ?? [DET_TURNO], type text),
+    ConClaveFinal = Table.AddColumn(ConTurnoFinal, "CLAVE_FINAL", each [ID_CLAVE_UNICA] ?? [DET_CLAVE], type text),
 
-    // 7. Llenar nulos y redondear metrajes
-    ConMetDet = Table.AddColumn(ConTurnoFinal, "MET_DETALLADO", each Number.Round([DET_METRAJE] ?? 0.0, 2), type number),
-    ConMetCI = Table.AddColumn(ConMetDet, "MET_CONTROL_INTERNO", each Number.Round([METRAJE_CI] ?? 0.0, 2), type number),
+    // 9. Llenar nulos de metraje con 0.0
+    ConMetDet = Table.AddColumn(ConClaveFinal, "MET_DETALLADO", each [DET_METRAJE] ?? 0.0, type number),
+    ConMetCI = Table.AddColumn(ConMetDet, "MET_CONTROL_INTERNO", each [METRAJE_CI] ?? 0.0, type number),
 
-    // 8. Calcular Diferencia y Estado de Conciliación
-    ConDiferencia = Table.AddColumn(ConMetCI, "DIFERENCIA", each Number.Round([MET_DETALLADO] - [MET_CONTROL_INTERNO], 2), type number),
+    // 10. Calcular Diferencia y Estado de Conciliación
+    ConDiferencia = Table.AddColumn(ConMetCI, "DIFERENCIA", each [MET_DETALLADO] - [MET_CONTROL_INTERNO], type number),
     ConEstado = Table.AddColumn(ConDiferencia, "ESTADO_AUDITORIA", each 
-        if Number.Abs([DIFERENCIA]) < 0.01 then "✅ CUADRA EXACTO"
+        let d = Number.Abs([DIFERENCIA]) in
+        if d < 0.01 then "✅ CUADRA EXACTO"
         else if [MET_CONTROL_INTERNO] = 0.0 and [MET_DETALLADO] > 0.0 then "⚠️ SOLO EN DETALLADO"
         else if [MET_DETALLADO] = 0.0 and [MET_CONTROL_INTERNO] > 0.0 then "❌ PENDIENTE EN DETALLADO"
-        else if Number.Abs([DIFERENCIA]) < 2.0 then "⚠️ DIFERENCIA DECIMAL MENOR"
+        else if d <= 1.50 then "⚠️ DIFERENCIA DECIMAL MENOR (<1.5m)"
         else "❌ DISCREPANCIA REAL", type text
     ),
 
-    // 9. Seleccionar y Ordenar Columnas para la Persona Real / Auditor Humano
+    // 11. Seleccionar, Renombrar y Tipar Columnas Finales para el Auditor Humano
     ColumnasFinales = Table.SelectColumns(ConEstado, {
         "FECHA_FINAL",
         "CTR_FINAL",
@@ -65,7 +80,7 @@ let
         "MET_CONTROL_INTERNO",
         "DIFERENCIA",
         "ESTADO_AUDITORIA",
-        "ID_CLAVE_UNICA"
+        "CLAVE_FINAL"
     }),
     RenombrarFinal = Table.RenameColumns(ColumnasFinales, {
         {"FECHA_FINAL", "FECHA"},
@@ -74,8 +89,20 @@ let
         {"TURNO_FINAL", "TURNO"},
         {"MET_DETALLADO", "METRAJE_DETALLADOS_M"},
         {"MET_CONTROL_INTERNO", "METRAJE_CONTROL_INTERNO_M"},
-        {"DIFERENCIA", "DIFERENCIA_M"}
+        {"DIFERENCIA", "DIFERENCIA_M"},
+        {"CLAVE_FINAL", "ID_CLAVE_UNICA"}
     }),
-    OrdenarFilas = Table.Sort(RenombrarFinal, {{"CTR", Order.Ascending}, {"FECHA", Order.Ascending}, {"MAQUINA", Order.Ascending}, {"TURNO", Order.Ascending}})
+    TablaTipada = Table.TransformColumnTypes(RenombrarFinal, {
+        {"FECHA", type text},
+        {"CTR", type text},
+        {"MAQUINA", type text},
+        {"TURNO", type text},
+        {"METRAJE_DETALLADOS_M", type number},
+        {"METRAJE_CONTROL_INTERNO_M", type number},
+        {"DIFERENCIA_M", type number},
+        {"ESTADO_AUDITORIA", type text},
+        {"ID_CLAVE_UNICA", type text}
+    }, "es-PE"),
+    OrdenarFilas = Table.Sort(TablaTipada, {{"CTR", Order.Ascending}, {"FECHA", Order.Ascending}, {"MAQUINA", Order.Ascending}, {"TURNO", Order.Ascending}})
 in
     OrdenarFilas
