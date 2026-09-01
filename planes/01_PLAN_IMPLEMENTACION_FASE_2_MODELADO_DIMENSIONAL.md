@@ -1,36 +1,61 @@
-# 📐 PLAN DE IMPLEMENTACIÓN TÉCNICA - FASE 2: MODELADO DIMENSIONAL KIMBALL (STAR SCHEMA)
+# 📐 PLAN MAESTRO DE IMPLEMENTACIÓN - FASE 2: MODELADO DIMENSIONAL KIMBALL (STAR SCHEMA)
 ## Sistema Integral de Business Intelligence y Analítica de Perforación (Rockdrill Group)
 
 **Ubicación Oficial:** [`planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md`](file:///c:/Proyectos%20Python/Detallados/planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md)  
 **Fecha:** 01 de Septiembre de 2026  
-**Estado:** **PENDIENTE DE VISTO BUENO (V°B°) DEL STAKEHOLDER**  
+**Autoridad de Control:** Squad de 10 Agentes Especializados de Rockdrill Group  
+**Estado:** **PLAN MAESTRO ESTRUCTURADO Y LISTO PARA VISTO BUENO (V°B°)**  
 
 ---
 
-## 👥 1. ESTRUCTURA Y ROLES DEL EQUIPO DE TRABAJO
+## 👥 1. MATRIZ INTEGRAL DEL SQUAD AGÉNTICO Y ASIGNACIÓN DE ROLES
 
-* 👤 **Stakeholder & Product Owner (Usuario):** Autoridad final de aprobación, definición de prioridades de negocio y validación de entregables.
-* 🗄️ **Database Administrator (DBA):** Arquitectura Relacional, DDL ANSI SQL, Llaves Subrogadas (`_sk`), Miembros Desconocidos (`-1`), Tipado y Restricciones de Integridad Referencial.
-* 🔬 **Data Scientist & Data Architect:** Pipeline Integral, Unpivot de 116 Tiempos en 5 Categorías, Fórmulas de KPIs Mineros (DM %, UT %, $m/h$, Ciclo Minero 26 al 25).
-* 🛡️ **Auditor de Sentido Común & QA (`audit_common_sense_agent`):** Conservación Cuantitativa de Metrajes (6,252.38 m exactos), Invariante de 12h y Monotonía de Cotas ($HASTA \ge DESDE$).
-* 📊 **BI & Analytics Engineer:** Capa Semántica Power BI, Topología Estrella 1:N Unidireccional y Catálogo Oficial de Medidas DAX.
+El presente plan articula de manera sinérgica las responsabilidades de los **10 Agentes Especializados**, garantizando que ninguna decisión técnica quede aislada ni carente de auditoría:
 
 ```mermaid
 flowchart TD
     USER["👤 STAKEHOLDER / PRODUCT OWNER<br/>(Aprobación de Calidad y Criterios de Negocio)"]
-    
-    subgraph SQUAD ["🤖 SQUAD DE INGENIERÍA Y AUDITORÍA AI"]
-        DBA["🗄️ Database Administrator (DBA)<br/>• Esquema Estrella & DDL<br/>• Llaves subrogadas INT (_sk)<br/>• Miembro nulo (sk = -1)"]
-        DS["🔬 Data Scientist & Architect<br/>• Pipeline ETL Python<br/>• Unpivot 116 Tiempos a 5 Categorías<br/>• Fórmulas DAX: DM%, UT%, m/h"]
-        QA["🛡️ Auditor de Sentido Común<br/>• Invariante de Metraje (6,252.38m)<br/>• Monotonía Cotas (HASTA >= DESDE)<br/>• Balance 12h de Jornada"]
-        BI["📊 BI & Visualizations Engineer<br/>• Relaciones 1:N VertiPaq<br/>• Optimización Slicers <1s<br/>• Mockup 3 Slides Google Viz"]
+
+    subgraph DIRECCION ["🎯 DIRECCIÓN, ESTRATEGIA Y GOBERNANZA"]
+        PM["📋 pm_lead_architect<br/>• WBS y Cronograma Maestro<br/>• Coordinación del Squad<br/>• Sincronización de Entregables"]
+        GOV["⚖️ project_governance_auditor<br/>• Firma de Quality Gates (QG1 a QG5)<br/>• Estándares Kimball y ANSI SQL<br/>• Convenciones snake_case y _sk"]
+        VIS["💼 business_vision_strategist<br/>• Mecánica de Ingresos ($/m y $/hr)<br/>• Rentabilidad y Mitigación de Glosas<br/>• Enfoque de Dashboards para Decisión"]
+        DOM["⛏️ business_domain_specialist<br/>• Mapeo 168 Cols SIG (RD.402.P.01.F.01)<br/>• 18 Contratos PU y Ensayos Geotécnicos<br/>• Catálogos de Insumos y Diamantados"]
     end
-    
-    USER <--> SQUAD
-    DBA <--> DS
-    DS <--> QA
-    QA <--> BI
+
+    subgraph INGENIERIA ["⚙️ INGENIERÍA DE DATOS Y CAPA ANALÍTICA"]
+        CLEAN["🧹 data_cleaning_engineer<br/>• Extracción Calamine / Power Query M<br/>• Tipado C++ y Filtro Anti-Totales<br/>• Normalización de Cabeceras"]
+        DBA["🗄️ database_administrator (DBA)<br/>• Esquema Estrella Relacional 3NF<br/>• Llaves subrogadas INT (_sk)<br/>• Miembros desconocidos (sk = -1)"]
+        DS["🔬 data_scientist_architect<br/>• Unpivot 116 Tiempos a 5 Categorías<br/>• Fórmulas Matemáticas DM%, UT%, m/h<br/>• Lógica Ciclo Minero 26 al 25"]
+        BI["📊 bi_visualization_engineer<br/>• Tabular Model VertiPaq en Power BI<br/>• Medidas DAX y Capa Semántica<br/>• Diseño UI/UX 3 Slides (IBCS)"]
+    end
+
+    subgraph AUDITORIA ["🛡️ AUDITORÍA CUANTITATIVA Y QA/QC"]
+        QA["🔍 qa_data_auditor<br/>• Monotonía de Cotas (HASTA >= DESDE)<br/>• Balance de Jornada 12h<br/>• Suite de Pruebas Pytest"]
+        SENSE["🛡️ audit_common_sense_agent<br/>• Conciliación 1-a-1 con Control Interno<br/>• Conservación de Metraje (6,252.38m)<br/>• Benchmarks Americana y Catalina Huanca"]
+    end
+
+    USER <--> PM
+    PM <--> DIRECCION
+    DIRECCION <--> INGENIERIA
+    INGENIERIA <--> AUDITORIA
+    AUDITORIA <--> GOV
 ```
+
+### 📋 Detalle de Atribuciones Específicas en la Fase 2:
+
+| # | Agente | Responsabilidad Principal en Fase 2 | Criterio de Éxito / Entregable |
+| :-: | :--- | :--- | :--- |
+| 1 | **`pm_lead_architect`** | Supervisión del WBS, integración de módulos y trazabilidad en documentación. | Cumplimiento del cronograma y actualización de [`ESTADO_DEL_PROYECTO.md`](file:///c:/Proyectos%20Python/Detallados/ESTADO_DEL_PROYECTO.md). |
+| 2 | **`project_governance_auditor`** | Auditoría y firma de los Quality Gates QG1 (DDL), QG2 (QA) y QG3 (VertiPaq/DAX). | Certificación de cero deuda técnica y cumplimiento Kimball. |
+| 3 | **`business_vision_strategist`** | Validación de que la separación de tiempos refleje los drivers de cobrabilidad ($/m y $/hr). | Clasificación certera de paradas cobrables vs. no cobrables. |
+| 4 | **`business_domain_specialist`** | Mapeo canónico de las 168 columnas, 116 actividades, líneas (HQ, NQ) y aditivos. | Integridad semántica del formato SIG `RD.402.P.01.F.01`. |
+| 5 | **`database_administrator`** | Diseño relacional del Esquema Estrella, llaves subrogadas (`_sk`) e índices. | DDL ANSI SQL optimizado y cero llaves compuestas en el DW. |
+| 6 | **`data_scientist_architect`** | Construcción del algoritmo de unpivoting de tiempos y formulación matemática de KPIs. | Dataset `fact_horas_operativas` filtrado ($h > 0$) y fórmulas DAX. |
+| 7 | **`data_cleaning_engineer`** | Ingesta de alta velocidad y conexión entre la base consolidada y el modelo dimensional. | Generación de datos intermedios limpios sin nulos ni duplicados. |
+| 8 | **`qa_data_auditor`** | Verificación de invariantes: balance de 12h por turno y monotonía física de cotas. | Aprobación de la suite de pruebas automatizadas Pytest. |
+| 9 | **`audit_common_sense_agent`** | Verificación 1-a-1: metraje total en hechos $\equiv \mathbf{6,252.38\text{ m}}$ y benchmarks de mina. | Cuadre al 100.00% contra el benchmark histórico oficial. |
+| 10 | **`bi_visualization_engineer`** | Creación del modelo Tabular en Power BI, optimización VertiPaq y medidas DAX. | Catálogo DAX exportado y relaciones 1:N unidireccionales. |
 
 ---
 
@@ -224,7 +249,7 @@ A continuación, se detalla cómo los registros reales de la base `Consolidado_O
 | **2** | 20260826 | 1 | 1 | 1 | 42 | B | 35.00 | 50.50 | **15.50** | `20260826-CTR_AMERICANA-XRD50U-002-B` |
 
 > [!IMPORTANT]
-> **Control de Auditoría QA:**  
+> **Control de Auditoría QA (`audit_common_sense_agent`):**  
 > $\sum \text{metraje\_guardia\_m} = \mathbf{6,252.38\text{ m}}$, coincidiendo exactamente con el total verificado en Fase 1.
 
 ---
@@ -249,7 +274,7 @@ $$\text{Suma de Guardia A} = 8.50 + 2.00 + 0.50 + 1.00 = \mathbf{12.00\text{ h (
 
 ---
 
-## 🛠️ 5. CAMBIOS TÉCNICOS EN EL REPOSITORIO
+## 🛠️ 5. CAMBIOS TÉCNICOS Y MÓDULOS CONSTRUIDOS
 
 1. **Pipeline de Modelado Python ([`src/modelado_dimensional.py`](file:///c:/Proyectos%20Python/Detallados/src/modelado_dimensional.py)):**
    * Motor vectorizado que genera en `output/star_schema/` los datasets en `.csv`, `.parquet` y `ESQUEMA_ESTRELLA_COMPLETO.xlsx` en **< 1.8 segundos**.
@@ -258,17 +283,26 @@ $$\text{Suma de Guardia A} = 8.50 + 2.00 + 0.50 + 1.00 = \mathbf{12.00\text{ h (
 
 ---
 
-## 🛡️ 6. PROTOCOLO DE VERIFICACIÓN Y QUALITY GATES (QA)
+## 🛡️ 6. PROTOCOLO DE VERIFICACIÓN Y QUALITY GATES (AUDITORES)
 
-### Invariantes Validadas:
-1. **Conservación de Metraje:** $\sum \text{fact\_perforacion\_avance.metraje\_guardia\_m} \equiv \mathbf{6,252.38\text{ m}}$ (cero pérdidas, cero duplicaciones).
-2. **Cero Nulos en Llaves:** Todas las filas poseen llaves enteras válidas ($\ge 1$ o igual a $-1$).
-3. **Integridad Referencial 100%:** Todas las `_sk` de las tablas de hechos existen en sus respectivas dimensiones.
-4. **Rendimiento:** Ejecución en menos de 2.0 segundos.
+```mermaid
+flowchart LR
+    QG1["🚪 QG1: DDL & Esquema<br/>(DBA & Gov Auditor)"] --> QG2["🚪 QG2: Ingesta & QA<br/>(QA Auditor & Clean Eng)"]
+    QG2 --> QG3["🚪 QG3: VertiPaq & DAX<br/>(BI Eng & Data Scientist)"]
+    QG3 --> QG4["🚪 QG4: Visualización IBCS<br/>(BI Eng & Vision Lead)"]
+    QG4 --> QG5["🚪 QG5: Handoff & Cierre<br/>(PM Lead & Stakeholder)"]
+```
+
+### Invariantes Validadas por el Squad:
+1. **Conservación de Metraje (`audit_common_sense_agent`):** $\sum \text{fact\_perforacion\_avance.metraje\_guardia\_m} \equiv \mathbf{6,252.38\text{ m}}$ (cero pérdidas, cero duplicaciones).
+2. **Cero Nulos en Llaves (`database_administrator`):** Todas las filas poseen llaves enteras válidas ($\ge 1$ o igual a $-1$).
+3. **Integridad Referencial 100% (`database_administrator`):** Todas las `_sk` de las tablas de hechos existen en sus respectivas dimensiones.
+4. **Monotonía y Balance de 12h (`qa_data_auditor`):** $HASTA \ge DESDE$ y balance horario de 12.0h por guardia verificado.
+5. **Rendimiento (`data_scientist_architect`):** Ejecución completa en menos de 2.0 segundos.
 
 ---
 
 ## 🚦 7. ESPACIO PARA VISTO BUENO (V°B°) DEL STAKEHOLDER
 
-Para proceder a la siguiente fase, el Stakeholder puede revisar este documento directamente en su explorador de archivos o editor de código en:
+Para proceder a la siguiente fase (Fase 3: Visualización en Power BI Desktop), el Stakeholder puede revisar este documento directamente en su explorador de archivos o editor de código en:  
 👉 [`planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md`](file:///c:/Proyectos%20Python/Detallados/planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md)
