@@ -1,419 +1,495 @@
 <!-- converted from reporte_anomalias_campo.xlsx -->
 
-## Sheet: Sheet1
-| Fecha | CTR | Maquina | Guardia | Codigo_Anomalia | Detalle | Accion |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2026-08-25 | AMERICANA | XRD50U-002 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | ANDAYCHAGUA | XRD80USS-010 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | ANDAYCHAGUA | XRD150U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | ANDAYCHAGUA | LF90DST-002 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CAPITANA | XRD150U-010 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD50U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD50U-003 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD50USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD50USS-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD100U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD100U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD90U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD90U-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-28 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-29 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-30 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-31 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-01 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-02 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-03 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-04 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-05 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-06 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-07 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-08 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-09 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-10 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-11 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-12 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-13 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-14 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-15 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-16 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-17 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-18 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-19 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-20 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-21 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-22 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-23 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-24 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD125UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | CATALINA_HUANCA | XRD125UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CERRO_CORONA | XRD150U-002 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CHUNGAR | XRD90U-03 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CHUNGAR | LM90U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CHUNGAR | XRD90USS-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-27 | CHUNGAR | XRD150USS-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-28 | CHUNGAR | XRD120U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CHUNGAR | XRD120U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CHUNGAR | LM110U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | COBRIZA | XRD50UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | COBRIZA | XLM75UFDR-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | COBRIZA | XRD80USS-006 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | COBRIZA | XRD125UFDR-002 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | COBRIZA | XRD150U-008 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | COLQUISIRI | XRD80USS-012 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-26 | CONDESTABLE | XRD80ITH-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-27 | CONDESTABLE | XRD80ITH-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-27 | CONDESTABLE | XRD80ITH-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CONDESTABLE | XRD80ITH-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CONDESTABLE | XLM75UFDR-002 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CONDESTABLE | XLM75UFDR-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | CONDESTABLE | XRD150USS-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-26 | INMACULADA | XRD80USS-008 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-27 | INMACULADA | XRD80USS-008 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | INMACULADA | XRD90U-016 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | INMACULADA | XRD150U-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-26 | INMACULADA | XLM75UFDR-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | INMACULADA | XLM75UFDR-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-26 | INMACULADA | XRD250U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-26 | INMACULADA | XRD250U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-27 | INMACULADA | XRD250U-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-27 | INMACULADA | XRD250U-001 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-27 | INMACULADA | XRD90U-012 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | INMACULADA | XRD90U-012 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | INMACULADA | XRD150USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | LA_ESTRELLA | XRD150U-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | LA_ESTRELLA | XRD150U-006 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-27 | MOROCOCHA | XRD90USS-005 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | MOROCOCHA | XRD90USS-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | MOROCOCHA | XRD150USS-002 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | RAURA | XRD90USS-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | RAURA | XRD90USS-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | RAURA | XRD150UBT-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | RAURA | XRD150U-005 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-28 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-28 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-29 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-29 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-30 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-30 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-31 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-31 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-01 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-01 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-02 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-02 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-03 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-03 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-04 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-04 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-05 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-05 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-06 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-06 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-07 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-07 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-08 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-08 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-09 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-09 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-10 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-10 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-11 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-11 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-12 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-12 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-13 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-13 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-14 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-14 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-15 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-15 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-16 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-16 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-17 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-17 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-18 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-18 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-19 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-19 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-20 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-20 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-21 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-21 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-22 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-22 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-23 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-23 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-24 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-24 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | SAN_CRISTOBAL | XRD90U-023 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | SAN_CRISTOBAL | XRD90U-023 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-28 | SAN_CRISTOBAL | XRD90U-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-07-28 | SAN_CRISTOBAL | XRD90U-004 | B | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | SAN_CRISTOBAL | XRD90U-004 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | SAN_CRISTOBAL | DE710ST-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | TAMBOJASA | DE710ST-002 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | TAMBOJASA | XRD150U-009 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | TICLIO | XRD150USS-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | YAULIYACU | XRD50USS-003 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | YAULIYACU | XRD50USS-00T | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-09-25 | YAULIYACU | XRD125USS-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | YAURICOCHA | XRD150USS-001 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
-| 2026-08-25 | YAURICOCHA | XRD150U-011 | A | ERR_PERFORISTA_NULO | Campo Perforista en blanco | Solicitar fotocheck a campo |
+## Sheet: Resumen_Quality_Gates
+| QUALITY_GATE | ESTADO |
+| --- | --- |
+| QG1_Integridad_Referencial | APROBADO |
+| QG2_Conservacion_Metrajes | APROBADO |
+| QG3_Unpivoting_Tiempos | APROBADO |
+| QG4_Auditoria_Campo | APROBADO |
+## Sheet: Log_Anomalias_Campo
+| ID_CLAVE_UNICA | TIPO_ANOMALIA | VALOR_DETECTADO | VALOR_ESPERADO | IMPACTO | ACCION_REQUERIDA |
+| --- | --- | --- | --- | --- | --- |
+| 20260826-XDR50USS-00T-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XDR50USS-00T-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD100U-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD100U-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD120U-001-B | ERR_BALANCE_HORAS | 10.50 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD125UFDR-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD125UFDR-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD125USS-001-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD125USS-001-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD150U-012-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD150USS-004-B | ERR_BALANCE_HORAS | 24.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD50U-003-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD50U-003-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD50USS-003-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD50USS-003-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD50USS-004-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD50USS-004-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD80USS-006-A | ERR_BALANCE_HORAS | 10.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD90U-005-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260826-XRD90U-005-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XDR50USS-00T-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XDR50USS-00T-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD100U-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD100U-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD125UFDR-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD125UFDR-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD125USS-001-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD125USS-001-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD50U-003-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD50U-003-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD50USS-003-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD50USS-003-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD50USS-004-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD50USS-004-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD80USS-006-B | ERR_BALANCE_HORAS | 10.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD90U-005-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260827-XRD90U-005-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XDR50USS-00T-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XDR50USS-00T-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD100U-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD100U-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD125UFDR-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD125UFDR-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD125USS-001-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD125USS-001-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD50U-003-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD50U-003-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD50USS-003-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD50USS-003-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD50USS-004-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD50USS-004-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD90U-005-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260828-XRD90U-005-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-DE710T-002-B | ERR_BALANCE_HORAS | 8.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XDR50USS-00T-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XDR50USS-00T-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD100U-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD100U-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD125UFDR-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD125UFDR-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD125USS-001-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD125USS-001-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD50U-003-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD50U-003-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD50USS-003-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD50USS-003-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD50USS-004-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD50USS-004-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD90U-005-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260829-XRD90U-005-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-DE710ST-001-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-DE710ST-001-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XDR50USS-00T-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XDR50USS-00T-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD100U-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD100U-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD125UFDR-001-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD125UFDR-001-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD125USS-001-A | ERR_BALANCE_HORAS | 10.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD125USS-001-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD50U-003-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD50U-003-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD50USS-003-A | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD50USS-003-B | ERR_BALANCE_HORAS | 11.00 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD50USS-004-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD50USS-004-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD90U-005-A | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260830-XRD90U-005-B | ERR_BALANCE_HORAS | 10.15 h | 12.00 h | Distorsion de Disponibilidad Mecanica y Horas Facturables | Solicitar a la administradora el balanceo de tiempos de la bitacora |
+| 20260831-XRD50U-003-A | ERR_MONOTONIA_COTAS | Desde: 22.0m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260831-XRD50USS-004-A | ERR_MONOTONIA_COTAS | Desde: 185.3m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260831-XRD100U-001-A | ERR_MONOTONIA_COTAS | Desde: 66.9m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260831-XRD90U-005-A | ERR_MONOTONIA_COTAS | Desde: 10.0m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260831-XRD120U-001-A | ERR_MONOTONIA_COTAS | Desde: 757.85m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260830-XRD90USS-005-B | ERR_MONOTONIA_COTAS | Desde: 280.5m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260826-XRD90USS-001-B | ERR_MONOTONIA_COTAS | Desde: 55.8m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260830-XRD90USS-001-A | ERR_MONOTONIA_COTAS | Desde: 27.51m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260827-XRD90U-023-B | ERR_MONOTONIA_COTAS | Desde: 145.5m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260829-XRD90U-023-A | ERR_MONOTONIA_COTAS | Desde: 27.15m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260830-XRD125USS-001-A | ERR_MONOTONIA_COTAS | Desde: 250.3m, Hasta: 0.0m | HASTA >= DESDE | Inconsistencia fisica en el tramo de perforacion | Rectificar cotas en el reporte de perforacion diario |
+| 20260825-XRD50U-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD50USS-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD80USS-010-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD150U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-LF90D ST-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50U-003-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50USS-004-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD100U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD100U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD90U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD90U-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260901-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260902-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260903-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260904-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260905-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260906-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260907-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260908-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260909-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260910-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260911-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260912-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260913-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260914-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260915-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260916-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260917-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260918-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260919-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260920-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260921-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260922-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260923-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260924-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD125UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD125UFDR-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150U-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260830-XRD90U-021-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90U-021-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-LM90U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90USS-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD120U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD120U-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260801-XRD120U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD120U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-LM110U-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XLM75UFDR-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD80USS-006-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD125UFDR-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD150U-008-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD80USS-012-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260829-XRD80ITH-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260829-XRD80ITH-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260830-XRD80ITH-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260830-XRD80ITH-001-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD80ITH-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XLM75UFDR-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XLM75UFDR-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150USS-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD100ST-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD80USS-008-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD90U-016-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD150U-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XLM75UFDR-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD90U-012-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD150USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD150U-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD150U-006-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260829-XRD90USS-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260830-XRD90USS-005-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD90USS-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260830-XRD150USS-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD150USS-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260826-XRD80USS-011-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260826-XRD80USS-011-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260827-XRD80USS-011-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260828-XRD80USS-011-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260829-XRD80USS-011-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260830-XRD80USS-011-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90USS-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90USS-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150UBT-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150U-005-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260801-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260801-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260802-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260802-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260803-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260803-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260804-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260804-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260805-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260805-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260806-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260806-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260807-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260807-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260808-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260808-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260809-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260809-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260810-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260810-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260811-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260811-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260812-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260812-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260813-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260813-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260814-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260814-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260815-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260815-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260816-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260816-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260817-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260817-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260818-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260818-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260819-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260819-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260820-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260820-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260821-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260821-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260822-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260822-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260823-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260823-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260824-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260824-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90U-023-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90U-023-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD90U-004-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260830-XRD150U-012-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-DE710ST-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-DE710T-002-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150U-009-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150U-007-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD50USS-003-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XDR50USS-00T-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260925-XRD125USS-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150USS-001-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD150U-011-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260831-XRD150U-011-B | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |
+| 20260825-XRD150U-011-A | ERR_PERFORISTA_NULO | Sin Perforista Registrado | Nombre y Fotocheck del Perforista Titular | Perdida de trazabilidad en ranking de productividad | Completar nombre del operador en plantilla detallada |

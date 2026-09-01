@@ -1,0 +1,140 @@
+// ==============================================================================
+// QUERY 1: Consolidado_Detallados (168 Columnas Oficiales)
+// Ubicación: apppowerbi/01_QUERY_CONSOLIDADO_DETALLADOS.txt
+// Descripción: Extrae los 18 contratos detallados, corta a 62 filas operativas,
+// excluye la fila 87 de total mes, recupera Copias y genera ID_CLAVE_UNICA.
+// ==============================================================================
+let
+    // 1. Origen de Datos (SharePoint / OneDrive o Ruta Local)
+    // Para SharePoint: SharePoint.Files("https://tu-organizacion.sharepoint.com/sites/Rockdrill", [ApiVersion = 15])
+    // Para Local/OneDrive: Folder.Files("C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones")
+    Origen = Folder.Files("C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones"),
+    
+    // 2. Filtrar solo carpetas de Detallados (02_Detallado) y extensiones Excel
+    FiltroCarpetas = Table.SelectRows(Origen, each 
+        Text.Contains([Folder Path], "02_Detallado") and 
+        Text.EndsWith([Extension], ".xlsx") and 
+        not Text.StartsWith([Name], "~$") and
+        not Text.Contains([Folder Path], "COLQUIJIRCA") and
+        not Text.Contains([Folder Path], "CAPITANA")
+    ),
+
+    // 3. Extraer Nombre del Contrato (CTR) de la ruta
+    AgregarCTR = Table.AddColumn(FiltroCarpetas, "CTR_RAW", each 
+        let 
+            partes = Text.Split([Folder Path], "\"),
+            posCTR = List.PositionOf(partes, "02_Detallado") - 1,
+            ctrFolder = if posCTR >= 0 then partes{posCTR} else "DESCONOCIDO",
+            ctrClean = Text.Replace(ctrFolder, "CTR_", "")
+        in 
+            Text.Upper(Text.Trim(ctrClean))
+    ),
+
+    // 4. Quedarse con la versión más reciente por CTR (Soporte para 'Copia de...')
+    AgruparRecientes = Table.Group(AgregarCTR, {"CTR_RAW"}, {
+        {"MasReciente", each Table.Max(_, "Date modified"), type record}
+    }),
+    ExpandirReciente = Table.ExpandRecordColumn(AgruparRecientes, "MasReciente", {"Content", "Name"}),
+
+    // 5. Función inline para procesar cada libro de detallado
+    ProcesarLibro = Table.AddColumn(ExpandirReciente, "DatosDetallado", each 
+        let
+            wb = Excel.Workbook([Content], false),
+            hojas = Table.SelectRows(wb, each 
+                [Kind] = "Sheet" and 
+                not [Hidden] and
+                not List.Contains({"ADITIVOS", "GENERAL", "LISTAS", "Tiempos", "RESUMEN", "GRAFICOS", "MAESTRO"}, [Name])
+            ),
+            procesarHoja = (tablaHoja as table, nombreHoja as text, ctrNombre as text) =>
+                let
+                    // Saltar cabecera administrativa (24 filas)
+                    SaltoAdmin = Table.Skip(tablaHoja, 24),
+                    // CORTE ESTRICTO A 62 FILAS (31 días x 2 turnos, excluye Fila 87 de Total)
+                    Recorte62 = Table.FirstN(SaltoAdmin, 62),
+                    
+                    // Asegurar al menos 168 columnas
+                    ColsActuales = Table.ColumnNames(Recorte62),
+                    TotalCols = List.Count(ColsActuales),
+                    RecorteCols = if TotalCols > 168 then Table.SelectColumns(Recorte62, List.FirstN(ColsActuales, 168)) else Recorte62,
+                    
+                    // Renombrar Columnas Principales
+                    Renombrar = Table.RenameColumns(RecorteCols, {
+                        {Table.ColumnNames(RecorteCols){0}, "FECHA_RAW"},
+                        {Table.ColumnNames(RecorteCols){1}, "SONDAJE"},
+                        {Table.ColumnNames(RecorteCols){2}, "LINEA"},
+                        {Table.ColumnNames(RecorteCols){3}, "PERFORISTA"},
+                        {Table.ColumnNames(RecorteCols){4}, "AYUDANTE_1"},
+                        {Table.ColumnNames(RecorteCols){5}, "AYUDANTE_2"},
+                        {Table.ColumnNames(RecorteCols){6}, "TURNO_RAW"},
+                        {Table.ColumnNames(RecorteCols){7}, "DESDE"},
+                        {Table.ColumnNames(RecorteCols){8}, "HASTA"},
+                        {Table.ColumnNames(RecorteCols){9}, "METRAJE"}
+                    }, MissingField.Ignore),
+                    
+                    // FillDown de Fecha aislado a la hoja
+                    FillFecha = Table.FillDown(Renombrar, {"FECHA_RAW"}),
+                    
+                    // Filtro anti-totales reforzado
+                    FiltroSinTotales = Table.SelectRows(FillFecha, each 
+                        [FECHA_RAW] <> null and 
+                        not Text.Contains(Text.Upper(Text.From([FECHA_RAW])), "TOTAL") and
+                        not Text.Contains(Text.Upper(Text.From([TURNO_RAW] ?? "")), "TOTAL")
+                    ),
+                    
+                    // Agregar Metadatos
+                    ConMetadatos = Table.AddColumn(FiltroSinTotales, "CTR", each ctrNombre),
+                    ConMaquina = Table.AddColumn(ConMetadatos, "MAQUINA", each nombreHoja)
+                in
+                    ConMaquina,
+            
+            HojasProcesadas = Table.AddColumn(hojas, "TablaLimpia", each procesarHoja([Data], [Name], [CTR_RAW])),
+            CombinarHojas = Table.Combine(HojasProcesadas[TablaLimpia])
+        in
+            CombinarHojas
+    ),
+
+    // 6. Expandir todas las filas combinadas
+    TablaConsolidada = Table.Combine(ProcesarLibro[DatosDetallado]),
+
+    // 7. Normalización de Tipos y Claves
+    TipoFecha = Table.TransformColumnTypes(TablaConsolidada, {
+        {"FECHA_RAW", type date},
+        {"METRAJE", type number},
+        {"DESDE", type number},
+        {"HASTA", type number}
+    }, "es-PE"),
+
+    // Formatear Fecha YYYY-MM-DD
+    ConFechaISO = Table.AddColumn(TipoFecha, "FECHA", each Date.ToText([FECHA_RAW], "yyyy-MM-dd"), type text),
+    ConFechaKey = Table.AddColumn(ConFechaISO, "FECHA_KEY", each Date.ToText([FECHA_RAW], "yyyyMMdd"), type text),
+
+    // Normalizar Turno A / B
+    ConTurnoNorm = Table.AddColumn(ConFechaKey, "TURNO_ESTANDAR", each 
+        let t = Text.Upper(Text.Trim(Text.From([TURNO_RAW] ?? "A"))) in
+        if t = "1" or t = "A" or Text.Contains(t, "DIA") then "A" else "B", type text
+    ),
+
+    // Homologación de Máquinas SAP
+    ConMaquinaHomologada = Table.AddColumn(ConTurnoNorm, "MAQUINA_HOMOLOGADA", each 
+        let 
+            ctr = [CTR],
+            maq = Text.Upper(Text.Trim([MAQUINA]))
+        in
+            if ctr = "CHUNGAR" and (maq = "XRD90U-03" or maq = "XRD90U-003") then "XRD90U-021"
+            else if ctr = "ANDAYCHAGUA" and maq = "LF90DST-002" then "LF90D ST-002"
+            else if ctr = "ANDAYCHAGUA" and maq = "XRD90U-017" then "XRD150U-001"
+            else if ctr = "CATALINA HUANCA" and maq = "XRD50-003" then "XRD50U-003"
+            else if ctr = "COBRIZA" and maq = "XRD90U-008" then "XRD150U-008"
+            else if ctr = "INMACULADA" and maq = "XRD150-004" then "XRD150USS-004"
+            else if ctr = "MOROCOCHA" and maq = "XRD90USS-002" then "XRD90USS-005"
+            else if ctr = "TICLIO" and maq = "XRD150USS-001" then "XRD150U-007"
+            else if ctr = "YAULIYACU" and (maq = "XRD50USS-001" or maq = "XRD50USS-00T") then "XDR50USS-00T"
+            else maq, type text
+    ),
+
+    // Generar ID_CLAVE_UNICA canónica
+    ConClaveUnica = Table.AddColumn(ConMaquinaHomologada, "ID_CLAVE_UNICA", each 
+        [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
+    )
+in
+    ConClaveUnica

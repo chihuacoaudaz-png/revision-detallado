@@ -65,18 +65,6 @@
     "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
     "semantic_hash": ""
   },
-  ".edge_session/Default/Service Worker/CacheStorage/56b7519a3bcc4bf82f84f95ab56b86f1b4466580/index.txt": {
-    "mtime": 1787177316.8996072,
-    "seen": 1787182285.6402364,
-    "ast_hash": "",
-    "semantic_hash": ""
-  },
-  ".edge_session/Default/Service Worker/CacheStorage/571988c4897ef87c20ec4d6b13878cf6c36e1caf/index.txt": {
-    "mtime": 1786990981.628129,
-    "seen": 1787182285.6402364,
-    "ast_hash": "",
-    "semantic_hash": ""
-  },
   "GUIA_Y_UBICACION_DE_ARCHIVOS.md": {
     "mtime": 1787008419.191177,
     "seen": 1787182285.6402364,
@@ -168,9 +156,9 @@
     "semantic_hash": ""
   },
   "MCP/docs/obsidian/00_INDICE_MAESTRO.md": {
-    "mtime": 1787093028.683962,
-    "seen": 1787182285.6402364,
-    "ast_hash": "6ab834a0dd0dceab86e041e6d543a018",
+    "mtime": 1788272581.8014715,
+    "seen": 1788272699.3496423,
+    "ast_hash": "7574e4568dc84ac5c50147eb3e58dedb",
     "semantic_hash": ""
   },
   "MCP/docs/obsidian/01_ARQUITECTURA_Y_ETL.md": {
@@ -737,28 +725,10 @@
     "ast_hash": "0b1ef3fd90b94fb317a586785e5b3203",
     "semantic_hash": ""
   },
-  ".edge_session/component_crx_cache/metadata.json": {
-    "mtime": 1786990416.453486,
-    "seen": 1788210540.5569727,
-    "ast_hash": "2aa9e263ee3796d9ce358460a2451b4c",
-    "semantic_hash": ""
-  },
-  ".edge_session/extensions_crx_cache/metadata.json": {
-    "mtime": 1786990446.5826173,
-    "seen": 1788210540.5569727,
-    "ast_hash": "2aa9e263ee3796d9ce358460a2451b4c",
-    "semantic_hash": ""
-  },
   "MCP/model_inspection_v2.json": {
     "mtime": 1787078170.2736876,
     "seen": 1788210540.5569727,
     "ast_hash": "097299014a467538259806f3b25def5e",
-    "semantic_hash": ""
-  },
-  "scratch/test_excel_com.ps1": {
-    "mtime": 1787959579.541806,
-    "seen": 1788210540.5591009,
-    "ast_hash": "f6a84dfa37930fbe157047c773ca8361",
     "semantic_hash": ""
   },
   "src/auditor_sentido_comun.py": {
@@ -2040,9 +2010,33 @@
     "semantic_hash": ""
   },
   "graphify-out/converted/resultado_4282fb9d.md": {
-    "mtime": 1788269718.657721,
-    "seen": 1788269766.1617715,
-    "ast_hash": "985f43faab842b57f8b7194acbc5dd82",
+    "mtime": 1788271933.5674767,
+    "seen": 1788271993.728628,
+    "ast_hash": "ea99286434114c0ddcf84bd437877e4a",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md": {
+    "mtime": 1788272565.7619245,
+    "seen": 1788272699.3496423,
+    "ast_hash": "5e170d54802274e1b8e76b6abe212bd8",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md": {
+    "mtime": 1788272573.9445844,
+    "seen": 1788272699.3496423,
+    "ast_hash": "c446c30e47caaafe9d3c232b77500453",
+    "semantic_hash": ""
+  },
+  "guia/COMANDOS_RAPIDOS_POWERSHELL.txt": {
+    "mtime": 1788272838.5194223,
+    "seen": 1788272928.7415986,
+    "ast_hash": "097851a7e5446b831e5b4fa9ed2825df",
+    "semantic_hash": ""
+  },
+  "guia/GUIA_RAPIDA_GIT_COMANDOS.md": {
+    "mtime": 1788272831.1687837,
+    "seen": 1788272928.7415986,
+    "ast_hash": "749212ed880577c45e98e595652471fb",
     "semantic_hash": ""
   }
 }

@@ -12,9 +12,9 @@
     "semantic_hash": ""
   },
   "ejecutar_pipeline.py": {
-    "mtime": 1787157242.867377,
-    "seen": 1787182285.6396916,
-    "ast_hash": "0778b4ea3e1ca7d334f6e418a10f244c",
+    "mtime": 1788275728.6661763,
+    "seen": 1788275998.9360993,
+    "ast_hash": "93f35f729acea53aec6593620c1d7d67",
     "semantic_hash": ""
   },
   "src/__init__.py": {
@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "src/pipeline.py": {
-    "mtime": 1787179988.3533034,
-    "seen": 1787182285.6396916,
-    "ast_hash": "a416574b32975401b42ac2ad8cdeabf1",
+    "mtime": 1788275663.8825738,
+    "seen": 1788275998.9366121,
+    "ast_hash": "56b7dc7e57346eff4cb0da8b13276ead",
     "semantic_hash": ""
   },
   "src/reconciliacion.py": {
@@ -63,18 +63,6 @@
     "mtime": 1786664153.4421384,
     "seen": 1787182285.6402364,
     "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
-    "semantic_hash": ""
-  },
-  ".edge_session/Default/Service Worker/CacheStorage/56b7519a3bcc4bf82f84f95ab56b86f1b4466580/index.txt": {
-    "mtime": 1787177316.8996072,
-    "seen": 1787182285.6402364,
-    "ast_hash": "",
-    "semantic_hash": ""
-  },
-  ".edge_session/Default/Service Worker/CacheStorage/571988c4897ef87c20ec4d6b13878cf6c36e1caf/index.txt": {
-    "mtime": 1786990981.628129,
-    "seen": 1787182285.6402364,
-    "ast_hash": "",
     "semantic_hash": ""
   },
   "GUIA_Y_UBICACION_DE_ARCHIVOS.md": {
@@ -126,14 +114,14 @@
     "semantic_hash": ""
   },
   "graphify-out/converted/control_interno_compilado_6a61bd72.md": {
-    "mtime": 1788213754.8164396,
-    "seen": 1788213780.4441564,
+    "mtime": 1788275971.428912,
+    "seen": 1788275999.0297382,
     "ast_hash": "503c6c05fd120eca48d6bf8c4295cec2",
     "semantic_hash": ""
   },
   "graphify-out/converted/matriz_comparativa_metrajes_9b70af81.md": {
-    "mtime": 1788213756.3506405,
-    "seen": 1788213780.4441564,
+    "mtime": 1788275973.0047135,
+    "seen": 1788275999.0297382,
     "ast_hash": "71c3cd2c5cf57f0734f32854ff3e6096",
     "semantic_hash": ""
   },
@@ -168,9 +156,9 @@
     "semantic_hash": ""
   },
   "MCP/docs/obsidian/00_INDICE_MAESTRO.md": {
-    "mtime": 1787093028.683962,
-    "seen": 1787182285.6402364,
-    "ast_hash": "6ab834a0dd0dceab86e041e6d543a018",
+    "mtime": 1788272581.8014715,
+    "seen": 1788272699.3496423,
+    "ast_hash": "7574e4568dc84ac5c50147eb3e58dedb",
     "semantic_hash": ""
   },
   "MCP/docs/obsidian/01_ARQUITECTURA_Y_ETL.md": {
@@ -186,9 +174,9 @@
     "semantic_hash": ""
   },
   "MCP/docs/obsidian/03_MODELO_RELACIONAL.md": {
-    "mtime": 1787093028.683962,
-    "seen": 1787182285.6402364,
-    "ast_hash": "2bdd634250affe693aa7a00c2b5790d0",
+    "mtime": 1788275922.7263331,
+    "seen": 1788275998.9791737,
+    "ast_hash": "0ee94cff6000d1c19072c73078d8315b",
     "semantic_hash": ""
   },
   "MCP/docs/obsidian/04_CATALOGO_MEDIDAS_DAX.md": {
@@ -720,8 +708,8 @@
     "semantic_hash": ""
   },
   "graphify-out/converted/detallados_consolidados_89de2410.md": {
-    "mtime": 1788213756.3021035,
-    "seen": 1788213780.4441564,
+    "mtime": 1788275972.9436524,
+    "seen": 1788275999.0297382,
     "ast_hash": "249757c0930db27b4a50613a2b229bb4",
     "semantic_hash": ""
   },
@@ -737,28 +725,10 @@
     "ast_hash": "0b1ef3fd90b94fb317a586785e5b3203",
     "semantic_hash": ""
   },
-  ".edge_session/component_crx_cache/metadata.json": {
-    "mtime": 1786990416.453486,
-    "seen": 1788210540.5569727,
-    "ast_hash": "2aa9e263ee3796d9ce358460a2451b4c",
-    "semantic_hash": ""
-  },
-  ".edge_session/extensions_crx_cache/metadata.json": {
-    "mtime": 1786990446.5826173,
-    "seen": 1788210540.5569727,
-    "ast_hash": "2aa9e263ee3796d9ce358460a2451b4c",
-    "semantic_hash": ""
-  },
   "MCP/model_inspection_v2.json": {
     "mtime": 1787078170.2736876,
     "seen": 1788210540.5569727,
     "ast_hash": "097299014a467538259806f3b25def5e",
-    "semantic_hash": ""
-  },
-  "scratch/test_excel_com.ps1": {
-    "mtime": 1787959579.541806,
-    "seen": 1788210540.5591009,
-    "ast_hash": "f6a84dfa37930fbe157047c773ca8361",
     "semantic_hash": ""
   },
   "src/auditor_sentido_comun.py": {
@@ -1926,9 +1896,9 @@
     "semantic_hash": ""
   },
   "graphify-out/converted/reporte_anomalias_campo_aca0aa60.md": {
-    "mtime": 1788210502.6474319,
-    "seen": 1788210540.5969582,
-    "ast_hash": "19ce5e5639ad2e686d447ca8a0d1c53d",
+    "mtime": 1788275974.452379,
+    "seen": 1788275999.0297382,
+    "ast_hash": "459fc972114cf216810992b2713355a0",
     "semantic_hash": ""
   },
   "power_query_m/CONSULTAS_POWERQUERY_M_PARAMETRIZADAS.txt": {
@@ -2043,6 +2013,48 @@
     "mtime": 1788271933.5674767,
     "seen": 1788271993.728628,
     "ast_hash": "ea99286434114c0ddcf84bd437877e4a",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md": {
+    "mtime": 1788272565.7619245,
+    "seen": 1788272699.3496423,
+    "ast_hash": "5e170d54802274e1b8e76b6abe212bd8",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md": {
+    "mtime": 1788272573.9445844,
+    "seen": 1788272699.3496423,
+    "ast_hash": "c446c30e47caaafe9d3c232b77500453",
+    "semantic_hash": ""
+  },
+  "guia/COMANDOS_RAPIDOS_POWERSHELL.txt": {
+    "mtime": 1788272838.5194223,
+    "seen": 1788272928.7415986,
+    "ast_hash": "097851a7e5446b831e5b4fa9ed2825df",
+    "semantic_hash": ""
+  },
+  "guia/GUIA_RAPIDA_GIT_COMANDOS.md": {
+    "mtime": 1788272831.1687837,
+    "seen": 1788272928.7415986,
+    "ast_hash": "749212ed880577c45e98e595652471fb",
+    "semantic_hash": ""
+  },
+  "src/modelado_dimensional.py": {
+    "mtime": 1788275788.5157964,
+    "seen": 1788275998.9366121,
+    "ast_hash": "9141573af16db16a21d74eee4ae3849a",
+    "semantic_hash": ""
+  },
+  "src/validador_qaqc.py": {
+    "mtime": 1788275800.463691,
+    "seen": 1788275998.9422667,
+    "ast_hash": "858503b35dad495d3d9314e2eeb46daa",
+    "semantic_hash": ""
+  },
+  "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md": {
+    "mtime": 1788275974.289186,
+    "seen": 1788275999.013607,
+    "ast_hash": "b1a0d35ff0a569ab3c662e71d4da6245",
     "semantic_hash": ""
   }
 }

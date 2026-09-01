@@ -1,10 +1,12 @@
 """
-Orquestador Principal del Pipeline ETL (Rockdrill)
-==================================================
-Coordina de principio a fin los 3 pasos del flujo:
+Orquestador Principal del Pipeline ETL y Modelado Dimensional (Rockdrill)
+========================================================================
+Coordina de principio a fin los 5 pasos del flujo de datos empresarial:
   1. ETL de Detallados (18 CTRs) -> output/detallados_consolidados.xlsx/csv
   2. ETL de Control Interno -> output/control_interno/control_interno_compilado.xlsx/csv
-  3. Reconciliación de Metrajes -> output/matriz_comparativa_metrajes.xlsx
+  3. Reconciliación 1-a-1 de Metrajes -> output/matriz_comparativa_metrajes.xlsx
+  4. Modelado Dimensional Kimball (Facts & Dims) -> output/powerbi_star_schema/ (.parquet, .csv, .xlsx)
+  5. Auditoría de Gobernanza QA/QC (5 Quality Gates) -> output/reporte_anomalias_campo.xlsx
 """
 
 import time
@@ -15,6 +17,8 @@ import pandas as pd
 from .etl_detallados import run_etl_detallados
 from .etl_control_interno import run_etl_control_interno
 from .reconciliacion import reconciliar_metrajes
+from .modelado_dimensional import construir_modelo_dimensional
+from .validador_qaqc import ejecutar_auditoria_qaqc
 
 
 def run_full_pipeline(
@@ -28,12 +32,11 @@ def run_full_pipeline(
     solo_ci: bool = False,
     solo_conciliacion: bool = False,
     fecha_corte: Optional[str] = None,
-    export_star_schema: bool = False,
+    export_star_schema: bool = True,
     generar_pdf: bool = False
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Ejecuta el pipeline de datos (Detallados + Control Interno + Conciliación) y guarda los entregables en 'output_path'.
-    Soporta fechas de corte dinámicas, exportación de esquema estrella para Power BI y generación de informe PDF.
+    Ejecuta el pipeline integral de datos (Detallados + Control Interno + Conciliación + Modelo Dimensional + QA/QC).
     """
     output_path.mkdir(parents=True, exist_ok=True)
     ci_output_dir = output_path / "control_interno"
@@ -109,7 +112,7 @@ def run_full_pipeline(
                 if "FECHA" in df_ci.columns and df_ci["FECHA"].notna().any():
                     corte = str(df_ci["FECHA"].max())
                 else:
-                    corte = "2026-08-17"
+                    corte = "2026-08-30"
 
             comp, disc, res_ctr = reconciliar_metrajes(df_det, df_ci, output_path, fecha_corte=corte)
             coincidencias = len(comp) - len(disc)
@@ -119,23 +122,30 @@ def run_full_pipeline(
             print(f"  Discrepancias Reales: {len(disc)} claves", flush=True)
             print(f"  Exportado en: {output_path / 'matriz_comparativa_metrajes.xlsx'}", flush=True)
 
-    # Paso 4: Esquema Estrella Power BI (Opcional)
+    # Paso 4: Modelado Dimensional Kimball para Power BI / SQL Warehouse
     if export_star_schema:
         print("\n" + "=" * 80, flush=True)
-        print("  PASO 4: EXPORTANDO ESQUEMA ESTRELLA PARA POWER BI", flush=True)
+        print("  PASO 4: MODELADO DIMENSIONAL KIMBALL (ESTRELLA EMPRESARIAL)", flush=True)
         print("=" * 80, flush=True)
         if df_det.empty:
             det_csv = output_path / "detallados_consolidados.csv"
             if det_csv.exists():
                 df_det = pd.read_csv(det_csv, low_memory=False)
         if not df_det.empty:
-            from .export_star_schema import exportar_esquema_estrella_powerbi
-            exportar_esquema_estrella_powerbi(df_det, output_path)
+            star_dir = output_path / "powerbi_star_schema"
+            tablas_estrella = construir_modelo_dimensional(df_det, maestro_path, star_dir)
+            
+            # Paso 5: Validación QA/QC
+            print("\n" + "=" * 80, flush=True)
+            print("  PASO 5: VALIDACIÓN DE GOBERNANZA QA/QC (5 QUALITY GATES)", flush=True)
+            print("=" * 80, flush=True)
+            reporte_anomalias_path = output_path / "reporte_anomalias_campo.xlsx"
+            ejecutar_auditoria_qaqc(tablas_estrella, df_det, reporte_anomalias_path)
 
-    # Paso 5: Generación de PDF (Opcional)
+    # Paso 6: Generación de PDF (Opcional)
     if generar_pdf:
         print("\n" + "=" * 80, flush=True)
-        print("  PASO 5: GENERANDO INFORME TÉCNICO EN PDF", flush=True)
+        print("  PASO 6: GENERANDO INFORME TÉCNICO EN PDF", flush=True)
         print("=" * 80, flush=True)
         from generar_pdf_propuesta import generar_pdf as compilar_pdf
         compilar_pdf(output_path)

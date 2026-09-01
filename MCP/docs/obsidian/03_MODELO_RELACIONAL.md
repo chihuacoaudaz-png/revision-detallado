@@ -1,84 +1,171 @@
-# 🔗 Modelo Relacional y Esquema Tabular
+# 🔗 Modelo Relacional y Esquema Tabular Kimball Empresarial
 
 > [!NOTE]
-> El modelo de datos de `RESIDENTES.pbix` implementa una arquitectura **Estrella Extendida** con tablas de hechos transaccionales (`Fact_Metraje`, `Fact_Tiempos`, `Fact_Abastecimiento`, `Consumo Consolidado`) conectadas a dimensiones compartidas (`Dim_Calendario`, `Dim_CTR`, `Dim_Maquina`, `Dim_Sondaje`, `Dim_Personal`, `Dim_Familias`).
+> El sistema implementa una arquitectura **Kimball Star Schema de Grado Empresarial** optimizada para motores columnares (VertiPaq en Power BI, Delta Lake en Microsoft Fabric, PostgreSQL y Snowflake).
+> 
+> Utiliza **Llaves Subrogadas Enteras (`_sk`)**, soporte para miembros desconocidos (`sk = -1`), unpivoting de 116 columnas de tiempos operativos en `fact_horas_operativas` y una tabla puente (`brg_cuadrilla_guardia`) para modelar cuadrillas M:N de forma óptima sin relaciones bidireccionales ambiguas.
 
 ---
 
-## 1. Diagrama Entidad-Relación (Mermaid ERD)
+## 1. Diagrama Entidad-Relación Enterprise (Mermaid ERD)
 
 ```mermaid
 erDiagram
-    Dim_Calendario ||--o{ Fact_Metraje : "FECHA -> Date (1:N)"
-    Dim_Calendario ||--o{ Fact_Tiempos : "FECHA -> Date (1:N)"
-    Dim_Calendario ||--o{ Fact_Abastecimiento : "FECHA -> Date (1:N)"
-    Dim_Calendario ||--o{ Consumo_Consolidado : "Fecha -> Date (1:N)"
-    Dim_Calendario ||--o{ Fact_Metas : "MES OPERATIVO -> Date (1:N)"
+    %% DIMENSIONES
+    dim_tiempo_calendario ||--o{ fact_perforacion_avance : "calendario_sk (1:N)"
+    dim_tiempo_calendario ||--o{ fact_horas_operativas : "calendario_sk (1:N)"
+    dim_tiempo_calendario ||--o{ brg_cuadrilla_guardia : "calendario_sk (1:N)"
+    
+    dim_contrato_minero ||--o{ fact_perforacion_avance : "contrato_sk (1:N)"
+    dim_contrato_minero ||--o{ fact_horas_operativas : "contrato_sk (1:N)"
+    dim_contrato_minero ||--o{ fact_metas_mensuales : "contrato_sk (1:N)"
+    
+    dim_equipo_perforadora ||--o{ fact_perforacion_avance : "equipo_sk (1:N)"
+    dim_equipo_perforadora ||--o{ fact_horas_operativas : "equipo_sk (1:N)"
+    dim_equipo_perforadora ||--o{ fact_metas_mensuales : "equipo_sk (1:N)"
+    dim_equipo_perforadora ||--o{ brg_cuadrilla_guardia : "equipo_sk (1:N)"
+    
+    dim_linea_diametro ||--o{ fact_perforacion_avance : "linea_sk (1:N)"
+    
+    dim_personal ||--o{ fact_perforacion_avance : "perforista_sk -> personal_sk (1:N)"
+    dim_personal ||--o{ brg_cuadrilla_guardia : "personal_sk (1:N)"
+    
+    dim_sondaje_taladro ||--o{ fact_perforacion_avance : "sondaje_sk (1:N)"
+    dim_taxonomia_actividad ||--o{ fact_horas_operativas : "actividad_sk (1:N)"
 
-    Dim_CTR ||--o{ Fact_Metraje : "CTR -> CTR (1:N)"
-    Dim_CTR ||--o{ Fact_Tiempos : "CTR -> CTR (1:N)"
-    Dim_CTR ||--o{ Fact_Abastecimiento : "CONTRATO -> CTR (1:N)"
-    Dim_CTR ||--o{ Consumo_Consolidado : "CTR -> CTR (1:N)"
-    Dim_CTR ||--o{ Fact_Metas : "CTR -> CTR (1:N)"
+    %% ATRIBUTOS PRINCIPALES
+    dim_tiempo_calendario {
+        INT calendario_sk PK
+        DATE fecha_dt
+        INT anio_operativo
+        VARCHAR mes_nom_operativo
+        INT periodo_operativo_sort
+        BOOLEAN es_cierre_operativo
+    }
 
-    Dim_Maquina ||--o{ Fact_Metraje : "MAQUINA -> MAQUINA (1:N Both)"
-    Dim_Maquina ||--o{ Fact_Tiempos : "MAQUINA -> MAQUINA (1:N)"
-    Dim_Maquina ||--o{ Consumo_Consolidado : "Maquina -> MAQUINA (1:N)"
-    Dim_Maquina ||--o{ Fact_Metas : "MAQUINA -> MAQUINA (1:N)"
+    dim_contrato_minero {
+        SMALLINT contrato_sk PK
+        VARCHAR contrato_cd
+        VARCHAR nombre_contrato
+        VARCHAR zona_geografica
+        VARCHAR tipo_operacion
+    }
 
-    Dim_Sondaje ||--o{ Fact_Metraje : "SONDAJE -> SONDAJE (1:N)"
-    Dim_Sondaje ||--o{ Fact_Tiempos : "SONDAJE -> SONDAJE (1:N)"
+    dim_equipo_perforadora {
+        SMALLINT equipo_sk PK
+        VARCHAR equipo_cd
+        VARCHAR codigo_sap
+        VARCHAR modelo_fabricante
+        SMALLINT contrato_sk_asignado FK
+    }
 
-    Dim_Personal ||--o{ Fact_Personal_Asignado : "PERFORISTA -> NOMBRE (1:N)"
-    Fact_Personal_Asignado }o--o{ Fact_Metraje : "KEY_OPERACION (M:M Both)"
-    Fact_Personal_Asignado }o--o{ Fact_Tiempos : "KEY_OPERACION (M:M Single)"
+    dim_linea_diametro {
+        SMALLINT linea_sk PK
+        VARCHAR linea_cd
+        VARCHAR tipo_tuberia
+        DECIMAL diametro_corona_mm
+    }
 
-    Dim_Familias ||--o{ Fact_Abastecimiento : "FAMILIA -> FAMILIA (1:N)"
-    Dim_Familias ||--o{ Consumo_Consolidado : "Familia -> ID_FAMILIA (1:N)"
+    dim_personal {
+        INT personal_sk PK
+        VARCHAR personal_cd
+        VARCHAR nombre_completo
+        VARCHAR rol_estandarizado
+    }
 
-    Reporte_Brocas ||--o{ Fact_Metraje : "Nº_BROCA -> Nº_BROCA (1:N)"
-    Reporte_Brocas ||--o{ Consumo_Consolidado : "Serie -> Nº_BROCA (1:N)"
+    dim_sondaje_taladro {
+        INT sondaje_sk PK
+        VARCHAR sondaje_cd
+        SMALLINT contrato_sk FK
+        VARCHAR tipo_taladro
+    }
+
+    dim_taxonomia_actividad {
+        SMALLINT actividad_sk PK
+        VARCHAR nombre_actividad
+        VARCHAR bloque_funcional
+        VARCHAR categoria_disponibilidad
+        BOOLEAN es_cobrable
+        BOOLEAN impacta_disp_mecanica
+    }
+
+    fact_perforacion_avance {
+        BIGINT avance_id PK
+        INT calendario_sk FK
+        SMALLINT contrato_sk FK
+        SMALLINT equipo_sk FK
+        INT sondaje_sk FK
+        INT perforista_sk FK
+        SMALLINT linea_sk FK
+        VARCHAR turno_guardia
+        DECIMAL desde_m
+        DECIMAL hasta_m
+        DECIMAL metraje_guardia_m
+        VARCHAR id_clave_unica
+    }
+
+    fact_horas_operativas {
+        BIGINT hora_evento_id PK
+        INT calendario_sk FK
+        SMALLINT contrato_sk FK
+        SMALLINT equipo_sk FK
+        SMALLINT actividad_sk FK
+        VARCHAR turno_guardia
+        DECIMAL horas_reportadas
+        BOOLEAN es_cobrable
+        VARCHAR categoria_disponibilidad
+        VARCHAR id_clave_unica
+    }
+
+    brg_cuadrilla_guardia {
+        BIGINT asignacion_id PK
+        INT calendario_sk FK
+        SMALLINT equipo_sk FK
+        INT personal_sk FK
+        VARCHAR rol_desempenado
+        DECIMAL horas_laboradas
+        VARCHAR id_clave_unica
+    }
+
+    fact_metas_mensuales {
+        BIGINT meta_id PK
+        SMALLINT contrato_sk FK
+        SMALLINT equipo_sk FK
+        INT periodo_operativo_sort
+        DECIMAL meta_metraje_m
+        DECIMAL horas_programadas_mes
+    }
 ```
 
 ---
 
-## 2. Matriz Exhaustiva de Relaciones
+## 2. Matriz de Tablas del Esquema Estrella en Producción
 
-| # | Tabla Origen (From) | Columna Origen | Tabla Destino (To) | Columna Destino | Cardinalidad | Filtro Cruzado | Estado |
-| :-: | :--- | :--- | :--- | :--- | :---: | :---: | :---: |
-| 1 | `Fact_Metraje` | `MAQUINA` | `Dim_Maquina` | `MAQUINA` | M:1 | **Both (Bidireccional)** | Activa |
-| 2 | `Fact_Tiempos` | `CTR` | `Dim_CTR` | `CTR` | M:1 | Single | Activa |
-| 3 | `Fact_Metraje` | `CTR` | `Dim_CTR` | `CTR` | M:1 | Single | Activa |
-| 4 | `Fact_Metas` | `CTR` | `Dim_CTR` | `CTR` | M:1 | Single | Activa |
-| 5 | `Fact_Metraje` | `FECHA` | `Dim_Calendario` | `Date` | M:1 | Single | Activa |
-| 6 | `Fact_Abastecimiento`| `FECHA` | `Dim_Calendario` | `Date` | M:1 | Single | Activa |
-| 7 | `Fact_Tiempos` | `FECHA` | `Dim_Calendario` | `Date` | M:1 | Single | Activa |
-| 8 | `Fact_Abastecimiento`| `CONTRATO` | `Dim_CTR` | `CTR` | M:1 | Single | Activa |
-| 9 | `Fact_Metraje` | `Nº_BROCA` | `Reporte_Brocas` | `Nº_BROCA` | M:1 | Single | Activa |
-| 10 | `Fact_Metas` | `MAQUINA` | `Dim_Maquina` | `MAQUINA` | M:1 | Single | Activa |
-| 11 | `Fact_Metas` | `MES OPERATIVO` | `Dim_Calendario` | `Date` | M:1 | Single | Activa |
-| 12 | `Fact_Tiempos` | `MAQUINA` | `Dim_Maquina` | `MAQUINA` | M:1 | Single | Activa |
-| 13 | `Consumo Consolidado`| `CTR` | `Dim_CTR` | `CTR` | M:1 | Single | Activa |
-| 14 | `Consumo Consolidado`| `Maquina` | `Dim_Maquina` | `MAQUINA` | M:1 | Single | Activa |
-| 15 | `Consumo Consolidado`| `Fecha` | `Dim_Calendario` | `Date` | M:1 | Single | Activa |
-| 16 | `Fact_Metraje` | `SONDAJE` | `Dim_Sondaje` | `SONDAJE` | M:1 | Single | Activa |
-| 17 | `Fact_Tiempos` | `SONDAJE` | `Dim_Sondaje` | `SONDAJE` | M:1 | Single | Activa |
-| 18 | `Fact_Personal_Asignado`| `NOMBRE_TRABAJADOR`| `Dim_Personal` | `PERFORISTA` | M:1 | Single | Activa |
-| 19 | `Fact_Personal_Asignado`| `KEY_OPERACION` | `Fact_Metraje` | `KEY_OPERACION` | M:M | **Both (Bidireccional)** | Activa |
-| 20 | `Fact_Tiempos` | `KEY_OPERACION` | `Fact_Personal_Asignado` | `KEY_OPERACION` | M:M | Single | Activa |
-| 21 | `Fact_Abastecimiento`| `FAMILIA` | `Dim_Familias` | `FAMILIA` | M:1 | Single | Activa |
-| 22 | `Consumo Consolidado`| `Serie` | `Reporte_Brocas` | `Nº_BROCA` | M:1 | Single | Activa |
-| 23 | `Consumo Consolidado`| `Familia` | `Dim_Familias` | `ID_FAMILIA` | M:1 | Single | Activa |
+Las tablas generadas por `src/modelado_dimensional.py` se ubican en [`output/powerbi_star_schema/`](file:///C:/Proyectos%20Python/Detallados/output/powerbi_star_schema):
+
+| Tabla | Tipo | Filas Generadas | Columnas | Formatos Disponibles |
+| :--- | :--- | :---: | :---: | :--- |
+| **`dim_tiempo_calendario`** | Dimensión | 62 | 17 | `.parquet`, `.csv`, `.xlsx` |
+| **`dim_contrato_minero`** | Dimensión | 19 | 7 | `.parquet`, `.csv`, `.xlsx` |
+| **`dim_equipo_perforadora`** | Dimensión | 57 | 9 | `.parquet`, `.csv`, `.xlsx` |
+| **`dim_linea_diametro`** | Dimensión | 5 | 5 | `.parquet`, `.csv`, `.xlsx` |
+| **`dim_personal`** | Dimensión | 418 | 7 | `.parquet`, `.csv`, `.xlsx` |
+| **`dim_sondaje_taladro`** | Dimensión | 97 | 7 | `.parquet`, `.csv`, `.xlsx` |
+| **`dim_taxonomia_actividad`** | Dimensión | 94 | 6 | `.parquet`, `.csv`, `.xlsx` |
+| **`fact_perforacion_avance`** | Hechos | 933 | 13 | `.parquet`, `.csv`, `.xlsx` |
+| **`fact_horas_operativas`** | Hechos | 3,965 | 10 | `.parquet`, `.csv`, `.xlsx` |
+| **`brg_cuadrilla_guardia`** | Puente M:N | 1,640 | 7 | `.parquet`, `.csv`, `.xlsx` |
+| **`fact_metas_mensuales`** | Hechos | 56 | 6 | `.parquet`, `.csv`, `.xlsx` |
 
 ---
 
-## 3. Consideraciones Críticas de Filtrado
+## 3. Principios de Diseño de Ingeniería
 
-> [!WARNING]
-> **Relaciones Many-to-Many (M:M):**
-> La tabla `Fact_Personal_Asignado` actúa como puente entre el personal (`Dim_Personal`) y las operaciones (`Fact_Metraje` / `Fact_Tiempos`). Esto permite que un perforista y dos ayudantes compartan los metros y tiempos de la guardia. Al escribir DAX que involucre personal, debe tenerse en cuenta esta duplicación a nivel de personal usando `DISTINCTCOUNT` o `AVERAGEX`.
-
-> [!IMPORTANT]
-> **Dim_Calendario y Periodo Operativo:**
-> El corte mensual en Rock Drill **no es calendario natural** (1 al 31), sino **operativo** (del 26 del mes anterior al 25 del mes actual).
-> La columna `Dim_Calendario[Periodo Sort]` y `Dim_Calendario[Mes Operativo]` deben utilizarse en todos los visuales y filtros temporales.
+1. **Llaves Subrogadas Enteras (`_sk`):**  
+   Garantizan un consumo de memoria mínimo (compresión VertiPaq) y JOINs en microsegundos.
+2. **Registro Miembro Desconocido (`sk = -1`):**  
+   Todas las dimensiones contienen la fila `sk = -1` (`[NO ASIGNADO]`), haciendo al modelo inmune a celdas vacías o registros incompletos de campo.
+3. **Dirección de Filtro Única (Single Direction 1:N):**  
+   Elimina filtros bidireccionales y ambigüedad en DAX.
+4. **Tabla Puente de Cuadrilla (`brg_cuadrilla_guardia`):**  
+   Permite calcular KPIs por perforista, ayudante 1 y ayudante 2 sin duplicar metrajes en la tabla de hechos.

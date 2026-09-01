@@ -6,21 +6,17 @@ Este script ejecuta el procesamiento completo de datos:
   1. Extracción y Limpieza de Reportes Detallados (RD.402.P.01.F.01) de los 18 CTRs.
   2. Compilación de Control Interno (RD.402.P.01.F.04).
   3. Reconciliación Diaria, Clasificación de Discrepancias y Matriz Comparativa.
-  4. Exportación de Entregables Oficiales en Excel y CSV.
-  5. (Opcional) Generación de Esquema Estrella para Power BI (RESIDENTES.pbix).
+  4. Modelado Dimensional Kimball (Facts & Dims en .parquet, .csv y .xlsx).
+  5. Auditoría Formal de Gobernanza QA/QC (5 Quality Gates).
   6. (Opcional) Compilación de Informe Editorial en PDF de Propuesta Técnica.
 
 MODO DE USO:
-  python ejecutar_pipeline.py                         # Flujo completo estándar
-  python ejecutar_pipeline.py --fecha-corte 2026-08-17 # Define fecha límite de conciliación
-  python ejecutar_pipeline.py --export-star-schema    # Genera tablas estrella para Power BI
+  python ejecutar_pipeline.py                         # Flujo completo integral estándar
+  python ejecutar_pipeline.py --fecha-corte 2026-08-30 # Define fecha límite de conciliación
   python ejecutar_pipeline.py --generar-pdf           # Genera informe técnico en PDF
   python ejecutar_pipeline.py --solo-detallados       # Solo procesa reportes detallados
   python ejecutar_pipeline.py --solo-ci               # Solo compila Control Interno
   python ejecutar_pipeline.py --solo-conciliar        # Solo regenera matriz de conciliación
-
-CONFIGURACIÓN:
-  Para cambiar rutas, modos de entorno o carpetas, edita 'config.py'.
 ================================================================================
 """
 
@@ -43,7 +39,7 @@ from src import run_full_pipeline
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Pipeline ETL de Limpieza, Conciliación y Auditoría - Rockdrill Group",
+        description="Pipeline ETL de Limpieza, Conciliación, Modelado Dimensional y QA/QC - Rockdrill Group",
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument("--solo-detallados", action="store_true", help="Solo procesar Reportes Detallados")
@@ -53,12 +49,20 @@ def main():
         "--fecha-corte",
         type=str,
         default=None,
-        help="Fecha de corte para la conciliación (Formato YYYY-MM-DD, defecto auto-inferido del CI o 2026-08-17)"
+        help="Fecha de corte para la conciliación (Formato YYYY-MM-DD)"
     )
     parser.add_argument(
         "--export-star-schema",
+        "--star-schema",
         action="store_true",
-        help="Generar esquema estrella para Power BI (Fact_Metraje, Fact_Tiempos, Dims)"
+        default=True,
+        help="Generar esquema estrella para Power BI (Facts, Dims, Bridge) [Por defecto: True]"
+    )
+    parser.add_argument(
+        "--no-star-schema",
+        action="store_false",
+        dest="export_star_schema",
+        help="Omitir generación del esquema estrella"
     )
     parser.add_argument(
         "--generar-pdf",
@@ -102,4 +106,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

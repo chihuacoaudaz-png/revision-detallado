@@ -1,0 +1,157 @@
+// ==============================================================================
+// QUERY 2: Consolidado_Control_Interno (RD.402.P.01.F.04)
+// Ubicación: apppowerbi/02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt
+// Descripción: Extrae y compila las pestañas diarias (dd.mm) del libro maestro
+// de Control Interno, genera turnos A/B y clave única para conciliación.
+// ==============================================================================
+let
+    // 1. Origen de Datos (Ruta al libro de Control Interno)
+    // Para SharePoint: SharePoint.Files(...) filtrando por carpeta 00_Control_Interno
+    // Para Local: Folder.Files(...) o File.Contents(...)
+    Origen = Folder.Files("C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones\00_Control_Interno"),
+    
+    // 2. Filtrar archivo oficial de Control Interno (el más reciente)
+    FiltroArchivos = Table.SelectRows(Origen, each 
+        Text.EndsWith([Extension], ".xlsx") and not Text.StartsWith([Name], "~$")
+    ),
+    ArchivoReciente = Table.Max(FiltroArchivos, "Date modified"),
+    Contenido = ArchivoReciente[Content],
+    
+    // 3. Abrir Libro Excel y seleccionar hojas de fecha diaria (ej. "26.08", "27.08", etc.)
+    WorkbookCI = Excel.Workbook(Contenido, false),
+    HojasDiarias = Table.SelectRows(WorkbookCI, each 
+        [Kind] = "Sheet" and 
+        Text.Length([Name]) <= 6 and 
+        Text.Contains([Name], ".") and
+        try Value.Is(Number.From(Text.BeforeDelimiter([Name], ".")), type number) otherwise false
+    ),
+
+    // 4. Función inline para procesar cada pestaña diaria
+    ProcesarPestanaDiaria = Table.AddColumn(HojasDiarias, "DatosPestana", each 
+        let
+            nombrePestana = [Name],
+            tablaDatos = [Data],
+            
+            // Extraer Día y Mes de la pestaña
+            diaTexto = Text.BeforeDelimiter(nombrePestana, "."),
+            mesTexto = Text.AfterDelimiter(nombrePestana, "."),
+            diaNum = Number.From(diaTexto),
+            mesNum = Number.From(mesTexto),
+            anioNum = 2026,
+            fechaDt = #date(anioNum, mesNum, diaNum),
+            fechaISO = Date.ToText(fechaDt, "yyyy-MM-dd"),
+            fechaKey = Date.ToText(fechaDt, "yyyyMMdd"),
+            
+            // Saltar cabecera (inicia en fila 10 de Excel = skip 9)
+            SaltoCabecera = Table.Skip(tablaDatos, 9),
+            
+            // Seleccionar columnas clave: Col 0 (CTR), Col 2 (MAQUINA), Col 6 (METRAJE)
+            SeleccionCols = Table.SelectColumns(SaltoCabecera, {
+                Table.ColumnNames(SaltoCabecera){0},
+                Table.ColumnNames(SaltoCabecera){2},
+                Table.ColumnNames(SaltoCabecera){6}
+            }),
+            RenombrarCols = Table.RenameColumns(SeleccionCols, {
+                {Table.ColumnNames(SeleccionCols){0}, "CTR_RAW"},
+                {Table.ColumnNames(SeleccionCols){1}, "MAQUINA_RAW"},
+                {Table.ColumnNames(SeleccionCols){2}, "METRAJE_CI_RAW"}
+            }),
+            
+            // FillDown de CTR
+            FillCTR = Table.FillDown(RenombrarCols, {"CTR_RAW"}),
+            
+            // Filtrar filas válidas (descartar totales y filas vacías)
+            FiltrarFilas = Table.SelectRows(FillCTR, each 
+                [MAQUINA_RAW] <> null and 
+                [CTR_RAW] <> null and
+                not Text.Contains(Text.Upper(Text.From([CTR_RAW])), "TOTAL") and
+                not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "TOTAL") and
+                not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "EQUIPO") and
+                not Text.Contains(Text.Upper(Text.From([MAQUINA_RAW])), "MAQUINA")
+            ),
+            
+            // Normalizar CTR
+            ConCTRNorm = Table.AddColumn(FiltrarFilas, "CTR", each 
+                let 
+                    raw = Text.Upper(Text.Trim(Text.From([CTR_RAW])))
+                in 
+                    if Text.Contains(raw, "AMERICANA") then "AMERICANA"
+                    else if Text.Contains(raw, "ANDAYCHAGUA") then "ANDAYCHAGUA"
+                    else if Text.Contains(raw, "CATALINA") or Text.Contains(raw, "HUANCA") then "CATALINA HUANCA"
+                    else if Text.Contains(raw, "CERRO") then "CERRO"
+                    else if Text.Contains(raw, "CHUNGAR") then "CHUNGAR"
+                    else if Text.Contains(raw, "COBRIZA") then "COBRIZA"
+                    else if Text.Contains(raw, "COLQUISIRI") then "COLQUISIRI"
+                    else if Text.Contains(raw, "CONDESTABLE") then "CONDESTABLE"
+                    else if Text.Contains(raw, "CUCULI") then "CUCULI"
+                    else if Text.Contains(raw, "INMACULADA") then "INMACULADA"
+                    else if Text.Contains(raw, "ESTRELLA") then "LA ESTRELLA"
+                    else if Text.Contains(raw, "MOROCOCHA") then "MOROCOCHA"
+                    else if Text.Contains(raw, "RAURA") then "RAURA"
+                    else if Text.Contains(raw, "CRISTOBAL") or Text.Contains(raw, "SAN CRISTOBAL") then "SAN CRISTOBAL"
+                    else if Text.Contains(raw, "TAMBOJASA") then "TAMBOJASA"
+                    else if Text.Contains(raw, "TICLIO") then "TICLIO"
+                    else if Text.Contains(raw, "YAULIYACU") then "YAULIYACU"
+                    else if Text.Contains(raw, "YAURICOCHA") then "YAURICOCHA"
+                    else raw, type text
+            ),
+            
+            // Filtrar CTRs excluidos
+            FiltrarExcluidos = Table.SelectRows(ConCTRNorm, each [CTR] <> "COLQUIJIRCA" and [CTR] <> "CAPITANA"),
+            
+            // Estandarización de Máquinas SAP
+            ConMaquinaHomologada = Table.AddColumn(FiltrarExcluidos, "MAQUINA", each 
+                let 
+                    ctr = [CTR],
+                    maq = Text.Upper(Text.Trim(Text.From([MAQUINA_RAW])))
+                in 
+                    if ctr = "CHUNGAR" and (maq = "XRD90U-03" or maq = "XRD90U-003") then "XRD90U-021"
+                    else if ctr = "ANDAYCHAGUA" and (maq = "LF90DST-002" or maq = "LF90D ST-002") then "LF90D ST-002"
+                    else if ctr = "ANDAYCHAGUA" and maq = "XRD90U-017" then "XRD150U-001"
+                    else if ctr = "CATALINA HUANCA" and (maq = "XRD50-003" or maq = "XRD50U-003") then "XRD50U-003"
+                    else if ctr = "COBRIZA" and (maq = "XRD90U-008" or maq = "XRD150U-008") then "XRD150U-008"
+                    else if ctr = "INMACULADA" and (maq = "XRD150-004" or maq = "XRD150USS-004") then "XRD150USS-004"
+                    else if ctr = "MOROCOCHA" and (maq = "XRD90USS-002" or maq = "XRD90USS-005") then "XRD90USS-005"
+                    else if ctr = "TICLIO" and (maq = "XRD150USS-001" or maq = "XRD150U-007") then "XRD150U-007"
+                    else if ctr = "YAULIYACU" and (maq = "XRD50USS-001" or maq = "XRD50USS-00T") then "XDR50USS-00T"
+                    else maq, type text
+            ),
+            
+            // Asignar Turno Secuencial A / B por máquina en el día
+            AgruparTurnos = Table.Group(ConMaquinaHomologada, {"CTR", "MAQUINA"}, {
+                {"FilasMaq", each 
+                    let 
+                        conIndice = Table.AddIndexColumn(_, "IndiceTurno", 1, 1),
+                        conTurno = Table.AddColumn(conIndice, "TURNO_ESTANDAR", each if [IndiceTurno] = 1 then "A" else "B", type text)
+                    in 
+                        conTurno, type table
+                }
+            }),
+            ExpandirTurnos = Table.Combine(AgruparTurnos[FilasMaq]),
+            
+            // Metraje Tipado
+            ConMetraje = Table.AddColumn(ExpandirTurnos, "METRAJE_CI", each 
+                let v = [METRAJE_CI_RAW] in 
+                if v = null or v = "" or v = "-" then 0.0 
+                else try Number.From(v, "es-PE") otherwise 0.0, type number
+            ),
+            
+            // Columnas de Fecha y Clave Única
+            ConFecha = Table.AddColumn(ConMetraje, "FECHA", each fechaISO, type text),
+            ConFechaKey = Table.AddColumn(ConFecha, "FECHA_KEY", each fechaKey, type text),
+            ConClave = Table.AddColumn(ConFechaKey, "ID_CLAVE_UNICA", each 
+                [FECHA_KEY] & "-" & [MAQUINA] & "-" & [TURNO_ESTANDAR], type text
+            )
+        in
+            ConClave
+    ),
+
+    // 5. Consolidar todas las pestañas diarias de Control Interno
+    TablaConsolidadaCI = Table.Combine(ProcesarPestanaDiaria[DatosPestana]),
+    
+    // 6. Seleccionar Columnas Finales
+    ColumnasFinales = Table.SelectColumns(TablaConsolidadaCI, {
+        "FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "METRAJE_CI", "ID_CLAVE_UNICA"
+    })
+in
+    ColumnasFinales

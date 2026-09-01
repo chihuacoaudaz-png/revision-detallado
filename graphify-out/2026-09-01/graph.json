@@ -871,6 +871,18 @@
       "source_location": "L2271"
     },
     {
+      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_1_4_1_26_august_2016",
+      "label": "1.4.1 (26 August, 2016)",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "Git LFS Changelog",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1.4.1 (26 august, 2016)",
+      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
+      "source_location": "L2114"
+    },
+    {
       "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_1_5_1_18_november_2016",
       "label": "1.5.1 (18 November, 2016)",
       "_origin": "ast",
@@ -1147,6 +1159,18 @@
       "source_location": "L749"
     },
     {
+      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_features_2116",
+      "label": "Features",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "Git LFS Changelog",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "features",
+      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
+      "source_location": "L2116"
+    },
+    {
       "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_git_lfs_changelog",
       "label": "Git LFS Changelog",
       "_origin": "ast",
@@ -1181,6 +1205,18 @@
       "norm_label": "misc",
       "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
       "source_location": "L1886"
+    },
+    {
+      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_misc_2121",
+      "label": "Misc",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "Git LFS Changelog",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "misc",
+      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
+      "source_location": "L2121"
     },
     {
       "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_misc_336",
@@ -20985,14 +21021,123 @@
       "source_location": "L1"
     },
     {
-      "id": "scratch_test_excel_com",
-      "label": "test_excel_com.ps1",
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl",
+      "label": "08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
       "_origin": "ast",
       "community": 393,
-      "community_name": "test_excel_com.ps1",
-      "file_type": "code",
-      "norm_label": "test_excel_com.ps1",
-      "source_file": "scratch/test_excel_com.ps1",
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "08_motor_de_encabezados_y_casos_borde_etl.md",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_aislamiento_estricto_de_filldown_de_fecha",
+      "label": "1. Aislamiento Estricto de `FillDown` de Fecha:",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. aislamiento estricto de `filldown` de fecha:",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L68"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_anatom\u00eda_vertical_de_la_plantilla_rd_402_p_01_f_01",
+      "label": "\ud83c\udfd7\ufe0f 1. Anatom\u00eda Vertical de la Plantilla (`RD.402.P.01.F.01`)",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udfd7\ufe0f 1. anatomia vertical de la plantilla (`rd.402.p.01.f.01`)",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_algoritmo_dual_row_de_encabezados_con_forward_fill_horizontal",
+      "label": "\ud83c\udff7\ufe0f 2. Algoritmo Dual-Row de Encabezados con Forward-Fill Horizontal",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udff7\ufe0f 2. algoritmo dual-row de encabezados con forward-fill horizontal",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L21"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_propagaci\u00f3n_bidireccional_de_sondaje",
+      "label": "2. Propagaci\u00f3n Bidireccional de Sondaje:",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. propagacion bidireccional de sondaje:",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L72"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_asignaci\u00f3n_determinista_de_turnos_a_d\u00eda_b_noche",
+      "label": "3. Asignaci\u00f3n Determinista de Turnos (A = D\u00eda / B = Noche):",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. asignacion determinista de turnos (a = dia / b = noche):",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L75"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "label": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udee1\ufe0f 3. reglas criticas de tratamiento de datos",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L66"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_clave_primaria_inviolable",
+      "label": "4. Clave Primaria Inviolable:",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. clave primaria inviolable:",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L79"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_homologaci\u00f3n_de_nombres_de_m\u00e1quina_excepciones_sap",
+      "label": "\ud83d\ude9c 4. Homologaci\u00f3n de Nombres de M\u00e1quina (Excepciones SAP)",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\ude9c 4. homologacion de nombres de maquina (excepciones sap)",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L84"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "label": "\u2699\ufe0f Motor de Encabezados Dual-Row y Casos Borde ETL",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u2699\ufe0f motor de encabezados dual-row y casos borde etl",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
       "source_location": "L1"
     },
     {
@@ -21396,7 +21541,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udccc metadatos del sistema",
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L64"
+      "source_location": "L76"
     },
     {
       "id": "mcp_docs_obsidian_00_indice_maestro_m\u00f3dulos_de_documentaci\u00f3n",
@@ -21408,7 +21553,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcd1 modulos de documentacion",
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L51"
+      "source_location": "L61"
     },
     {
       "id": "mcp_docs_obsidian_00_indice_maestro_\u00edndice_maestro_bi_control_de_operaciones_y_perforaci\u00f3n_rock_drill",
@@ -21675,40 +21820,100 @@
       "source_location": "L1"
     },
     {
-      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_1_4_1_26_august_2016",
-      "label": "1.4.1 (26 August, 2016)",
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas",
+      "label": "07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
       "_origin": "ast",
       "community": 405,
-      "community_name": "1.4.1 (26 August, 2016)",
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "1.4.1 (26 august, 2016)",
-      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
-      "source_location": "L2114"
+      "node_kind": "page",
+      "norm_label": "07_recopilador_powerquery_y_168_columnas.md",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L1"
     },
     {
-      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_features_2116",
-      "label": "Features",
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_1_arquitectura_de_extracci\u00f3n_power_query_m",
+      "label": "\ud83c\udfaf 1. Arquitectura de Extracci\u00f3n Power Query M",
       "_origin": "ast",
       "community": 405,
-      "community_name": "1.4.1 (26 August, 2016)",
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "features",
-      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
-      "source_location": "L2116"
+      "norm_label": "\ud83c\udfaf 1. arquitectura de extraccion power query m",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L9"
     },
     {
-      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_misc_2121",
-      "label": "Misc",
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "label": "\ud83d\udd0d 2. Diagn\u00f3stico y Correcci\u00f3n del Duplicado de Metraje 2.00x",
       "_origin": "ast",
       "community": 405,
-      "community_name": "1.4.1 (26 August, 2016)",
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "misc",
-      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
-      "source_location": "L2121"
+      "norm_label": "\ud83d\udd0d 2. diagnostico y correccion del duplicado de metraje 2.00x",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L27"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_3_auditor\u00eda_de_conciliaci\u00f3n_d\u00eda_a_d\u00eda_vs_control_interno_26_08_al_30_08",
+      "label": "\ud83d\udcca 3. Auditor\u00eda de Conciliaci\u00f3n D\u00eda a D\u00eda vs Control Interno (26.08 al 30.08)",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udcca 3. auditoria de conciliacion dia a dia vs control interno (26.08 al 30.08)",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L43"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_4_archivos_clave_del_m\u00f3dulo",
+      "label": "\ud83d\udcc1 4. Archivos Clave del M\u00f3dulo",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udcc1 4. archivos clave del modulo",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L71"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_causa_ra\u00edz_del_2x_en_el_c\u00f3digo_previo",
+      "label": "\ud83d\udd34 Causa Ra\u00edz del 2X en el C\u00f3digo Previo:",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udd34 causa raiz del 2x en el codigo previo:",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L29"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "label": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u26a1 recopilador oficial power query m y ecosistema 168 columnas",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_soluci\u00f3n_definitiva_en_codigo_corregido_txt",
+      "label": "\ud83d\udfe2 Soluci\u00f3n Definitiva en `codigo_corregido.txt`:",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udfe2 solucion definitiva en `codigo_corregido.txt`:",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L36"
     },
     {
       "id": "graphify_out_converted_resultado_4282fb9d",
@@ -21732,7 +21937,163 @@
       "node_kind": "heading",
       "norm_label": "sheet: consolidado_operaciones",
       "source_file": "graphify-out/converted/resultado_4282fb9d.md",
+      "source_location": "L25"
+    },
+    {
+      "id": "graphify_out_converted_resultado_4282fb9d_sheet_hoja2",
+      "label": "Sheet: Hoja2",
+      "_origin": "ast",
+      "community": 406,
+      "community_name": "resultado_4282fb9d.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: hoja2",
+      "source_file": "graphify-out/converted/resultado_4282fb9d.md",
       "source_location": "L3"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos",
+      "label": "GUIA_RAPIDA_GIT_COMANDOS.md",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "guia_rapida_git_comandos.md",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_1_el_flujo_de_trabajo_diario_en_4_pasos_el_ciclo_est\u00e1ndar",
+      "label": "\u26a1 1. El Flujo de Trabajo Diario en 4 Pasos (El Ciclo Est\u00e1ndar)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u26a1 1. el flujo de trabajo diario en 4 pasos (el ciclo estandar)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_1_git_status_ver_el_estado_actual",
+      "label": "1. `git status` (Ver el Estado Actual)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. `git status` (ver el estado actual)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L24"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "label": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udee0\ufe0f 2. catalogo de comandos esenciales (explicacion breve)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_2_git_add_preparar_archivos_para_guardar",
+      "label": "2. `git add` (Preparar Archivos para Guardar)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. `git add` (preparar archivos para guardar)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L35"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_3_atajo_en_1_sola_l\u00ednea_para_powershell_guardar_y_subir_r\u00e1pido",
+      "label": "\ud83c\udfce\ufe0f 3. Atajo en 1 Sola L\u00ednea para PowerShell (Guardar y Subir R\u00e1pido)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udfce\ufe0f 3. atajo en 1 sola linea para powershell (guardar y subir rapido)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L85"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_3_git_commit_m_mensaje_descriptivo_guardar_versi\u00f3n_local",
+      "label": "3. `git commit -m \"Mensaje descriptivo\"` (Guardar Versi\u00f3n Local)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. `git commit -m \"mensaje descriptivo\"` (guardar version local)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L53"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_4_comandos_\u00fatiles_de_consulta_y_correcci\u00f3n_de_errores",
+      "label": "\ud83d\udd0d 4. Comandos \u00datiles de Consulta y Correcci\u00f3n de Errores",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udd0d 4. comandos utiles de consulta y correccion de errores",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L97"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_4_git_push_origin_main_subir_a_github_en_la_nube",
+      "label": "4. `git push origin main` (Subir a GitHub en la Nube)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. `git push origin main` (subir a github en la nube)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L67"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_5_git_pull_origin_main_descargar_cambios_de_la_nube",
+      "label": "5. `git pull origin main` (Descargar Cambios de la Nube)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "5. `git pull origin main` (descargar cambios de la nube)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L76"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_5_reglas_importantes_para_este_repositorio",
+      "label": "\u26a0\ufe0f 5. Reglas Importantes para Este Repositorio",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u26a0\ufe0f 5. reglas importantes para este repositorio",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L109"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "label": "\ud83d\ude80 Gu\u00eda R\u00e1pida de Git para este Repositorio",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\ude80 guia rapida de git para este repositorio",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L1"
     },
     {
       "id": "agents_survey_explorer_3_analysis",
@@ -50840,6 +51201,17 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "graphify-out/converted/resultado_4282fb9d.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_resultado_4282fb9d",
+      "target": "graphify_out_converted_resultado_4282fb9d_sheet_hoja2",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/resultado_4282fb9d.md",
       "source_location": "L3",
       "weight": 1.0
     },
@@ -50874,6 +51246,127 @@
       "confidence_score": 1.0,
       "source_file": "graphify-out/converted/_TIEMPOS_19_08_2026_f3454e87.md",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos",
+      "target": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_1_git_status_ver_el_estado_actual",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_2_git_add_preparar_archivos_para_guardar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_3_git_commit_m_mensaje_descriptivo_guardar_versi\u00f3n_local",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_4_git_push_origin_main_subir_a_github_en_la_nube",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_5_git_pull_origin_main_descargar_cambios_de_la_nube",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_5_reglas_importantes_para_este_repositorio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_3_atajo_en_1_sola_l\u00ednea_para_powershell_guardar_y_subir_r\u00e1pido",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_1_el_flujo_de_trabajo_diario_en_4_pasos_el_ciclo_est\u00e1ndar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_4_comandos_\u00fatiles_de_consulta_y_correcci\u00f3n_de_errores",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -51038,7 +51531,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L51",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -51049,7 +51542,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L64",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -53041,6 +53534,182 @@
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/06_GUIA_RECONSTRUCCION_TOTAL.md",
       "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_causa_ra\u00edz_del_2x_en_el_c\u00f3digo_previo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_soluci\u00f3n_definitiva_en_codigo_corregido_txt",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_3_auditor\u00eda_de_conciliaci\u00f3n_d\u00eda_a_d\u00eda_vs_control_interno_26_08_al_30_08",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_4_archivos_clave_del_m\u00f3dulo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_1_arquitectura_de_extracci\u00f3n_power_query_m",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_aislamiento_estricto_de_filldown_de_fecha",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_propagaci\u00f3n_bidireccional_de_sondaje",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_asignaci\u00f3n_determinista_de_turnos_a_d\u00eda_b_noche",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_clave_primaria_inviolable",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_algoritmo_dual_row_de_encabezados_con_forward_fill_horizontal",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_homologaci\u00f3n_de_nombres_de_m\u00e1quina_excepciones_sap",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_anatom\u00eda_vertical_de_la_plantilla_rd_402_p_01_f_01",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -58034,7 +58703,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L55",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -58045,7 +58714,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L56",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -58056,7 +58725,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L57",
+      "source_location": "L67",
       "weight": 1.0
     },
     {
@@ -58067,7 +58736,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L58",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -58078,7 +58747,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L59",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -58089,7 +58758,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L60",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_00_indice_maestro",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_00_indice_maestro",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -58352,5 +59043,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5acf48651d72da0e62aee3f581363619b65691a2"
+  "built_at_commit": "cf57bfec33091265571d69b0fd0f0e57d32075fb"
 }

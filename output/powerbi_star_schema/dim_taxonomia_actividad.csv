@@ -1,0 +1,95 @@
+actividad_sk,nombre_actividad,bloque_funcional,categoria_disponibilidad,es_cobrable,impacta_disp_mecanica
+-1,[ACTIVIDAD NO CATALOGADA],NO CATALOGADO,Stand By Inoperativo,False,False
+1,Perforación,Tiempos Operativos Directos,Tiempo Efectivo - Operativo,True,False
+2,Rimado,Tiempos Operativos Directos,Tiempo Efectivo - Operativo,True,False
+3,Asentado / Retiro Casing,Tiempos Operativos Directos,Tiempo Efectivo - Operativo,True,False
+4,RePerforación,Tiempos Operativos Directos,Tiempo Efectivo - Operativo,True,False
+5,Preventivo,Tiempos de Mantenimiento,Mantenimiento,False,True
+6,Correctivo,Tiempos de Mantenimiento,Mantenimiento,False,True
+7,Lavado de sondaje,Maniobras Operativas,Stand By Operativo,False,False
+8,Mezclado de lodos,Maniobras Operativas,Stand By Operativo,False,False
+9,Manipulación de tuberías,Maniobras Operativas,Stand By Operativo,False,False
+10,Acondicionamiento de sondaje,Maniobras Operativas,Stand By Operativo,False,False
+11,Cambio de línea,Maniobras Operativas,Stand By Operativo,False,False
+12,Recuperación de sondaje por problemas geologicos,Maniobras Operativas,Stand By Operativo,False,False
+13,Recuperación de materiales y o maniobras por atrapamiento,Maniobras Operativas,Stand By Operativo,False,False
+14,Maniobras por descarga y carga de tuberías (por problemas geologicos),Maniobras Operativas,Stand By Operativo,False,False
+15,Perforación en fallas y/o terrenos altamente fracturados,Maniobras Operativas,Stand By Operativo,False,False
+16,Medición de Desviación,Maniobras Operativas,Stand By Operativo,False,False
+17,Traslado entre cámaras de perforación,Maniobras Operativas,Stand By Operativo,False,False
+18,Cambio de punto de perforacion,Maniobras Operativas,Stand By Operativo,False,False
+19,Anclado de máquina de perforación,Maniobras Operativas,Stand By Operativo,False,False
+20,Perforación de perno de anclaje,Maniobras Operativas,Stand By Operativo,False,False
+21,Cementación de perno de anclaje y fraguado,Maniobras Operativas,Stand By Operativo,False,False
+22,Cementado y fraguado de sondaje,Maniobras Operativas,Stand By Operativo,False,False
+23,Obturación/Sellado de sondaje con packer,Maniobras Operativas,Stand By Operativo,False,False
+24,Sellado de Sondaje,Maniobras Operativas,Stand By Operativo,False,False
+25,Inyección de lechada de cemento,Maniobras Operativas,Stand By Operativo,False,False
+26,Ensayo Lefranc,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+27,Ensayo Lugeon,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+28,Prueba SPT,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+29,Prueba Shelby,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+30,Pruebas Geotécnicas,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+31,Prueba de nivel freático,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+32,Ensayo Air Lift,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+33,Ensayo Slug Test,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+34,Instalación de piezómetro Casagrande,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+35,Instalación de piezómetro de cuerda vibrante,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+36,Instalación de inclinómetro,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+37,Instalación de piezómetro multinivel,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+38,"Instrumentación, toma de presión de agua y caudal",Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+39,Prueba de lectura de inclinómetro,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+40,Toma de lecturas cuerda vibrante,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,True,False
+41,SBO1,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,False,False
+42,SBO2,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,False,False
+43,SBO3,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,False,False
+44,SBO4,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,False,False
+45,SBO5,Ensayos Geotécnicos e Hidrogeológicos,Stand By Operativo,False,False
+46,Desate de rocas,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+47,Orden y limpieza,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+48,Recojo de lama,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+49,Poza de sedimentación,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+50,Estandarización y Desestandarización,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+51,Instalación de red de agua o drenaje,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+52,Instalación / Desinstalación de maquina,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+53,Traslado de accesorios,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+54,Auditoría Interna,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+55,"Charla, reparto de guardia, llenado de herramientas y reportes",Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+56,Espera de repuestos mecánicos,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+57,Espera de materiales e insumos de perforación,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+58,Traslado de personal,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+59,Refrigerio,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+60,Falta de personal,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+61,Paralización por fiestas,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+62,Pare RD/ seguridad,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+63,SBI1,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+64,SBI2,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+65,SBI3,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+66,SBI4,Actividades de Soporte y Seguridad,Stand By Inoperativo,False,False
+67,Voladura,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+68,Falta de agua,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+69,Falta de energía,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+70,Falta de ventilación,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+71,Falta de servicios,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+72,Espera Orden Cliente,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+73,Espera de programa,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+74,Espera de cámara,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+75,Espera de sostenimiento,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+76,Espera de scoop,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+77,Espera de marcado de punto,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+78,Espera de Topografía,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+79,Espera de grúa,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+80,Espera por puebas de permeabilidad y/o ensayos,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+81,Auditoría externa/ Osinergmin,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+82,Capacitación (Externa Cliente),Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+83,Falta de habilitación de cámara o plataforma,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+84,Espera de orden cliente,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+85,Condiciones climáticas,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+86,Inundación,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+87,Paralización por estrés térmico o alta temperatura,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+88,Parada por sismo/microsismo,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+89,Conflicto social,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+90,SBC1,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+91,SBC2,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+92,SBC3,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False
+93,SBC4,Condiciones Cliente y Entorno Minero,Stand By Cliente,True,False

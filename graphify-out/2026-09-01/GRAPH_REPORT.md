@@ -1,16 +1,16 @@
 # Graph Report - Detallados  (2026-09-01)
 
 ## Corpus Check
-- 324 files · ~5,113,328 words
+- 321 files · ~5,208,896 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2632 nodes · 2405 edges · 407 communities (280 shown, 127 thin omitted)
+- 2662 nodes · 2435 edges · 408 communities (281 shown, 127 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 23 edges (avg confidence: 0.91)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5acf4865`
+- Built from commit: `cf57bfec`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -401,6 +401,7 @@
 - inspect_morococha_diffs.py
 - inspect_raw_morococha_chungar.py
 - inspect_shifts.py
+- 🛡️ 3. Reglas Críticas de Tratamiento de Datos
 - 🚀 2. Guía de Configuración Paso a Paso en Excel
 - GLOSARIO_TERMINOS_V3.md
 - 🗺️ Índice Maestro: BI Control de Operaciones y Perforación (Rock Drill)
@@ -408,8 +409,9 @@
 - GLOSARIO DIDÁCTICO OFICIAL DE TÉRMINOS — REPORTE DETALLADO DE AVANCE (168 COLUMNAS)
 - 🩹 Reporte de Diagnóstico y Parche: Corrección del Duplicado 2X de Metraje en Power Query M
 - Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)
-- 1.4.1 (26 August, 2016)
+- ⚡ Recopilador Oficial Power Query M y Ecosistema 168 Columnas
 - resultado_4282fb9d.md
+- 🛠️ 2. Catálogo de Comandos Esenciales (Explicación Breve)
 
 ## God Nodes (most connected - your core abstractions)
 1. `Git LFS Changelog` - 76 edges
@@ -438,7 +440,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (407 total, 127 thin omitted)
+## Communities (408 total, 127 thin omitted)
 
 ### Community 0 - "Nuevo Estándar SIG (168 Columnas)"
 Cohesion: 0.11
@@ -446,7 +448,7 @@ Nodes (18): Operación Cierre de Mes (Agosto 2026), Glosario Oficial de Término
 
 ### Community 1 - "Git LFS Changelog"
 Cohesion: 0.05
-Nodes (40): 1.0.1 (23 October, 2015), 1.0.2 (28 October, 2015), 1.1.0 (18 November, 2015), 1.1.2 (1 March, 2016), 1.5.1 (18 November, 2016), 1.5.5 (12 January, 2017), 1.5.6 (16 February, 2017), 2.0.1 (6 March, 2017) (+32 more)
+Nodes (43): 1.0.1 (23 October, 2015), 1.0.2 (28 October, 2015), 1.1.0 (18 November, 2015), 1.1.2 (1 March, 2016), 1.4.1 (26 August, 2016), 1.5.1 (18 November, 2016), 1.5.5 (12 January, 2017), 1.5.6 (16 February, 2017) (+35 more)
 
 ### Community 2 - "**2. COPIA DE REGISTRO ÚNICO CONTRIBUYENTE**"
 Cohesion: 0.05
@@ -1480,6 +1482,10 @@ Nodes (3): 3.1.2 (16 Feb 2022), Bugs, Misc
 Cohesion: 0.67
 Nodes (3): 3.1.3 (19 Apr 2022), Bugs, Misc
 
+### Community 393 - "🛡️ 3. Reglas Críticas de Tratamiento de Datos"
+Cohesion: 0.20
+Nodes (9): 1. Aislamiento Estricto de `FillDown` de Fecha:, 🏗️ 1. Anatomía Vertical de la Plantilla (`RD.402.P.01.F.01`), 🏷️ 2. Algoritmo Dual-Row de Encabezados con Forward-Fill Horizontal, 2. Propagación Bidireccional de Sondaje:, 3. Asignación Determinista de Turnos (A = Día / B = Noche):, 🛡️ 3. Reglas Críticas de Tratamiento de Datos, 4. Clave Primaria Inviolable:, 🚜 4. Homologación de Nombres de Máquina (Excepciones SAP) (+1 more)
+
 ### Community 398 - "🚀 2. Guía de Configuración Paso a Paso en Excel"
 Cohesion: 0.18
 Nodes (10): 🔍 1. Diagnóstico del Error Previo en `TablasValidas`, 🚀 2. Guía de Configuración Paso a Paso en Excel, 📂 3. Mapa de Archivos TXT con el Código Fuente M, 📘 Guía Paso a Paso: Implementación del Recopilador de 168 Columnas en Excel Power Query, Paso 1: Configurar los Parámetros de Origen, Paso 2: Crear la Función `fn_ProcesarHojaDetallado`, Paso 3: Crear la Consulta Consolidadora `Consolidado_Detallados`, Paso 4: Ajustar la Configuración de Privacidad (Evitar Formula Firewall) (+2 more)
@@ -1508,12 +1514,16 @@ Nodes (6): 🔍 1. Diagnóstico de la Causa Raíz (¿Por qué el metraje daba ex
 Cohesion: 0.40
 Nodes (4): 1. Flujo Operativo Diario de 4 Pasos, 2. Parámetros de Cabecera (Período Productivo), 3. Protocolos para Casos Cotidianos, Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)
 
-### Community 405 - "1.4.1 (26 August, 2016)"
-Cohesion: 0.67
-Nodes (3): 1.4.1 (26 August, 2016), Features, Misc
+### Community 405 - "⚡ Recopilador Oficial Power Query M y Ecosistema 168 Columnas"
+Cohesion: 0.25
+Nodes (7): 🎯 1. Arquitectura de Extracción Power Query M, 🔍 2. Diagnóstico y Corrección del Duplicado de Metraje 2.00x, 📊 3. Auditoría de Conciliación Día a Día vs Control Interno (26.08 al 30.08), 📁 4. Archivos Clave del Módulo, 🔴 Causa Raíz del 2X en el Código Previo:, ⚡ Recopilador Oficial Power Query M y Ecosistema 168 Columnas, 🟢 Solución Definitiva en `codigo_corregido.txt`:
+
+### Community 407 - "🛠️ 2. Catálogo de Comandos Esenciales (Explicación Breve)"
+Cohesion: 0.17
+Nodes (11): ⚡ 1. El Flujo de Trabajo Diario en 4 Pasos (El Ciclo Estándar), 1. `git status` (Ver el Estado Actual), 🛠️ 2. Catálogo de Comandos Esenciales (Explicación Breve), 2. `git add` (Preparar Archivos para Guardar), 🏎️ 3. Atajo en 1 Sola Línea para PowerShell (Guardar y Subir Rápido), 3. `git commit -m "Mensaje descriptivo"` (Guardar Versión Local), 🔍 4. Comandos Útiles de Consulta y Corrección de Errores, 4. `git push origin main` (Subir a GitHub en la Nube) (+3 more)
 
 ## Knowledge Gaps
-- **1745 isolated node(s):** `2026-08-19T16:19:00Z`, `R1. Descargador OWA Robusto y Bilingüe`, `R2. Extracción y Normalización de Reportes Detallados`, `R3. Compilación de Control Interno`, `R4. Conciliación y Auditoría Turno a Turno` (+1740 more)
+- **1767 isolated node(s):** `2026-08-19T16:19:00Z`, `R1. Descargador OWA Robusto y Bilingüe`, `R2. Extracción y Normalización de Reportes Detallados`, `R3. Compilación de Control Interno`, `R4. Conciliación y Auditoría Turno a Turno` (+1762 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **127 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1522,15 +1532,15 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `📐 Catálogo Exhaustivo de Medidas DAX` connect `5. Cluster de Metraje Perdido y Disponibilidad Global` to `1. Cluster de Rendimiento y ROP (Rate of Penetration)`, `3. Cluster de Metas y Cumplimiento de Programa`, `00_INDICE_MAESTRO.md`, `7. Cluster de Brocas y Consumo de Insumos`, `6. Cluster de Costos y Control Presupuestal`, `4. Cluster de Control de Tiempos y Horas Operativas`, `2. Cluster de Metraje y Avance Físico`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `Git LFS Changelog` connect `Git LFS Changelog` to `1.3.1 (2 August 2016)`, `1.4.0 (19 August, 2016)`, `1.4.2 (10 October, 2016)`, `1.5.0 (17 November, 2016)`, `1.5.2 (22 November, 2016)`, `2.0.2 (29 March, 2017)`, `2.10.0 (21 January 2020)`, `2.11.0 (8 May 2020)`, `2.12.0 (1 Sep 2020)`, `2.13.0 (10 Dec 2020)`, `2.1.0 (28 April, 2017)`, `2.2.0 (27 June, 2017)`, `2.3.0 (14 September, 2017)`, `2.3.1 (27 September, 2017)`, `2.3.2 (3 October, 2017)`, `2.4.0 (2 March, 2018)`, `2.4.1 (18 May, 2018)`, `2.5.0 (26 July, 2018)`, `2.5.1 (2 August, 2018)`, `2.6.0 (1 November, 2018)`, `2.7.0 (15 February 2019)`, `1.4.1 (26 August, 2016)`, `2.8.0 (23 July 2019)`, `2.9.0 (17 October 2019)`, `2.9.1 (25 November 2019)`, `3.0.0 (24 Sep 2021)`, `3.1.0 (14 Feb 2022)`, `3.2.0 (25 May 2022)`, `3.3.0 (30 November 2022)`, `3.4.0 (26 July 2023)`, `3.5.0 (28 February 2024)`, `v0.6.0 (10 September, 2015)`, `1.2.0 (14 April 2016)`, `1.4.3 (17 October, 2016)`, `1.4.4 (24 October, 2016)`, `1.5.3 (5 December, 2016)`, `1.5.4 (27 December, 2016)`, `2.0.0 (1 March, 2017)`, `2.13.3 (26 Mar 2021)`, `2.1.1 (19 May, 2017)`, `2.2.1 (10 July, 2017)`, `2.3.4 (18 October, 2017)`, `2.5.2 (17 September, 2018)`, `2.9.2 (12 December 2019)`, `3.0.2 (28 Oct 2021)`, `3.1.2 (16 Feb 2022)`, `3.1.3 (19 Apr 2022)`, `1.1.1 (4 February, 2016)`, `1.2.1 (2 June 2016)`, `1.3.0 (21 July 2016)`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
-- **Why does `Resumen de Actividades y Términos Comerciales en Contratos (PU)` connect `Resumen de Actividades y Términos Comerciales en Contratos (PU)` to `HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md`?**
+- **Why does `Git LFS Changelog` connect `Git LFS Changelog` to `1.3.1 (2 August 2016)`, `1.4.0 (19 August, 2016)`, `1.4.2 (10 October, 2016)`, `1.5.0 (17 November, 2016)`, `1.5.2 (22 November, 2016)`, `2.0.2 (29 March, 2017)`, `2.10.0 (21 January 2020)`, `2.11.0 (8 May 2020)`, `2.12.0 (1 Sep 2020)`, `2.13.0 (10 Dec 2020)`, `2.1.0 (28 April, 2017)`, `2.2.0 (27 June, 2017)`, `2.3.0 (14 September, 2017)`, `2.3.1 (27 September, 2017)`, `2.3.2 (3 October, 2017)`, `2.4.0 (2 March, 2018)`, `2.4.1 (18 May, 2018)`, `2.5.0 (26 July, 2018)`, `2.5.1 (2 August, 2018)`, `2.6.0 (1 November, 2018)`, `2.7.0 (15 February 2019)`, `2.8.0 (23 July 2019)`, `2.9.0 (17 October 2019)`, `2.9.1 (25 November 2019)`, `3.0.0 (24 Sep 2021)`, `3.1.0 (14 Feb 2022)`, `3.2.0 (25 May 2022)`, `3.3.0 (30 November 2022)`, `3.4.0 (26 July 2023)`, `3.5.0 (28 February 2024)`, `v0.6.0 (10 September, 2015)`, `1.2.0 (14 April 2016)`, `1.4.3 (17 October, 2016)`, `1.4.4 (24 October, 2016)`, `1.5.3 (5 December, 2016)`, `1.5.4 (27 December, 2016)`, `2.0.0 (1 March, 2017)`, `2.13.3 (26 Mar 2021)`, `2.1.1 (19 May, 2017)`, `2.2.1 (10 July, 2017)`, `2.3.4 (18 October, 2017)`, `2.5.2 (17 September, 2018)`, `2.9.2 (12 December 2019)`, `3.0.2 (28 Oct 2021)`, `3.1.2 (16 Feb 2022)`, `3.1.3 (19 Apr 2022)`, `1.1.1 (4 February, 2016)`, `1.2.1 (2 June 2016)`, `1.3.0 (21 July 2016)`?**
   _High betweenness centrality (0.004) - this node is a cross-community bridge._
+- **Why does `3. Cluster de Metas y Cumplimiento de Programa` connect `3. Cluster de Metas y Cumplimiento de Programa` to `5. Cluster de Metraje Perdido y Disponibilidad Global`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `2026-08-19T16:19:00Z`, `R1. Descargador OWA Robusto y Bilingüe`, `R2. Extracción y Normalización de Reportes Detallados` to the rest of the system?**
-  _1745 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1767 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Nuevo Estándar SIG (168 Columnas)` be split into smaller, more focused modules?**
   _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Git LFS Changelog` be split into smaller, more focused modules?**
-  _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
 - **Should `**2. COPIA DE REGISTRO ÚNICO CONTRIBUYENTE**` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._

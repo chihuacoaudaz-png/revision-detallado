@@ -96,7 +96,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "code",
       "norm_label": "clasificar_discrepancia()",
       "source_file": "src/reconciliacion.py",
@@ -108,7 +108,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "code",
       "norm_label": "reconciliar_metrajes()",
       "source_file": "src/reconciliacion.py",
@@ -120,11 +120,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "code",
       "norm_label": "main()",
       "source_file": "ejecutar_pipeline.py",
-      "source_location": "L44"
+      "source_location": "L40"
     },
     {
       "id": "generar_pdf_propuesta_generar_pdf",
@@ -132,7 +132,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "code",
       "norm_label": "generar_pdf()",
       "source_file": "generar_pdf_propuesta.py",
@@ -144,11 +144,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "code",
       "norm_label": "run_full_pipeline()",
       "source_file": "src/pipeline.py",
-      "source_location": "L20"
+      "source_location": "L24"
+    },
+    {
+      "id": "src_validador_qaqc_ejecutar_auditoria_qaqc",
+      "label": "ejecutar_auditoria_qaqc()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
+      "file_type": "code",
+      "norm_label": "ejecutar_auditoria_qaqc()",
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L24"
     },
     {
       "id": "mcp_procesarv2_limpiar_key",
@@ -732,11 +744,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
       "norm_label": "run_etl_control_interno()",
       "source_file": "src/etl_control_interno.py",
       "source_location": "L27"
+    },
+    {
+      "id": "src_modelado_dimensional_construir_modelo_dimensional",
+      "label": "construir_modelo_dimensional()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "load_machine_exceptions",
+      "file_type": "code",
+      "norm_label": "construir_modelo_dimensional()",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L139"
     },
     {
       "id": "src_utils_load_machine_exceptions",
@@ -744,7 +768,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
       "norm_label": "load_machine_exceptions()",
       "source_file": "src/utils.py",
@@ -756,7 +780,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
       "norm_label": "normalize_ctr()",
       "source_file": "src/utils.py",
@@ -869,18 +893,6 @@
       "norm_label": "1.1.2 (1 march, 2016)",
       "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
       "source_location": "L2271"
-    },
-    {
-      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_1_4_1_26_august_2016",
-      "label": "1.4.1 (26 August, 2016)",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Git LFS Changelog",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "1.4.1 (26 august, 2016)",
-      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
-      "source_location": "L2114"
     },
     {
       "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_1_5_1_18_november_2016",
@@ -1159,18 +1171,6 @@
       "source_location": "L749"
     },
     {
-      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_features_2116",
-      "label": "Features",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Git LFS Changelog",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "features",
-      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
-      "source_location": "L2116"
-    },
-    {
       "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_git_lfs_changelog",
       "label": "Git LFS Changelog",
       "_origin": "ast",
@@ -1205,18 +1205,6 @@
       "norm_label": "misc",
       "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
       "source_location": "L1886"
-    },
-    {
-      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_misc_2121",
-      "label": "Misc",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Git LFS Changelog",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "misc",
-      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
-      "source_location": "L2121"
     },
     {
       "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_misc_336",
@@ -4645,14 +4633,14 @@
       "source_location": "L89"
     },
     {
-      "id": "src_pipeline",
-      "label": "pipeline.py",
+      "id": "src_init",
+      "label": "__init__.py",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "code",
-      "norm_label": "pipeline.py",
-      "source_file": "src/pipeline.py",
+      "norm_label": "__init__.py",
+      "source_file": "src/__init__.py",
       "source_location": "L1"
     },
     {
@@ -4660,7 +4648,7 @@
       "label": "reconciliacion.py",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "code",
       "norm_label": "reconciliacion.py",
       "source_file": "src/reconciliacion.py",
@@ -4671,7 +4659,7 @@
       "label": "DataFrame",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "code",
       "norm_label": "dataframe",
       "source_file": "",
@@ -4682,21 +4670,21 @@
       "label": "Path",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
       "source_location": ""
     },
     {
-      "id": "src_pipeline_rationale_1",
-      "label": "Orquestador Principal del Pipeline ETL (Rockdrill)\u2026",
+      "id": "src_init_rationale_1",
+      "label": "M\u00f3dulo Principal de Ingenier\u00eda de Datos - Pipeline Rockdrill\u2026",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "rationale",
-      "norm_label": "orquestador principal del pipeline etl (rockdrill)...",
-      "source_file": "src/pipeline.py",
+      "norm_label": "modulo principal de ingenieria de datos - pipeline rockdrill...",
+      "source_file": "src/__init__.py",
       "source_location": "L1"
     },
     {
@@ -4704,7 +4692,7 @@
       "label": "M\u00f3dulo de Reconciliaci\u00f3n y Matriz Comparativa de Metrajes\u2026",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "rationale",
       "norm_label": "modulo de reconciliacion y matriz comparativa de metrajes...",
       "source_file": "src/reconciliacion.py",
@@ -4715,7 +4703,7 @@
       "label": "Clasifica un registro individual en una de las 5 categor\u00edas oficiales\u2026",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "rationale",
       "norm_label": "clasifica un registro individual en una de las 5 categorias oficiales...",
       "source_file": "src/reconciliacion.py",
@@ -4726,7 +4714,7 @@
       "label": "Cruza los datos de Detallados y Control Interno, clasifica las discrepancias\u2026",
       "_origin": "ast",
       "community": 122,
-      "community_name": "pipeline.py",
+      "community_name": "__init__.py",
       "file_type": "rationale",
       "norm_label": "cruza los datos de detallados y control interno, clasifica las discrepancias...",
       "source_file": "src/reconciliacion.py",
@@ -5385,7 +5373,7 @@
       "label": "ejecutar_pipeline.py",
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "code",
       "norm_label": "ejecutar_pipeline.py",
       "source_file": "ejecutar_pipeline.py",
@@ -5396,18 +5384,29 @@
       "label": "Path",
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
       "source_location": ""
     },
     {
+      "id": "src_pipeline",
+      "label": "pipeline.py",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
+      "file_type": "code",
+      "norm_label": "pipeline.py",
+      "source_file": "src/pipeline.py",
+      "source_location": "L1"
+    },
+    {
       "id": "src_pipeline_py_dataframe",
       "label": "DataFrame",
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "code",
       "norm_label": "dataframe",
       "source_file": "",
@@ -5418,7 +5417,40 @@
       "label": "Path",
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "src_validador_qaqc",
+      "label": "validador_qaqc.py",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
+      "file_type": "code",
+      "norm_label": "validador_qaqc.py",
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_validador_qaqc_py_dataframe",
+      "label": "DataFrame",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
+      "file_type": "code",
+      "norm_label": "dataframe",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "src_validador_qaqc_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
@@ -5429,22 +5461,55 @@
       "label": "===============================================================================\u2026",
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "rationale",
       "norm_label": "===============================================================================...",
       "source_file": "ejecutar_pipeline.py",
       "source_location": "L1"
     },
     {
-      "id": "src_pipeline_rationale_34",
-      "label": "Ejecuta el pipeline de datos (Detallados + Control Interno + Conciliaci\u00f3n) y\u2026",
+      "id": "src_pipeline_rationale_1",
+      "label": "Orquestador Principal del Pipeline ETL y Modelado Dimensional (Rockdrill)\u2026",
       "_origin": "ast",
       "community": 129,
-      "community_name": "run_full_pipeline",
+      "community_name": "pipeline.py",
       "file_type": "rationale",
-      "norm_label": "ejecuta el pipeline de datos (detallados + control interno + conciliacion) y...",
+      "norm_label": "orquestador principal del pipeline etl y modelado dimensional (rockdrill)...",
       "source_file": "src/pipeline.py",
-      "source_location": "L34"
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pipeline_rationale_38",
+      "label": "Ejecuta el pipeline integral de datos (Detallados + Control Interno +\u2026",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
+      "file_type": "rationale",
+      "norm_label": "ejecuta el pipeline integral de datos (detallados + control interno +...",
+      "source_file": "src/pipeline.py",
+      "source_location": "L38"
+    },
+    {
+      "id": "src_validador_qaqc_rationale_1",
+      "label": "M\u00f3dulo de Control de Calidad y Gobernanza PMO (Validador QA/QC) Rockdrill Group\u2026",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
+      "file_type": "rationale",
+      "norm_label": "modulo de control de calidad y gobernanza pmo (validador qa/qc) rockdrill group...",
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_validador_qaqc_rationale_29",
+      "label": "Audita las 5 Quality Gates sobre el modelo dimensional generado.",
+      "_origin": "ast",
+      "community": 129,
+      "community_name": "pipeline.py",
+      "file_type": "rationale",
+      "norm_label": "audita las 5 quality gates sobre el modelo dimensional generado.",
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L29"
     },
     {
       "id": "docs_00_legacy_historico_estructura_reporte_mcp",
@@ -13903,6 +13968,66 @@
       "source_location": "L1"
     },
     {
+      "id": "docs_13_instructivo_llenado_reporte_detallado",
+      "label": "13_instructivo_llenado_reporte_detallado.md",
+      "_origin": "ast",
+      "community": 212,
+      "community_name": "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "13_instructivo_llenado_reporte_detallado.md",
+      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_13_instructivo_llenado_reporte_detallado_1_flujo_operativo_diario_de_4_pasos",
+      "label": "1. Flujo Operativo Diario de 4 Pasos",
+      "_origin": "ast",
+      "community": 212,
+      "community_name": "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. flujo operativo diario de 4 pasos",
+      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
+      "source_location": "L3"
+    },
+    {
+      "id": "docs_13_instructivo_llenado_reporte_detallado_2_par\u00e1metros_de_cabecera_per\u00edodo_productivo",
+      "label": "2. Par\u00e1metros de Cabecera (Per\u00edodo Productivo)",
+      "_origin": "ast",
+      "community": 212,
+      "community_name": "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. parametros de cabecera (periodo productivo)",
+      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
+      "source_location": "L14"
+    },
+    {
+      "id": "docs_13_instructivo_llenado_reporte_detallado_3_protocolos_para_casos_cotidianos",
+      "label": "3. Protocolos para Casos Cotidianos",
+      "_origin": "ast",
+      "community": 212,
+      "community_name": "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. protocolos para casos cotidianos",
+      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "docs_13_instructivo_llenado_reporte_detallado_instructivo_de_trabajo_llenado_del_reporte_detallado_rd_402_p_01_i_01",
+      "label": "Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)",
+      "_origin": "ast",
+      "community": 212,
+      "community_name": "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "instructivo de trabajo: llenado del reporte detallado (rd.402.p.01.i.01)",
+      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
+      "source_location": "L1"
+    },
+    {
       "id": "docs_resumen_items_pu_contratos",
       "label": "resumen_items_pu_contratos.md",
       "_origin": "ast",
@@ -20323,14 +20448,26 @@
       "source_location": "L1"
     },
     {
-      "id": "graphify_out_converted_reporte_anomalias_campo_aca0aa60_sheet_sheet1",
-      "label": "Sheet: Sheet1",
+      "id": "graphify_out_converted_reporte_anomalias_campo_aca0aa60_sheet_log_anomalias_campo",
+      "label": "Sheet: Log_Anomalias_Campo",
       "_origin": "ast",
       "community": 358,
       "community_name": "reporte_anomalias_campo_aca0aa60.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "sheet: sheet1",
+      "norm_label": "sheet: log_anomalias_campo",
+      "source_file": "graphify-out/converted/reporte_anomalias_campo_aca0aa60.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "graphify_out_converted_reporte_anomalias_campo_aca0aa60_sheet_resumen_quality_gates",
+      "label": "Sheet: Resumen_Quality_Gates",
+      "_origin": "ast",
+      "community": 358,
+      "community_name": "reporte_anomalias_campo_aca0aa60.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: resumen_quality_gates",
       "source_file": "graphify-out/converted/reporte_anomalias_campo_aca0aa60.md",
       "source_location": "L3"
     },
@@ -21021,14 +21158,123 @@
       "source_location": "L1"
     },
     {
-      "id": "scratch_test_excel_com",
-      "label": "test_excel_com.ps1",
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl",
+      "label": "08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
       "_origin": "ast",
       "community": 393,
-      "community_name": "test_excel_com.ps1",
-      "file_type": "code",
-      "norm_label": "test_excel_com.ps1",
-      "source_file": "scratch/test_excel_com.ps1",
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "08_motor_de_encabezados_y_casos_borde_etl.md",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_aislamiento_estricto_de_filldown_de_fecha",
+      "label": "1. Aislamiento Estricto de `FillDown` de Fecha:",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. aislamiento estricto de `filldown` de fecha:",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L68"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_anatom\u00eda_vertical_de_la_plantilla_rd_402_p_01_f_01",
+      "label": "\ud83c\udfd7\ufe0f 1. Anatom\u00eda Vertical de la Plantilla (`RD.402.P.01.F.01`)",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udfd7\ufe0f 1. anatomia vertical de la plantilla (`rd.402.p.01.f.01`)",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_algoritmo_dual_row_de_encabezados_con_forward_fill_horizontal",
+      "label": "\ud83c\udff7\ufe0f 2. Algoritmo Dual-Row de Encabezados con Forward-Fill Horizontal",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udff7\ufe0f 2. algoritmo dual-row de encabezados con forward-fill horizontal",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L21"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_propagaci\u00f3n_bidireccional_de_sondaje",
+      "label": "2. Propagaci\u00f3n Bidireccional de Sondaje:",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. propagacion bidireccional de sondaje:",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L72"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_asignaci\u00f3n_determinista_de_turnos_a_d\u00eda_b_noche",
+      "label": "3. Asignaci\u00f3n Determinista de Turnos (A = D\u00eda / B = Noche):",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. asignacion determinista de turnos (a = dia / b = noche):",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L75"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "label": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udee1\ufe0f 3. reglas criticas de tratamiento de datos",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L66"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_clave_primaria_inviolable",
+      "label": "4. Clave Primaria Inviolable:",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. clave primaria inviolable:",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L79"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_homologaci\u00f3n_de_nombres_de_m\u00e1quina_excepciones_sap",
+      "label": "\ud83d\ude9c 4. Homologaci\u00f3n de Nombres de M\u00e1quina (Excepciones SAP)",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\ude9c 4. homologacion de nombres de maquina (excepciones sap)",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L84"
+    },
+    {
+      "id": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "label": "\u2699\ufe0f Motor de Encabezados Dual-Row y Casos Borde ETL",
+      "_origin": "ast",
+      "community": 393,
+      "community_name": "\ud83d\udee1\ufe0f 3. Reglas Cr\u00edticas de Tratamiento de Datos",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u2699\ufe0f motor de encabezados dual-row y casos borde etl",
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
       "source_location": "L1"
     },
     {
@@ -21432,7 +21678,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udccc metadatos del sistema",
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L64"
+      "source_location": "L76"
     },
     {
       "id": "mcp_docs_obsidian_00_indice_maestro_m\u00f3dulos_de_documentaci\u00f3n",
@@ -21444,7 +21690,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcd1 modulos de documentacion",
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L51"
+      "source_location": "L61"
     },
     {
       "id": "mcp_docs_obsidian_00_indice_maestro_\u00edndice_maestro_bi_control_de_operaciones_y_perforaci\u00f3n_rock_drill",
@@ -21459,52 +21705,148 @@
       "source_location": "L1"
     },
     {
-      "id": "mcp_docs_obsidian_03_modelo_relacional_1_diagrama_entidad_relaci\u00f3n_mermaid_erd",
-      "label": "1. Diagrama Entidad-Relaci\u00f3n (Mermaid ERD)",
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "label": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
       "_origin": "ast",
       "community": 401,
-      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular",
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
       "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "1. diagrama entidad-relacion (mermaid erd)",
-      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
-      "source_location": "L8"
-    },
-    {
-      "id": "mcp_docs_obsidian_03_modelo_relacional_2_matriz_exhaustiva_de_relaciones",
-      "label": "2. Matriz Exhaustiva de Relaciones",
-      "_origin": "ast",
-      "community": 401,
-      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. matriz exhaustiva de relaciones",
-      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
-      "source_location": "L45"
-    },
-    {
-      "id": "mcp_docs_obsidian_03_modelo_relacional_3_consideraciones_cr\u00edticas_de_filtrado",
-      "label": "3. Consideraciones Cr\u00edticas de Filtrado",
-      "_origin": "ast",
-      "community": 401,
-      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "3. consideraciones criticas de filtrado",
-      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
-      "source_location": "L75"
-    },
-    {
-      "id": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular",
-      "label": "\ud83d\udd17 Modelo Relacional y Esquema Tabular",
-      "_origin": "ast",
-      "community": 401,
-      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\udd17 modelo relacional y esquema tabular",
-      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
+      "node_kind": "page",
+      "norm_label": "esquema_estrella_completo_4449006a.md",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
       "source_location": "L1"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_brg_cuadrilla_guardia",
+      "label": "Sheet: brg_cuadrilla_guardia",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: brg_cuadrilla_guardia",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L5680"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_contrato_minero",
+      "label": "Sheet: dim_contrato_minero",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: dim_contrato_minero",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L68"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_equipo_perforadora",
+      "label": "Sheet: dim_equipo_perforadora",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: dim_equipo_perforadora",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L90"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_linea_diametro",
+      "label": "Sheet: dim_linea_diametro",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: dim_linea_diametro",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L150"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_personal",
+      "label": "Sheet: dim_personal",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: dim_personal",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L158"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_sondaje_taladro",
+      "label": "Sheet: dim_sondaje_taladro",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: dim_sondaje_taladro",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L579"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_taxonomia_actividad",
+      "label": "Sheet: dim_taxonomia_actividad",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: dim_taxonomia_actividad",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L679"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_tiempo_calendario",
+      "label": "Sheet: dim_tiempo_calendario",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: dim_tiempo_calendario",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L3"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_fact_horas_operativas",
+      "label": "Sheet: fact_horas_operativas",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: fact_horas_operativas",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L1712"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_fact_metas_mensuales",
+      "label": "Sheet: fact_metas_mensuales",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: fact_metas_mensuales",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L7323"
+    },
+    {
+      "id": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_fact_perforacion_avance",
+      "label": "Sheet: fact_perforacion_avance",
+      "_origin": "ast",
+      "community": 401,
+      "community_name": "ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sheet: fact_perforacion_avance",
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L776"
     },
     {
       "id": "docs_glosario_oficial_admins_rd402_168_cols",
@@ -21651,64 +21993,148 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_13_instructivo_llenado_reporte_detallado",
-      "label": "13_instructivo_llenado_reporte_detallado.md",
+      "id": "mcp_docs_obsidian_03_modelo_relacional_1_diagrama_entidad_relaci\u00f3n_enterprise_mermaid_erd",
+      "label": "1. Diagrama Entidad-Relaci\u00f3n Enterprise (Mermaid ERD)",
       "_origin": "ast",
       "community": 404,
-      "community_name": "Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)",
+      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular Kimball Empresarial",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. diagrama entidad-relacion enterprise (mermaid erd)",
+      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "mcp_docs_obsidian_03_modelo_relacional_2_matriz_de_tablas_del_esquema_estrella_en_producci\u00f3n",
+      "label": "2. Matriz de Tablas del Esquema Estrella en Producci\u00f3n",
+      "_origin": "ast",
+      "community": 404,
+      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular Kimball Empresarial",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. matriz de tablas del esquema estrella en produccion",
+      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
+      "source_location": "L142"
+    },
+    {
+      "id": "mcp_docs_obsidian_03_modelo_relacional_3_principios_de_dise\u00f1o_de_ingenier\u00eda",
+      "label": "3. Principios de Dise\u00f1o de Ingenier\u00eda",
+      "_origin": "ast",
+      "community": 404,
+      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular Kimball Empresarial",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. principios de diseno de ingenieria",
+      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
+      "source_location": "L162"
+    },
+    {
+      "id": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular_kimball_empresarial",
+      "label": "\ud83d\udd17 Modelo Relacional y Esquema Tabular Kimball Empresarial",
+      "_origin": "ast",
+      "community": 404,
+      "community_name": "\ud83d\udd17 Modelo Relacional y Esquema Tabular Kimball Empresarial",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udd17 modelo relacional y esquema tabular kimball empresarial",
+      "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas",
+      "label": "07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
       "node_kind": "page",
-      "norm_label": "13_instructivo_llenado_reporte_detallado.md",
-      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
+      "norm_label": "07_recopilador_powerquery_y_168_columnas.md",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_13_instructivo_llenado_reporte_detallado_1_flujo_operativo_diario_de_4_pasos",
-      "label": "1. Flujo Operativo Diario de 4 Pasos",
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_1_arquitectura_de_extracci\u00f3n_power_query_m",
+      "label": "\ud83c\udfaf 1. Arquitectura de Extracci\u00f3n Power Query M",
       "_origin": "ast",
-      "community": 404,
-      "community_name": "Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "1. flujo operativo diario de 4 pasos",
-      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
-      "source_location": "L3"
+      "norm_label": "\ud83c\udfaf 1. arquitectura de extraccion power query m",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L9"
     },
     {
-      "id": "docs_13_instructivo_llenado_reporte_detallado_2_par\u00e1metros_de_cabecera_per\u00edodo_productivo",
-      "label": "2. Par\u00e1metros de Cabecera (Per\u00edodo Productivo)",
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "label": "\ud83d\udd0d 2. Diagn\u00f3stico y Correcci\u00f3n del Duplicado de Metraje 2.00x",
       "_origin": "ast",
-      "community": 404,
-      "community_name": "Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "2. parametros de cabecera (periodo productivo)",
-      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
-      "source_location": "L14"
+      "norm_label": "\ud83d\udd0d 2. diagnostico y correccion del duplicado de metraje 2.00x",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L27"
     },
     {
-      "id": "docs_13_instructivo_llenado_reporte_detallado_3_protocolos_para_casos_cotidianos",
-      "label": "3. Protocolos para Casos Cotidianos",
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_3_auditor\u00eda_de_conciliaci\u00f3n_d\u00eda_a_d\u00eda_vs_control_interno_26_08_al_30_08",
+      "label": "\ud83d\udcca 3. Auditor\u00eda de Conciliaci\u00f3n D\u00eda a D\u00eda vs Control Interno (26.08 al 30.08)",
       "_origin": "ast",
-      "community": 404,
-      "community_name": "Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "3. protocolos para casos cotidianos",
-      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
-      "source_location": "L22"
+      "norm_label": "\ud83d\udcca 3. auditoria de conciliacion dia a dia vs control interno (26.08 al 30.08)",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L43"
     },
     {
-      "id": "docs_13_instructivo_llenado_reporte_detallado_instructivo_de_trabajo_llenado_del_reporte_detallado_rd_402_p_01_i_01",
-      "label": "Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)",
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_4_archivos_clave_del_m\u00f3dulo",
+      "label": "\ud83d\udcc1 4. Archivos Clave del M\u00f3dulo",
       "_origin": "ast",
-      "community": 404,
-      "community_name": "Instructivo de Trabajo: Llenado del Reporte Detallado (RD.402.P.01.I.01)",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "instructivo de trabajo: llenado del reporte detallado (rd.402.p.01.i.01)",
-      "source_file": "docs/13_instructivo_llenado_reporte_detallado.md",
+      "norm_label": "\ud83d\udcc1 4. archivos clave del modulo",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L71"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_causa_ra\u00edz_del_2x_en_el_c\u00f3digo_previo",
+      "label": "\ud83d\udd34 Causa Ra\u00edz del 2X en el C\u00f3digo Previo:",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udd34 causa raiz del 2x en el codigo previo:",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L29"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "label": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u26a1 recopilador oficial power query m y ecosistema 168 columnas",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
       "source_location": "L1"
+    },
+    {
+      "id": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_soluci\u00f3n_definitiva_en_codigo_corregido_txt",
+      "label": "\ud83d\udfe2 Soluci\u00f3n Definitiva en `codigo_corregido.txt`:",
+      "_origin": "ast",
+      "community": 405,
+      "community_name": "\u26a1 Recopilador Oficial Power Query M y Ecosistema 168 Columnas",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udfe2 solucion definitiva en `codigo_corregido.txt`:",
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L36"
     },
     {
       "id": "graphify_out_converted_resultado_4282fb9d",
@@ -21745,6 +22171,186 @@
       "norm_label": "sheet: hoja2",
       "source_file": "graphify-out/converted/resultado_4282fb9d.md",
       "source_location": "L3"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos",
+      "label": "GUIA_RAPIDA_GIT_COMANDOS.md",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "guia_rapida_git_comandos.md",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_1_el_flujo_de_trabajo_diario_en_4_pasos_el_ciclo_est\u00e1ndar",
+      "label": "\u26a1 1. El Flujo de Trabajo Diario en 4 Pasos (El Ciclo Est\u00e1ndar)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u26a1 1. el flujo de trabajo diario en 4 pasos (el ciclo estandar)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L9"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_1_git_status_ver_el_estado_actual",
+      "label": "1. `git status` (Ver el Estado Actual)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. `git status` (ver el estado actual)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L24"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "label": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udee0\ufe0f 2. catalogo de comandos esenciales (explicacion breve)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_2_git_add_preparar_archivos_para_guardar",
+      "label": "2. `git add` (Preparar Archivos para Guardar)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. `git add` (preparar archivos para guardar)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L35"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_3_atajo_en_1_sola_l\u00ednea_para_powershell_guardar_y_subir_r\u00e1pido",
+      "label": "\ud83c\udfce\ufe0f 3. Atajo en 1 Sola L\u00ednea para PowerShell (Guardar y Subir R\u00e1pido)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udfce\ufe0f 3. atajo en 1 sola linea para powershell (guardar y subir rapido)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L85"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_3_git_commit_m_mensaje_descriptivo_guardar_versi\u00f3n_local",
+      "label": "3. `git commit -m \"Mensaje descriptivo\"` (Guardar Versi\u00f3n Local)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. `git commit -m \"mensaje descriptivo\"` (guardar version local)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L53"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_4_comandos_\u00fatiles_de_consulta_y_correcci\u00f3n_de_errores",
+      "label": "\ud83d\udd0d 4. Comandos \u00datiles de Consulta y Correcci\u00f3n de Errores",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udd0d 4. comandos utiles de consulta y correccion de errores",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L97"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_4_git_push_origin_main_subir_a_github_en_la_nube",
+      "label": "4. `git push origin main` (Subir a GitHub en la Nube)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. `git push origin main` (subir a github en la nube)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L67"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_5_git_pull_origin_main_descargar_cambios_de_la_nube",
+      "label": "5. `git pull origin main` (Descargar Cambios de la Nube)",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "5. `git pull origin main` (descargar cambios de la nube)",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L76"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_5_reglas_importantes_para_este_repositorio",
+      "label": "\u26a0\ufe0f 5. Reglas Importantes para Este Repositorio",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\u26a0\ufe0f 5. reglas importantes para este repositorio",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L109"
+    },
+    {
+      "id": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "label": "\ud83d\ude80 Gu\u00eda R\u00e1pida de Git para este Repositorio",
+      "_origin": "ast",
+      "community": 407,
+      "community_name": "\ud83d\udee0\ufe0f 2. Cat\u00e1logo de Comandos Esenciales (Explicaci\u00f3n Breve)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\ude80 guia rapida de git para este repositorio",
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_1_4_1_26_august_2016",
+      "label": "1.4.1 (26 August, 2016)",
+      "_origin": "ast",
+      "community": 408,
+      "community_name": "1.4.1 (26 August, 2016)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1.4.1 (26 august, 2016)",
+      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
+      "source_location": "L2114"
+    },
+    {
+      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_features_2116",
+      "label": "Features",
+      "_origin": "ast",
+      "community": 408,
+      "community_name": "1.4.1 (26 August, 2016)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "features",
+      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
+      "source_location": "L2116"
+    },
+    {
+      "id": "tools_git_lfs_temp_git_lfs_3_5_1_changelog_misc_2121",
+      "label": "Misc",
+      "_origin": "ast",
+      "community": 408,
+      "community_name": "1.4.1 (26 August, 2016)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "misc",
+      "source_file": "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md",
+      "source_location": "L2121"
     },
     {
       "id": "agents_survey_explorer_3_analysis",
@@ -27656,7 +28262,7 @@
       "label": "etl_control_interno.py",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
       "norm_label": "etl_control_interno.py",
       "source_file": "src/etl_control_interno.py",
@@ -27667,7 +28273,7 @@
       "label": "DataFrame",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
       "norm_label": "dataframe",
       "source_file": "",
@@ -27678,40 +28284,51 @@
       "label": "Path",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
       "source_location": ""
     },
     {
-      "id": "src_init",
-      "label": "__init__.py",
+      "id": "src_modelado_dimensional",
+      "label": "modelado_dimensional.py",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
-      "norm_label": "__init__.py",
-      "source_file": "src/__init__.py",
+      "norm_label": "modelado_dimensional.py",
+      "source_file": "src/modelado_dimensional.py",
       "source_location": "L1"
     },
     {
-      "id": "src_utils",
-      "label": "utils.py",
+      "id": "src_modelado_dimensional_py_dataframe",
+      "label": "DataFrame",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "code",
-      "norm_label": "utils.py",
-      "source_file": "src/utils.py",
-      "source_location": "L1"
+      "norm_label": "dataframe",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "src_modelado_dimensional_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "load_machine_exceptions",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "src_etl_control_interno_rationale_1",
       "label": "ETL de Compilaci\u00f3n de Control Interno (RD.402.P.01.F.04)\u2026",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "rationale",
       "norm_label": "etl de compilacion de control interno (rd.402.p.01.f.04)...",
       "source_file": "src/etl_control_interno.py",
@@ -27722,40 +28339,40 @@
       "label": "Extrae y compila las pesta\u00f1as diarias del libro maestro de Control Interno.",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "rationale",
       "norm_label": "extrae y compila las pestanas diarias del libro maestro de control interno.",
       "source_file": "src/etl_control_interno.py",
       "source_location": "L32"
     },
     {
-      "id": "src_init_rationale_1",
-      "label": "M\u00f3dulo Principal de Ingenier\u00eda de Datos - Pipeline Rockdrill\u2026",
+      "id": "src_modelado_dimensional_rationale_1",
+      "label": "M\u00f3dulo de Modelado Dimensional Empresarial (Kimball Star Schema) Rockdrill\u2026",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "rationale",
-      "norm_label": "modulo principal de ingenieria de datos - pipeline rockdrill...",
-      "source_file": "src/__init__.py",
+      "norm_label": "modulo de modelado dimensional empresarial (kimball star schema) rockdrill...",
+      "source_file": "src/modelado_dimensional.py",
       "source_location": "L1"
     },
     {
-      "id": "src_utils_rationale_1",
-      "label": "Funciones Utilitarias y Normalizaci\u00f3n de Datos (Rockdrill)\u2026",
+      "id": "src_modelado_dimensional_rationale_144",
+      "label": "Construye las 7 Dimensiones, 3 Tablas de Hechos y 1 Tabla Puente del Esquema\u2026",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "rationale",
-      "norm_label": "funciones utilitarias y normalizacion de datos (rockdrill)...",
-      "source_file": "src/utils.py",
-      "source_location": "L1"
+      "norm_label": "construye las 7 dimensiones, 3 tablas de hechos y 1 tabla puente del esquema...",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L144"
     },
     {
       "id": "src_utils_rationale_114",
       "label": "Normaliza el nombre de un contrato minero (CTR) eliminando prefijos y acentos.",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "rationale",
       "norm_label": "normaliza el nombre de un contrato minero (ctr) eliminando prefijos y acentos.",
       "source_file": "src/utils.py",
@@ -27766,7 +28383,7 @@
       "label": "Carga la matriz oficial de excepciones de nombres de m\u00e1quina del Maestro SAP\u2026",
       "_origin": "ast",
       "community": 77,
-      "community_name": "__init__.py",
+      "community_name": "load_machine_exceptions",
       "file_type": "rationale",
       "norm_label": "carga la matriz oficial de excepciones de nombres de maquina del maestro sap...",
       "source_file": "src/utils.py",
@@ -28692,6 +29309,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_utils",
+      "label": "utils.py",
+      "_origin": "ast",
+      "community": 84,
+      "community_name": "etl_detallados.py",
+      "file_type": "code",
+      "norm_label": "utils.py",
+      "source_file": "src/utils.py",
+      "source_location": "L1"
+    },
+    {
       "id": "src_utils_py_path",
       "label": "Path",
       "_origin": "ast",
@@ -28744,6 +29372,17 @@
       "file_type": "rationale",
       "norm_label": "pipeline maestro modular de ingesta, limpieza, deteccion de anomalias y...",
       "source_file": "src/pipeline_detallados_modular.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_utils_rationale_1",
+      "label": "Funciones Utilitarias y Normalizaci\u00f3n de Datos (Rockdrill)\u2026",
+      "_origin": "ast",
+      "community": 84,
+      "community_name": "etl_detallados.py",
+      "file_type": "rationale",
+      "norm_label": "funciones utilitarias y normalizacion de datos (rockdrill)...",
+      "source_file": "src/utils.py",
       "source_location": "L1"
     },
     {
@@ -32034,7 +32673,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "ejecutar_pipeline.py",
-      "source_location": "L81",
+      "source_location": "L85",
       "weight": 1.0
     },
     {
@@ -32266,6 +32905,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_modelado_dimensional_construir_modelo_dimensional",
+      "target": "src_utils_load_machine_exceptions",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modelado_dimensional_construir_modelo_dimensional",
+      "target": "src_utils_clean_number_value",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L502",
+      "weight": 1.0
+    },
+    {
       "source": "src_pipeline_detallados_modular_pipelinedetalladosmodular_ejecutar_pipeline_completo",
       "target": "src_pipeline_detallados_modular_pipelinedetalladosmodular_procesar_todos_los_ctrs",
       "relation": "calls",
@@ -32346,19 +33009,31 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pipeline.py",
-      "source_location": "L114",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
       "source": "src_pipeline_run_full_pipeline",
-      "target": "src_export_star_schema_exportar_esquema_estrella_powerbi",
+      "target": "src_modelado_dimensional_construir_modelo_dimensional",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pipeline.py",
-      "source_location": "L133",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pipeline_run_full_pipeline",
+      "target": "src_validador_qaqc_ejecutar_auditoria_qaqc",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/pipeline.py",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -32370,7 +33045,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pipeline.py",
-      "source_location": "L141",
+      "source_location": "L151",
       "weight": 1.0
     },
     {
@@ -32382,7 +33057,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pipeline.py",
-      "source_location": "L50",
+      "source_location": "L53",
       "weight": 1.0
     },
     {
@@ -32394,7 +33069,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/pipeline.py",
-      "source_location": "L74",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -32518,6 +33193,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_modelado_dimensional_construir_modelo_dimensional",
+      "target": "src_modelado_dimensional_py_dataframe",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
       "source": "src_pipeline_run_full_pipeline",
       "target": "src_pipeline_py_dataframe",
       "relation": "references",
@@ -32526,7 +33213,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/pipeline.py",
-      "source_location": "L20",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -32550,7 +33237,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "ejecutar_pipeline.py",
-      "source_location": "L41",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -32746,15 +33433,39 @@
       "weight": 1.0
     },
     {
-      "source": "src_pipeline",
-      "target": "src_export_star_schema_exportar_esquema_estrella_powerbi",
+      "source": "src_modelado_dimensional",
+      "target": "src_utils_clean_number_value",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
-      "source_file": "src/pipeline.py",
-      "source_location": "L132",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modelado_dimensional",
+      "target": "src_utils_load_machine_exceptions",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modelado_dimensional",
+      "target": "src_utils_normalize_ctr",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -32766,7 +33477,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pipeline.py",
-      "source_location": "L140",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -32778,7 +33489,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pipeline.py",
-      "source_location": "L15",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -32790,7 +33501,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pipeline.py",
-      "source_location": "L16",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -32802,7 +33513,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pipeline.py",
-      "source_location": "L17",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pipeline",
+      "target": "src_modelado_dimensional_construir_modelo_dimensional",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pipeline.py",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pipeline",
+      "target": "src_validador_qaqc_ejecutar_auditoria_qaqc",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pipeline.py",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -32862,7 +33597,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "ejecutar_pipeline.py",
-      "source_location": "L33",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -32914,6 +33649,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_modelado_dimensional",
+      "target": "src_utils",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modelado_dimensional",
+      "target": "src_etl_detallados",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
       "source": "src_pipeline",
       "target": "src_etl_detallados",
       "relation": "imports_from",
@@ -32922,7 +33681,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pipeline.py",
-      "source_location": "L15",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -32934,7 +33693,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pipeline.py",
-      "source_location": "L16",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -32946,7 +33705,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/pipeline.py",
-      "source_location": "L17",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pipeline",
+      "target": "src_modelado_dimensional",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pipeline.py",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pipeline",
+      "target": "src_validador_qaqc",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/pipeline.py",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -33082,6 +33865,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_modelado_dimensional_construir_modelo_dimensional",
+      "target": "src_modelado_dimensional_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
       "source": "src_pipeline_run_full_pipeline",
       "target": "src_pipeline_py_path",
       "relation": "references",
@@ -33090,7 +33885,7 @@
       "confidence_score": 1.0,
       "context": "parameter_type",
       "source_file": "src/pipeline.py",
-      "source_location": "L20",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -33127,6 +33922,30 @@
       "context": "parameter_type",
       "source_file": "src/utils.py",
       "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "src_validador_qaqc_ejecutar_auditoria_qaqc",
+      "target": "src_validador_qaqc_py_dataframe",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "src_validador_qaqc_ejecutar_auditoria_qaqc",
+      "target": "src_validador_qaqc_py_path",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -47024,7 +47843,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "ejecutar_pipeline.py",
-      "source_location": "L44",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -47410,6 +48229,127 @@
       "confidence_score": 1.0,
       "source_file": "graphify-out/converted/detallados_consolidados_89de2410.md",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_linea_diametro",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_personal",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_fact_horas_operativas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L1712",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_tiempo_calendario",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_brg_cuadrilla_guardia",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L5680",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_sondaje_taladro",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L579",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_taxonomia_actividad",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L679",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_contrato_minero",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_fact_metas_mensuales",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L7323",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_fact_perforacion_avance",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L776",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_esquema_estrella_completo_4449006a",
+      "target": "graphify_out_converted_esquema_estrella_completo_4449006a_sheet_dim_equipo_perforadora",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/ESQUEMA_ESTRELLA_COMPLETO_4449006a.md",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -50835,7 +51775,18 @@
     },
     {
       "source": "graphify_out_converted_reporte_anomalias_campo_aca0aa60",
-      "target": "graphify_out_converted_reporte_anomalias_campo_aca0aa60_sheet_sheet1",
+      "target": "graphify_out_converted_reporte_anomalias_campo_aca0aa60_sheet_log_anomalias_campo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "graphify-out/converted/reporte_anomalias_campo_aca0aa60.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "graphify_out_converted_reporte_anomalias_campo_aca0aa60",
+      "target": "graphify_out_converted_reporte_anomalias_campo_aca0aa60_sheet_resumen_quality_gates",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -50897,6 +51848,127 @@
       "confidence_score": 1.0,
       "source_file": "graphify-out/converted/_TIEMPOS_19_08_2026_f3454e87.md",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos",
+      "target": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_1_git_status_ver_el_estado_actual",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_2_git_add_preparar_archivos_para_guardar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_3_git_commit_m_mensaje_descriptivo_guardar_versi\u00f3n_local",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_4_git_push_origin_main_subir_a_github_en_la_nube",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "target": "guia_guia_rapida_git_comandos_5_git_pull_origin_main_descargar_cambios_de_la_nube",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_5_reglas_importantes_para_este_repositorio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_2_cat\u00e1logo_de_comandos_esenciales_explicaci\u00f3n_breve",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_3_atajo_en_1_sola_l\u00ednea_para_powershell_guardar_y_subir_r\u00e1pido",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_1_el_flujo_de_trabajo_diario_en_4_pasos_el_ciclo_est\u00e1ndar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "guia_guia_rapida_git_comandos_gu\u00eda_r\u00e1pida_de_git_para_este_repositorio",
+      "target": "guia_guia_rapida_git_comandos_4_comandos_\u00fatiles_de_consulta_y_correcci\u00f3n_de_errores",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guia/GUIA_RAPIDA_GIT_COMANDOS.md",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -51061,7 +52133,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L51",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -51072,7 +52144,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L64",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -51363,7 +52435,7 @@
     },
     {
       "source": "mcp_docs_obsidian_03_modelo_relacional",
-      "target": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular",
+      "target": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular_kimball_empresarial",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -51373,36 +52445,36 @@
       "weight": 1.0
     },
     {
-      "source": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular",
-      "target": "mcp_docs_obsidian_03_modelo_relacional_2_matriz_exhaustiva_de_relaciones",
+      "source": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular_kimball_empresarial",
+      "target": "mcp_docs_obsidian_03_modelo_relacional_1_diagrama_entidad_relaci\u00f3n_enterprise_mermaid_erd",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
-      "source_location": "L45",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
-      "source": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular",
-      "target": "mcp_docs_obsidian_03_modelo_relacional_3_consideraciones_cr\u00edticas_de_filtrado",
+      "source": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular_kimball_empresarial",
+      "target": "mcp_docs_obsidian_03_modelo_relacional_2_matriz_de_tablas_del_esquema_estrella_en_producci\u00f3n",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
-      "source_location": "L75",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
-      "source": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular",
-      "target": "mcp_docs_obsidian_03_modelo_relacional_1_diagrama_entidad_relaci\u00f3n_mermaid_erd",
+      "source": "mcp_docs_obsidian_03_modelo_relacional_modelo_relacional_y_esquema_tabular_kimball_empresarial",
+      "target": "mcp_docs_obsidian_03_modelo_relacional_3_principios_de_dise\u00f1o_de_ingenier\u00eda",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/03_MODELO_RELACIONAL.md",
-      "source_location": "L8",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -53067,6 +54139,182 @@
       "weight": 1.0
     },
     {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_causa_ra\u00edz_del_2x_en_el_c\u00f3digo_previo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_soluci\u00f3n_definitiva_en_codigo_corregido_txt",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_2_diagn\u00f3stico_y_correcci\u00f3n_del_duplicado_de_metraje_2_00x",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_3_auditor\u00eda_de_conciliaci\u00f3n_d\u00eda_a_d\u00eda_vs_control_interno_26_08_al_30_08",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_4_archivos_clave_del_m\u00f3dulo",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_recopilador_oficial_power_query_m_y_ecosistema_168_columnas",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas_1_arquitectura_de_extracci\u00f3n_power_query_m",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_aislamiento_estricto_de_filldown_de_fecha",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_propagaci\u00f3n_bidireccional_de_sondaje",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_asignaci\u00f3n_determinista_de_turnos_a_d\u00eda_b_noche",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_clave_primaria_inviolable",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_2_algoritmo_dual_row_de_encabezados_con_forward_fill_horizontal",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_3_reglas_cr\u00edticas_de_tratamiento_de_datos",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_4_homologaci\u00f3n_de_nombres_de_m\u00e1quina_excepciones_sap",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_motor_de_encabezados_dual_row_y_casos_borde_etl",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl_1_anatom\u00eda_vertical_de_la_plantilla_rd_402_p_01_f_01",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL.md",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
       "source": "mcp_estructura_reporte",
       "target": "mcp_estructura_reporte_documentaci\u00f3n_y_an\u00e1lisis_estructural_reporte_power_bi_residentes_pruebas",
       "relation": "contains",
@@ -53859,6 +55107,17 @@
       "weight": 1.0
     },
     {
+      "source": "src_modelado_dimensional",
+      "target": "src_modelado_dimensional_construir_modelo_dimensional",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
       "source": "src_pipeline",
       "target": "src_pipeline_run_full_pipeline",
       "relation": "contains",
@@ -53866,7 +55125,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/pipeline.py",
-      "source_location": "L20",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -53933,6 +55192,17 @@
       "confidence_score": 1.0,
       "source_file": "src/utils.py",
       "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "src_validador_qaqc",
+      "target": "src_validador_qaqc_ejecutar_auditoria_qaqc",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -57368,6 +58638,28 @@
       "weight": 1.0
     },
     {
+      "source": "src_modelado_dimensional_rationale_1",
+      "target": "src_modelado_dimensional",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modelado_dimensional_rationale_144",
+      "target": "src_modelado_dimensional_construir_modelo_dimensional",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
       "source": "src_pipeline_detallados_modular_rationale_1",
       "target": "src_pipeline_detallados_modular",
       "relation": "rationale_for",
@@ -57423,14 +58715,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_pipeline_rationale_34",
+      "source": "src_pipeline_rationale_38",
       "target": "src_pipeline_run_full_pipeline",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/pipeline.py",
-      "source_location": "L34",
+      "source_location": "L38",
       "weight": 1.0
     },
     {
@@ -57519,6 +58811,28 @@
       "confidence_score": 1.0,
       "source_file": "src/utils.py",
       "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "src_validador_qaqc_rationale_1",
+      "target": "src_validador_qaqc",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_validador_qaqc_rationale_29",
+      "target": "src_validador_qaqc_ejecutar_auditoria_qaqc",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/validador_qaqc.py",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -58057,7 +59371,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L55",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -58068,7 +59382,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L56",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -58079,7 +59393,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L57",
+      "source_location": "L67",
       "weight": 1.0
     },
     {
@@ -58090,7 +59404,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L58",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -58101,7 +59415,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L59",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -58112,7 +59426,29 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
-      "source_location": "L60",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_00_indice_maestro",
+      "target": "mcp_docs_obsidian_07_recopilador_powerquery_y_168_columnas",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "mcp_docs_obsidian_00_indice_maestro",
+      "target": "mcp_docs_obsidian_08_motor_de_encabezados_y_casos_borde_etl",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "MCP/docs/obsidian/00_INDICE_MAESTRO.md",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -58206,6 +59542,18 @@
       "context": "argument",
       "source_file": "src/export_star_schema.py",
       "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "src_modelado_dimensional_construir_modelo_dimensional",
+      "target": "src_utils_normalize_ctr",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "src/modelado_dimensional.py",
+      "source_location": "L161",
       "weight": 1.0
     },
     {
@@ -58375,5 +59723,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5acf48651d72da0e62aee3f581363619b65691a2"
+  "built_at_commit": "cf57bfec33091265571d69b0fd0f0e57d32075fb"
 }

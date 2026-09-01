@@ -1,0 +1,80 @@
+// ==============================================================================
+// QUERY 3: Matriz_Comparativa_Dia_a_Dia (Conciliación 1-a-1 por ID_CLAVE_UNICA)
+// Ubicación: apppowerbi/03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt
+// Descripción: Cruza los metrajes de Detallados vs Control Interno guardia a guardia
+// por ID_CLAVE_UNICA, calcula la Diferencia y marca el Estado para auditoría humana.
+// ==============================================================================
+let
+    // 1. Tomar las dos consultas consolidadas
+    Detallados = Consolidado_Detallados,
+    ControlInterno = Consolidado_Control_Interno,
+
+    // 2. Agrupar Detallados por Clave Única (sumar metraje si hubiera múltiples tramos por guardia)
+    DetalladosAgrupados = Table.Group(Detallados, {"FECHA", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+        {"METRAJE_DETALLADO", each List.Sum([METRAJE]), type number}
+    }),
+    RenombrarDet = Table.RenameColumns(DetalladosAgrupados, {{"MAQUINA_HOMOLOGADA", "MAQUINA"}}),
+
+    // 3. Agrupar Control Interno por Clave Única
+    CIAgrupado = Table.Group(ControlInterno, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+        {"METRAJE_CI", each List.Sum([METRAJE_CI]), type number}
+    }),
+
+    // 4. Merge Completo (Full Outer Join) por ID_CLAVE_UNICA
+    MergeTablas = Table.NestedJoin(
+        CIAgrupado, {"ID_CLAVE_UNICA"},
+        RenombrarDet, {"ID_CLAVE_UNICA"},
+        "DetalladoData",
+        JoinKind.FullOuter
+    ),
+
+    // 5. Expandir columnas de Detallados
+    ExpandirDet = Table.ExpandTableColumn(MergeTablas, "DetalladoData", 
+        {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "METRAJE_DETALLADO"},
+        {"DET_FECHA", "DET_CTR", "DET_MAQUINA", "DET_TURNO", "DET_METRAJE"}
+    ),
+
+    // 6. Coalescer campos clave (usar Control Interno o Detallado si alguno vino null)
+    ConFechaFinal = Table.AddColumn(ExpandirDet, "FECHA_FINAL", each [FECHA] ?? [DET_FECHA], type text),
+    ConCTRFinal = Table.AddColumn(ConFechaFinal, "CTR_FINAL", each [CTR] ?? [DET_CTR], type text),
+    ConMaqFinal = Table.AddColumn(ConCTRFinal, "MAQUINA_FINAL", each [MAQUINA] ?? [DET_MAQUINA], type text),
+    ConTurnoFinal = Table.AddColumn(ConMaqFinal, "TURNO_FINAL", each [TURNO_ESTANDAR] ?? [DET_TURNO], type text),
+
+    // 7. Llenar nulos de metraje con 0.0 y redondear
+    ConMetDet = Table.AddColumn(ConTurnoFinal, "MET_DETALLADO", each Number.Round([DET_METRAJE] ?? 0.0, 2), type number),
+    ConMetCI = Table.AddColumn(ConMetDet, "MET_CONTROL_INTERNO", each Number.Round([METRAJE_CI] ?? 0.0, 2), type number),
+
+    // 8. Calcular Diferencia y Estado de Conciliación
+    ConDiferencia = Table.AddColumn(ConMetCI, "DIFERENCIA", each Number.Round([MET_DETALLADO] - [MET_CONTROL_INTERNO], 2), type number),
+    ConEstado = Table.AddColumn(ConDiferencia, "ESTADO_AUDITORIA", each 
+        if Number.Abs([DIFERENCIA]) < 0.01 then "✅ CUADRA EXACTO"
+        else if [MET_CONTROL_INTERNO] = 0.0 and [MET_DETALLADO] > 0.0 then "⚠️ SOLO EN DETALLADO"
+        else if [MET_DETALLADO] = 0.0 and [MET_CONTROL_INTERNO] > 0.0 then "❌ PENDIENTE EN DETALLADO"
+        else if Number.Abs([DIFERENCIA]) < 2.0 then "⚠️ DIFERENCIA DECIMAL MENOR"
+        else "❌ DISCREPANCIA REAL", type text
+    ),
+
+    // 9. Seleccionar y Ordenar Columnas para Inspección Visual Humana
+    ColumnasFinales = Table.SelectColumns(ConEstado, {
+        "FECHA_FINAL",
+        "CTR_FINAL",
+        "MAQUINA_FINAL",
+        "TURNO_FINAL",
+        "MET_DETALLADO",
+        "MET_CONTROL_INTERNO",
+        "DIFERENCIA",
+        "ESTADO_AUDITORIA",
+        "ID_CLAVE_UNICA"
+    }),
+    RenombrarFinal = Table.RenameColumns(ColumnasFinales, {
+        {"FECHA_FINAL", "FECHA"},
+        {"CTR_FINAL", "CTR"},
+        {"MAQUINA_FINAL", "MAQUINA"},
+        {"TURNO_FINAL", "TURNO"},
+        {"MET_DETALLADO", "METRAJE_DETALLADOS_M"},
+        {"MET_CONTROL_INTERNO", "METRAJE_CONTROL_INTERNO_M"},
+        {"DIFERENCIA", "DIFERENCIA_M"}
+    }),
+    OrdenarFilas = Table.Sort(RenombrarFinal, {{"CTR", Order.Ascending}, {"FECHA", Order.Ascending}, {"MAQUINA", Order.Ascending}, {"TURNO", Order.Ascending}})
+in
+    OrdenarFilas
