@@ -1,27 +1,27 @@
 // ==============================================================================
-// QUERY 1: Consolidado_Operaciones (Origen SharePoint en la Nube)
+// QUERY 1: Consolidado_Operaciones (Motor Autónomo con Fecha de Ciclo Posicional)
 // Nombre de la consulta en Power Query: Consolidado_Operaciones
 // Ubicación: apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt
-// Descripción: Consulta oficial que consolida los 18 reportes detallados en SharePoint,
-// corta a 62 filas exactas, excluye la fila 87 de total mes, recupera Copias y genera ID_CLAVE_UNICA.
+// Descripción: Consolida los 18 reportes detallados en SharePoint, corta a 62 filas,
+// calcula la fecha operacional exacta (26.08 al 25.09) inmune a errores humanos de celda en campo,
+// homologa máquinas a SAP y genera ID_CLAVE_UNICA canónica.
 // ==============================================================================
 let
     // -------------------------------------------------------------------------
-    // 1. FUNCIÓN DE TRANSFORMACIÓN (CORREGIDA: EXACTAMENTE 62 FILAS OPERATIVAS)
+    // 1. FUNCIÓN DE TRANSFORMACIÓN (62 FILAS Y FECHA OPERACIONAL EXACTA)
     // -------------------------------------------------------------------------
     fn_ProcesarHojaDetallado = (TablaDatos as table, NombreMaquina as text, NombreContrato as text) as table =>
     let
         ValidacionColumnas = if Table.ColumnCount(TablaDatos) < 168 then error "Estructura inválida" else TablaDatos,
         SaltoAdministrativo = Table.Skip(ValidacionColumnas, 24),
         
-        // CORRECCIÓN CLAVE 1: Tomar estrictamente 62 filas (días 26 al 25 = 31 días x 2 turnos = 62 filas)
-        // Esto elimina la Fila 87 (Fila de TOTAL MES) que causaba la duplicación del metraje (2X).
+        // Recorte Vertical estricto a 62 filas operativas (elimina Fila 87 de total mes)
         RecorteVertical = Table.FirstN(SaltoAdministrativo, 62),
         ColumnasFisicas = List.FirstN(Table.ColumnNames(RecorteVertical), 168),
         Tabla168 = Table.SelectColumns(RecorteVertical, ColumnasFisicas),
         
         NombresCanonicos = {
-            "FECHA", "NOMBRE", "PROFUNDIDAD", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "TURNO (A=1;B=2)", 
+            "FECHA_ORIGINAL", "NOMBRE", "PROFUNDIDAD", "LINEA", "INCLINACIÓN", "DESDE", "HASTA", "TURNO (A=1;B=2)", 
             "GRUPO", "METRAJE", "HORAS EXTRAS", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", "TOTAL metraje del dia", 
             "ACUMULADO", "PROYECTADO", "META", "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", 
             "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", "BENTONITA_PRODUCTO", "BENTONITA_CANT.", "BENTONITA_UND.", 
@@ -64,28 +64,41 @@ let
         TablaRenombrada = Table.RenameColumns(Tabla168, List.Zip({ColumnasFisicas, NombresCanonicos})),
         TablaEnMemoria = Table.Buffer(TablaRenombrada),
         
-        RellenoFecha = Table.FillDown(TablaEnMemoria, {"FECHA"}),
-        RellenoSondaje = Table.FillUp(Table.FillDown(RellenoFecha, {"NOMBRE"}), {"NOMBRE"}),
+        // Agregar Índice Relativo de Fila (0 a 61) para cálculo inmune a errores de celda
+        ConIndice = Table.AddIndexColumn(TablaEnMemoria, "IndiceGuardia", 0, 1),
         
-        // CORRECCIÓN CLAVE 2: Filtro anti-totales reforzado
-        FilasOperativas = Table.SelectRows(RellenoSondaje, each 
-            ([FECHA] <> null) and 
-            (try not Text.StartsWith(Text.Trim(Text.From([FECHA])), ">") otherwise true) and 
-            (try not Text.Contains(Text.Upper(Text.From([FECHA])), "TOTAL") otherwise true) and 
-            (try not Text.Contains(Text.Upper(Text.From([NOMBRE])), "TOTAL") otherwise true) and 
-            (try not Text.Contains(Text.Upper(Text.From([#"TURNO (A=1;B=2)"])), "TOTAL") otherwise true) and
-            (try Text.Trim(Text.From([#"TURNO (A=1;B=2)"])) <> "" otherwise false)
+        // Inferencia Robusta de Fecha: Ciclo de Setiembre inicia el 26 de Agosto (Fila 0 = 26.08)
+        ConFechaCalculada = Table.AddColumn(ConIndice, "FECHA", each 
+            let
+                diaOffset = Number.IntegerDivide([IndiceGuardia], 2),
+                fechaCiclo = Date.AddDays(#date(2026, 8, 26), diaOffset)
+            in
+                fechaCiclo, type date
         ),
         
-        AddCTR = Table.AddColumn(FilasOperativas, "CTR", each NombreContrato, type text),
-        AddMaquina = Table.AddColumn(AddCTR, "MAQUINA", each NombreMaquina, type text),
-        AddTurno = Table.AddColumn(AddMaquina, "TURNO_ESTANDAR", each if Text.Upper(Text.From([#"TURNO (A=1;B=2)"])) = "A" or Text.From([#"TURNO (A=1;B=2)"]) = "1" then "A" else "B", type text),
+        ConFechaISO = Table.AddColumn(ConFechaCalculada, "FECHA_ISO", each Date.ToText([FECHA], "yyyy-MM-dd"), type text),
+        ConFechaKey = Table.AddColumn(ConFechaISO, "FECHA_KEY", each Date.ToText([FECHA], "yyyyMMdd"), type text),
         
-        // Homologación SAP de nombres de máquina en la Clave Única
-        AddMaquinaHomologada = Table.AddColumn(AddTurno, "MAQUINA_HOMOLOGADA", each 
+        RellenoSondaje = Table.FillUp(Table.FillDown(ConFechaKey, {"NOMBRE"}), {"NOMBRE"}),
+        
+        // Asignación de Turno Estándar (Fila par = A, Fila impar = B)
+        AddTurno = Table.AddColumn(RellenoSondaje, "TURNO_ESTANDAR", each 
+            if Number.Mod([IndiceGuardia], 2) = 0 then "A" else "B", type text
+        ),
+        
+        // Normalizar CTR removiendo prefijos y guiones bajos
+        AddCTR = Table.AddColumn(AddTurno, "CTR", each 
+            let raw = Text.Replace(Text.Replace(NombreContrato, "CTR_", ""), "_", " ") in
+            Text.Upper(Text.Trim(raw)), type text
+        ),
+        
+        AddMaquina = Table.AddColumn(AddCTR, "MAQUINA", each Text.Upper(Text.Trim(NombreMaquina)), type text),
+        
+        // Homologación SAP de Nombres de Máquina
+        AddMaquinaHomologada = Table.AddColumn(AddMaquina, "MAQUINA_HOMOLOGADA", each 
             let 
-                c = Text.Upper([CTR]),
-                m = Text.Upper(Text.Trim([MAQUINA]))
+                c = [CTR],
+                m = [MAQUINA]
             in 
                 if Text.Contains(c, "CHUNGAR") and (m = "XRD90U-03" or m = "XRD90U-003") then "XRD90U-021"
                 else if Text.Contains(c, "ANDAYCHAGUA") and m = "LF90DST-002" then "LF90D ST-002"
@@ -99,9 +112,9 @@ let
                 else m, type text
         ),
         
+        // Clave Única Canónica (YYYYMMDD-MAQUINA-TURNO)
         AddClaveUnica = Table.AddColumn(AddMaquinaHomologada, "ID_CLAVE_UNICA", each 
-            let FechaTxt = try Date.ToText(Date.From([FECHA]), "yyyyMMdd") otherwise "ERR_FECHA" 
-            in FechaTxt & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
+            [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
         )
     in
         AddClaveUnica,
@@ -116,7 +129,6 @@ let
         Text.Contains([Folder Path], "02_Detallado")
     ),
     
-    // CORRECCIÓN CLAVE 3: Permitir archivos con prefijo "Copia de" si son el único reporte del contrato (ej. Cobriza y Morococha)
     FiltrarExcel = Table.SelectRows(FiltrarRuta, each 
         ([Extension] = ".xlsx" or [Extension] = ".xlsm") and 
         Text.Contains([Name], "RD.402.P.01.F.01", Comparer.OrdinalIgnoreCase) and
@@ -133,7 +145,6 @@ let
         in if List.Count(CTR_Folder) > 0 then CTR_Folder{0} else "SIN_CTR"
     ),
     
-    // Selección estricta del archivo más reciente por contrato (Anti-Duplicados de SharePoint)
     AgruparArchivos = Table.Group(ExtraerCTR, {"Nombre_CTR"}, {
         {"UltimoArchivo", each Table.Max(_, "Date modified")}
     }),
@@ -143,7 +154,7 @@ let
     ExpandirLibros = Table.ExpandTableColumn(AbrirLibros, "WorkbookData", {"Name", "Data", "Item", "Kind", "Hidden"}, {"SheetName", "Data", "Item", "Kind", "Hidden"}),
     
     HojasVisibles = Table.SelectRows(ExpandirLibros, each ([Hidden] = false) and ([Kind] = "Sheet")),
-    HojasExcluidas = {"ADITIVOS", "GENERAL", "LISTAS", "TIEMPOS", "Tiempos", "RESUMEN", "GRAFICOS", "MAESTRO", "PARAMETROS", "GLOSARIO"},
+    HojasExcluidas = {"ADITIVOS", "GENERAL", "LISTAS", "TIEMPOS", "Tiempos", "RESUMEN", "GRAFICOS", "MAESTRO", "PARAMETROS", "GLOSARIO", "HOJA1", "HOJA2"},
     HojasOperativas = Table.SelectRows(HojasVisibles, each not List.Contains(HojasExcluidas, Text.Upper([SheetName]))),
     
     ProcesarHojas = Table.AddColumn(HojasOperativas, "TablaNormalizada", each 
@@ -153,21 +164,22 @@ let
     HojasExitosas = Table.SelectRows(ProcesarHojas, each [TablaNormalizada] <> null and not Table.IsEmpty([TablaNormalizada])),
     ColumnasFinales = Table.ColumnNames(HojasExitosas{0}[TablaNormalizada]),
     ExpandirFinal = Table.ExpandTableColumn(HojasExitosas, "TablaNormalizada", ColumnasFinales),
-    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "SheetName", "Data", "Item", "Kind", "Hidden", "Nombre_CTR"}),
+    LimpiezaSistema = Table.RemoveColumns(ExpandirFinal, {"Content", "Name", "Extension", "Date accessed", "Date modified", "Date created", "Attributes", "Folder Path", "SheetName", "Data", "Item", "Kind", "Hidden", "Nombre_CTR", "IndiceGuardia"}),
 
     // -------------------------------------------------------------------------
-    // 3. TIPADO Y LIMPIEZA MASIVA (Rápida y tolerante a fallos)
+    // 3. TIPADO Y LIMPIEZA MASIVA (Tolerante y tipado es-PE)
     // -------------------------------------------------------------------------
     ColsFecha = {"FECHA"},
     ColsTexto = {
-        "NOMBRE", "LINEA", "TURNO (A=1;B=2)", "GRUPO", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", 
+        "FECHA_ORIGINAL", "NOMBRE", "LINEA", "TURNO (A=1;B=2)", "GRUPO", "PERFORISTA", "AYUDANTE", "AYUDANTE_1", 
         "MARCA", "SERIE", "Nº BROCA", "ESTADO DE LA BROCA", "MARCA_1", "Nº ESCARIADOR", "ESTADO DEL ESCARIADOR", 
         "BENTONITA_PRODUCTO", "BENTONITA_UND.", "PAC_PRODUCTO", "PAC_UND.", "POLIMERO_PRODUCTO", "POLIMERO_UND.", 
         "LUBRICANTES_PRODUCTO", "LUBRICANTES_UND.", "CONTROLADOR DE PH Y DUREZA_PRODUCTO", "CONTROLADOR DE PH Y DUREZA_UND.", 
         "INHIBIDORES_PRODUCTO", "INHIBIDORES_UND.", "ESTABILIZADOR_PRODUCTO", "ESTABILIZADOR_UND.", 
         "OTROS_CLASIFICACIÓN", "OTROS_PRODUCTO", "OTROS_UND.", "PETROLEO_GLN", 
         "BITACORA DE MANTENIMIENTO_TRABAJOS REALIZADOS", "BITACORA DE MANTENIMIENTO_REPUESTOS UTILIZADOS", 
-        "DESCRIPCIÒN LITOLÓGICA", "COMENTARIOS", "CTR", "MAQUINA", "TURNO_ESTANDAR", "MAQUINA_HOMOLOGADA", "ID_CLAVE_UNICA"
+        "DESCRIPCIÒN LITOLÓGICA", "COMENTARIOS", "CTR", "MAQUINA", "TURNO_ESTANDAR", "MAQUINA_HOMOLOGADA", "ID_CLAVE_UNICA",
+        "FECHA_ISO", "FECHA_KEY"
     },
     
     TodasLasColumnas = Table.ColumnNames(LimpiezaSistema),

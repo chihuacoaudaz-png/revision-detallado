@@ -10,10 +10,11 @@ let
     Detallados = Consolidado_Operaciones,
     ControlInterno = Consolidado_Control_Interno,
 
-    // 2. Agrupar Detallados por Clave Única (suma de metraje de la guardia si hubiera múltiples tramos)
-    DetalladosAgrupados = Table.Group(Detallados, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
+    // 2. Agrupar Detallados por Clave Única (suma de metraje de la guardia)
+    DetalladosAgrupados = Table.Group(Detallados, {"FECHA_ISO", "CTR", "MAQUINA_HOMOLOGADA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
         {"METRAJE_DETALLADO", each List.Sum([METRAJE]), type number}
     }),
+    RenombrarDet = Table.RenameColumns(DetalladosAgrupados, {{"FECHA_ISO", "FECHA"}, {"MAQUINA_HOMOLOGADA", "MAQUINA"}}),
 
     // 3. Agrupar Control Interno por Clave Única
     CIAgrupado = Table.Group(ControlInterno, {"FECHA", "CTR", "MAQUINA", "TURNO_ESTANDAR", "ID_CLAVE_UNICA"}, {
@@ -23,7 +24,7 @@ let
     // 4. Merge Completo (Full Outer Join) por ID_CLAVE_UNICA
     MergeTablas = Table.NestedJoin(
         CIAgrupado, {"ID_CLAVE_UNICA"},
-        DetalladosAgrupados, {"ID_CLAVE_UNICA"},
+        RenombrarDet, {"ID_CLAVE_UNICA"},
         "DetalladoData",
         JoinKind.FullOuter
     ),
@@ -36,9 +37,7 @@ let
 
     // 6. Coalescer campos clave
     ConFechaFinal = Table.AddColumn(ExpandirDet, "FECHA_FINAL", each [FECHA] ?? [DET_FECHA], type text),
-    ConCTRFinal = Table.AddColumn(ConFechaFinal, "CTR_FINAL", each 
-        let raw = [CTR] ?? [DET_CTR] in Text.Replace(raw, "CTR_", ""), type text
-    ),
+    ConCTRFinal = Table.AddColumn(ConFechaFinal, "CTR_FINAL", each [CTR] ?? [DET_CTR], type text),
     ConMaqFinal = Table.AddColumn(ConCTRFinal, "MAQUINA_FINAL", each [MAQUINA] ?? [DET_MAQUINA], type text),
     ConTurnoFinal = Table.AddColumn(ConMaqFinal, "TURNO_FINAL", each [TURNO_ESTANDAR] ?? [DET_TURNO], type text),
 
