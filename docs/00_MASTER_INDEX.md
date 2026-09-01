@@ -15,6 +15,12 @@
    - Lógica económica de perforación diamantina (DDH: Metrajes vs Horas Cobrables), wireframes visuales para Jefe de Operaciones y Gerencia General, y catálogo de medidas DAX.
 4. [**`04_PLAN_GOBERNANZA_WBS_Y_QUALITY_GATES.md`**](file:///C:/Proyectos%20Python/Detallados/docs/04_PLAN_GOBERNANZA_WBS_Y_QUALITY_GATES.md)
    - Marco de gobernanza con 5 Quality Gates obligatorias, WBS jerárquico y protocolo de auditoría de `project_governance_auditor`.
+5. [**`GUIA_TECNICA_CONSTRUCCION_ENCABEZADOS_Y_PIPELINE_ETL.md`**](file:///C:/Proyectos%20Python/Detallados/docs/GUIA_TECNICA_CONSTRUCCION_ENCABEZADOS_Y_PIPELINE_ETL.md)
+   - Guía técnica maestra para LLMs e Ingenieros de Datos: filtrado de hojas no operativas, motor dual-row de encabezados, filldown/fillup, turnos multi-sondaje y homologación SAP.
+6. [**`GUIA_PASO_A_PASO_POWERQUERY_RECOPILADOR.md`**](file:///C:/Proyectos%20Python/Detallados/docs/GUIA_PASO_A_PASO_POWERQUERY_RECOPILADOR.md)
+   - Guía paso a paso de implementación en Excel Power Query, prevención de Formula Firewall y catálogo de consultas M.
+7. [**`07_RESUMEN_EJECUTIVO_Y_DECISIONES_ARQUITECTURA.md`**](file:///C:/Proyectos%20Python/Detallados/docs/07_RESUMEN_EJECUTIVO_Y_DECISIONES_ARQUITECTURA.md)
+   - Resumen ejecutivo, axioma de conciliación 1-a-1 y mapa de entregables oficiales.
 
 ---
 

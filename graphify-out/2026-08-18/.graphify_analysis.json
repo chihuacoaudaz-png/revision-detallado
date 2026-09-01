@@ -1,0 +1,275 @@
+{
+  "communities": {
+    "0": [
+      "pipeline_limpieza",
+      "pipeline_limpieza_apply_rename_dict",
+      "pipeline_limpieza_build_dual_row_headers_from_rows",
+      "pipeline_limpieza_calculate_mes",
+      "pipeline_limpieza_calculate_zona",
+      "pipeline_limpieza_clean_number_value",
+      "pipeline_limpieza_extract_sheet_data_from_rows",
+      "pipeline_limpieza_is_operative_sheet_name",
+      "pipeline_limpieza_py_dataframe",
+      "pipeline_limpieza_rationale_1",
+      "pipeline_limpieza_rationale_237",
+      "pipeline_limpieza_rationale_287",
+      "pipeline_limpieza_rationale_375",
+      "pipeline_limpieza_rationale_386",
+      "pipeline_limpieza_rationale_438",
+      "pipeline_limpieza_rationale_521",
+      "pipeline_limpieza_rationale_568",
+      "pipeline_limpieza_run_pipeline",
+      "pipeline_limpieza_standardize_turno",
+      "series"
+    ],
+    "1": [
+      "01_control_interno_etl_matriz_comparativa_metrajes",
+      "01_control_interno_etl_matriz_comparativa_metrajes_py_dataframe",
+      "01_control_interno_etl_matriz_comparativa_metrajes_rationale_1",
+      "01_control_interno_etl_matriz_comparativa_metrajes_run_matriz_comparativa",
+      "config",
+      "config_py_path",
+      "config_rationale_1",
+      "config_rationale_34",
+      "config_resolve_base_data_path"
+    ],
+    "2": [
+      "pipeline_limpieza_extract_ctr_from_folder",
+      "pipeline_limpieza_find_detallado_files",
+      "pipeline_limpieza_get_visible_sheet_names",
+      "pipeline_limpieza_py_path",
+      "pipeline_limpieza_rationale_217",
+      "pipeline_limpieza_rationale_228",
+      "pipeline_limpieza_rationale_32",
+      "pipeline_limpieza_rationale_343",
+      "pipeline_limpieza_remove_accents"
+    ],
+    "3": [
+      "01_control_interno_etl_compilar_control_interno",
+      "01_control_interno_etl_compilar_control_interno_load_machine_exceptions",
+      "01_control_interno_etl_compilar_control_interno_py_dataframe",
+      "01_control_interno_etl_compilar_control_interno_py_path",
+      "01_control_interno_etl_compilar_control_interno_rationale_1",
+      "01_control_interno_etl_compilar_control_interno_rationale_40",
+      "01_control_interno_etl_compilar_control_interno_run_compilacion_control_interno"
+    ],
+    "4": [
+      "drilldown_discrepancies",
+      "drilldown_discrepancies_norm",
+      "drilldown_discrepancies_norm_key",
+      "drilldown_discrepancies_normalize_str",
+      "drilldown_discrepancies_rationale_1",
+      "pipeline_limpieza_load_machine_exceptions",
+      "pipeline_limpieza_rationale_318"
+    ],
+    "5": [
+      "execute_notebook",
+      "execute_notebook_custom_display",
+      "execute_notebook_rationale_1"
+    ],
+    "6": [
+      "mcp_excel_engine",
+      "mcp_excel_engine_rationale_1",
+      "mcp_excel_engine_update_and_refresh_m"
+    ],
+    "7": [
+      "apply_fixed_m_and_verify",
+      "apply_fixed_m_and_verify_rationale_1"
+    ],
+    "8": [
+      "create_table_views_in_excel",
+      "create_table_views_in_excel_rationale_1"
+    ],
+    "9": [
+      "debug_m_syntax_in_excel",
+      "debug_m_syntax_in_excel_rationale_1"
+    ],
+    "10": [
+      "deep_dive",
+      "deep_dive_find_f01"
+    ],
+    "11": [
+      "fast_verify_and_update",
+      "fast_verify_and_update_rationale_1"
+    ],
+    "12": [
+      "find_source_in_detallados",
+      "find_source_in_detallados_rationale_1"
+    ],
+    "13": [
+      "fix_connection_command_text",
+      "fix_connection_command_text_rationale_1"
+    ],
+    "14": [
+      "fix_m_syntax_excel2016",
+      "fix_m_syntax_excel2016_rationale_1"
+    ],
+    "15": [
+      "isolate_detallados_error",
+      "isolate_detallados_error_rationale_1"
+    ],
+    "16": [
+      "isolate_m_step",
+      "isolate_m_step_rationale_1"
+    ],
+    "17": [
+      "save_dynamic_m_code",
+      "save_dynamic_m_code_rationale_1"
+    ],
+    "18": [
+      "validate_all_m_syntax",
+      "validate_all_m_syntax_check_m_syntax"
+    ],
+    "19": [
+      "verify_m_structure",
+      "verify_m_structure_norm_key"
+    ],
+    "20": [
+      "verify_output",
+      "verify_output_rationale_1"
+    ],
+    "21": [
+      "extract_early_m_code"
+    ],
+    "22": [
+      "find_full_clean_v0"
+    ],
+    "23": [
+      "find_source_ref"
+    ],
+    "24": [
+      "find_underscore_index"
+    ],
+    "25": [
+      "read_task_2443_log"
+    ],
+    "26": [
+      "read_task_log"
+    ],
+    "27": [
+      "scratch_investigate"
+    ],
+    "28": [
+      "test_excel_com"
+    ],
+    "29": [
+      "verify_line189_saved"
+    ],
+    "30": [
+      "verify_m_dedup"
+    ]
+  },
+  "cohesion": {
+    "0": 0.15789473684210525,
+    "1": 0.2222222222222222,
+    "2": 0.2222222222222222,
+    "3": 0.3333333333333333,
+    "4": 0.2857142857142857,
+    "5": 0.6666666666666666,
+    "6": 0.6666666666666666,
+    "7": 1.0,
+    "8": 1.0,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0
+  },
+  "gods": [
+    {
+      "id": "pipeline_limpieza_run_pipeline",
+      "label": "run_pipeline()",
+      "degree": 14
+    },
+    {
+      "id": "01_control_interno_etl_compilar_control_interno_load_machine_exceptions",
+      "label": "load_machine_exceptions()",
+      "degree": 5
+    },
+    {
+      "id": "pipeline_limpieza_load_machine_exceptions",
+      "label": "load_machine_exceptions()",
+      "degree": 5
+    },
+    {
+      "id": "pipeline_limpieza_find_detallado_files",
+      "label": "find_detallado_files()",
+      "degree": 5
+    },
+    {
+      "id": "pipeline_limpieza_get_visible_sheet_names",
+      "label": "get_visible_sheet_names()",
+      "degree": 4
+    },
+    {
+      "id": "pipeline_limpieza_remove_accents",
+      "label": "remove_accents()",
+      "degree": 4
+    },
+    {
+      "id": "pipeline_limpieza_extract_ctr_from_folder",
+      "label": "extract_ctr_from_folder()",
+      "degree": 4
+    },
+    {
+      "id": "pipeline_limpieza_clean_number_value",
+      "label": "clean_number_value()",
+      "degree": 4
+    },
+    {
+      "id": "pipeline_limpieza_standardize_turno",
+      "label": "standardize_turno()",
+      "degree": 4
+    },
+    {
+      "id": "pipeline_limpieza_extract_sheet_data_from_rows",
+      "label": "extract_sheet_data_from_rows()",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "load_machine_exceptions()",
+      "target": "norm()",
+      "source_files": [
+        "01_Control_Interno_ETL/compilar_control_interno.py",
+        "drilldown_discrepancies.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "load_machine_exceptions()",
+      "target": "norm()",
+      "source_files": [
+        "pipeline_limpieza.py",
+        "drilldown_discrepancies.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

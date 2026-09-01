@@ -1,0 +1,332 @@
+{
+  "config.py": {
+    "mtime": 1787008336.134535,
+    "seen": 1787095509.125571,
+    "ast_hash": "15235a3c9e4cb55e96a132c878259802",
+    "semantic_hash": ""
+  },
+  "descargar_detallados.py": {
+    "mtime": 1787064852.1478536,
+    "seen": 1787095509.125571,
+    "ast_hash": "f7350e04e77431f2565ee8085e415d60",
+    "semantic_hash": ""
+  },
+  "ejecutar_pipeline.py": {
+    "mtime": 1787008342.8904417,
+    "seen": 1787095509.125571,
+    "ast_hash": "f4d9e0e6b46a9616fdc9b117c4417e5b",
+    "semantic_hash": ""
+  },
+  "src/__init__.py": {
+    "mtime": 1787008289.42252,
+    "seen": 1787095509.125571,
+    "ast_hash": "2580fad8850541e12a1f3654844c7efc",
+    "semantic_hash": ""
+  },
+  "src/etl_control_interno.py": {
+    "mtime": 1787009092.8468504,
+    "seen": 1787095509.125571,
+    "ast_hash": "3caa9d3f824276c385d2d34ee5252055",
+    "semantic_hash": ""
+  },
+  "src/etl_detallados.py": {
+    "mtime": 1787067467.4991035,
+    "seen": 1787095509.125571,
+    "ast_hash": "6d443354c0bd270d28b0877b4a122b9d",
+    "semantic_hash": ""
+  },
+  "src/pipeline.py": {
+    "mtime": 1787095320.33581,
+    "seen": 1787095509.125571,
+    "ast_hash": "4f91353f9f73c9c473a7d8e39661b136",
+    "semantic_hash": ""
+  },
+  "src/reconciliacion.py": {
+    "mtime": 1787067472.5198774,
+    "seen": 1787095509.125571,
+    "ast_hash": "c6c7b53f9435c64217aeea098ad4722b",
+    "semantic_hash": ""
+  },
+  "src/utils.py": {
+    "mtime": 1787068276.1064615,
+    "seen": 1787095509.125571,
+    "ast_hash": "d15b5a1cb78493797217053f73f202dd",
+    "semantic_hash": ""
+  },
+  ".agents/rules/graphify.md": {
+    "mtime": 1786664153.4421384,
+    "seen": 1787095509.125571,
+    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "semantic_hash": ""
+  },
+  ".agents/workflows/graphify.md": {
+    "mtime": 1786664153.4421384,
+    "seen": 1787095509.125571,
+    "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
+    "semantic_hash": ""
+  },
+  ".edge_session/Default/Service Worker/CacheStorage/56b7519a3bcc4bf82f84f95ab56b86f1b4466580/index.txt": {
+    "mtime": 1787067272.0458891,
+    "seen": 1787095509.125571,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  ".edge_session/Default/Service Worker/CacheStorage/571988c4897ef87c20ec4d6b13878cf6c36e1caf/index.txt": {
+    "mtime": 1786990981.628129,
+    "seen": 1787095509.125571,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "GUIA_Y_UBICACION_DE_ARCHIVOS.md": {
+    "mtime": 1787008419.191177,
+    "seen": 1787095509.125571,
+    "ast_hash": "9d37ff144329f6ba49104a98fa1c3e51",
+    "semantic_hash": ""
+  },
+  "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md": {
+    "mtime": 1787095389.6136236,
+    "seen": 1787095509.125571,
+    "ast_hash": "a84672bc472d166ddfe2ca252a8e6b2b",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1787008411.9785936,
+    "seen": 1787095509.125571,
+    "ast_hash": "8f13361132dd7e6d83400637d807476e",
+    "semantic_hash": ""
+  },
+  "contexto/DIAGNOSTICO_Y_PUNTOS_A_CORREGIR_MANANA.md": {
+    "mtime": 1787070735.2246988,
+    "seen": 1787095509.125571,
+    "ast_hash": "774133d3ce37ab335fa6a9a208a94b23",
+    "semantic_hash": ""
+  },
+  "contexto/HISTORIAL_PREGUNTAS_Y_RESPUESTAS.md": {
+    "mtime": 1787095394.8022053,
+    "seen": 1787095509.125571,
+    "ast_hash": "531be914ffacc129af9b60d76c5b7bdb",
+    "semantic_hash": ""
+  },
+  "contexto/RESUMEN_COMPLETO_CONVERSACION_Y_ESTADO.md": {
+    "mtime": 1787095404.3590243,
+    "seen": 1787095509.125571,
+    "ast_hash": "3b331c50c5e63a17b6cdc04c003f2ea1",
+    "semantic_hash": ""
+  },
+  "docs/01_arquitectura_y_pipeline_etl.md": {
+    "mtime": 1786664228.3148725,
+    "seen": 1787095509.125571,
+    "ast_hash": "ad9fecf3c0aba96d1256b98fe037104b",
+    "semantic_hash": ""
+  },
+  "docs/02_diccionario_de_datos_135_columnas.md": {
+    "mtime": 1786664238.196514,
+    "seen": 1787095509.125571,
+    "ast_hash": "53f672197282f549147a03c2b13f4ca7",
+    "semantic_hash": ""
+  },
+  "docs/03_algoritmo_turnos_y_casos_borde.md": {
+    "mtime": 1786664251.9108796,
+    "seen": 1787095509.125571,
+    "ast_hash": "099e3a031d239758b01ce5846f37cb20",
+    "semantic_hash": ""
+  },
+  "docs/04_matriz_conciliacion_y_auditoria.md": {
+    "mtime": 1786664259.8198853,
+    "seen": 1787095509.125571,
+    "ast_hash": "1e0648016a6b9c79f6f43dd5760a8f38",
+    "semantic_hash": ""
+  },
+  "docs/05_guia_ejecucion_y_mantenimiento.md": {
+    "mtime": 1787005304.0550225,
+    "seen": 1787095509.125571,
+    "ast_hash": "13fa450d7c1860c1baeab6318a16bc33",
+    "semantic_hash": ""
+  },
+  "docs/06_flujo_descarga_correos_outlook_y_ctrs.md": {
+    "mtime": 1787003483.9543025,
+    "seen": 1787095509.125571,
+    "ast_hash": "6768466f9ccef131067f28d5971b3da8",
+    "semantic_hash": ""
+  },
+  "docs/07_analisis_rendimiento_descargador.md": {
+    "mtime": 1787002086.3074613,
+    "seen": 1787095509.125571,
+    "ast_hash": "cd35644d69fbb955b72bd091e7595080",
+    "semantic_hash": ""
+  },
+  "docs/08_guia_descargador_portable.md": {
+    "mtime": 1787003448.0940435,
+    "seen": 1787095509.125571,
+    "ast_hash": "9dd233c59ff527975b4ef606bbfcd3d5",
+    "semantic_hash": ""
+  },
+  "docs/handoff_control_interno.md": {
+    "mtime": 1786492210.5523202,
+    "seen": 1787095509.125571,
+    "ast_hash": "46d8f8dea18e5875159e00a6f62d0e5a",
+    "semantic_hash": ""
+  },
+  "docs/handoff_detallados.md": {
+    "mtime": 1786492191.0465348,
+    "seen": 1787095509.125571,
+    "ast_hash": "949fc6a671d602e7963b78d367dd41cb",
+    "semantic_hash": ""
+  },
+  "docs/logica_m_campos_control_interno.md": {
+    "mtime": 1786397588.038827,
+    "seen": 1787095509.125571,
+    "ast_hash": "fc6b37667ff44cb2b5a95df88eb8dbd9",
+    "semantic_hash": ""
+  },
+  "docs/logica_m_campos_detallados.md": {
+    "mtime": 1786492150.196113,
+    "seen": 1787095509.125571,
+    "ast_hash": "6a7ae48acecdaac0e9b5ec6f3a802581",
+    "semantic_hash": ""
+  },
+  "docs/replicacion_detallada_control_interno.md": {
+    "mtime": 1786403872.64389,
+    "seen": 1787095509.125571,
+    "ast_hash": "64c1b7e717d3f495d05a4f5045c408cb",
+    "semantic_hash": ""
+  },
+  "docs/replicacion_detallada_detallados.md": {
+    "mtime": 1786469380.3048687,
+    "seen": 1787095509.125571,
+    "ast_hash": "bcb15f26d81f2cc0b8fbd9ed285f2b0d",
+    "semantic_hash": ""
+  },
+  "graphify-out/converted/_MAPEO_DESCARGAS_17_08_2026_a4dc9450.md": {
+    "mtime": 1787070666.8283844,
+    "seen": 1787095509.125571,
+    "ast_hash": "77c3976faa96f901e469ce3648c3c05e",
+    "semantic_hash": ""
+  },
+  "graphify-out/converted/_TIEMPOS_17_08_2026_ff251905.md": {
+    "mtime": 1787070666.8505604,
+    "seen": 1787095509.125571,
+    "ast_hash": "2f98ef5788860ba464acc78431cad057",
+    "semantic_hash": ""
+  },
+  "graphify-out/converted/control_interno_compilado_6a61bd72.md": {
+    "mtime": 1787095497.6899793,
+    "seen": 1787095509.125571,
+    "ast_hash": "8d0844dfe248674e902d774e1be315b5",
+    "semantic_hash": ""
+  },
+  "graphify-out/converted/detallados_consolidados_89de2410.md": {
+    "mtime": 1787095502.2779675,
+    "seen": 1787095509.125571,
+    "ast_hash": "d16053de074f56c67ea80c3a1b143df1",
+    "semantic_hash": ""
+  },
+  "graphify-out/converted/matriz_comparativa_metrajes_9b70af81.md": {
+    "mtime": 1787095503.5008104,
+    "seen": 1787095509.125571,
+    "ast_hash": "a7f5d698aed7a6ea8f691bcb06503499",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1787007815.6816206,
+    "seen": 1787095509.125571,
+    "ast_hash": "76011093ca0229fcd5b7a5060b4fd3b4",
+    "semantic_hash": ""
+  },
+  "MCP/procesarv2.py": {
+    "mtime": 1778854784.0,
+    "seen": 1787095509.125571,
+    "ast_hash": "ee639b9cbb567e9310fcf224a066149b",
+    "semantic_hash": ""
+  },
+  "MCP/src/etl/procesarv2.py": {
+    "mtime": 1778854784.0,
+    "seen": 1787095509.125571,
+    "ast_hash": "ee639b9cbb567e9310fcf224a066149b",
+    "semantic_hash": ""
+  },
+  "MCP/README.md": {
+    "mtime": 1787093028.6958175,
+    "seen": 1787095509.125571,
+    "ast_hash": "34511bf2346dcd8fd732172c1cf1eedb",
+    "semantic_hash": ""
+  },
+  "MCP/actividades_categorias.txt": {
+    "mtime": 1787083380.261464,
+    "seen": 1787095509.125571,
+    "ast_hash": "d9f8d774b095d162de6c45f09a2716d4",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/00_INDICE_MAESTRO.md": {
+    "mtime": 1787093028.683962,
+    "seen": 1787095509.125571,
+    "ast_hash": "6ab834a0dd0dceab86e041e6d543a018",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/01_ARQUITECTURA_Y_ETL.md": {
+    "mtime": 1787093028.683962,
+    "seen": 1787095509.125571,
+    "ast_hash": "9777fdc2a4eea93f08c0bd90dc059077",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/02_DICCIONARIO_DE_DATOS.md": {
+    "mtime": 1787093028.683962,
+    "seen": 1787095509.125571,
+    "ast_hash": "77b1bf49ad5db6bdb3ee0fa43a61f4b5",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/03_MODELO_RELACIONAL.md": {
+    "mtime": 1787093028.683962,
+    "seen": 1787095509.125571,
+    "ast_hash": "2bdd634250affe693aa7a00c2b5790d0",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/04_CATALOGO_MEDIDAS_DAX.md": {
+    "mtime": 1787093028.6958175,
+    "seen": 1787095509.125571,
+    "ast_hash": "f2f6193c263b8c24460631d8a0877c3e",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/05_SISTEMA_METRAJE_PERDIDO_AJUSTADO.md": {
+    "mtime": 1787093028.6958175,
+    "seen": 1787095509.125571,
+    "ast_hash": "889fe644a9602ddc2c8fe0c7935fdd14",
+    "semantic_hash": ""
+  },
+  "MCP/docs/obsidian/06_GUIA_RECONSTRUCCION_TOTAL.md": {
+    "mtime": 1787093028.6958175,
+    "seen": 1787095509.125571,
+    "ast_hash": "60de6dab41f95602ef5ca24323e4616a",
+    "semantic_hash": ""
+  },
+  "MCP/estructura_reporte.md": {
+    "mtime": 1784051783.5835743,
+    "seen": 1787095509.125571,
+    "ast_hash": "93fcf8612348f08272b7f464a5b249ff",
+    "semantic_hash": ""
+  },
+  "MCP/resumen_modelo_v2.txt": {
+    "mtime": 1787078240.3004413,
+    "seen": 1787095509.125571,
+    "ast_hash": "848a5491225f9c810edcb05c79a4fafd",
+    "semantic_hash": ""
+  },
+  "src/export_star_schema.py": {
+    "mtime": 1787095310.3237326,
+    "seen": 1787095509.125571,
+    "ast_hash": "52c59f66095381692be16d7801c4f119",
+    "semantic_hash": ""
+  },
+  "docs/09_mapeo_actividades_y_estrategia_powerbi.md": {
+    "mtime": 1787095386.4404078,
+    "seen": 1787095509.125571,
+    "ast_hash": "349123088455e60d093f459e539b6551",
+    "semantic_hash": ""
+  },
+  "repuesta.txt": {
+    "mtime": 1787094838.8585863,
+    "seen": 1787095509.125571,
+    "ast_hash": "1358ef6f7844fa3220a6509855f919cc",
+    "semantic_hash": ""
+  }
+}

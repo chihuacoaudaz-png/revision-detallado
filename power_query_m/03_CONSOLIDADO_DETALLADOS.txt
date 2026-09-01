@@ -1,0 +1,39 @@
+// ==============================================================================
+// 3. CONSULTA: Consolidado_Detallados
+// Descripción: Recorre todas las carpetas CTR_*/02_Detallado/ y consolida las 168 columnas.
+// ==============================================================================
+let
+    // 1. Conexión al origen según parámetro
+    Origen = if TipoOrigen = "LOCAL" then
+        Folder.Files(RutaOrigenLocal)
+    else
+        SharePoint.Files(UrlSharePoint, [ApiVersion = 15]),
+        
+    // 2. Filtrar subcarpetas 02_Detallado de cada contrato
+    FiltrarRuta = Table.SelectRows(Origen, each Text.Contains([Folder Path], "CTR_") and Text.Contains([Folder Path], "02_Detallado")),
+    ExcluirExcluidos = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA") and not Text.Contains(Text.Upper([Folder Path]), "CAPITANA")),
+    FiltrarExcel = Table.SelectRows(ExcluirExcluidos, each (Text.EndsWith([Name], ".xlsx") or Text.EndsWith([Name], ".xlsm")) and not Text.StartsWith([Name], "~$")),
+    
+    // 3. Extraer Nombre del Contrato (CTR) desde la ruta de carpetas
+    AgregarCTR = Table.AddColumn(FiltrarExcel, "CTR_Nombre", each 
+        let 
+            partes = Text.Split([Folder Path], "\"),
+            ctrFolder = List.Select(partes, each Text.StartsWith(Text.Upper(_), "CTR_")),
+            cleanName = if List.IsEmpty(ctrFolder) then "CTR_DESCONOCIDO" else Text.Replace(ctrFolder{0}, "CTR_", "")
+        in 
+            cleanName, type text
+    ),
+    
+    // 4. Leer libros y expandir hojas operativas
+    LeerLibros = Table.AddColumn(AgregarCTR, "DatosLibro", each Excel.Workbook([Content], null, true)),
+    ExpandirHojas = Table.ExpandTableColumn(LeerLibros, "DatosLibro", {"Name", "Kind", "Hidden", "Data"}, {"Sheet_Name", "Kind", "Hidden", "Data"}),
+    FiltrarHojas = Table.SelectRows(ExpandirHojas, each [Kind] = "Sheet" and [Hidden] = false and not List.Contains({"ADITIVOS", "GENERAL", "LISTAS", "TIEMPOS", "RESUMEN", "GRAFICOS", "MAESTRO", "PARAMETROS", "GLOSARIO"}, Text.Upper([Sheet_Name]))),
+    
+    // 5. Transformar cada hoja mediante fn_ProcesarHojaDetallado
+    ProcesarHojas = Table.AddColumn(FiltrarHojas, "ContenidoProcesado", each fn_ProcesarHojaDetallado([Data], [Sheet_Name], [CTR_Nombre])),
+    
+    // 6. Extraer y combinar todas las tablas válidas
+    TablasValidas = List.Select(ProcesarHojas[ContenidoProcesado], each Value.Is(_, type table) and not Table.IsEmpty(_)),
+    TablaConsolidada = Table.Combine(TablasValidas)
+in
+    TablaConsolidada

@@ -1,0 +1,224 @@
+// ==============================================================================
+// 2. FUNCIÓN: fn_ProcesarHojaDetallado
+// Descripción: Transforma los datos de una hoja aplicando el estándar de 168 columnas.
+// Parámetros: hojaTabla (tabla raw), nombreHoja (texto), ctrNombre (texto)
+// ==============================================================================
+let
+    fn_ProcesarHojaDetallado = (hojaTabla as table, nombreHoja as text, ctrNombre as text) as table =>
+    let
+        // 1. Manejo seguro de errores en hojas vacías o corruptas
+        Procesado = try
+            let
+                // Omitir las primeras 24 filas (22 cabecera superior + 2 niveles de títulos)
+                // Fila 25 de Excel es la primera fila de datos operativos (índice 24)
+                FilasDatos = Table.Skip(hojaTabla, 24),
+                
+                // Seleccionar las primeras 168 columnas (Cols A a FL)
+                ColNames = Table.ColumnNames(FilasDatos),
+                Cols168Names = List.FirstN(ColNames, 168),
+                Tabla168Cols = Table.SelectColumns(FilasDatos, Cols168Names, MissingField.Ignore),
+                
+                // Mapear nombres canónicos oficiales de las 168 columnas
+                RenombrarCols = Table.RenameColumns(Tabla168Cols, {
+        {"Column1", "FECHA"},
+        {"Column2", "SONDAJE"},
+        {"Column3", "PROFUNDIDAD"},
+        {"Column4", "LINEA"},
+        {"Column5", "INCLINACIÓN"},
+        {"Column6", "DESDE"},
+        {"Column7", "HASTA"},
+        {"Column8", "TURNO (A=1;B=2)"},
+        {"Column9", "GRUPO"},
+        {"Column10", "METRAJE"},
+        {"Column11", "HORAS EXTRAS"},
+        {"Column12", "PERFORISTA"},
+        {"Column13", "AYUDANTE 1"},
+        {"Column14", "AYUDANTE 2"},
+        {"Column15", "TOTAL metraje del dia"},
+        {"Column16", "ACUMULADO"},
+        {"Column17", "PROYECTADO"},
+        {"Column18", "META"},
+        {"Column19", "MARCA BROCA"},
+        {"Column20", "SERIE BROCA"},
+        {"Column21", "Nº BROCA"},
+        {"Column22", "ESTADO DE LA BROCA"},
+        {"Column23", "MARCA ESCARIADOR"},
+        {"Column24", "Nº ESCARIADOR"},
+        {"Column25", "ESTADO DEL ESCARIADOR"},
+        {"Column26", "BENTONITA - PRODUCTO"},
+        {"Column27", "BENTONITA - CANT."},
+        {"Column28", "BENTONITA - UND."},
+        {"Column29", "PAC - PRODUCTO"},
+        {"Column30", "PAC - CANT."},
+        {"Column31", "PAC - UND."},
+        {"Column32", "POLIMERO - PRODUCTO"},
+        {"Column33", "POLIMERO - CANT."},
+        {"Column34", "POLIMERO - UND."},
+        {"Column35", "LUBRICANTES - PRODUCTO"},
+        {"Column36", "LUBRICANTES - CANT."},
+        {"Column37", "LUBRICANTES - UND."},
+        {"Column38", "CONTROLADOR DE PH Y DUREZA - PRODUCTO"},
+        {"Column39", "CONTROLADOR DE PH Y DUREZA - CANT."},
+        {"Column40", "CONTROLADOR DE PH Y DUREZA - UND."},
+        {"Column41", "INHIBIDORES - PRODUCTO"},
+        {"Column42", "INHIBIDORES - CANT."},
+        {"Column43", "INHIBIDORES - UND."},
+        {"Column44", "ESTABILIZADOR - PRODUCTO"},
+        {"Column45", "ESTABILIZADOR - CANT."},
+        {"Column46", "ESTABILIZADOR - UND."},
+        {"Column47", "OTROS - CLASIFICACIÓN"},
+        {"Column48", "OTROS - PRODUCTO"},
+        {"Column49", "OTROS - CANT."},
+        {"Column50", "OTROS - UND."},
+        {"Column51", "PETROLEO - CANT."},
+        {"Column52", "PETROLEO - GLN"},
+        {"Column53", "Perforación"},
+        {"Column54", "Rimado"},
+        {"Column55", "Asentado / Retiro de revestimiento (Casing)"},
+        {"Column56", "RePerforación"},
+        {"Column57", "Preventivo"},
+        {"Column58", "Correctivo"},
+        {"Column59", "Lavado de sondaje"},
+        {"Column60", "Mezclado de lodos"},
+        {"Column61", "Manipulación de tuberías"},
+        {"Column62", "Acondicionamiento de sondaje"},
+        {"Column63", "Cambio de línea"},
+        {"Column64", "Recuperación de sondaje por problemas geologicos"},
+        {"Column65", "Recuperación de materiales y o maniobras por atrapamiento"},
+        {"Column66", "Maniobras por descarga y carga de tuberías (por problemas geologicos)"},
+        {"Column67", "Perforación en fallas y/o terrenos altamente fracturados"},
+        {"Column68", "Medición de Desviación"},
+        {"Column69", "Traslado entre cámaras de perforación"},
+        {"Column70", "Cambio de punto de perforacion"},
+        {"Column71", "Anclado de máquina de perforación"},
+        {"Column72", "Perforación de perno de anclaje"},
+        {"Column73", "Cementación de perno de anclaje y fraguado"},
+        {"Column74", "Cementado y fraguado de sondaje"},
+        {"Column75", "Obturación/Sellado de sondaje con packer"},
+        {"Column76", "Sellado de Sondaje"},
+        {"Column77", "Inyección de lechada de cemento"},
+        {"Column78", "Ensayo Lefranc"},
+        {"Column79", "Ensayo Lugeon"},
+        {"Column80", "Prueba SPT"},
+        {"Column81", "Prueba Shelby"},
+        {"Column82", "Pruebas Geotécnicas"},
+        {"Column83", "Prueba de nivel freático"},
+        {"Column84", "Ensayo Air Lift"},
+        {"Column85", "Ensayo Slug Test"},
+        {"Column86", "Instalación de piezómetro Casagrande"},
+        {"Column87", "Instalación de piezómetro de cuerda vibrante"},
+        {"Column88", "Instalación de inclinómetro"},
+        {"Column89", "Instalación de piezómetro multinivel"},
+        {"Column90", "Instrumentación, toma de presión de agua y caudal"},
+        {"Column91", "Prueba de lectura de inclinómetro"},
+        {"Column92", "Toma de lecturas cuerda vibrante"},
+        {"Column93", "SBO1"},
+        {"Column94", "SBO2"},
+        {"Column95", "SBO3"},
+        {"Column96", "SBO4"},
+        {"Column97", "SBO5"},
+        {"Column98", "Desate de rocas"},
+        {"Column99", "Orden y limpieza"},
+        {"Column100", "Recojo de lama"},
+        {"Column101", "Poza de sedimentación"},
+        {"Column102", "Estandarización y Desestandarización"},
+        {"Column103", "Instalación de red de agua o drenaje"},
+        {"Column104", "Instalación / Desinstalación de maquina"},
+        {"Column105", "Traslado de accesorios"},
+        {"Column106", "Auditoría Interna"},
+        {"Column107", "Charla, reparto de guardia, llenado de herramientas y reportes"},
+        {"Column108", "Espera de repuestos mecánicos"},
+        {"Column109", "Espera de materiales e insumos de perforación"},
+        {"Column110", "Traslado de personal"},
+        {"Column111", "Refrigerio"},
+        {"Column112", "Falta de personal"},
+        {"Column113", "Paralización por fiestas"},
+        {"Column114", "Pare RD/ seguridad"},
+        {"Column115", "SBI1"},
+        {"Column116", "SBI2"},
+        {"Column117", "SBI3"},
+        {"Column118", "SBI4"},
+        {"Column119", "Voladura"},
+        {"Column120", "Falta de agua"},
+        {"Column121", "Falta de energía"},
+        {"Column122", "Falta de ventilación"},
+        {"Column123", "Falta de servicios"},
+        {"Column124", "Espera Orden Cliente"},
+        {"Column125", "Espera de programa"},
+        {"Column126", "Espera de cámara"},
+        {"Column127", "Espera de sostenimiento"},
+        {"Column128", "Espera de scoop"},
+        {"Column129", "Espera de marcado de punto"},
+        {"Column130", "Espera de Topografía"},
+        {"Column131", "Espera de grúa"},
+        {"Column132", "Espera por puebas de permeabilidad y/o ensayos"},
+        {"Column133", "Auditoría externa/ Osinergmin"},
+        {"Column134", "Capacitación (Externa Cliente)"},
+        {"Column135", "Falta de habilitación de cámara o plataforma"},
+        {"Column136", "Espera de orden cliente"},
+        {"Column137", "Condiciones climáticas"},
+        {"Column138", "Inundación"},
+        {"Column139", "Paralización por estrés térmico o alta temperatura"},
+        {"Column140", "Parada por sismo/microsismo"},
+        {"Column141", "Conflicto social"},
+        {"Column142", "SBC1"},
+        {"Column143", "SBC2"},
+        {"Column144", "SBC3"},
+        {"Column145", "SBC4"},
+        {"Column146", "TIEMPO TOTAL"},
+        {"Column147", "TIEMPO EFECTIVO - OPERATIVO"},
+        {"Column148", "LOST TIME"},
+        {"Column149", "Mantenimiento"},
+        {"Column150", "Stand By Operativo"},
+        {"Column151", "Stand By Inoperativo"},
+        {"Column152", "Stand By Cliente"},
+        {"Column153", "RIMADO CASING HWT/HQ - DESDE"},
+        {"Column154", "RIMADO CASING HWT/HQ - HASTA"},
+        {"Column155", "RIMADO CASING HWT/HQ - METRAJE"},
+        {"Column156", "RIMADO CASING HWT/HQ - TOTAL"},
+        {"Column157", "RE-PERFORACIÓN - DESDE"},
+        {"Column158", "RE-PERFORACIÓN - HASTA"},
+        {"Column159", "RE-PERFORACIÓN - METRAJE"},
+        {"Column160", "RE-PERFORACIÓN - TOTAL"},
+        {"Column161", "HOROMETRO - DESDE"},
+        {"Column162", "HOROMETRO - HASTA"},
+        {"Column163", "HOROMETRO - ACUMULADO"},
+        {"Column164", "HOROMETRO - TOTAL"},
+        {"Column165", "BITACORA - TRABAJOS REALIZADOS"},
+        {"Column166", "BITACORA - REPUESTOS UTILIZADOS"},
+        {"Column167", "DESCRIPCIÓN LITOLÓGICA"},
+        {"Column168", "COMENTARIOS"}
+                }, MissingField.Ignore),
+                
+                // FillDown en FECHA
+                FechaLlenada = Table.FillDown(RenombrarCols, {"FECHA"}),
+                
+                // FillDown y FillUp en SONDAJE (Resuelve celdas combinadas)
+                ColSondaje = if Table.HasColumns(FechaLlenada, {"SONDAJE"}) then "SONDAJE" else "NOMBRE",
+                SondajeLlenado = if Table.HasColumns(FechaLlenada, {ColSondaje}) then 
+                    Table.FillUp(Table.FillDown(FechaLlenada, {ColSondaje}), {ColSondaje})
+                else 
+                    FechaLlenada,
+                
+                // Filtrar filas de sumatorias, totales y vacíos
+                FilasOperativas = Table.SelectRows(SondajeLlenado, each 
+                    [FECHA] <> null and 
+                    Text.Trim(Text.From([FECHA])) <> "" and 
+                    not Text.Contains(Text.Upper(Text.From([FECHA])), "TOTAL") and 
+                    not Text.Contains(Text.Upper(Text.From([FECHA])), "RESUMEN") and
+                    not Text.StartsWith(Text.Trim(Text.From(Record.FieldOrDefault(_, ColSondaje, ""))), ">") and
+                    not List.Contains({"TOTAL", "TOTAL GENERAL", "RESUMEN", "PROMEDIO", "SUMA", "TOTAL AVANCE"}, Text.Upper(Text.Trim(Text.From(Record.FieldOrDefault(_, ColSondaje, "")))))
+                ),
+                
+                // Agregar metadatos de CTR y Máquina al inicio
+                ConCTR = Table.AddColumn(FilasOperativas, "CTR", each ctrNombre, type text),
+                ConMaquina = Table.AddColumn(ConCTR, "MAQUINA", each nombreHoja, type text),
+                ReordenarMetadatos = Table.ReorderColumns(ConMaquina, {"CTR", "MAQUINA"} & List.RemoveItems(Table.ColumnNames(ConMaquina), {"CTR", "MAQUINA"}))
+            in
+                ReordenarMetadatos
+        otherwise
+            #table({"CTR", "MAQUINA", "FECHA"}, {})
+    in
+        Procesado
+in
+    fn_ProcesarHojaDetallado

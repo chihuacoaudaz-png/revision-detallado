@@ -1,0 +1,1300 @@
+{
+  "tables": {
+    "Consumo Consolidado": {
+      "row_count": 424687,
+      "col_count": 20,
+      "columns": [
+        "CTR",
+        "GS",
+        "Fecha",
+        "Maquina",
+        "Codigo",
+        "Descripcion",
+        "Serie",
+        "Cant",
+        "UM",
+        "Familia",
+        "Costo",
+        "Total",
+        "ACTIVOS",
+        "Item",
+        "MARCA",
+        "TIPO",
+        "DESCARGA",
+        "ALTURA_BROCA",
+        "MODELO",
+        "LINEA"
+      ]
+    },
+    "Dim_CTR": {
+      "row_count": 21,
+      "col_count": 5,
+      "columns": [
+        "CTR",
+        "COORDINADOR",
+        "Costo por metro",
+        "ZONA",
+        "P.U. PROMEDIO"
+      ]
+    },
+    "Dim_Calendario": {
+      "row_count": 1096,
+      "col_count": 9,
+      "columns": [
+        "Date",
+        "Año Operativo",
+        "Mes Num Operativo",
+        "Mes Operativo",
+        "Mes Año",
+        "Periodo Sort",
+        "Semana Num",
+        "Semana",
+        "Semana Operativa"
+      ]
+    },
+    "Dim_Familias": {
+      "row_count": 12,
+      "col_count": 3,
+      "columns": [
+        "ID_FAMILIA",
+        "FAMILIA",
+        "%"
+      ]
+    },
+    "Dim_Maquina": {
+      "row_count": 78,
+      "col_count": 1,
+      "columns": [
+        "MAQUINA"
+      ]
+    },
+    "Dim_Personal": {
+      "row_count": 2187,
+      "col_count": 2,
+      "columns": [
+        "PERFORISTA",
+        "PUESTO"
+      ]
+    },
+    "Dim_Sondaje": {
+      "row_count": 4460,
+      "col_count": 8,
+      "columns": [
+        "SONDAJE",
+        "FECHA_INICIO_REAL",
+        "FECHA_FIN_REAL",
+        "AVANCE_ACUMULADO",
+        "MAQUINA_PRINCIPAL",
+        "CTR_A_CARGO",
+        "PROFUNDIDAD_PROGRAMADA",
+        "Etiqueta_Gantt"
+      ]
+    },
+    "Fact_Abastecimiento": {
+      "row_count": 122616,
+      "col_count": 15,
+      "columns": [
+        "MES",
+        "FECHA",
+        "CONTRATO",
+        "TRA",
+        "DESCRIPCION",
+        "UND",
+        "CANT",
+        "PRECIO",
+        "TOTAL",
+        "FAMILIA",
+        "TIPO",
+        "C.COSTO",
+        "CODTRA",
+        "GUIA",
+        "cod"
+      ]
+    },
+    "Fact_Metas": {
+      "row_count": 988,
+      "col_count": 5,
+      "columns": [
+        "CTR",
+        "MES OPERATIVO",
+        "META METRAJE",
+        "MAQUINA",
+        "TIPO_MAQUINA"
+      ]
+    },
+    "Fact_Metraje": {
+      "row_count": 62514,
+      "col_count": 17,
+      "columns": [
+        "KEY_OPERACION",
+        "FECHA",
+        "MAQUINA",
+        "CTR",
+        "TURNO",
+        "SONDAJE",
+        "PERFORISTA",
+        "LINEA",
+        "AÑO",
+        "GUARDIAS",
+        "METRAJE_X_GUARDIA",
+        "Nº_BROCA",
+        "SERIE_DE_BROCA",
+        "AYUDANTE_1",
+        "AYUDANTE_2",
+        "MARCA_BROCA",
+        "COMENTARIOS"
+      ]
+    },
+    "Fact_Personal_Asignado": {
+      "row_count": 176439,
+      "col_count": 3,
+      "columns": [
+        "KEY_OPERACION",
+        "ROL_EN_REPORTE",
+        "NOMBRE_TRABAJADOR"
+      ]
+    },
+    "Fact_Tiempos": {
+      "row_count": 384758,
+      "col_count": 21,
+      "columns": [
+        "KEY_OPERACION",
+        "FECHA",
+        "MAQUINA",
+        "CTR",
+        "TURNO",
+        "SONDAJE",
+        "PERFORISTA",
+        "LINEA",
+        "AÑO",
+        "GUARDIAS",
+        "Actividad",
+        "Horas",
+        "Categoria",
+        "Afecta_Disp",
+        "Responsable",
+        "Tipo_Movimiento",
+        "JOIN_KEY_EXCEL",
+        "AYUDANTE_1",
+        "AYUDANTE_2",
+        "MARCA_BROCA",
+        "COMENTARIOS"
+      ]
+    },
+    "Reporte_Brocas": {
+      "row_count": 5002,
+      "col_count": 17,
+      "columns": [
+        "KEY_OPERACION",
+        "FECHA",
+        "MAQUINA",
+        "CTR",
+        "TURNO",
+        "SONDAJE",
+        "PERFORISTA",
+        "LINEA",
+        "AÑO",
+        "GUARDIAS",
+        "MARCA_BROCA",
+        "SERIE_DE_BROCA",
+        "Nº_BROCA",
+        "ESTADO_DE_LA_BROCA",
+        "CAMBIO_BROCA",
+        "AYUDANTE",
+        "DESCRIPCION_LITOLOGICA"
+      ]
+    }
+  },
+  "measures": [
+    {
+      "TableName": "Medidas",
+      "Name": "Total Metros",
+      "Expression": "SUM(Fact_Metraje[METRAJE_X_GUARDIA])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Cantidad Brocas",
+      "Expression": "\nCALCULATE(\n    DISTINCTCOUNT('Fact_Metraje'[Nº_BROCA]),\n    // IMPORTANTE: El \"0\" debe ir entre comillas porque la columna ahora es Texto\n    'Fact_Metraje'[Nº_BROCA] <> \"0\",\n    'Fact_Metraje'[Nº_BROCA] <> \"ND\",\n    'Fact_Metraje'[Nº_BROCA] <> \"\"\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Rendimiento Promedio (m/und)",
+      "Expression": "DIVIDE([Total Metros], [Cantidad Brocas], 0)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Horas Operativas",
+      "Expression": "\nCALCULATE(\n    SUM('Fact_Tiempos'[Horas]),\n    'Fact_Tiempos'[Categoria] IN { \"OPERATIVO\", \"EFECTIVAS\" }\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP (m/hr)",
+      "Expression": "DIVIDE([Total Metros], [Horas Operativas], 0)  ",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Meta Diaria Lineal",
+      "Expression": "\nVAR MetaDelPeriodo = \n    CALCULATE(\n        SUM('Fact_Metas'[META METRAJE]),\n        // ERROR CORREGIDO: Solo dejamos columnas de Dim_Calendario aquí.\n        // El filtro de Dim_CTR se mantiene solo, no hace falta mencionarlo.\n        ALLEXCEPT('Dim_Calendario', 'Dim_Calendario'[Periodo Sort])\n    )\n\nVAR DiasEnElPeriodo = \n    CALCULATE(\n        COUNTROWS('Dim_Calendario'), \n        // Contamos cuántos días tiene este periodo operativo (26 al 25)\n        ALLEXCEPT('Dim_Calendario', 'Dim_Calendario'[Periodo Sort])\n    )\n\nRETURN\n    DIVIDE(MetaDelPeriodo, DiasEnElPeriodo, 0)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Ejecutado Acumulado",
+      "Expression": "\nVAR UltimaFechaGrafico = MAX('Dim_Calendario'[Date])\n\nRETURN\n    CALCULATE(\n        [Total Metros], -- Tu medida base de suma de metros\n        FILTER(\n            ALLSELECTED('Dim_Calendario'), -- Mira todos los días seleccionados en tu filtro\n            'Dim_Calendario'[Date] <= UltimaFechaGrafico -- Suma solo hasta la fecha que mira el gráfico\n        )\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Meta Acumulada Periodo",
+      "Expression": "\n-- 1. SUMA DE TODAS LAS MÁQUINAS DEL MES\n-- Usamos ALLSELECTED para que la bolsa de metros sea total y no se filtre por día\nVAR MetaTotalFlota = \n    CALCULATE(\n        SUM('Fact_Metas'[META METRAJE]), \n        ALLSELECTED('Dim_Calendario')\n    )\n\n-- 2. CANTIDAD DE DÍAS OPERATIVOS DEL PERIODO\nVAR DiasTotalesPeriodo = \n    CALCULATE(\n        COUNTROWS('Dim_Calendario'), \n        ALLSELECTED('Dim_Calendario')\n    )\n\n-- 3. META DIARIA (División)\nVAR MetaDiaria = DIVIDE(MetaTotalFlota, DiasTotalesPeriodo)\n\n-- 4. SUMA ACUMULADA POR DÍAS TRANSCURRIDOS\nVAR FechaInicio = CALCULATE(MIN('Dim_Calendario'[Date]), ALLSELECTED('Dim_Calendario'))\nVAR FechaEjeX = MAX('Dim_Calendario'[Date])\nVAR DiasTranscurridos = DATEDIFF(FechaInicio, FechaEjeX, DAY) + 1\n\nVAR ResultadoAcumulado = MetaDiaria * DiasTranscurridos\n\n-- 5. VALIDACIÓN FINAL\n-- Solo mostramos la meta si estamos dentro del rango del periodo seleccionado\nRETURN \nIF(\n    FechaEjeX >= FechaInicio && FechaEjeX <= CALCULATE(MAX('Dim_Calendario'[Date]), ALLSELECTED('Dim_Calendario')),\n    ResultadoAcumulado,\n    BLANK()\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Cantidad Brocas Usadas",
+      "Expression": "\nCALCULATE(\n    COUNTROWS('Reporte_Brocas'),\n    TREATAS(VALUES('Dim_Broca'[Serie]), 'Reporte_Brocas'[Nº_BROCA])\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Costo Abastecimiento ($)",
+      "Expression": "\nCALCULATE(\n    SUM('Fact_Abastecimiento'[TOTAL])\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Costo Consumo  ($)",
+      "Expression": "\nCALCULATE(\n    SUM('Consumo Consolidado'[Total])\n)\n",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Costo Consumo x Metro ($/m)",
+      "Expression": "\nDIVIDE(\n    [Costo Consumo  ($)], \n    [Total Metros], \n    0\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Costo Abastecimiento x Metro ($/m)",
+      "Expression": "\nDIVIDE(\n    [Costo Abastecimiento MTD Operativo ($)], \n    [Total Metros], \n    0\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP Mes Anterior",
+      "Expression": "\nCALCULATE(\n    [ROP (m/hr)], \n    DATEADD('Dim_Calendario'[Date], -1, MONTH)\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP Variacion",
+      "Expression": "[ROP (m/hr)] - [ROP Mes Anterior]",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP Icono",
+      "Expression": "\nVAR Diff = [ROP Variacion]\nRETURN\nSWITCH(TRUE(),\n    Diff > 0, \"▲\",  -- Flecha arriba si subió\n    Diff < 0, \"▼\",  -- Flecha abajo si bajó\n    \"-\"             -- Guión si es igual\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP Color",
+      "Expression": "\nVAR Diff = [ROP Variacion]\nRETURN\nSWITCH(TRUE(),\n    Diff > 0, \"#008000\", -- Verde (Hexadecimal)\n    Diff < 0, \"#FF0000\", -- Rojo (Hexadecimal)\n    \"#808080\"            -- Gris si no hay cambio\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP Etiqueta Final",
+      "Expression": "\nVAR ValorFormateado = FORMAT([ROP (m/hr)], \"0.00\") -- \"0.00\" asegura dos decimales\nVAR Flecha = [ROP Icono]                           -- Usa la medida que creamos antes\nRETURN \nValorFormateado & \" \" & Flecha",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Consumo Cantidad",
+      "Expression": "SUM('Consumo Consolidado'[Cant])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Costo Cantidad",
+      "Expression": "[Consumo Cantidad] * [Total Metros] ",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Prom Cantidad",
+      "Expression": "AVERAGE('Consumo Consolidado'[Cant])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Metros con Promedio Total",
+      "Expression": "\nIF(\n    ISINSCOPE('Fact_Metraje'[Nº_BROCA]), \n    SUM(Fact_Metraje[METRAJE_X_GUARDIA]), \n    AVERAGEX(\n        VALUES('Fact_Metraje'[Nº_BROCA]), \n        CALCULATE(SUM(Fact_Metraje[METRAJE_X_GUARDIA]))\n    )\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Promedio Avance Mensual 80-10",
+      "Expression": "\nVAR MaquinaNombre = \"XRD80USS-010\"  // <--- EDITA AQUÍ EL NOMBRE DE TU MÁQUINA\n\nRETURN\nCALCULATE(\n    AVERAGEX(\n        VALUES('Dim_Calendario'[Mes Año]),  -- Lista los meses del rango seleccionado (Jun-Feb)\n        CALCULATE(SUM('Fact_Metraje'[METRAJE_X_GUARDIA])) -- Calcula el total de cada mes\n    ),\n    'Fact_Metraje'[MAQUINA] = MaquinaNombre -- Filtra solo para la máquina específica\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Promedio Avance Mensual 017",
+      "Expression": "\nVAR MaquinaNombre = \"XRD90U-017\"  // <--- EDITA AQUÍ EL NOMBRE DE TU MÁQUINA\n\nRETURN\nCALCULATE(\n    AVERAGEX(\n        VALUES('Dim_Calendario'[Mes Año]),  -- Lista los meses del rango seleccionado (Jun-Feb)\n        CALCULATE(SUM('Fact_Metraje'[METRAJE_X_GUARDIA])) -- Calcula el total de cada mes\n    ),\n    'Fact_Metraje'[MAQUINA] = MaquinaNombre -- Filtra solo para la máquina específica\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Cantidad Maquinas Activas",
+      "Expression": "\nCALCULATE(\n    DISTINCTCOUNT('Fact_Metraje'[MAQUINA]),\n    'Fact_Metraje'[METRAJE_X_GUARDIA] > 0\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Costo total",
+      "Expression": "SUMX(\n    'Consumo Consolidado', \n    'Consumo Consolidado'[Cant] * 'Consumo Consolidado'[Costo]\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Horas Perforando con filtro",
+      "Expression": "\nCALCULATE(\n    SUM('Fact_Tiempos'[Horas]),\n    KEEPFILTERS('Fact_Tiempos'[Actividad] = \"PERFORACION\")\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Horas Perforando / 6",
+      "Expression": "\nDIVIDE(CALCULATE(\n    SUM('Fact_Tiempos'[Horas]),\n    'Fact_Tiempos'[Actividad] = \"PERFORACION\"\n),6)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Promedio Horas por Turno Perforado",
+      "Expression": "\nVAR HorasTotales = [Horas Operativas] -- Tu medida original\n\nVAR CantidadTurnosConPerfo = \n    CALCULATE(\n        DISTINCTCOUNTNOBLANK('Fact_Tiempos'[KEY_OPERACION]), \n        'Fact_Tiempos'[Actividad] = \"PERFORACION\"\n    )\n\nRETURN\n    DIVIDE(HorasTotales, CantidadTurnosConPerfo)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Promedio Horas Perforando (Sobre Total Turnos)",
+      "Expression": "\nVAR HorasTotales = [Horas Operativas] -- Tu medida original (ya filtrada por \"PERFORACION\")\n\nVAR TotalTurnosOperativos = \n    DISTINCTCOUNTNOBLANK('Fact_Tiempos'[KEY_OPERACION])\n\nRETURN\n    DIVIDE(HorasTotales, TotalTurnosOperativos)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Promedio Horas Por Dia",
+      "Expression": "\nAVERAGEX(\n    VALUES('Fact_Tiempos'[Fecha]), -- 1. Crea una lista única de días\n    [Horas Operativas]              -- 2. Suma las actividades de cada día\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Total Horas",
+      "Expression": "SUM(Fact_Tiempos[Horas])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Desviación %",
+      "Expression": "DIVIDE( [Total Metros] - [Meta Metraje a la Fecha CONDICIONAL], [Meta Metraje a la Fecha CONDICIONAL], 0 )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Cantidad Consumo x Metro ($/m)",
+      "Expression": "\nDIVIDE(\n    [Total Metros],\n    [Consumo Cantidad],  \n    0\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Abastecimiento Cantidad",
+      "Expression": "SUM('Fact_Abastecimiento'[CANT])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Meta Costo CTR",
+      "Expression": "\n-- 1. Identificamos el CTR activo en el contexto (ya sea por filtro de máquina o de proyecto)\nVAR _CTR_Seleccionado = SELECTEDVALUE('fact_tiempos'[CTR])\n\n-- 2. Buscamos el costo en la DIM_CTR usando LOOKUPVALUE para evitar conflictos de relación\nVAR _ValorMeta = \n    LOOKUPVALUE(\n        'DIM_CTR'[Costo por metro], \n        'DIM_CTR'[CTR], \n        _CTR_Seleccionado\n    )\n\n-- 3. Si el CTR no tiene meta (celdas vacías), usamos el promedio de los CTRs con data\nVAR _PromedioSeguridad = \n    CALCULATE(\n        AVERAGE('DIM_CTR'[Costo por metro]), \n        ALLSELECTED('DIM_CTR')\n    )\n\nRETURN \n    IF(ISBLANK(_ValorMeta), _PromedioSeguridad, _ValorMeta)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Ritmo Base Diario",
+      "Expression": "DIVIDE( SUM(Fact_Metas[META METRAJE]), 30 )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Meta Mensual Ajustada",
+      "Expression": "\nVAR DiasEnMes = COUNTROWS(ALLSELECTED('Dim_Calendario')) -- Cuenta días del mes filtrado\nVAR RitmoDiario = [Ritmo Base Diario] -- Tu cálculo de Meta/30\nRETURN\nRitmoDiario * DiasEnMes",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Metros Restantes",
+      "Expression": "[Meta Mensual Ajustada] - [Total Metros]",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Meta Dinámica Proyectada",
+      "Expression": "\nVAR DiasRestantes = COUNTROWS( FILTER(Dim_Calendario, Dim_Calendario[Date] > TODAY()) )\nRETURN\nDIVIDE([Metros Restantes], DiasRestantes) * 7  -- Multiplicamos por 7 para ver la meta de la semana",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Meta Mensual",
+      "Expression": "\nCALCULATE(\n    SUM('Fact_Metas'[META METRAJE]),\n    KEEPFILTERS('Dim_Calendario'[Periodo Sort])\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Meta Semanal Ajustada",
+      "Expression": "\nVAR MetaTotalMes = [Meta Mensual]\n\n-- 1. Calculamos lo perforado hasta la semana ANTERIOR a la que se muestra en el gráfico\nVAR MetrosHechos = \n    CALCULATE(\n        [Total Metros], \n        FILTER(\n            ALLSELECTED('Dim_Calendario'), \n            'Dim_Calendario'[Semana Num] < MAX('Dim_Calendario'[Semana Num])\n        )\n    )\n\n-- 2. Cuántas semanas quedan por trabajar (incluyendo la actual) en este mes\nVAR SemanasRestantes = \n    CALCULATE(\n        DISTINCTCOUNT('Dim_Calendario'[Semana Num]),\n        FILTER(\n            ALLSELECTED('Dim_Calendario'),\n            'Dim_Calendario'[Semana Num] >= MAX('Dim_Calendario'[Semana Num])\n        )\n    )\n\n-- 3. Repartimos lo que falta entre las semanas que quedan\nVAR Resultado = DIVIDE(MetaTotalMes - MetrosHechos, SemanasRestantes)\n\n-- Evitamos negativos si ya se pasó la meta\nRETURN IF(Resultado < 0, 0, Resultado)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Meta Mensual por maquina",
+      "Expression": "\nVAR DiasEnMes = COUNTROWS('Dim_Calendario')\n-- Usamos MAX para que no sume metas de diferentes meses o registros\nVAR MetaBase = MAX('fact_metas'[META METRAJE]) \n\nRETURN\nDIVIDE(MetaBase, 30) * DiasEnMes",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Meta Dinamica Semanal",
+      "Expression": "\n-- 1. Meta Total del Mes (los 2,053.33)\nVAR MetaTotalMes = CALCULATE([Meta Mensual], ALLSELECTED('Dim_Calendario'))\n\n-- 2. Identificamos los días de la semana actual (pueden ser 7 o menos si es la última)\nVAR FechaInicioSemana = MIN('Dim_Calendario'[Date])\nVAR DiasEnEstaSemana = COUNTROWS('Dim_Calendario')\n\n-- 3. Identificamos el inicio y fin del periodo completo (26 al 25)\nVAR FechaFinPeriodo = CALCULATE(MAX('Dim_Calendario'[Date]), ALLEXCEPT('Dim_Calendario', 'Dim_Calendario'[Periodo Sort]))\n\n-- 4. RECALCULO: Metros hechos ANTES de esta semana\nVAR MetrosHechosPasado = \n    CALCULATE(\n        [Total Metros],\n        FILTER(\n            ALLSELECTED('Dim_Calendario'),\n            'Dim_Calendario'[Date] < FechaInicioSemana\n        )\n    )\n\n-- 5. Días operativos que quedan desde el INICIO de esta semana hasta el cierre (25)\nVAR DiasRestantesMes = \n    COUNTROWS(\n        FILTER(\n            ALLSELECTED('Dim_Calendario'),\n            'Dim_Calendario'[Date] >= FechaInicioSemana && \n            'Dim_Calendario'[Date] <= FechaFinPeriodo\n        )\n    )\n\n-- 6. LA LOGICA: Meta Diaria Base (del resto del mes) * Días de esta semana\nVAR MetaDiariaBaseRecalculada = DIVIDE(MetaTotalMes - MetrosHechosPasado, DiasRestantesMes)\nVAR Resultado = MetaDiariaBaseRecalculada * DiasEnEstaSemana\n\nRETURN\nIF(\n    ISINSCOPE('Dim_Calendario'[Semana Operativa]),\n    Resultado,\n    MetaTotalMes -- El Total de la tabla mostrará el objetivo mensual completo\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Ritmo Diario Requerido",
+      "Expression": "\nVAR PeriodoActual = SELECTEDVALUE('Dim_Calendario'[Periodo Sort])\n\n-- 1. Buscamos el último día del periodo operativo (el 25)\nVAR FinDePeriodo = \n    CALCULATE(\n        MAX('Dim_Calendario'[Date]), \n        ALLEXCEPT('Dim_Calendario', 'Dim_Calendario'[Periodo Sort])\n    )\n\n-- 2. Metros que faltan\nVAR MetaTotal = CALCULATE([Meta Mensual], ALLSELECTED('Dim_Calendario'))\nVAR AvanceActual = [Total Metros]\nVAR MetrosFaltantes = MetaTotal - AvanceActual\n\n-- 3. CAMBIO CLAVE: Identificamos la última fecha donde HUBO metros\n-- Reemplaza 'Tabla_Hechos'[Fecha] por tu columna real de perforación\nVAR UltimaFechaData = CALCULATE(MAX('Fact_Metraje'[FECHA]), ALLSELECTED('Fact_Metraje'))\n\n-- 4. Días desde la última data hasta el cierre\nVAR DiasRestantes = \n    COUNTROWS(\n        FILTER(\n            ALL('Dim_Calendario'),\n            'Dim_Calendario'[Date] > UltimaFechaData && \n            'Dim_Calendario'[Date] <= FinDePeriodo &&\n            'Dim_Calendario'[Periodo Sort] = PeriodoActual\n        )\n    )\n\nRETURN\nIF(\n    MetrosFaltantes <= 0, 0, \n    DIVIDE(MetrosFaltantes, DiasRestantes, 0)\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Desviación % dinamica",
+      "Expression": "DIVIDE( [Total Metros] - [Meta Dinamica Semanal], [Meta Dinamica Semanal], 0 )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Tabla",
+      "Name": "Metros Perdidos",
+      "Expression": "\n-- 1. Variables de Referencia\nVAR _ROP_General = \n    CALCULATE(\n        [ROP (m/hr)], \n        REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n    )\n\nVAR _ActividadFila = SELECTEDVALUE('fact_tiempos'[ACTIVIDAD])\nVAR _CategoriaFila = SELECTEDVALUE('fact_tiempos'[Categoria])\nVAR _HorasFila = [Total Horas]\n\n-- 2. CÁLCULO PARA PÉRDIDAS DIRECTAS (Categoría o Actividad específica)\nVAR _EsPerdidaDirecta = \n    _CategoriaFila = \"STAND BY CLIENTE\" || \n    _ActividadFila IN {\n        \"FALTA_DE_PERSONAL\", \n        \"FALTA_CAMIONETA_Y/O_CAMIÓN\", \n        \"FALTA/PROBLEMAS_MATERIALES\", \n        \"FALTA_DE_CISTERNA\"\n    }\n\nVAR _MetrosDirectosFila = IF(_EsPerdidaDirecta, _HorasFila * _ROP_General, 0)\n\n-- 3. LÓGICA DE MANTENIMIENTO\n-- Cálculo de horas totales de Preventivo en el contexto actual (ej. por Máquina/Contrato)\nVAR _HorasPrevTotal = \n    CALCULATE(\n        [Total Horas], \n        'fact_tiempos'[ACTIVIDAD] = \"MANTTO_PREVENTIVO\",\n        REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n    )\n\nVAR _ExcesoPrevTotal = MAX(_HorasPrevTotal - 30, 0)\n\n-- Asignación por fila\nVAR _MetrosManttoFila = \n    SWITCH(_ActividadFila,\n        \"MANTTO_PREVENTIVO\", (_ExcesoPrevTotal * _ROP_General) * DIVIDE(_HorasFila, _HorasPrevTotal, 0),\n        \"MANTTO_CORRECTIVO\", _HorasFila * _ROP_General,\n        0\n    )\n\n-- 4. RESULTADO FINAL (Gestión de Totales)\nRETURN\nIF(\n    ISINSCOPE('fact_tiempos'[ACTIVIDAD]),\n    _MetrosDirectosFila + _MetrosManttoFila, \n    \n    -- Cálculo para el Total General\n    VAR _HorasDirectasTotal = \n        CALCULATE(\n            [Total Horas], \n            'fact_tiempos'[Categoria] = \"STAND BY CLIENTE\" || \n            'fact_tiempos'[ACTIVIDAD] IN {\n                \"FALTA_DE_PERSONAL\", \"FALTA_CAMIONETA_Y/O_CAMIÓN\", \n                \"FALTA/PROBLEMAS_MATERIALES\", \"FALTA_DE_CISTERNA\"\n            },\n            REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n        )\n    VAR _HorasCorrectivoTotal = \n        CALCULATE(\n            [Total Horas], \n            'fact_tiempos'[ACTIVIDAD] = \"MANTTO_CORRECTIVO\",\n            REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n        )\n    \n    RETURN \n        (_HorasDirectasTotal * _ROP_General) + \n        (_HorasCorrectivoTotal * _ROP_General) + \n        (_ExcesoPrevTotal * _ROP_General)\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Meta Acumulada",
+      "Expression": "\nVAR UltimaFechaGrafico = MAX('Dim_Calendario'[Date])\n\n-- Calculamos qué día \"número\" es (ej: el día 5 del periodo, el día 10, etc.)\nVAR DiasTranscurridos = \n    CALCULATE(\n        COUNTROWS('Dim_Calendario'),\n        FILTER(\n            ALLSELECTED('Dim_Calendario'),\n            'Dim_Calendario'[Date] <= UltimaFechaGrafico\n        )\n    )\n\nRETURN\n    [Meta Diaria Lineal] * DiasTranscurridos",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Meta al Día",
+      "Expression": "\nVAR PeriodoActual = SELECTEDVALUE(dim_calendario[periodo sort])\n-- Usamos TODAY() para que en el dashboard publicado siempre sepa qué día es hoy\nVAR FechaHoy = TODAY() \n\n-- 1. Días totales del mes operativo (ej. del 26 al 25)\nVAR DiasTotalesPeriodo = \n    CALCULATE(\n        COUNTROWS(dim_calendario),\n        REMOVEFILTERS(dim_calendario),\n        dim_calendario[periodo sort] = PeriodoActual\n    )\n\n-- 2. Días que han pasado desde el inicio del periodo (26) hasta hoy\nVAR DiasTranscurridos = \n    CALCULATE(\n        COUNTROWS(dim_calendario),\n        REMOVEFILTERS(dim_calendario),\n        dim_calendario[periodo sort] = PeriodoActual,\n        dim_calendario[Date] <= FechaHoy\n    )\n\nRETURN\nIF(\n    ISBLANK(PeriodoActual), \n    0, \n    DIVIDE([Meta Acumulada], DiasTotalesPeriodo, 0) * DiasTranscurridos\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "CXM ADIT",
+      "Expression": "[Meta Costo CTR]*.1833",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "CXM PDD",
+      "Expression": "[Meta Costo CTR]*.2083",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Meta Metraje a la Fecha CONDICIONAL",
+      "Expression": "\n-- 1. Obtenemos la meta total del mes operativo actual\nVAR MetaTotalMes = SUM(Fact_Metas[META METRAJE])\n\n-- 2. Identificamos la última fecha con datos en Fact_Metraje\nVAR UltimaFechaData = MAX(Fact_Metraje[FECHA])\n\n-- 3. Identificamos el Mes Operativo actual\nVAR MesOperativoActual = SELECTEDVALUE(Fact_Metas[MES OPERATIVO])\n\n-- 4. Calculamos la fecha de inicio operativa (día 26 del mes anterior)\nVAR FechaInicioOperativa = \n    DATE(\n        YEAR(MesOperativoActual), \n        MONTH(MesOperativoActual) - 1, \n        26\n    )\n\n-- 5. Lógica para la máquina específica XRD80ITH-001\nVAR MaquinaActual = SELECTEDVALUE(Fact_Metraje[MAQUINA]) -- Ajusta el nombre de la columna si es necesario\n\nVAR DiasTranscurridos = \n    IF(\n        MaquinaActual = \"XRD80ITH-001\",\n        -- Si es la máquina especial, contamos solo días de lunes a viernes\n        COUNTROWS(\n            FILTER(\n                CALENDAR(FechaInicioOperativa, UltimaFechaData),\n                WEEKDAY([Date], 2) < 6 -- 1=Lunes, 5=Viernes. 6 y 7 son Sábado y Domingo\n            )\n        ),\n        -- Para las demás máquinas, mantenemos el cálculo lineal\n        DATEDIFF(FechaInicioOperativa, UltimaFechaData, DAY) + 1\n    )\n\n-- 6. Aplicamos la fórmula: (Meta / 30) * Días Transcurridos\nRETURN\n    IF(\n        NOT ISBLANK(MetaTotalMes),\n        DIVIDE(MetaTotalMes, [Dias Mes Operativo]) * DiasTranscurridos\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Dias Mes Operativo",
+      "Expression": "\nCALCULATE(\n    COUNTROWS('Dim_Calendario'),\n    ALLEXCEPT('Dim_Calendario', 'dim_Calendario'[Periodo Sort])\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Dias Operativos Transcurridos",
+      "Expression": "\nVAR FechaHoy = TODAY()\nVAR PeriodoActual = SELECTEDVALUE(dim_calendario[periodo sort])\n\nRETURN\n    CALCULATE(\n        COUNTROWS(dim_calendario),\n        REMOVEFILTERS(dim_calendario),\n        dim_calendario[periodo sort] = PeriodoActual,\n        dim_calendario[Date] <= FechaHoy\n    )-1",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Dias Operativos Restantes",
+      "Expression": "\n// 1. Obtenemos la última fecha con registros reales en la tabla de hechos\nVAR UltimaFechaDatos = LASTDATE(fact_metraje[fecha])\n\n// 2. Identificamos el periodo al que pertenece esa última fecha\nVAR PeriodoActual = \n    CALCULATE(\n        SELECTEDVALUE(dim_calendario[periodo sort]),\n        REMOVEFILTERS(dim_calendario),\n        dim_calendario[Date] = UltimaFechaDatos\n    )\n\n-- Calculamos el total de días del periodo seleccionado\nVAR DiasTotalesPeriodo = \n    CALCULATE(\n        COUNTROWS(dim_calendario),\n        REMOVEFILTERS(dim_calendario),\n        dim_calendario[periodo sort] = PeriodoActual\n    )\n\n-- Calculamos los días que ya pasaron hasta la última actualización\nVAR DiasTranscurridos = \n    CALCULATE(\n        COUNTROWS(dim_calendario),\n        REMOVEFILTERS(dim_calendario),\n        dim_calendario[periodo sort] = PeriodoActual,\n        dim_calendario[Date] <= UltimaFechaDatos\n    )\n\n-- El resultado es la diferencia\nRETURN\n    DiasTotalesPeriodo - DiasTranscurridos",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Proyección base",
+      "Expression": "([ROP (m/hr)] * [Dias Operativos Restantes]*[Promedio Horas Por Dia])+ [Total Metros]",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Desviación Proyectado %",
+      "Expression": "\nDIVIDE(\n    [Proyección base], \n    [Meta Mensual por maquina], \n    0\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Metraje segun meta",
+      "Expression": "[Meta Mensual por maquina] - [Total Metros]",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Metraje Faltante",
+      "Expression": "\nVAR Diferencia = [Meta Mensual por maquina] - [Total Metros]\nRETURN\nIF(Diferencia > 0, Diferencia, 0)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP perforista (m/hr)",
+      "Expression": "\nVAR CurrentPerforista = SELECTEDVALUE(Dim_Personal[PERFORISTA], BLANK())\nRETURN\nIF(\n    ISBLANK(CurrentPerforista),\n    BLANK(),\n    DIVIDE(\n        CALCULATE(\n            SUM('Fact_Metraje'[METRAJE_X_GUARDIA]),\n            'Fact_Metraje'[PERFORISTA] = CurrentPerforista\n        ),\n        CALCULATE(\n            SUM('Fact_Tiempos'[Horas]),\n            'Fact_Tiempos'[PERFORISTA] = CurrentPerforista,\n            'Fact_Tiempos'[Categoria] IN { \"OPERATIVO\", \"EFECTIVAS\" }\n        ),\n        0\n    )\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP EFECTIVAS (m/hr)",
+      "Expression": "DIVIDE([Total Metros], [Horas Efectivas], 0)  ",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Horas Efectivas",
+      "Expression": "\nCALCULATE(\n    SUM('Fact_Tiempos'[Horas]),\n    'Fact_Tiempos'[Categoria] IN {\"EFECTIVAS\" }\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Promedio Horas efectivas Por Dia",
+      "Expression": "\nAVERAGEX(\n    VALUES('Fact_Tiempos'[Fecha]), -- 1. Crea una lista única de días\n    [Horas Efectivas]              -- 2. Suma las actividades de cada día\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Metros promedio por perforista",
+      "Expression": "[ROP EFECTIVAS (m/hr)] + [Promedio Horas efectivas Por Dia]",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "% Avance Gantt",
+      "Expression": "\nDIVIDE(\n    [Ejecutado Acumulado], \n    MAX('Dim_Sondaje'[PROFUNDIDAD_PROGRAMADA]), \n    0\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Ocultar Sondajes Sin Datos",
+      "Expression": "\nIF(\n    ISBLANK(SUM('Fact_Metraje'[METRAJE_X_GUARDIA])) && \n    ISBLANK(SUM('Fact_Tiempos'[Horas])), \n    0, \n    1\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Medida",
+      "Expression": NaN,
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Etiqueta Avance",
+      "Expression": "\nFORMAT([Ejecutado Acumulado], \"0.0\") & \" m / \" & \nFORMAT(MAX('Dim_Sondaje'[PROFUNDIDAD_PROGRAMADA]), \"0.0\") & \" m\"",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Consumo_Sondaje",
+      "Expression": "\n-- 1. Identificamos las fechas del sondaje seleccionado en el Gantt\nVAR FechaInicioSondaje = MIN(Dim_Sondaje[FECHA_INICIO_REAL])\nVAR FechaFinSondaje = MAX(Dim_Sondaje[FECHA_FIN_REAL])\nVAR MaquinaSeleccionada = SELECTEDVALUE(Dim_Maquina[MAQUINA])\n\nRETURN\nCALCULATE(\n    SUM('Consumo Consolidado'[Total]), -- O la columna de costo que uses\n    -- 2. Forzamos que el filtro viaje de la Dim_Maquina al Consumo\n    CROSSFILTER(Dim_Maquina[MAQUINA], 'Consumo Consolidado'[Maquina], Both),\n    -- 3. Filtramos explícitamente el rango de tiempo del sondaje\n    'Consumo Consolidado'[Fecha] >= FechaInicioSondaje,\n    'Consumo Consolidado'[Fecha] <= FechaFinSondaje\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Cantidad_Sondaje",
+      "Expression": "\n-- 1. Identificamos las fechas del sondaje seleccionado\nVAR FechaInicioSondaje = MIN(Dim_Sondaje[FECHA_INICIO_REAL])\nVAR FechaFinSondaje = MAX(Dim_Sondaje[FECHA_FIN_REAL])\n\nRETURN\nCALCULATE(\n    SUM('Consumo Consolidado'[Cant]), -- Cambia [Cantidad] por el nombre real de tu columna de unidades\n    -- 2. Mantenemos la relación bidireccional para filtrar por máquina\n    CROSSFILTER(Dim_Maquina[MAQUINA], 'Consumo Consolidado'[Maquina], Both),\n    -- 3. Filtramos por el rango de fechas del sondaje\n    'Consumo Consolidado'[Fecha] >= FechaInicioSondaje,\n    'Consumo Consolidado'[Fecha] <= FechaFinSondaje\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Cumplimiento % Operativo",
+      "Expression": "\nVAR MetrosReales = [Total Metros]\nVAR MetaAFecha = [Meta Acumulada Periodo]\nRETURN\nDIVIDE(\n    MetrosReales,\n    MetaAFecha,\n    0\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Cumplimiento % Hace 2 Periodos",
+      "Expression": "\n-- 1. Identificamos el periodo operativo que se está visualizando en el reporte\nVAR PeriodoActual = SELECTEDVALUE(Dim_Calendario[Mes Num Operativo])\nVAR AnioActual = SELECTEDVALUE(Dim_Calendario[Año Operativo])\n\n-- 2. Calculamos cuál sería el periodo objetivo (2 meses atrás)\nVAR PeriodoObjetivo = PeriodoActual - 2\n\nRETURN\nIF(\n    -- Validamos que estemos dentro de un rango válido (por ejemplo, que no dé negativo en los primeros meses del año)\n    PeriodoObjetivo > 0,\n    \n    -- 3. Desplazamos el contexto para Metros y Metas usando CALCULATE\n    VAR MetrosHace2Periodos = \n        CALCULATE(\n            [Total Metros],\n            ALLEXCEPT(Dim_Calendario, Dim_Calendario[Año Operativo]), -- Limpiamos filtros de mes del calendario\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivo\n        )\n        \n    VAR MetaHace2Periodos = \n        CALCULATE(\n            [Meta Acumulada Periodo],\n            ALLEXCEPT(Dim_Calendario, Dim_Calendario[Año Operativo]),\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivo\n        )\n        \n    RETURN\n    DIVIDE(MetrosHace2Periodos, MetaHace2Periodos, 0),\n    \n    -- 4. Si el periodo objetivo cae en el año anterior (ej. si estás en Enero/Febrero), manejamos la lógica de cambio de año\n    VAR AnioObjetivoAjustado = AnioActual - 1\n    VAR PeriodoObjetivoAjustado = PeriodoActual + 12 - 2 -- Ajusta el índice para ir al cierre del año pasado\n    \n    VAR MetrosAnioPasado = \n        CALCULATE(\n            [Total Metros],\n            REMOVEFILTERS(Dim_Calendario),\n            Dim_Calendario[Año Operativo] = AnioObjetivoAjustado,\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivoAjustado\n        )\n        \n    VAR MetaAnioPasado = \n        CALCULATE(\n            [Meta Acumulada Periodo],\n            REMOVEFILTERS(Dim_Calendario),\n            Dim_Calendario[Año Operativo] = AnioObjetivoAjustado,\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivoAjustado\n        )\n        \n    RETURN\n    DIVIDE(MetrosAnioPasado, MetaAnioPasado, 0)\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "metaCosto por Metro CTR",
+      "Expression": "\nVAR CostoAsignado = MAX(Dim_CTR[Costo por metro])\nRETURN\nIF(\n    ISBLANK(CostoAsignado),\n    0, -- O puedes dejarlo como BLANK() si prefieres que las celdas vacías no muestren nada\n    CostoAsignado\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Presupuesto",
+      "Expression": "\n-- 1. Capturamos el presupuesto total base\nVAR PresupuestoTotal = [metaCosto por Metro CTR] * [Meta Acumulada Periodo]\n\n-- 2. Capturamos el porcentaje de la familia en la fila actual\nVAR PorcentajeFamilia = SUM(Dim_Familias[%]) \n\nRETURN\nIF(\n    -- Validamos que exista un presupuesto base para calcular\n    NOT(ISBLANK(PresupuestoTotal)) && PresupuestoTotal <> 0,\n    \n    -- Multiplicamos el total por el peso de la familia (ej. $11,000 * 0.1667)\n    PresupuestoTotal * PorcentajeFamilia,\n    \n    BLANK()\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Presupuesto Proyectado 15 días V2",
+      "Expression": "\n-- =========================================================================\n-- PASO 1: BASE DE PRESUPUESTO MONETARIO A 15 DÍAS\n-- =========================================================================\nVAR PresupuestoMensual = [Presupuesto]\nVAR Presupuesto15DiasBase = DIVIDE(PresupuestoMensual, 1, 0)\n\n-- =========================================================================\n-- PASO 2: FACTOR 1 - PROMEDIO HISTÓRICO (HACE 1 Y 2 PERIODOS)\n-- =========================================================================\nVAR HistorialPeriodo1 = [Cumplimiento % Hace 1 Periodo]\nVAR HistorialPeriodo2 = [Cumplimiento % Hace 2 Periodos]\n\nVAR FactorCumplimientoHistorico = \n    DIVIDE(\n        HistorialPeriodo1 + HistorialPeriodo2, \n        2, \n        0\n    )\n\n-- =========================================================================\n-- PASO 3: FACTOR 2 - PROYECCIÓN FÍSICA BASADA EN TERRENO (INGENIERÍA)\n-- =========================================================================\n-- Usamos COALESCE para blindar la fórmula y evitar vacíos (BLANK) si no hay días/horas pendientes\nVAR ROP = COALESCE([ROP (m/hr)], 0)\nVAR DiasRestantes = COALESCE([Dias Operativos Restantes], 0)\nVAR PromedioHoras = COALESCE([Promedio Horas Por Dia], 0)\nVAR MetrosActuales = COALESCE([Total Metros], 0)\n\n-- Calculamos la estimación de metros al cierre según rendimiento en campo\nVAR MetrosProyectadosRendimiento = (ROP * DiasRestantes * PromedioHoras) + MetrosActuales\n\n-- Convertimos esa proyección física en un porcentaje de cumplimiento respecto a la meta\nVAR FactorCumplimientoRendimiento = \n    DIVIDE(\n        MetrosProyectadosRendimiento, \n        [Meta Acumulada Periodo], \n        0\n    )\n\n-- =========================================================================\n-- PASO 4: PROMEDIO DE AMBOS ENFOQUES DE EFICIENCIA (CORREGIDO)\n-- =========================================================================\nVAR FactorCombinadoPromedio = \n    IF(\n        -- Si no quedan días operativos restantes, ignoramos la proyección de campo\n        -- y nos quedamos al 100% con la eficiencia histórica de los periodos previos\n        [Dias Operativos Restantes] <= 0 || ISBLANK([Dias Operativos Restantes]),\n        FactorCumplimientoHistorico,\n        \n        -- Si aún hay días en el periodo, hacemos el promedio balanceado original\n        DIVIDE(FactorCumplimientoHistorico + FactorCumplimientoRendimiento, 2, 0)\n    )\n-- =========================================================================\n-- PASO 5: RESULTADO MONETARIO FINAL\n-- =========================================================================\nRETURN\nIF(\n    NOT(ISBLANK(PresupuestoMensual)),\n    \n    -- Multiplicamos la base monetaria por el factor final balanceado\n    Presupuesto15DiasBase * FactorCombinadoPromedio,\n    \n    BLANK()\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Cumplimiento % Hace 1 Periodo",
+      "Expression": "\n-- 1. Identificamos el periodo operativo que se está visualizando en el reporte\nVAR PeriodoActual = SELECTEDVALUE(Dim_Calendario[Mes Num Operativo])\nVAR AnioActual = SELECTEDVALUE(Dim_Calendario[Año Operativo])\n\n-- 2. Calculamos cuál sería el periodo objetivo (1 mes atrás)\nVAR PeriodoObjetivo = PeriodoActual - 1\n\nRETURN\nIF(\n    -- Validamos que estemos dentro del mismo año operativo (Periodo > 0)\n    PeriodoObjetivo > 0,\n    \n    -- 3. Desplazamos el contexto para Metros y Metas usando CALCULATE\n    VAR MetrosHace1Periodo = \n        CALCULATE(\n            [Total Metros],\n            ALLEXCEPT(Dim_Calendario, Dim_Calendario[Año Operativo]), -- Limpiamos filtros de mes del calendario\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivo\n        )\n        \n    VAR MetaHace1Periodo = \n        CALCULATE(\n            [Meta Acumulada Periodo],\n            ALLEXCEPT(Dim_Calendario, Dim_Calendario[Año Operativo]),\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivo\n        )\n        \n    RETURN\n    DIVIDE(MetrosHace1Periodo, MetaHace1Periodo, 0),\n    \n    -- 4. Si el periodo objetivo cae en el año anterior (ej. si el reporte está en Enero), saltamos al cierre del año pasado\n    VAR AnioObjetivoAjustado = AnioActual - 1\n    VAR PeriodoObjetivoAjustado = PeriodoActual + 12 - 1 -- Ajusta el índice para ir a Diciembre del año anterior\n    \n    VAR MetrosAnioPasado = \n        CALCULATE(\n            [Total Metros],\n            REMOVEFILTERS(Dim_Calendario),\n            Dim_Calendario[Año Operativo] = AnioObjetivoAjustado,\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivoAjustado\n        )\n        \n    VAR MetaAnioPasado = \n        CALCULATE(\n            [Meta Acumulada Periodo],\n            REMOVEFILTERS(Dim_Calendario),\n            Dim_Calendario[Año Operativo] = AnioObjetivoAjustado,\n            Dim_Calendario[Mes Num Operativo] = PeriodoObjetivoAjustado\n        )\n        \n    RETURN\n    DIVIDE(MetrosAnioPasado, MetaAnioPasado, 0)\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Maquinas proyectadas",
+      "Expression": "count(Fact_Metas[MAQUINA])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Consumo Consolidado",
+      "Name": "Presupuesto PDD",
+      "Expression": "[metaCosto por Metro CTR] *[Meta Acumulada Periodo]*.2088",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Presupuesto pdd S",
+      "Expression": "[metaCosto por Metro CTR] *[Meta Acumulada Periodo]*.2083/4",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Presupuesto Semanal PDD Ajustado",
+      "Expression": "\n-- 1. Contamos las semanas totales del mes operativo en curso\nVAR SemanasMesOperativo = \n    CALCULATE(\n        DISTINCTCOUNT('Dim_Calendario'[Semana Num]),\n        ALLSELECTED('Dim_Calendario')\n    )\n\n-- 2. Capturamos el presupuesto filtrando por el nombre exacto de la familia\nVAR PresupuestoPDD = \n    CALCULATE(\n        [PRESUPUESTO FINAL],\n        'Dim_Familias'[ID_FAMILIA] = \"PDD\" \n    )\n\n-- 5. Dividimos el presupuesto ajustado entre la cantidad de semanas\nRETURN\nIF(\n    NOT(ISBLANK(PresupuestoPDD)) && SemanasMesOperativo > 0,\n    DIVIDE([PRESUPUESTO FINAL], SemanasMesOperativo, BLANK()),\n    BLANK()\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Valor Meta",
+      "Expression": "\nSUMX(\n    VALUES(dim_ctr[CTR]),\n    VAR _CostoContrato = CALCULATE(MAX(dim_ctr[Costo por metro]))\n    RETURN\n    SUMX(\n        VALUES('Consumo Consolidado'[Familia]), -- Iteramos la columna que manejas en tu hoja\n        VAR _FamiliaActual = 'Consumo Consolidado'[Familia]\n        VAR _Porcentaje = \n            CALCULATE(\n                MAX(Dim_Familias[%]),\n                Dim_Familias[ID_FAMILIA] = _FamiliaActual -- Forzamos el filtro hacia la dimensión\n            )\n        RETURN\n        _CostoContrato * _Porcentaje\n    )\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Rendimiento promedio",
+      "Expression": "[Total Metros] / [Consumo Cantidad]",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Costo Abastecimiento MTD Operativo ($)",
+      "Expression": "\nVAR MaxFecha = MAX('Fact_Abastecimiento'[FECHA])\n\nRETURN\nCALCULATE(\n    SUM('Fact_Abastecimiento'[TOTAL]),\n    \n    -- Filtro original: Acumulado de fechas (MTD) respetando otros filtros\n    FILTER(\n        ALLSELECTED('Fact_Abastecimiento'[FECHA]),\n        'Fact_Abastecimiento'[FECHA] <= MaxFecha\n    ),\n    \n    -- Nuevo filtro: Solo toma en cuenta los valores SO, TD, RP en la columna TRA\n    'Fact_Abastecimiento'[TRA] IN {\"SO\", \"TD\", \"RP\"}\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Presupuesto Proyectado 15 días V3",
+      "Expression": "\n-- =========================================================================\n-- PASO 1: BASE DE PRESUPUESTO MONETARIO AJUSTADO A 15 DÍAS\n-- =========================================================================\nVAR PresupuestoMensual = [Presupuesto]\nVAR CostoAbastecimientoMTD = [Costo Abastecimiento MTD Operativo ($)]\n\n-- Restamos el costo acumulado operativo al presupuesto antes de la proyección\nVAR PresupuestoAjustado = PresupuestoMensual - CostoAbastecimientoMTD\nVAR Presupuesto15DiasBase = DIVIDE(PresupuestoAjustado, 1, 0)\n\n-- =========================================================================\n-- PASO 2: FACTOR 1 - PROMEDIO HISTÓRICO (HACE 1 Y 2 PERIODOS)\n-- =========================================================================\nVAR HistorialPeriodo1 = [Cumplimiento % Hace 1 Periodo]\nVAR HistorialPeriodo2 = [Cumplimiento % Hace 2 Periodos]\n\nVAR FactorCumplimientoHistorico = \n    DIVIDE(\n        HistorialPeriodo1 + HistorialPeriodo2, \n        2, \n        0\n    )\n\nVAR CONDICIONAL = \n    IF(\n        PresupuestoAjustado <= CostoAbastecimientoMTD,\n        0, \n        PresupuestoAjustado * FactorCumplimientoHistorico\n    )\n    \nRETURN\n    IF(\n        NOT(ISBLANK(PresupuestoMensual)),\n        -- Multiplicamos la base neta monetaria por el factor final de eficiencia de campo/histórica\n        CONDICIONAL,\n        BLANK()\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Ptto - abast",
+      "Expression": "\nVAR PresupuestoFila = [Presupuesto]\nVAR CostoFila = [Costo Abastecimiento MTD Operativo ($)]\n\nRETURN\nIF(\n    NOT(ISBLANK(PresupuestoFila)),\n    PresupuestoFila - CostoFila, -- Presupuesto menos lo gastado\n    BLANK()\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Metros Perdidos DG",
+      "Expression": "\n-- 1. Variables de Referencia\n-- IMPORTANTE: Usamos REMOVEFILTERS en el ROP para que no dé 0 al estar en una fila sin producción\nVAR _ROP_General = \n    CALCULATE(\n        [ROP (m/hr)], \n        REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n    )\n\nVAR _ActividadFila = SELECTEDVALUE('fact_tiempos'[ACTIVIDAD])\nVAR _CategoriaFila = SELECTEDVALUE('fact_tiempos'[Categoria])\n\n-- 2. CÁLCULO PARA PÉRDIDAS DIRECTAS (Lógica OR: Categoría o Actividad)\nVAR _EsPerdidaDirecta = \n    _CategoriaFila = \"STAND BY CLIENTE\" || \n    _ActividadFila IN {\n        \"FALTA_DE_PERSONAL\", \n        \"FALTA_DE_CAMIONETA_Y/O_CAMION\", \n        \"FALTA/PROBLEMAS_MATERIALES\", \n        \"FALTA_DE_CISTERNA\"\n    }\n\nVAR _MetrosDirectosFila = \n    IF(\n        _EsPerdidaDirecta,\n        [Total Horas] * _ROP_General,\n        0\n    )\n\n-- 3. CÁLCULO PARA MANTENIMIENTO (Mantenemos tu lógica original del 5%)\nVAR _TotalHorasReloj = \n    CALCULATE(\n        [Total Horas], \n        REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n    )\n\nVAR _LimiteMantto = _TotalHorasReloj * 0.05 \n\nVAR _HorasManttoTotal = \n    CALCULATE(\n        [Total Horas], \n        'fact_tiempos'[ACTIVIDAD] IN {\"MANTTO_PREVENTIVO\", \"MANTTO_CORRECTIVO\"},\n        REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n    )\n\nVAR _ExcesoManttoGlobal = MAX(_HorasManttoTotal - _LimiteMantto, 0)\n\n-- Distribuimos el exceso proporcionalmente en las filas de mantenimiento\nVAR _MetrosManttoFila = \n    IF(\n        _ActividadFila IN {\"MANTTO_PREVENTIVO\", \"MANTTO_CORRECTIVO\"},\n        (_ExcesoManttoGlobal * _ROP_General) * DIVIDE([Total Horas], _HorasManttoTotal, 0),\n        0\n    )\n\n-- 4. RESULTADO FINAL\nRETURN\nIF(\n    ISINSCOPE('fact_tiempos'[ACTIVIDAD]),\n    _MetrosDirectosFila + _MetrosManttoFila, \n    \n    -- Valor para el Total (Suma de directos + exceso de mantenimiento):\n    VAR _HorasDirectasTotal = \n        CALCULATE(\n            [Total Horas], \n            'fact_tiempos'[Categoria] = \"STAND BY CLIENTE\" || \n            'fact_tiempos'[ACTIVIDAD] IN {\n                \"FALTA_DE_PERSONAL\", \n                \"FALTA_DE_CAMIONETA_Y/O_CAMION\", \n                \"FALTA/PROBLEMAS_MATERIALES\", \n                \"FALTA_DE_CISTERNA\"\n            },\n            REMOVEFILTERS('fact_tiempos'[ACTIVIDAD], 'fact_tiempos'[Categoria])\n        )\n    RETURN \n        (_HorasDirectasTotal * _ROP_General) + (_ExcesoManttoGlobal * _ROP_General)\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Consumo Consolidado",
+      "Name": "Cantidad Brocas consumidas",
+      "Expression": "\nCALCULATE(\n    DISTINCTCOUNT('Consumo Consolidado'[Serie]),\n    TREATAS(\n        VALUES('Fact_Metraje'[Nº_BROCA]), \n        'Consumo Consolidado'[Serie]\n    )\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP (m/hr) Corregido",
+      "Expression": "\nCALCULATE(\n    DIVIDE([Total Metros], [Horas Operativas], 0),\n    TREATAS(\n        VALUES('Consumo Consolidado'[Serie]), \n        'Fact_Metraje'[Nº_BROCA]\n    )\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Medida 2",
+      "Expression": NaN,
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Rendimiento Promedio (m/und) Corregido",
+      "Expression": "\nCALCULATE(\n    DIVIDE([Total Metros], [Cantidad Brocas CONSUMO], 0),\n    TREATAS(\n        VALUES('Consumo Consolidado'[Serie]), \n        'Fact_Metraje'[Nº_BROCA]\n    )\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Cantidad Brocas CONSUMO",
+      "Expression": "\nCALCULATE(\n    DISTINCTCOUNT('Consumo Consolidado'[Serie]),\n    'Consumo Consolidado'[Serie] <> \"0\",\n    'Consumo Consolidado'[Serie] <> \"ND\",\n    'Consumo Consolidado'[Serie] <> \"\"\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Cantidad Brocas (Con Metraje)",
+      "Expression": "\nCALCULATE(\n    DISTINCTCOUNT('Consumo Consolidado'[Serie]),\n    'Consumo Consolidado'[Serie] <> \"0\",\n    'Consumo Consolidado'[Serie] <> \"ND\",\n    'Consumo Consolidado'[Serie] <> \"\",\n    // Esto asegura que la serie exista también en Fact_Metraje\n    TREATAS(\n        VALUES('Fact_Metraje'[Nº_BROCA]), \n        'Consumo Consolidado'[Serie]\n    )\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Color Criticidad",
+      "Expression": "\nVAR _Valor = [Desviación Proyectado %]\n\nRETURN\nSWITCH(\n    TRUE(),\n    ISBLANK(_Valor), BLANK(),\n    _Valor >= 1.2, \"#10b981\", // EXCELENTE (Verde esmeralda) -> 80% a más\n    _Valor >= 0.95, \"#059669\", // BUENO (Verde oscuro)      -> 60% a 79.9%\n    _Valor >= 0.633, \"#facc15\", // REGULAR (Amarillo)        -> 40% a 59.9%\n    _Valor >= 0.316, \"#fb923c\", // MALO (Naranja)            -> 20% a 39.9%\n    _Valor >= 0,    \"#ef4444\", // PÉSIMO (Rojo)             -> 0% a 19.9%\n    BLANK()\n)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Presupuesto Proyectado 15 días V4",
+      "Expression": "\n\nVAR PresupuestoMensual = [Presupuesto]\nVAR CostoAbastecimientoMTD = [Costo Abastecimiento MTD Operativo ($)]\nVAR PresupuestoRestatnte= 0\n-- Restamos el costo acumulado operativo al presupuesto antes de la proyección\nVAR PresupuestoAjustado = PresupuestoMensual - CostoAbastecimientoMTD\nVAR Presupuesto15DiasBase = DIVIDE(PresupuestoAjustado, 1, 0)\n\n-- =========================================================================\n-- PASO 2: FACTOR 1 - PROMEDIO HISTÓRICO (HACE 1 Y 2 PERIODOS)\n-- =========================================================================\nVAR HistorialPeriodo1 = [Cumplimiento % Hace 1 Periodo]\nVAR HistorialPeriodo2 = [Cumplimiento % Hace 2 Periodos]\n\nVAR FactorCumplimientoHistorico = \n    DIVIDE(\n        HistorialPeriodo1 + HistorialPeriodo2, \n        2, \n        0\n    )\n\nVAR CONDICIONAL = \n    IF(\n        PresupuestoAjustado <= CostoAbastecimientoMTD,\n        0, \n        PresupuestoAjustado * FactorCumplimientoHistorico\n    )\n    \nRETURN\n    IF(\n        NOT(ISBLANK(PresupuestoMensual)),\n        -- Multiplicamos la base neta monetaria por el factor final de eficiencia de campo/histórica\n        CONDICIONAL,\n        BLANK()\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Semana Operativa Actual",
+      "Expression": NaN,
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Semana Operativa proyectada",
+      "Expression": "\n// 1. Obtenemos la última fecha con registros reales como valor escalar\nVAR UltimaFechaDatos = INT(MAX(fact_metraje[fecha]))\n\n// 2. Sumamos 5 días a esa fecha limpia\nVAR FechaProyectada = UltimaFechaDatos+5\n// 3. Identificamos la semana operativa a la que pertenece esa nueva fecha futura\nVAR SemanaSiguiente = \n    CALCULATE(\n        SELECTEDVALUE(dim_calendario[semana operativa]),\n        REMOVEFILTERS(dim_calendario),\n        dim_calendario[Date] = FechaProyectada \n    )\n\n-- Retornamos el valor de la semana operativa proyectada\nRETURN\n    SemanaSiguiente",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "PRESUPUESTO FINAL",
+      "Expression": "\nVAR SEMANA = [Semana Operativa proyectada]\nVAR PRESUPUESTOBASE = [Presupuesto]\nVAR HACE1 = [Cumplimiento % Hace 1 Periodo]\nVAR HACE2 = [Cumplimiento % Hace 2 Periodos]\nVAR ABASTECIMIENTO = [Costo Abastecimiento MTD Operativo ($)]\n\n-- Protegemos la desviación por si esa medida es la que está arrojando el error\nVAR DESVIACION = IFERROR([Desviación al fin de mes %], 0) \n\n-- =========================================================\n-- PRIMERA QUINCENA (Semanas 1 y 2)\n-- =========================================================\nVAR FACTORHISTORICO =\n    DIVIDE(\n        HACE1 + HACE2,\n        2,\n        0\n    )\n\nVAR PPTOAJUSTADO = FACTORHISTORICO * PRESUPUESTOBASE\nVAR AJUSTE_ABASTE = PPTOAJUSTADO - ABASTECIMIENTO\nVAR ERR = \n    IF (AJUSTE_ABASTE <= 0,\n        0,\n        AJUSTE_ABASTE\n    )\nVAR PPTOQUINCENA1 = ERR / 2\n\n-- =========================================================\n-- SEGUNDA QUINCENA (Semanas 3, 4 y 5)\n-- =========================================================\nVAR PPTOAJUSTADO2 = PRESUPUESTOBASE * DESVIACION\nVAR AJUSTE_ABASTE2 = PPTOAJUSTADO2 - ABASTECIMIENTO\nVAR PPTOQUINCENA2 = \n    IF(\n        AJUSTE_ABASTE2 <= 0,  \n        0,                  \n        AJUSTE_ABASTE2        \n    )\n\n-- =========================================================\n-- RESULTADO FINAL (Selección dinámica)\n-- =========================================================\nRETURN\n    IF(\n        SEMANA IN {\"SEM 01\", \"SEM 02\"},\n        PPTOQUINCENA1,\n        PPTOQUINCENA2\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "FACTORHISTORICO",
+      "Expression": "\n    DIVIDE(\n        [Cumplimiento % Hace 1 Periodo] + [Cumplimiento % Hace 2 Periodos],\n        2,\n        0\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Presupuesto",
+      "Name": "Semana Operativa proyectada 987 987 987",
+      "Expression": "\n// 1. Obtenemos la última fecha con registros reales como valor escalar\nVAR UltimaFechaDatos = MAX(fact_metraje[fecha])\n\n// 2. Sumamos 5 días a esa última fecha\nVAR FechaProyectada = UltimaFechaDatos + 5\nRETURN (FechaProyectada)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Desviación al fin de mes %",
+      "Expression": "\n-- 1. Obligamos a DAX a sumar las proyecciones evaluando máquina por máquina\nVAR TotalProyeccion = \n    SUMX(\n        VALUES('Dim_Maquina'[MAQUINA]), \n        [Proyección base]\n    )\n\n-- 2. Obligamos a DAX a sumar las metas evaluando máquina por máquina\nVAR TotalMeta = \n    SUMX(\n        VALUES('Dim_Maquina'[MAQUINA]), \n        [Meta Mensual por maquina]\n    )\n\n-- 3. Hacemos la división final segura\nRETURN\n    DIVIDE(\n        TotalProyeccion, \n        TotalMeta, \n        0\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Ratio ideal",
+      "Expression": "DIVIDE( [Meta Mensual por maquina] , 16 )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Metros DG",
+      "Expression": "\n    // Paso 1: Identificar el tipo de máquina\n    VAR Tipo_maquina_texto = SELECTEDVALUE(Fact_Metas[TIPO_MAQUINA]) \n    VAR Tipo_maquina = \n        SWITCH(\n            Tipo_maquina_texto,\n            \"mina\", 14,\n            \"superficie\", 16,\n            BLANK() \n        )\n\n    // Paso 2: Calcular metros por día\n    VAR Metros_por_dia = \n        DIVIDE( [Meta Mensual por maquina], 30 )\n\n    // Paso 3: Calcular el ratio esperado\n    VAR Ratio_esperado = \n        DIVIDE( Metros_por_dia, Tipo_maquina )\n\n    // Paso 4: Calcular las horas afectadas solo para la actividad de esta fila\n    VAR Horas_disminuyen_dg = \n        CALCULATE(\n            SUM(fact_tiempos[horas]),\n            fact_tiempos[Afecta_disp] = \"AFECTA\"\n        )\n        \n    // Paso 5: CORRECCIÓN. Usamos la variable 'Ratio_esperado' \n    // en lugar de llamar a la medida externa '[Ratio ideal]'\n    VAR Metros_perdidos = \n        Ratio_esperado * Horas_disminuyen_dg\n\n// Retornamos los metros perdidos para que cuadre con tu matriz visual\nRETURN \n    Metros_perdidos",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "VAR Horas_disminuyen_dg",
+      "Expression": "\n        CALCULATE(\n            SUM(fact_tiempos[horas]),\n            fact_tiempos[Afecta_disp] = \"AFECTA\"\n        )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "metros_Grafico",
+      "Expression": "\nVAR MetrosReales = SUM(Fact_Metraje[METRAJE_X_GUARDIA])\n\n-- Verifica si existe un registro en la base de datos para esa fecha y turno\nVAR ExisteRegistro = NOT ISEMPTY(Fact_Metraje) \n\nRETURN \n    IF(\n        ExisteRegistro,\n        -- Aumentamos a 1 para forzar que Power BI dibuje al menos un bloque visible\n        IF(MetrosReales = 0 || ISBLANK(MetrosReales), 1, MetrosReales),\n        BLANK()\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Valor Perdido",
+      "Expression": "\n    SUMX(\n        DIM_CTR,\n        [Metros DG] * DIM_CTR[P.U. PROMEDIO]\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Metros_por_guardia_ideales",
+      "Expression": "\n        DIVIDE( [Meta Mensual por maquina], 60 )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Dias Sin Perforar",
+      "Expression": "\n// 1. Encontramos la última fecha donde los metros fueron mayores a 0 en todo el contexto\nVAR UltimaFechaPerforacion = \n    CALCULATE(\n        MAX('Fact_Metraje'[Fecha]), \n        'Fact_Metraje'[METRAJE_X_GUARDIA] > 0,\n        ALLSELECTED('Fact_Metraje')\n    )\n\n// 2. Definimos la fecha de referencia (Último registro de la tabla en lugar de Hoy)\nVAR FechaActual = \n    CALCULATE(\n        MAX('Fact_Metraje'[Fecha]),\n        ALLSELECTED('Fact_Metraje')\n    )\n\n// 3. Calculamos la diferencia en días\nVAR DiferenciaDias = \n    DATEDIFF(UltimaFechaPerforacion, FechaActual, DAY)\n\nRETURN\n    IF(ISBLANK(UltimaFechaPerforacion), BLANK(), DiferenciaDias)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Metros NO PERFORADOS",
+      "Expression": "calculate([Turnos Sin Perforar]*[Metros_por_guardia_ideales])",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Valor no ganado",
+      "Expression": "\n    SUMX(\n        DIM_CTR,\n        [Metros NO PERFORADOS]* DIM_CTR[P.U. PROMEDIO]\n    )",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Disponibilidad global",
+      "Name": "Turnos Sin Perforar",
+      "Expression": "\n// 1. Buscamos la última FECHA con perforación (metros > 0) en todo el contexto del reporte\nVAR UltimaFechaPerforacion = \n    CALCULATE(\n        MAX('Fact_Metraje'[Fecha]),\n        'Fact_Metraje'[METRAJE_X_GUARDIA] > 0,\n        ALLSELECTED('Fact_Metraje')\n    )\n\n// 2. Buscamos cuál fue el último TURNO con perforación de esa fecha\nVAR UltimoTurnoRegistrado = \n    CALCULATE(\n        MAX('Fact_Metraje'[Turno]),\n        'Fact_Metraje'[Fecha] = UltimaFechaPerforacion,\n        'Fact_Metraje'[METRAJE_X_GUARDIA] > 0,\n        ALLSELECTED('Fact_Metraje')\n    )\n\nVAR UltimoTurnoNum = \n    IF(UltimoTurnoRegistrado = \"Noche\" || UltimoTurnoRegistrado = \"2\", 2, 1)\n\n\n// =========================================================================\n// 4. NUEVA LÓGICA: Definimos el momento de referencia según el último dato de la tabla\n// =========================================================================\n\n// Buscamos la última fecha absoluta registrada en la base de datos para el reporte\nVAR FechaActual = \n    CALCULATE(\n        MAX('Fact_Metraje'[Fecha]),\n        ALLSELECTED('Fact_Metraje')\n    )\n\n// Buscamos cuál fue el último turno registrado en esa fecha máxima\nVAR TurnoActualRegistrado = \n    CALCULATE(\n        MAX('Fact_Metraje'[Turno]),\n        'Fact_Metraje'[Fecha] = FechaActual,\n        ALLSELECTED('Fact_Metraje')\n    )\n\nVAR TurnoActualNum = \n    IF(TurnoActualRegistrado = \"Noche\" || TurnoActualRegistrado = \"2\", 2, 1)\n\n\n// 5. Calculamos la diferencia matemática en turnos\nVAR DiferenciaDias = DATEDIFF(UltimaFechaPerforacion, FechaActual, DAY)\nVAR DiferenciaTurnos = (DiferenciaDias * 2) + (TurnoActualNum - UltimoTurnoNum)\n\nRETURN\n    IF(ISBLANK(UltimaFechaPerforacion), BLANK(), DiferenciaTurnos)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Titulo Dinamico Maquina",
+      "Expression": "\nVAR MaquinaSeleccionada = SELECTEDVALUE('Dim_Maquina'[MAQUINA], \"TODAS LAS MÁQUINAS\")\nRETURN\n    \"MÁQUINA: \" & UPPER(MaquinaSeleccionada)",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP Solo Perforacion (m/hr)",
+      "Expression": "\nVAR _Metros = SUM('Fact_Metraje'[METRAJE_X_GUARDIA])\nVAR _HorasPerforacion = \n    CALCULATE(\n        SUM('Fact_Tiempos'[Horas]),\n        'Fact_Tiempos'[Actividad] = \"PERFORACION\"\n    )\nRETURN\n    DIVIDE(_Metros, _HorasPerforacion, 0)\n",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "ROP Horas Totales Disponibles (m/hr)",
+      "Expression": "\nVAR _Metros = SUM('Fact_Metraje'[METRAJE_X_GUARDIA])\n\n// 1. Última fecha donde se registró metraje en el mes/filtro seleccionado\nVAR _UltimaFechaData = MAX('Fact_Metraje'[FECHA])\n\n// 2. Horas totales teóricas (2 guardias * 12 hrs = 24 hrs por día transcurrido)\n// Evalúa máquina por máquina para que cuadre exacto tanto a nivel individual como en el Total\nVAR _HorasTotalesReloj = \n    SUMX(\n        VALUES('Fact_Metraje'[MAQUINA]),\n        VAR _DiasTranscurridos = \n            CALCULATE(\n                COUNTROWS('Dim_Calendario'),\n                'Dim_Calendario'[Date] <= _UltimaFechaData\n            )\n        RETURN\n            _DiasTranscurridos * 24  // 2 guardias * 12 horas por día\n    )\n\nRETURN\n    DIVIDE(_Metros, _HorasTotalesReloj, 0)\n",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Metros Perdidos Stand By Servicios Cliente",
+      "Expression": "\n// 1. ROP de Perforación aislado de filtros de actividad/categoría de la fila\nVAR _ROP_Efectivo = \n    CALCULATE(\n        [ROP Solo Perforacion (m/hr)],\n        REMOVEFILTERS('Fact_Tiempos'[Actividad], 'Fact_Tiempos'[Categoria])\n    )\n\n// 2. Horas registradas en las actividades de falta de servicios del cliente\nVAR _HorasServiciosCliente = \n    CALCULATE(\n        SUM('Fact_Tiempos'[Horas]),\n        'Fact_Tiempos'[Actividad] IN { \"FALTA_DE_AGUA\", \"FALTA_DE_ENERGIA\", \"FALTA_DE_VENTILACION\" }\n    )\n\n// 3. Metros no perforados a causa de estas paradas\nRETURN\n    _HorasServiciosCliente * _ROP_Efectivo\n",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Metros Perdidos Falta de Personal",
+      "Expression": "\n// 1. ROP de Perforación aislado de filtros de actividad/categoría de la fila\nVAR _ROP_Efectivo = \n    CALCULATE(\n        [ROP Solo Perforacion (m/hr)],\n        REMOVEFILTERS('Fact_Tiempos'[Actividad], 'Fact_Tiempos'[Categoria])\n    )\n\n// 2. Horas registradas en la actividad falta de personal\nVAR _HorasFaltaPersonal = \n    CALCULATE(\n        SUM('Fact_Tiempos'[Horas]),\n        'Fact_Tiempos'[Actividad] = \"FALTA_DE_PERSONAL\"\n    )\n\n// 3. Metros no perforados a causa de falta de personal\nRETURN\n    _HorasFaltaPersonal * _ROP_Efectivo\n",
+      "DisplayFolder": null,
+      "Description": null
+    },
+    {
+      "TableName": "Medidas",
+      "Name": "Metros Dejados de Perforar",
+      "Expression": "\n// 1. Horas de la fila actual (ya sea la Categoría completa o la Actividad)\nVAR _HorasFila = SUM('Fact_Tiempos'[Horas])\n\n// 2. ROP de Perforación aislado del filtro de la actividad/categoría\nVAR _ROP_Efectivo = \n    CALCULATE(\n        [ROP Solo Perforacion (m/hr)],\n        REMOVEFILTERS('Fact_Tiempos'[Actividad], 'Fact_Tiempos'[Categoria])\n    )\n\n// 3. Cálculo de metros no perforados\nRETURN\n    _HorasFila * _ROP_Efectivo\n",
+      "DisplayFolder": null,
+      "Description": null
+    }
+  ],
+  "relationships": [
+    {
+      "FromTableName": "Fact_Metraje",
+      "FromColumnName": "MAQUINA",
+      "ToTableName": "Dim_Maquina",
+      "ToColumnName": "MAQUINA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Both",
+      "FromKeyCount": 81.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Tiempos",
+      "FromColumnName": "CTR",
+      "ToTableName": "Dim_CTR",
+      "ToColumnName": "CTR",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 24.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Metraje",
+      "FromColumnName": "CTR",
+      "ToTableName": "Dim_CTR",
+      "ToColumnName": "CTR",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 24.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Metas",
+      "FromColumnName": "CTR",
+      "ToTableName": "Dim_CTR",
+      "ToColumnName": "CTR",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 23.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Metraje",
+      "FromColumnName": "FECHA",
+      "ToTableName": "Dim_Calendario",
+      "ToColumnName": "Date",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 599.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Abastecimiento",
+      "FromColumnName": "FECHA",
+      "ToTableName": "Dim_Calendario",
+      "ToColumnName": "Date",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 468.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Tiempos",
+      "FromColumnName": "FECHA",
+      "ToTableName": "Dim_Calendario",
+      "ToColumnName": "Date",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 599.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Abastecimiento",
+      "FromColumnName": "CONTRATO",
+      "ToTableName": "Dim_CTR",
+      "ToColumnName": "CTR",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 81.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Metraje",
+      "FromColumnName": "Nº_BROCA",
+      "ToTableName": "Reporte_Brocas",
+      "ToColumnName": "Nº_BROCA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 5710.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Metas",
+      "FromColumnName": "MAQUINA",
+      "ToTableName": "Dim_Maquina",
+      "ToColumnName": "MAQUINA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 73.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Metas",
+      "FromColumnName": "MES OPERATIVO",
+      "ToTableName": "Dim_Calendario",
+      "ToColumnName": "Date",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 23.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Tiempos",
+      "FromColumnName": "MAQUINA",
+      "ToTableName": "Dim_Maquina",
+      "ToColumnName": "MAQUINA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 81.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Consumo Consolidado",
+      "FromColumnName": "CTR",
+      "ToTableName": "Dim_CTR",
+      "ToColumnName": "CTR",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 40.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Consumo Consolidado",
+      "FromColumnName": "Maquina",
+      "ToTableName": "Dim_Maquina",
+      "ToColumnName": "MAQUINA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 143.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Consumo Consolidado",
+      "FromColumnName": "Fecha",
+      "ToTableName": "Dim_Calendario",
+      "ToColumnName": "Date",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 942.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Metraje",
+      "FromColumnName": "SONDAJE",
+      "ToTableName": "Dim_Sondaje",
+      "ToColumnName": "SONDAJE",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 4463.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Tiempos",
+      "FromColumnName": "SONDAJE",
+      "ToTableName": "Dim_Sondaje",
+      "ToColumnName": "SONDAJE",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 4346.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Personal_Asignado",
+      "FromColumnName": "NOMBRE_TRABAJADOR",
+      "ToTableName": "Dim_Personal",
+      "ToColumnName": "PERFORISTA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 2190.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Personal_Asignado",
+      "FromColumnName": "KEY_OPERACION",
+      "ToTableName": "Fact_Metraje",
+      "ToColumnName": "KEY_OPERACION",
+      "IsActive": 1,
+      "Cardinality": "M:M",
+      "CrossFilteringBehavior": "Both",
+      "FromKeyCount": NaN,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Tiempos",
+      "FromColumnName": "KEY_OPERACION",
+      "ToTableName": "Fact_Personal_Asignado",
+      "ToColumnName": "KEY_OPERACION",
+      "IsActive": 1,
+      "Cardinality": "M:M",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": NaN,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Fact_Abastecimiento",
+      "FromColumnName": "FAMILIA",
+      "ToTableName": "Dim_Familias",
+      "ToColumnName": "FAMILIA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 22.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Consumo Consolidado",
+      "FromColumnName": "Serie",
+      "ToTableName": "Reporte_Brocas",
+      "ToColumnName": "Nº_BROCA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 14145.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    },
+    {
+      "FromTableName": "Consumo Consolidado",
+      "FromColumnName": "Familia",
+      "ToTableName": "Dim_Familias",
+      "ToColumnName": "ID_FAMILIA",
+      "IsActive": 1,
+      "Cardinality": "M:1",
+      "CrossFilteringBehavior": "Single",
+      "FromKeyCount": 27.0,
+      "ToKeyCount": null,
+      "RelyOnReferentialIntegrity": 0
+    }
+  ]
+}

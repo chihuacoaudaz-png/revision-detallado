@@ -1,76 +1,166 @@
-# Pipeline ETL de Reportes Detallados y Auditoría de Control Interno (Rockdrill)
+# 🛠️ Rockdrill Group - Pipeline ETL de Detallados y Control Interno
 
-Este repositorio contiene la arquitectura completa del pipeline de Extracción, Transformación y Carga (ETL), la implementación en **Power Query M** para Power BI, las copias de respaldo de seguridad y la conciliación de metrajes por `ID_CLAVE_UNICA` contra la base de datos oficial (`bbdd.xlsx`).
-
----
-
-## 📂 Consultas Power Query M Listas para Usar (`codigo_m/`)
-
-El repositorio contiene las consultas M listas para copiar y pegar directamente en el Editor de Power Query de Power BI o Excel:
-
-1. **`codigo_m/codigo_m_detallados.txt`** ➔ Consulta **`Detallados_BD`**:
-   - Extrae los 18 proyectos CTR (excluye Colquijirca).
-   - Lee cabeceras duales (filas 22 y 23 de Excel).
-   - Propaga fechas y sondajes (`FillDown` + `FillUp`).
-   - Mapea `TURNO_ESTANDAR` a `"A"` (Día) y `"B"` (Noche).
-   - **Resultado**: 6,428 filas procesadas con las 135 columnas oficiales.
-
-2. **`codigo_m/codigo_m_control_interno.txt`** ➔ Consulta **`Consolidado_BD`**:
-   - Motor dual: lee archivo plano (`BASE DE DATOS`) o las 30 pestañas diarias (`26.06` a `25.07`).
-   - Selecciona estrictamente las **9 columnas oficiales**: `FECHA`, `CTR`, `APLICACION`, `MAQUINA_RAW`, `MAQUINA`, `SE_PERFORO`, `TURNO_ESTANDAR`, `METRAJE_CI`, `ID_CLAVE_UNICA`.
-   - Asigna `TURNO_ESTANDAR` basándose en la posición/celda `DIAS_TRABAJADOS` (`1` = `"A"`, `null` = `"B"`).
-   - **Resultado**: 3,204 filas consolidadas.
-
-3. **`codigo_m/codigo_m_matriz_discrepancias.txt`** ➔ Consulta **`Discrepancias_BD`**:
-   - Cruce Full Outer Join por `ID_CLAVE_UNICA` (`YYYY-MM-DD|CTR|MAQUINA|TURNO_ESTANDAR`).
-   - Calcula `DIFERENCIA = METRAJE_DETALLADO - METRAJE_CONTROL_INTERNO`.
-   - Filtra registros con `ABS(DIFERENCIA) >= 0.01`.
-   - Ordenamiento multinivel corregido: `{{"FECHA", Order.Ascending}, {"CTR", Order.Ascending}, {"MAQUINA", Order.Ascending}}`.
-   - **Resultado**: Exactamente **935 filas de discrepancias** (100.00% coincidencia con `bbdd.xlsx`).
-
-### 🛡️ Copias de Respaldo Incluidas:
-- `codigo_m/codigo_m_detallados_backup.txt`
-- `codigo_m/codigo_m_control_interno_backup.txt`
+> **Sistema automatizado de descarga, estandarización de 135 columnas, tipado estricto y conciliación de producción operativa de perforación diamantina (18 Contratos Mineros).**
 
 ---
 
-## 📊 Comparativo Definitivo de Metrajes por Contrato (`bbdd.xlsx`)
+## 📖 Manual de Operación Rápida (Para Usuarios y No Programadores)
 
-| CTR | Metraje Detallados | Metraje Control Interno | Diferencia | Estado |
-| :--- | :---: | :---: | :---: | :---: |
-| **AMERICANA** | 2,511.20 | 2,511.20 | **0.00** | ✅ Coincidencia Exacta |
-| **ANDAYCHAGUA** | 2,315.85 | 2,315.85 | **0.00** | ✅ Coincidencia Exacta |
-| **CATALINA HUANCA** | 4,677.20 | 4,677.20 | **0.00** | ✅ Coincidencia Exacta |
-| **CERRO** | 660.20 | 660.20 | **0.00** | ✅ Coincidencia Exacta |
-| **CHUNGAR** | 2,346.05 | 2,347.55 | **-1.50** | ⚠️ Diferencia Real Origen |
-| **COBRIZA** | 4,376.70 | 4,376.70 | **0.00** | ✅ Coincidencia Exacta |
-| **COLQUISIRI** | 1,165.60 | 1,165.60 | **0.00** | ✅ Coincidencia Exacta |
-| **CONDESTABLE** | 2,800.40 | 2,800.40 | **0.00** | ✅ Coincidencia Exacta |
-| **CUCULI** | 804.10 | 804.10 | **0.00** | ✅ Coincidencia Exacta |
-| **INMACULADA** | 3,404.55 | 3,404.55 | **0.00** | ✅ Coincidencia Exacta |
-| **LA ESTRELLA** | 1,228.70 | 1,228.70 | **0.00** | ✅ Coincidencia Exacta |
-| **MOROCOCHA** | 1,796.40 | 1,842.80 | **-46.40** | ⚠️ Diferencia Real Origen |
-| **RAURA** | 2,793.51 | 2,793.51 | **0.00** | ✅ Coincidencia Exacta |
-| **SAN CRISTOBAL** | 2,325.40 | 2,325.40 | **0.00** | ✅ Coincidencia Exacta |
-| **TAMBOJASA** | 299.55 | 299.55 | **0.00** | ✅ Coincidencia Exacta |
-| **TICLIO** | 484.15 | 484.15 | **0.00** | ✅ Coincidencia Exacta |
-| **YAULIYACU** | 2,553.80 | 2,428.40 | **+125.40** | ⚠️ Diferencia Real Origen |
-| **YAURICOCHA** | 188.75 | 188.75 | **0.00** | ✅ Coincidencia Exacta |
-| **TOTAL** | **36,732.11** | **36,654.61** | **+77.50** | 🎯 **100% Validado en BBDD** |
+Este proyecto está diseñado para que **cualquier persona** pueda descargar los reportes diarios desde su correo Outlook corporativo y procesar la información con un solo comando, sin necesidad de saber programar.
 
 ---
 
-## 🚀 Guía para Ejecutar el Entorno Python
+### 🚀 ¿Cómo usar el sistema en 3 simples pasos?
+
+```mermaid
+flowchart LR
+    A["1. Descargar Correos\n(descargar_detallados.py)"] --> B["2. Almacén Maestro\n(Estructura base/)"]
+    B --> C["3. Procesar y Conciliar\n(ejecutar_pipeline.py)"]
+    C --> D["4. Resultados Oficiales\n(output/)"]
+
+    style A fill:#0078d4,stroke:#333,stroke-width:1px,color:#fff
+    style B fill:#107c41,stroke:#333,stroke-width:1px,color:#fff
+    style C fill:#d83b01,stroke:#333,stroke-width:1px,color:#fff
+    style D fill:#5c2d91,stroke:#333,stroke-width:1px,color:#fff
+```
+
+---
+
+### 1️⃣ Paso 1: Configuración Inicial (Solo la primera vez)
+
+Si es la primera vez que vas a usar el sistema en tu computadora:
+
+1. Abre una terminal de comandos (**PowerShell** o **CMD**) en la carpeta del proyecto.
+2. Ejecuta el configurador inicial:
+   ```bash
+   python descargar_detallados.py --setup
+   ```
+3. Se abrirá **Microsoft Edge**. Inicia sesión con tu correo corporativo `@rockdrillgroup.com`.
+4. Una vez que veas tu bandeja de entrada de Outlook, cierra Edge. ¡Listo! Tu sesión queda guardada de forma segura en tu computadora.
+
+---
+
+### 2️⃣ Paso 2: Descargar los Reportes del Día
+
+Para descargar automáticamente los **18 Reportes Detallados** recibidos en Outlook y colocarlos directamente en sus carpetas oficiales:
 
 ```bash
-git clone https://github.com/chihuacoaudaz-png/revision-detallado.git
-cd revision-detallado
+# Opción A: Descargar los reportes recibidos HOY (correspondientes a la perforación de ayer):
+python descargar_detallados.py
 
-# Crear entorno virtual e instalar librerías
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-pip install python-calamine pandas openpyxl numpy
+# Opción B: Descargar los reportes de una fecha específica:
+python descargar_detallados.py --fecha 17/08/2026
 
-# Validar sintaxis M y reglas de negocio
-python validate_all_m_syntax.py
+# Opción C: Modo Prueba (guarda en 'prueba correos/' sin modificar tus carpetas):
+python descargar_detallados.py --fecha 17/08/2026 --prueba
 ```
+
+> [!TIP]
+> Cada archivo descargado se ubica automáticamente en `Estructura base/Rockdrill_Control_Operaciones/CTR_{CTR}/02_Detallado/`, reemplazando el reporte anterior de esa máquina para mantener todo actualizado.
+
+---
+
+### 3️⃣ Paso 3: Ejecutar el Procesamiento y Conciliación
+
+Para procesar todos los datos, estandarizar las 135 columnas y generar la conciliación con Control Interno:
+
+```bash
+python ejecutar_pipeline.py
+```
+
+Al terminar (en ~32 segundos), encontrarás todos los archivos listos en la carpeta [`output/`](file:///C:/proyectos%20python/detallados/output):
+- 📊 **`detallados_consolidados.xlsx`**: Consolidado general de los 18 CTRs con 135 columnas limpias y tipadas (3,043 registros).
+- 📄 **`detallados_consolidados.csv`**: Exportación en CSV (UTF-8 con BOM) para Power BI o SQL.
+- ⚖️ **`matriz_comparativa_metrajes.xlsx`**: Cruce turno a turno contra Control Interno (**99.67% de coincidencia exacta** y **100.00% de cuadratura total en los 18 CTRs = 28,882.37 m**).
+- 🛡️ *Manejo seguro de archivos:* Si tienes el Excel abierto, el sistema genera automáticamente una copia `_actualizada.xlsx` sin interrumpir la ejecución.
+
+---
+
+## ⚙️ ¿Cómo cambiar parámetros y rutas? (`config.py`)
+
+Si necesitas cambiar la ruta donde están tus archivos (por ejemplo, si mueves el proyecto a **OneDrive** o a un disco compartido), solo debes abrir el archivo [`config.py`](file:///C:/proyectos%20python/detallados/config.py) en cualquier editor de texto y ajustar las primeras líneas:
+
+```python
+# ==============================================================================
+# ⚙️ 1. SELECCIÓN DE ENTORNO Y RUTAS
+# ==============================================================================
+
+# Opciones: "AUTO" (Recomendado) | "PORTABLE" | "CUSTOM"
+MODO_ENTORNO: str = "AUTO"
+
+# Si usas MODO_ENTORNO = "CUSTOM", escribe aquí la ruta de tu OneDrive:
+RUTA_CUSTOM: Path = Path(r"C:\Users\tu_usuario\OneDrive - ROCKDRILL GROUP\Rockdrill_Control_Operaciones")
+```
+
+---
+
+## 📁 Estructura del Proyecto
+
+```text
+C:\Proyectos Python\Detallados\  (o carpeta en OneDrive)
+│
+├── config.py                      # ⚙️ Configuración central de rutas y parámetros
+├── descargar_detallados.py        # 📥 Descargador automático OWA Outlook -> Estructura base
+├── ejecutar_pipeline.py           # 🚀 Ejecutor principal del pipeline ETL
+├── requirements.txt               # 📦 Lista de librerías necesarias
+├── README.md                      # 📖 Manual de usuario (este archivo)
+│
+├── src/                           # 🧠 Código fuente modular del sistema
+│   ├── etl_detallados.py          # Limpieza de 135 columnas y asignación de turnos
+│   ├── etl_control_interno.py     # Compilación de Control Interno
+│   ├── reconciliacion.py          # Cruce comparativo y cálculo de diferencias
+│   ├── utils.py                   # Lectura XML y funciones de normalización
+│   └── pipeline.py                # Orquestador del flujo
+│
+├── Estructura base/               # 📊 Almacén maestro de datos de los 18 CTRs
+│   └── Rockdrill_Control_Operaciones/
+│       ├── 00_Control_Interno/    # Libro maestro Consolidado de Avance
+│       ├── Maestro_Maquinas/      # Catálogo de excepciones SAP de máquinas
+│       └── CTR_{NOMBRE}/          # Carpetas de los 18 Contratos Mineros
+│           ├── 01_Avance_Diario/  # Reportes diarios F.03/F.07
+│           └── 02_Detallado/      # Reportes Detallados F.01 oficiales
+│
+├── output/                        # 📈 Entregables generados por el pipeline
+│   ├── detallados_consolidados.xlsx
+│   ├── detallados_consolidados.csv
+│   ├── matriz_comparativa_metrajes.xlsx
+│   └── auditoria_descargas/       # Reportes de auditoría de descargas diarias
+│
+├── notebooks/                     # 📓 Cuaderno Jupyter interactivo con explicaciones
+│   └── ETL_Limpieza_Detallados_y_Control_Interno.ipynb
+│
+├── docs/                          # 📚 Base de conocimiento completa en Obsidian (01 a 08)
+│   ├── HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md
+│   └── 01_arquitectura_y_pipeline_etl.md ... 08_guia_descargador_portable.md
+│
+├── tests/                         # 🧪 Pruebas unitarias automatizadas
+├── tools/                         # 🛠️ Scripts históricos y herramientas de desarrollo
+└── .sesiones/                     # 🔐 Perfiles de inicio de sesión de Edge por usuario
+```
+
+---
+
+## 🛠️ Instalación para Desarrolladores
+
+Si instalas el proyecto desde cero en un nuevo entorno:
+
+```bash
+# 1. Crear entorno virtual
+python -m venv venv
+
+# 2. Activar entorno virtual (Windows)
+.\venv\Scripts\activate
+
+# 3. Instalar librerías
+pip install -r requirements.txt
+
+# 4. Instalar navegador para Playwright
+python -m playwright install chromium
+```
+
+---
+
+## 📚 Documentación Técnica Detallada
+
+Para consultar las reglas de negocio avanzadas, el algoritmo de asignación de turnos multi-sondaje, el catálogo de 135 columnas y los diagnósticos de discrepancias:
+- Abre la carpeta [`docs/`](file:///C:/proyectos%20python/detallados/docs) en **Obsidian** o lee el archivo [`HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md`](file:///C:/proyectos%20python/detallados/HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md).

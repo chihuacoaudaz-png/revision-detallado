@@ -1,17 +1,23 @@
 """
-Script Oficial Definitivo: Generación de Excel con Power Query M Nativo y Datos Iniciales
-Foco Estratégico Exclusivo: Horas y Metros de Perforación
-Rockdrill Group
+Script Oficial Definitivo: Generación de Excel con Power Query M Nativo y Base de Datos Completa (168 Columnas)
+Rockdrill Group - Sistema de Consolidación Operativa
 """
 import os
 import sys
-import pandas as pd
 from pathlib import Path
+
+# Ajustar sys.path para importación modular
+ROOT_DIR = Path(__file__).parent.parent.resolve()
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 # Forzar UTF-8
 if sys.stdout.encoding != 'utf-8':
     try: sys.stdout.reconfigure(encoding='utf-8')
     except Exception: pass
+
+import pandas as pd
+from src.etl_detallados import COLS_OFICIALES_168
 
 def generar_excel_powerquery_completo(
     output_path: str = r"C:\Proyectos Python\Detallados\output\CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx",
@@ -21,7 +27,7 @@ def generar_excel_powerquery_completo(
     import win32com.client
     
     print("=" * 80)
-    print("🚀 GENERANDO LIBRO OFICIAL EXCEL CON POWER QUERY M NATIVO")
+    print("🚀 GENERANDO LIBRO OFICIAL EXCEL CON POWER QUERY M NATIVO (168 COLUMNAS)")
     print(f"📁 Destino: {output_path}")
     print(f"📁 Origen de Datos: {ruta_base}")
     print("=" * 80)
@@ -29,47 +35,116 @@ def generar_excel_powerquery_completo(
     output_file = Path(output_path).resolve()
     output_file.parent.mkdir(parents=True, exist_ok=True)
 
-    # 1. Cargar datos consolidados iniciales enfocados estrictamente en HORAS Y METROS
-    print("  [1/4] Preparando datos iniciales de Horas y Metros...")
-    df_src = pd.read_excel(datos_consolidados_path)
-    
-    # Columnas core de horas y metros
-    cols_interes = [
-        "CTR", "MAQUINA", "FECHA", "TURNO (A=1;B=2)", "GRUPO", "SONDAJE", 
-        "DESDE", "HASTA", "METRAJE", "PERFORACION", "TOTAL MANTTO.", 
-        "TOTAL STAND BY OPERATIVO", "TOTAL STAND BY INOPERATIVO", 
-        "TOTAL STAND BY CLIENTE", "TOTAL OPERATIVO", "TOTAL INOPERATIVO", "TOTAL"
-    ]
-    cols_existentes = [c for c in cols_interes if c in df_src.columns]
-    df_horas_metros = df_src[cols_existentes].copy()
+    # 1. Cargar o generar datos consolidados completos (168 columnas canónicas + metadatos)
+    print("  [1/4] Preparando base de datos consolidada (168 columnas)...")
+    if os.path.exists(datos_consolidados_path):
+        df_src = pd.read_excel(datos_consolidados_path)
+    else:
+        from src.etl_detallados import run_etl_detallados
+        from config import BASE_PATH, MAESTRO_PATH, HOJAS_EXCLUIDAS, CTRS_EXCLUIDOS
+        df_src = run_etl_detallados(BASE_PATH, MAESTRO_PATH, HOJAS_EXCLUIDAS, CTRS_EXCLUIDOS)
+        df_src.to_excel(datos_consolidados_path, index=False)
 
     # Formatear fecha
-    if "FECHA" in df_horas_metros.columns:
-        df_horas_metros["FECHA"] = pd.to_datetime(df_horas_metros["FECHA"], errors="coerce").dt.strftime("%Y-%m-%d")
+    if "FECHA" in df_src.columns:
+        df_src["FECHA"] = pd.to_datetime(df_src["FECHA"], errors="coerce").dt.strftime("%Y-%m-%d")
 
-    # Guardar archivo inicial con openpyxl / pandas
+    # Guardar archivo inicial temporal
     temp_excel = output_file.parent / "temp_consolidador.xlsx"
     with pd.ExcelWriter(temp_excel, engine="openpyxl") as writer:
-        df_horas_metros.to_excel(writer, sheet_name="CONSOLIDADO_HORAS_METROS", index=False)
+        df_src.to_excel(writer, sheet_name="CONSOLIDADO_DETALLADOS", index=False)
 
-    print(f"  [2/4] Datos estructurados: {len(df_horas_metros)} filas x {len(cols_existentes)} columnas.")
+    print(f"  [2/4] Base de datos estructurada: {len(df_src)} filas x {len(df_src.columns)} columnas.")
 
     # 2. Inyectar Consultas y Parámetros Nativos de Power Query mediante COM
     print("  [3/4] Inyectando Parámetros y Consultas M en el catálogo Mashup de Excel...")
+    
+    m_column_renames = []
+    for i, col in enumerate(COLS_OFICIALES_168):
+        safe_col = col.replace('"', '""')
+        m_column_renames.append(f'        {{"Column{i+1}", "{safe_col}"}}')
+    m_renames_str = ",\n".join(m_column_renames)
+
+    m_fn_procesar = f"""let
+    fn_ProcesarHojaDetallado = (hojaTabla as table, nombreHoja as text, ctrNombre as text) as table =>
+    let
+        Procesado = try
+            let
+                FilasDatos = Table.Skip(hojaTabla, 24),
+                ColNames = Table.ColumnNames(FilasDatos),
+                Cols168Names = List.FirstN(ColNames, 168),
+                Tabla168Cols = Table.SelectColumns(FilasDatos, Cols168Names, MissingField.Ignore),
+                RenombrarCols = Table.RenameColumns(Tabla168Cols, {{
+{m_renames_str}
+                }}, MissingField.Ignore),
+                FechaLlenada = Table.FillDown(RenombrarCols, {{"FECHA"}}),
+                ColSondaje = if Table.HasColumns(FechaLlenada, {{"SONDAJE"}}) then "SONDAJE" else "NOMBRE",
+                SondajeLlenado = if Table.HasColumns(FechaLlenada, {{ColSondaje}}) then 
+                    Table.FillUp(Table.FillDown(FechaLlenada, {{ColSondaje}}), {{ColSondaje}})
+                else 
+                    FechaLlenada,
+                FilasOperativas = Table.SelectRows(SondajeLlenado, each 
+                    [FECHA] <> null and 
+                    Text.Trim(Text.From([FECHA])) <> "" and 
+                    not Text.Contains(Text.Upper(Text.From([FECHA])), "TOTAL") and 
+                    not Text.Contains(Text.Upper(Text.From([FECHA])), "RESUMEN") and
+                    not Text.StartsWith(Text.Trim(Text.From(Record.FieldOrDefault(_, ColSondaje, ""))), ">") and
+                    not List.Contains({{"TOTAL", "TOTAL GENERAL", "RESUMEN", "PROMEDIO", "SUMA", "TOTAL AVANCE"}}, Text.Upper(Text.Trim(Text.From(Record.FieldOrDefault(_, ColSondaje, "")))))
+                ),
+                ConCTR = Table.AddColumn(FilasOperativas, "CTR", each ctrNombre, type text),
+                ConMaquina = Table.AddColumn(ConCTR, "MAQUINA", each nombreHoja, type text),
+                ReordenarMetadatos = Table.ReorderColumns(ConMaquina, {{"CTR", "MAQUINA"}} & List.RemoveItems(Table.ColumnNames(ConMaquina), {{"CTR", "MAQUINA"}}))
+            in
+                ReordenarMetadatos
+        otherwise
+            #table({{"CTR", "MAQUINA", "FECHA"}}, {{}})
+    in
+        Procesado
+in
+    fn_ProcesarHojaDetallado"""
+
+    m_consolidado = """let
+    Origen = if TipoOrigen = "LOCAL" then
+        Folder.Files(RutaOrigenLocal)
+    else
+        SharePoint.Files(UrlSharePoint, [ApiVersion = 15]),
+        
+    FiltrarRuta = Table.SelectRows(Origen, each Text.Contains([Folder Path], "CTR_") and Text.Contains([Folder Path], "02_Detallado")),
+    ExcluirExcluidos = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA") and not Text.Contains(Text.Upper([Folder Path]), "CAPITANA")),
+    FiltrarExcel = Table.SelectRows(ExcluirExcluidos, each (Text.EndsWith([Name], ".xlsx") or Text.EndsWith([Name], ".xlsm")) and not Text.StartsWith([Name], "~$")),
+    
+    AgregarCTR = Table.AddColumn(FiltrarExcel, "CTR_Nombre", each 
+        let 
+            partes = Text.Split([Folder Path], "\\"),
+            ctrFolder = List.Select(partes, each Text.StartsWith(Text.Upper(_), "CTR_")),
+            cleanName = if List.IsEmpty(ctrFolder) then "CTR_DESCONOCIDO" else Text.Replace(ctrFolder{0}, "CTR_", "")
+        in 
+            cleanName, type text
+    ),
+    
+    LeerLibros = Table.AddColumn(AgregarCTR, "DatosLibro", each Excel.Workbook([Content], null, true)),
+    ExpandirHojas = Table.ExpandTableColumn(LeerLibros, "DatosLibro", {"Name", "Kind", "Hidden", "Data"}, {"Sheet_Name", "Kind", "Hidden", "Data"}),
+    FiltrarHojas = Table.SelectRows(ExpandirHojas, each [Kind] = "Sheet" and [Hidden] = false and not List.Contains({"ADITIVOS", "GENERAL", "LISTAS", "TIEMPOS", "RESUMEN", "GRAFICOS", "MAESTRO", "PARAMETROS", "GLOSARIO"}, Text.Upper([Sheet_Name]))),
+    ProcesarHojas = Table.AddColumn(FiltrarHojas, "ContenidoProcesado", each fn_ProcesarHojaDetallado([Data], [Sheet_Name], [CTR_Nombre])),
+    TablasValidas = List.Select(ProcesarHojas[ContenidoProcesado], each Value.Is(_, type table) and not Table.IsEmpty(_)),
+    TablaConsolidada = Table.Combine(TablasValidas)
+in
+    TablaConsolidada"""
+
     excel = win32com.client.Dispatch("Excel.Application")
     excel.Visible = False
     excel.DisplayAlerts = False
 
     try:
         wb = excel.Workbooks.Open(str(temp_excel))
-        ws = wb.Sheets("CONSOLIDADO_HORAS_METROS")
+        ws = wb.Sheets("CONSOLIDADO_DETALLADOS")
 
-        # Crear ListObject (Tabla oficial) sobre los datos
-        last_row = len(df_horas_metros) + 1
-        last_col = len(cols_existentes)
+        # Crear ListObject (Tabla oficial de Excel) sobre la totalidad de columnas
+        last_row = len(df_src) + 1
+        last_col = len(df_src.columns)
         rng = ws.Range(ws.Cells(1, 1), ws.Cells(last_row, last_col))
         tbl = ws.ListObjects.Add(1, rng, None, 1) # 1 = xlSrcRange
-        tbl.Name = "Tabla_Consolidado_Horas_Metros"
+        tbl.Name = "Tabla_Consolidado_Detallados"
         tbl.TableStyle = "TableStyleMedium9"
 
         # Inyectar Parámetros Power Query
@@ -83,86 +158,10 @@ def generar_excel_powerquery_completo(
         wb.Queries.Add("UrlSharePoint", m_url_sp, "URL de SharePoint para producción en la nube")
 
         # Inyectar Función Transformadora M
-        m_fn_procesar = """let
-    fn_ProcesarHojaDetallado = (contenidoBinario as binary, nombreHoja as text, ctrNombre as text) as table =>
-    let
-        Workbook = Excel.Workbook(contenidoBinario, null, true),
-        HojaData = Workbook{[Item=nombreHoja, Kind="Sheet"]}[Data],
-        TablaBase = Table.Skip(HojaData, 22),
-        Titulos23 = Record.FieldValues(TablaBase{0}),
-        Titulos24 = Record.FieldValues(TablaBase{1}),
-        
-        TitulosLlenos = List.Accumulate(Titulos23, {}, (state, current) =>
-            let
-                clean = Text.Trim(Text.From(current ?? "")),
-                lastVal = if List.IsEmpty(state) then "XP" else List.Last(state),
-                newVal = if clean <> "" then clean else lastVal
-            in
-                state & {newVal}
-        ),
-        
-        EncabezadosCombinados = List.Transform(List.Zip({TitulosLlenos, Titulos24}), each 
-            let
-                t1 = _{0},
-                t2 = Text.Trim(Text.From(_{1} ?? ""))
-            in
-                if t1 = "XP" then (if t2 <> "" then t2 else "XP")
-                else if t2 = "" then t1
-                else t1 & "_" & t2
-        ),
-        
-        EncabezadosUnicos = List.Accumulate(EncabezadosCombinados, {}, (state, current) =>
-            let
-                count = List.Count(List.Select(state, each _ = current or Text.StartsWith(_, current & "_"))),
-                name = if count = 0 then current else current & "_" & Text.From(count)
-            in
-                state & {name}
-        ),
-        
-        DatosSinEncabezados = Table.Skip(TablaBase, 2),
-        TablaConHeaders = Table.RenameColumns(DatosSinEncabezados, List.Zip({Table.ColumnNames(DatosSinEncabezados), EncabezadosUnicos})),
-        Col0 = Table.ColumnNames(TablaConHeaders){0},
-        TablaConFecha = Table.RenameColumns(TablaConHeaders, {{Col0, "FECHA"}}),
-        FechaLlenada = Table.FillDown(TablaConFecha, {"FECHA"}),
-        FilasOperativas = Table.SelectRows(FechaLlenada, each [FECHA] <> null and [FECHA] <> "" and not Text.Contains(Text.Upper(Text.From([FECHA])), "TOTAL") and not Text.Contains(Text.Upper(Text.From([FECHA])), "RESUMEN")),
-        ConCTR = Table.AddColumn(FilasOperativas, "CTR", each ctrNombre, type text),
-        ConMaquina = Table.AddColumn(ConCTR, "MAQUINA", each nombreHoja, type text)
-    in
-        ConMaquina
-in
-    fn_ProcesarHojaDetallado"""
-        wb.Queries.Add("fn_ProcesarHojaDetallado", m_fn_procesar, "Procesador modular de hojas de detallado")
+        wb.Queries.Add("fn_ProcesarHojaDetallado", m_fn_procesar, "Procesador modular de 168 columnas de detallado")
 
-        # Inyectar Consulta Consolidadora M
-        m_consolidado = """let
-    Origen = if TipoOrigen = "LOCAL" then
-        Folder.Files(RutaOrigenLocal)
-    else
-        SharePoint.Files(UrlSharePoint, [ApiVersion = 15]),
-        
-    FiltrarRuta = Table.SelectRows(Origen, each Text.Contains([Folder Path], "CTR_") and Text.Contains([Folder Path], "02_Detallado")),
-    ExcluirColquijirca = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA")),
-    FiltrarExcel = Table.SelectRows(ExcluirColquijirca, each Text.EndsWith([Name], ".xlsx") and not Text.StartsWith([Name], "~$")),
-    
-    AgregarCTR = Table.AddColumn(FiltrarExcel, "CTR_Nombre", each 
-        let 
-            partes = Text.Split([Folder Path], "\\"),
-            ctrFolder = List.Select(partes, each Text.StartsWith(_, "CTR_")){0},
-            cleanName = Text.Replace(ctrFolder, "CTR_", "")
-        in 
-            cleanName, type text
-    ),
-    
-    LeerLibros = Table.AddColumn(AgregarCTR, "DatosLibro", each Excel.Workbook([Content], null, true)),
-    ExpandirHojas = Table.ExpandTableColumn(LeerLibros, "DatosLibro", {"Name", "Kind", "Hidden"}, {"Sheet_Name", "Kind", "Hidden"}),
-    FiltrarHojas = Table.SelectRows(ExpandirHojas, each [Kind] = "Sheet" and [Hidden] = false and not List.Contains({"ADITIVOS", "GENERAL", "LISTAS", "Tiempos", "RESUMEN", "GRAFICOS", "MAESTRO"}, [Sheet_Name])),
-    ProcesarHojas = Table.AddColumn(FiltrarHojas, "ContenidoProcesado", each fn_ProcesarHojaDetallado([Content], [Sheet_Name], [CTR_Nombre])),
-    TablasValidas = List.Select(ProcesarHojas[ContenidoProcesado], each Value.Is(_, type table)),
-    TablaConsolidada = Table.Combine(TablasValidas),
-    ColumnasRelevantes = Table.SelectColumns(TablaConsolidada, {"CTR", "MAQUINA", "FECHA", "SONDAJE", "DESDE", "HASTA", "METRAJE", "TURNO (A=1;B=2)", "PERFORACION", "TOTAL MANTTO.", "TOTAL STAND BY OPERATIVO", "TOTAL STAND BY INOPERATIVO", "TOTAL STAND BY CLIENTE", "TOTAL OPERATIVO", "TOTAL INOPERATIVO", "TOTAL"}, MissingField.Ignore)
-in
-    ColumnasRelevantes"""
-        wb.Queries.Add("Consolidado_Horas_y_Metros", m_consolidado, "Consulta consolidada de horas y metros de perforación")
+        # Inyectar Consulta Consolidadora M Completa
+        wb.Queries.Add("Consolidado_Detallados", m_consolidado, "Consulta consolidada completa de reportes detallados (168 columnas)")
 
         print("  [4/4] Guardando libro final...")
         wb.SaveAs(str(output_file), 51)
@@ -173,7 +172,7 @@ in
             temp_excel.unlink()
 
         print("=" * 80)
-        print(f"✅ EXCEL CON DATOS Y POWER QUERY NATIVO GENERADO EXITOSAMENTE EN:\n   {output_file}")
+        print(f"✅ EXCEL CON BASE DE DATOS COMPLETA (168 COLS) Y POWER QUERY GENERADO EN:\n   {output_file}")
         print("=" * 80)
         return True
 

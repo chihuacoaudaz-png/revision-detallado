@@ -1,0 +1,94 @@
+Actúa como un Ingeniero de Datos Principal y Arquitecto Experto en Microsoft Excel, Power Query M y Pipelines ETL en Python.
+
+Necesito que me expliques detalladamente y paso a paso cómo construir desde cero una solución para recopilar y consolidar automáticamente los reportes diarios de perforación de 18 contratos mineros en un único libro maestro de Excel (con una tabla oficial de base de datos que contenga la totalidad de las 168 columnas operativas sin omitir ninguna).
+
+A continuación te detallo todo el contexto técnico, reglas de negocio, estructura de carpetas y formato de los archivos fuente:
+
+================================================================================
+1. ESTRUCTURA DE CARPETAS Y ARCHIVOS FUENTE
+================================================================================
+En una carpeta raíz compartida (local o SharePoint) llamada `Rockdrill_Control_Operaciones`, existen subcarpetas por cada contrato minero (CTR):
+
+Rockdrill_Control_Operaciones/
+├── 00_Control_Interno/
+│   └── RD.402.P.01.F.04  Consolidado de Avance Setiembre.xlsx  (Libro con hojas diarias "26.08", "27.08", etc.)
+├── Maestro_Maquinas/
+│   └── Maestros_Maquinas.xlsx                                  (Contiene la hoja 'Exepciones' con homologación de nombres de máquina)
+├── CTR_AMERICANA/02_Detallado/RD.402.P.01.F.01_AMERICANA.xlsx
+├── CTR_ANDAYCHAGUA/02_Detallado/RD.402.P.01.F.01_Avance Detallado ANDAYCHAGUA SEPTIEMBRE.xlsx
+├── CTR_CATALINA_HUANCA/02_Detallado/RD.402.P.01.F.01 Reporte Detallado de Avance CATALINA HUANCA - SETIEMBRE.xlsx
+├── CTR_CERRO/02_Detallado/RD.402.P.01.F.01_CERRO.xlsx
+├── CTR_CHUNGAR/02_Detallado/RD.402.P.01.F.01_CHUNGAR.xlsx
+├── CTR_COBRIZA/02_Detallado/Copia de RD.402.P.01.F.01_COBRIZA.xlsx
+├── CTR_COLQUISIRI/02_Detallado/RD.402.P.01.F.01 Reporte Detallado de Avance COLQUISIRI - SETIEMBRE.xlsx
+├── CTR_CONDESTABLE/02_Detallado/RD.402.P.01.F.01_CONDESTABLE.xlsx
+├── CTR_CUCULI/02_Detallado/RD.402.P.01.F.01_CUCULI.xlsx
+├── CTR_INMACULADA/02_Detallado/RD.402.P.01.F.01_Reporte Detallado de Avance INMACULADA SETIEMBRE.xlsx
+├── CTR_LA_ESTRELLA/02_Detallado/RD.402.P.01.F.01_Reporte detallado_Setiembre_LA ESTRELLA.xlsx
+├── CTR_MOROCOCHA/02_Detallado/Copia de RD.402.P.01.F.01_DETALLADO MOROCOCHA.xlsx
+├── CTR_RAURA/02_Detallado/RD.402.P.01.F.01_REPORTE DETALLADO RAURA.xlsx
+├── CTR_SAN_CRISTOBAL/02_Detallado/RD.402.P.01.F.01REPORTE DETALLADO SETIEMBRE_SAN_CRISTOBAL .xlsx
+├── CTR_TAMBOJASA/02_Detallado/RD.402.P.01.F.01 Avance Detallado - TAMBOJASA.xlsx
+├── CTR_TICLIO/02_Detallado/RD.402.P.01.F.01_TICLIO - SETIEMBRE.xlsx
+├── CTR_YAULIYACU/02_Detallado/RD.402.P.01.F.01_YAULIYACU.xlsx
+├── CTR_YAURICOCHA/02_Detallado/RD.402.P.01.F.01_YAURICOCHA.xlsx
+├── CTR_CAPITANA/   (EXCLUIR - No operativo)
+└── CTR_COLQUIJIRCA/ (EXCLUIR - Formato no homologado)
+
+================================================================================
+2. ANATOMÍA Y ESTRUCTURA DE CADA LIBRO EXCEL (RD.402.P.01.F.01)
+================================================================================
+Dentro de cada archivo `RD.402.P.01.F.01*.xlsx`:
+- Hay múltiples pestañas. Cada pestaña con nombre de máquina (ej. `XRD50U-002`, `LM90U-001`) contiene los datos de perforación de esa máquina.
+- Pestañas administrativas que NO deben procesarse: `ADITIVOS`, `GENERAL`, `LISTAS`, `TIEMPOS`, `Tiempos`, `RESUMEN`, `GRAFICOS`, `MAESTRO`, `PARAMETROS`, `GLOSARIO` y cualquier hoja oculta.
+- Estructura vertical de cada pestaña operativa:
+  * Filas 1 a 22: Encabezado administrativo (logos, cliente, datos generales).
+  * Fila 23 (Índice 22 de base 0): Nivel 1 de encabezados con celdas combinadas por grupos (ej. "BENTONITA", "HOROMETRO", "RIMADO CON CASING", "BITACORA DE MANTENIMIENTO").
+  * Fila 24 (Índice 23 de base 0): Nivel 2 de encabezados con subtítulos (ej. "PRODUCTO", "CANT.", "UND.", "DESDE", "HASTA", "METRAJE", "TOTAL", "TRABAJOS REALIZADOS", "REPUESTOS UTILIZADOS").
+  * Fila 25 (Índice 24 de base 0): Primera fila de datos de guardias operativas.
+  * Filas posteriores: Filas de guardias diarias (Turno Día / Turno Noche).
+  * Filas finales: Celdas con sumatorias o texto de pie de página como `TOTAL`, `TOTAL GENERAL`, `RESUMEN`, `PROMEDIO`, `SUMA`, `TOTAL AVANCE` o que comiencen con `>` (deben filtrarse y descartarse).
+
+================================================================================
+3. EL CATÁLOGO ESTRICTO DE 168 COLUMNAS (DE LA COLUMNA A HASTA LA FL)
+================================================================================
+La plantilla tiene exactamente 168 columnas físicas divididas en 17 bloques funcionales que deben preservarse al 100%:
+1. Identificación y Sondaje (Cols A:E / 1 a 5): FECHA, SONDAJE, PROFUNDIDAD, LINEA, INCLINACIÓN.
+2. Avance Diario y Cuadrilla (Cols F:O / 6 a 15): DESDE, HASTA, TURNO (A=1;B=2), GRUPO, METRAJE, HORAS EXTRAS, PERFORISTA, AYUDANTE 1, AYUDANTE 2, TOTAL metraje del dia.
+3. Comparativo y Metas (Cols P:R / 16 a 18): ACUMULADO, PROYECTADO, META.
+4. Herramientas de Corte (Cols S:Y / 19 a 25): MARCA BROCA, SERIE BROCA, Nº BROCA, ESTADO DE LA BROCA, MARCA ESCARIADOR, Nº ESCARIADOR, ESTADO DEL ESCARIADOR.
+5. Consumo de Aditivos (Cols Z:AX / 26 a 50): 8 productos con PRODUCTO, CANT., UND. (Bentonita, PAC, Polímero, Lubricantes, Controlador PH, Inhibidores, Estabilizador, Otros).
+6. Combustible Diésel (Cols AY:AZ / 51 a 52): PETROLEO - CANT., PETROLEO - GLN.
+7. Tiempos Operativos Directos (Cols BA:BD / 53 a 56): Perforación, Rimado, Asentado / Retiro de revestimiento (Casing), RePerforación.
+8. Tiempos Mantenimiento (Cols BE:BF / 57 a 58): Preventivo, Correctivo.
+9. Maniobras Operativas (Cols BG:BY / 59 a 77): 19 maniobras (Lavado, Mezclado, Tuberías, Acondicionamiento, Cambio línea, Recuperación, Atrapamiento, Maniobras geológicas, Fallas/fracturas, Desviación, Traslado cámaras, Cambio punto, Anclado, Perno, Cementación perno, Cementado pozo, Packer, Sellado, Lechada).
+10. Ensayos Geotécnicos e Hidrogeológicos (Cols BZ:CS / 78 a 97): 20 ensayos (Lefranc, Lugeon, SPT, Shelby, Geotécnicas, Freático, Air Lift, Slug Test, Casagrande, Cuerda vibrante, Inclinómetro, Multinivel, Presión/Caudal, Lecturas, SBO1 a SBO5).
+11. Soporte y Seguridad (Cols CT:DN / 98 a 118): 21 actividades internas (Desate, Orden y limpieza 5S, Lama, Pozas, Estandarización, Red agua, Instalación máquina, Traslado accesorios, Auditoría, Charla IPERC, Espera repuestos, Espera materiales, Traslado personal, Refrigerio, Falta personal, Fiestas, Pare RD, SBI1 a SBI4).
+12. Entorno Cliente (Cols DO:EO / 119 a 145): 27 eventos cliente (Voladura, Falta agua, Energía, Ventilación, Servicios, Espera Orden, Espera programa, Espera cámara, Sostenimiento, Scoop, Marcado punto, Topografía, Grúa, Ensayos, Auditoría externa, Capacitación, Habilitación, Orden cliente, Clima, Inundación, Estrés térmico, Sismo, Conflicto social, SBC1 a SBC4).
+13. Resumen de Horas (Cols EP:EV / 146 a 152): TIEMPO TOTAL (12.0h), TIEMPO EFECTIVO - OPERATIVO, LOST TIME, Mantenimiento, Stand By Operativo, Stand By Inoperativo, Stand By Cliente.
+14. Rimado Casing HWT/HQ (Cols EW:EZ / 153 a 156): DESDE, HASTA, METRAJE, TOTAL.
+15. Re-Perforación (Cols FA:FD / 157 a 160): DESDE, HASTA, METRAJE, TOTAL.
+16. Control Horómetros (Cols FE:FH / 161 a 164): DESDE, HASTA, ACUMULADO, TOTAL.
+17. Bitácora y Observaciones (Cols FI:FL / 165 a 168): TRABAJOS REALIZADOS, REPUESTOS UTILIZADOS, DESCRIPCIÓN LITOLÓGICA, COMENTARIOS.
+
+================================================================================
+4. REGLAS DE NEGOCIO Y DESAFÍOS TÉCNICOS
+================================================================================
+1. Celdas combinadas en Fecha (Col A): Solo la primera guardia del día tiene fecha digitada. Las filas siguientes del mismo día quedan vacías y requieren FillDown.
+2. Celdas combinadas en Sondaje (Col B): Requieren FillDown y FillUp para no perder la asignación del taladro.
+3. Desafíos de Power Query M que suelen provocar errores:
+   - Invocar `Excel.Workbook([Content])` de forma anidada dentro de cada fila genera error de `Formula.Firewall` (Niveles de Privacidad) o agota la memoria de descompresión.
+   - Si las cabeceras se construyen combinando texto dinámico entre filas 23 y 24, pequeñas variaciones entre contratos rompen `Table.Combine` y multiplican las columnas con nulos.
+   - Solución requerida en M: Abrir `Excel.Workbook([Content])` una sola vez en la consulta padre, pasar la tabla `[Data]` a una función `fn_ProcesarHojaDetallado`, seleccionar posicionalmente las primeras 168 columnas (`Column1` a `Column168`) y renombrarlas en bloque al catálogo canónico para que todas las hojas tengan un esquema 100% idéntico y seguro.
+4. Metadatos obligatorios a incluir en la tabla final: `CTR` (extraído del nombre de la carpeta), `MAQUINA` (nombre de la hoja), `TURNO_ESTANDAR` (A o B) y clave `ID_CLAVE_UNICA` (`YYYYMMDD-MAQUINA-TURNO`).
+
+================================================================================
+QUÉ DEBES EXPLICARME:
+================================================================================
+1. Explícame paso a paso y con máxima claridad pedagógica cómo implementar esto en Microsoft Excel con Power Query M.
+2. Proporcióname el código Power Query M completo y probado para:
+   - Los parámetros de conexión (`RutaOrigenLocal`, `TipoOrigen`, `UrlSharePoint`).
+   - La función `fn_ProcesarHojaDetallado` (con manejo de errores `try ... otherwise` y mapeo estricto de 168 columnas).
+   - La consulta consolidadora principal `Consolidado_Detallados`.
+3. Indícame cómo configurar las opciones de privacidad en Excel para que no salte el error de Formula Firewall.
+4. Explícame cómo hacer lo mismo en Python (mediante Calamine y Pandas) para tener una alternativa de alta velocidad en segundos.

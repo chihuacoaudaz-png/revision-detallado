@@ -3,6 +3,9 @@ Estructura base/
 archivos/
 base de comparacion/
 Auditoria_Visual_Discrepancias.xlsx
+HISTORICO-PERDLAP140.xlsx
+.edge_session/
+scratch/
 
 # Include target Power Query database workbook
 !Estructura base/Rockdrill_Control_Operaciones/Base de datos/

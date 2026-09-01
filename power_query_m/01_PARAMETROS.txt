@@ -1,0 +1,15 @@
+// ==============================================================================
+// 1. PARÁMETROS GLOBALES DE CONEXIÓN (Crear como Parámetros en Power Query)
+// ==============================================================================
+
+// PARÁMETRO: RutaOrigenLocal
+// Tipo: Texto | Valor sugerido: C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones
+"C:\Proyectos Python\Detallados\Estructura base\Rockdrill_Control_Operaciones" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+// PARÁMETRO: TipoOrigen
+// Tipo: Texto | Valores: "LOCAL" o "CLOUD"
+"LOCAL" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+// PARÁMETRO: UrlSharePoint
+// Tipo: Texto | URL de la biblioteca de documentos
+"https://rockdrillgroup.sharepoint.com/sites/Operaciones/Rockdrill_Control_Operaciones" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=false]
