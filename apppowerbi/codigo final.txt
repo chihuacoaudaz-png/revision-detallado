@@ -2,9 +2,10 @@
 ROCKDRILL GROUP - CÓDIGO FINAL DE AUDITORÍA Y CONCILIACIÓN 3-EN-1 (POWER QUERY CLOUD)
 ================================================================================
 Ubicación: apppowerbi/codigo final.txt
-Descripción: Código definitivo de conciliación 1-a-1 por ID_CLAVE_UNICA con soporte
-multi-fila por día, exclusión estricta de totales de mes/columna (sin duplicación 2X),
-corrección de Yauliyacu (XRD50USS-00T), sincronización de Morococha y cruce ultra-rápido en memoria (<3s).
+Descripción: Código definitivo de conciliación 1-a-1 por ID_CLAVE_UNICA compuesta por
+FECHA + CTR + MAQUINA + TURNO. Resuelve de raíz las máquinas transferidas entre proyectos
+(ej. XRD125USS-001 en Yauliyacu y Americana), elimina duplicaciones 2X de totales y cruza
+en memoria en <3 segundos.
 
 --------------------------------------------------------------------------------
 CONSULTA 1: Consolidado_Operaciones
@@ -122,12 +123,13 @@ let
                 else if Text.Contains(c, "MOROCOCHA") and m = "XRD90USS-002" then "XRD90USS-005"
                 else if Text.Contains(c, "TICLIO") and m = "XRD150USS-001" then "XRD150U-007"
                 else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XRD50USS-00T"
-                else if Text.Contains(c, "YAULIYACU") and Text.Contains(m, "XRD125") then "XRD125USS-001"
+                else if Text.Contains(m, "XRD125") then "XRD125USS-001"
                 else m, type text
         ),
         
+        // Clave Única Canónica con CTR: YYYYMMDD-CTR-MAQUINA-TURNO
         ConClaveUnica = Table.AddColumn(ConMaquinaHomologada, "ID_CLAVE_UNICA", each 
-            [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
+            [FECHA_KEY] & "-" & [CTR] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
         )
     in
         ConClaveUnica,
@@ -286,7 +288,7 @@ let
                 else if Text.Contains(c, "MOROCOCHA") and m = "XRD90USS-002" then "XRD90USS-005"
                 else if Text.Contains(c, "TICLIO") and m = "XRD150USS-001" then "XRD150U-007"
                 else if Text.Contains(c, "YAULIYACU") and (m = "XRD50USS-001" or m = "XRD50USS-00T") then "XRD50USS-00T"
-                else if Text.Contains(c, "YAULIYACU") and Text.Contains(m, "XRD125") then "XRD125USS-001"
+                else if Text.Contains(m, "XRD125") then "XRD125USS-001"
                 else m, type text
         ),
         
@@ -309,8 +311,10 @@ let
         
         ConFecha = Table.AddColumn(ConMetraje, "FECHA", each fechaISO, type text),
         ConFechaKey = Table.AddColumn(ConFecha, "FECHA_KEY", each fechaKey, type text),
+        
+        // Clave Única Canónica con CTR: YYYYMMDD-CTR-MAQUINA-TURNO
         ConClave = Table.AddColumn(ConFechaKey, "ID_CLAVE_UNICA", each 
-            [FECHA_KEY] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
+            [FECHA_KEY] & "-" & [CTR] & "-" & [MAQUINA_HOMOLOGADA] & "-" & [TURNO_ESTANDAR], type text
         ),
         
         SeleccionFinalHoja = Table.SelectColumns(ConClave, {
