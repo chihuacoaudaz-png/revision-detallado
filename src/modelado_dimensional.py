@@ -188,9 +188,9 @@ def construir_modelo_dimensional(
     
     df["MAQUINA_HOMOLOGADA"] = df.apply(homologar_maq, axis=1)
     
-    # Reconstruir ID_CLAVE_UNICA canónica
+    # Reconstruir ID_CLAVE_UNICA canónica (4 niveles: FECHA-CTR-MAQUINA-TURNO)
     df["FECHA_KEY"] = df["FECHA_NORM"].str.replace("-", "", regex=False)
-    df["ID_CLAVE_UNICA_CANONICA"] = df["FECHA_KEY"] + "-" + df["MAQUINA_HOMOLOGADA"] + "-" + df["TURNO_NORM"]
+    df["ID_CLAVE_UNICA_CANONICA"] = df["FECHA_KEY"] + "-" + df["CTR_NORM"] + "-" + df["MAQUINA_HOMOLOGADA"] + "-" + df["TURNO_NORM"]
     
     # Normalizar Sondaje
     col_sond = "SONDAJE" if "SONDAJE" in df.columns else "NOMBRE"
@@ -490,14 +490,16 @@ def construir_modelo_dimensional(
     col_desde = "DESDE" if "DESDE" in df.columns else "DESDE_M"
     col_hasta = "HASTA" if "HASTA" in df.columns else "HASTA_M"
     
-    for idx, row in df.iterrows():
-        f_dt = row["FECHA_NORM"]
+    records = df.to_dict('records')
+    
+    for row in records:
+        f_dt = row.get("FECHA_NORM")
         cal_sk = int(f_dt.replace("-", "")) if f_dt else -1
-        c_sk = ctr_sk_map.get(row["CTR_NORM"], -1)
-        m_sk = maq_sk_map.get((row["MAQUINA_HOMOLOGADA"], c_sk), maq_sk_map.get(row["MAQUINA_HOMOLOGADA"], -1))
-        s_sk = sondaje_sk_map.get((row["SONDAJE_NORM"], c_sk), sondaje_sk_map.get(row["SONDAJE_NORM"], -1))
-        l_sk = linea_sk_map.get(row["LINEA_NORM"], -1)
-        p_sk = personal_sk_map.get(row["PERFORISTA_NORM"], -1)
+        c_sk = ctr_sk_map.get(row.get("CTR_NORM"), -1)
+        m_sk = maq_sk_map.get((row.get("MAQUINA_HOMOLOGADA"), c_sk), maq_sk_map.get(row.get("MAQUINA_HOMOLOGADA"), -1))
+        s_sk = sondaje_sk_map.get((row.get("SONDAJE_NORM"), c_sk), sondaje_sk_map.get(row.get("SONDAJE_NORM"), -1))
+        l_sk = linea_sk_map.get(row.get("LINEA_NORM"), -1)
+        p_sk = personal_sk_map.get(row.get("PERFORISTA_NORM"), -1)
         
         metraje = clean_number_value(row.get(col_met)) or 0.0
         desde = clean_number_value(row.get(col_desde)) or 0.0
@@ -511,12 +513,12 @@ def construir_modelo_dimensional(
             "sondaje_sk": s_sk,
             "perforista_sk": p_sk,
             "linea_sk": l_sk,
-            "turno_guardia": row["TURNO_NORM"],
+            "turno_guardia": row.get("TURNO_NORM"),
             "desde_m": round(desde, 2),
             "hasta_m": round(hasta, 2),
             "metraje_guardia_m": round(metraje, 2),
             "es_reperforacion": False,
-            "id_clave_unica": row["ID_CLAVE_UNICA_CANONICA"]
+            "id_clave_unica": row.get("ID_CLAVE_UNICA_CANONICA")
         })
     fact_perforacion_avance = pd.DataFrame(avance_rows)
 
@@ -526,35 +528,41 @@ def construir_modelo_dimensional(
     print("  [9/10] Generando fact_horas_operativas (Unpivoting de Tiempos)...", flush=True)
     horas_rows = []
     
+    # Pre-emparejar columnas para máxima velocidad
+    taxonomia_activa = []
     for act_nom, act_bloque, act_categ, act_cobrable, act_disp_mec in TAXONOMIA_ACTIVIDADES:
         col_match = None
         for c in df.columns:
             if c.strip().upper() == act_nom.strip().upper() or c.strip().upper().endswith("_" + act_nom.strip().upper()):
                 col_match = c
                 break
-        
         if col_match is not None:
             act_sk = actividad_sk_map.get(act_nom, -1)
-            for idx, row in df.iterrows():
-                val_h = clean_number_value(row.get(col_match))
-                if val_h is not None and val_h > 0:
-                    f_dt = row["FECHA_NORM"]
-                    cal_sk = int(f_dt.replace("-", "")) if f_dt else -1
-                    c_sk = ctr_sk_map.get(row["CTR_NORM"], -1)
-                    m_sk = maq_sk_map.get((row["MAQUINA_HOMOLOGADA"], c_sk), maq_sk_map.get(row["MAQUINA_HOMOLOGADA"], -1))
-                    
-                    horas_rows.append({
-                        "hora_evento_id": len(horas_rows) + 1,
-                        "calendario_sk": cal_sk,
-                        "contrato_sk": c_sk,
-                        "equipo_sk": m_sk,
-                        "actividad_sk": act_sk,
-                        "turno_guardia": row["TURNO_NORM"],
-                        "horas_reportadas": round(val_h, 2),
-                        "es_cobrable": act_cobrable,
-                        "categoria_disponibilidad": act_categ,
-                        "id_clave_unica": row["ID_CLAVE_UNICA_CANONICA"]
-                    })
+            taxonomia_activa.append((col_match, act_sk, act_categ, act_cobrable))
+    
+    for row in records:
+        f_dt = row.get("FECHA_NORM")
+        cal_sk = int(f_dt.replace("-", "")) if f_dt else -1
+        c_sk = ctr_sk_map.get(row.get("CTR_NORM"), -1)
+        m_sk = maq_sk_map.get((row.get("MAQUINA_HOMOLOGADA"), c_sk), maq_sk_map.get(row.get("MAQUINA_HOMOLOGADA"), -1))
+        t_norm = row.get("TURNO_NORM")
+        clave_unica = row.get("ID_CLAVE_UNICA_CANONICA")
+        
+        for col_match, act_sk, act_categ, act_cobrable in taxonomia_activa:
+            val_h = clean_number_value(row.get(col_match))
+            if val_h is not None and val_h > 0:
+                horas_rows.append({
+                    "hora_evento_id": len(horas_rows) + 1,
+                    "calendario_sk": cal_sk,
+                    "contrato_sk": c_sk,
+                    "equipo_sk": m_sk,
+                    "actividad_sk": act_sk,
+                    "turno_guardia": t_norm,
+                    "horas_reportadas": round(val_h, 2),
+                    "es_cobrable": act_cobrable,
+                    "categoria_disponibilidad": act_categ,
+                    "id_clave_unica": clave_unica
+                })
     fact_horas_operativas = pd.DataFrame(horas_rows)
 
     # =========================================================================
@@ -562,15 +570,17 @@ def construir_modelo_dimensional(
     # =========================================================================
     print("  [10/10] Generando brg_cuadrilla_guardia...", flush=True)
     cuadrilla_rows = []
-    for idx, row in df.iterrows():
-        f_dt = row["FECHA_NORM"]
+    for row in records:
+        f_dt = row.get("FECHA_NORM")
         cal_sk = int(f_dt.replace("-", "")) if f_dt else -1
-        c_sk = ctr_sk_map.get(row["CTR_NORM"], -1)
-        m_sk = maq_sk_map.get((row["MAQUINA_HOMOLOGADA"], c_sk), maq_sk_map.get(row["MAQUINA_HOMOLOGADA"], -1))
+        c_sk = ctr_sk_map.get(row.get("CTR_NORM"), -1)
+        m_sk = maq_sk_map.get((row.get("MAQUINA_HOMOLOGADA"), c_sk), maq_sk_map.get(row.get("MAQUINA_HOMOLOGADA"), -1))
+        clave_unica = row.get("ID_CLAVE_UNICA_CANONICA")
         
         # Perforista
-        if row["PERFORISTA_NORM"] != "NO ESPECIFICADO":
-            p_sk = personal_sk_map.get(row["PERFORISTA_NORM"], -1)
+        perf = row.get("PERFORISTA_NORM")
+        if perf and perf != "NO ESPECIFICADO":
+            p_sk = personal_sk_map.get(perf, -1)
             cuadrilla_rows.append({
                 "asignacion_id": len(cuadrilla_rows) + 1,
                 "calendario_sk": cal_sk,
@@ -578,11 +588,12 @@ def construir_modelo_dimensional(
                 "personal_sk": p_sk,
                 "rol_desempenado": "PERFORISTA",
                 "horas_laboradas": 12.0,
-                "id_clave_unica": row["ID_CLAVE_UNICA_CANONICA"]
+                "id_clave_unica": clave_unica
             })
         # Ayudante 1
-        if row["AYUDANTE1_NORM"] != "NO ESPECIFICADO":
-            ay1_sk = personal_sk_map.get(row["AYUDANTE1_NORM"], -1)
+        ay1 = row.get("AYUDANTE1_NORM")
+        if ay1 and ay1 != "NO ESPECIFICADO":
+            ay1_sk = personal_sk_map.get(ay1, -1)
             cuadrilla_rows.append({
                 "asignacion_id": len(cuadrilla_rows) + 1,
                 "calendario_sk": cal_sk,
@@ -590,11 +601,12 @@ def construir_modelo_dimensional(
                 "personal_sk": ay1_sk,
                 "rol_desempenado": "AYUDANTE 1",
                 "horas_laboradas": 12.0,
-                "id_clave_unica": row["ID_CLAVE_UNICA_CANONICA"]
+                "id_clave_unica": clave_unica
             })
         # Ayudante 2
-        if row["AYUDANTE2_NORM"] != "NO ESPECIFICADO":
-            ay2_sk = personal_sk_map.get(row["AYUDANTE2_NORM"], -1)
+        ay2 = row.get("AYUDANTE2_NORM")
+        if ay2 and ay2 != "NO ESPECIFICADO":
+            ay2_sk = personal_sk_map.get(ay2, -1)
             cuadrilla_rows.append({
                 "asignacion_id": len(cuadrilla_rows) + 1,
                 "calendario_sk": cal_sk,
@@ -602,7 +614,7 @@ def construir_modelo_dimensional(
                 "personal_sk": ay2_sk,
                 "rol_desempenado": "AYUDANTE 2",
                 "horas_laboradas": 12.0,
-                "id_clave_unica": row["ID_CLAVE_UNICA_CANONICA"]
+                "id_clave_unica": clave_unica
             })
     brg_cuadrilla_guardia = pd.DataFrame(cuadrilla_rows)
 
@@ -658,3 +670,19 @@ def construir_modelo_dimensional(
     print("=" * 80, flush=True)
 
     return tablas_modelo
+
+if __name__ == "__main__":
+    input_excel = ROOT_DIR / "apppowerbi" / "resultado.xlsx"
+    maestro_maq = ROOT_DIR / "plantillas" / "Maestros_Maquinas.xlsx"
+    output_path = ROOT_DIR / "output" / "star_schema"
+    
+    if not input_excel.exists():
+        print(f"ERROR: No se encontró el archivo de entrada en {input_excel}")
+        sys.exit(1)
+        
+    print(f"Cargando dataset consolidado desde {input_excel}...")
+    df_input = pd.read_excel(input_excel, sheet_name="Consolidado_Operaciones")
+    print(f"Dataset cargado: {df_input.shape[0]} filas x {df_input.shape[1]} columnas")
+    
+    construir_modelo_dimensional(df_input, maestro_maq, output_path)
+

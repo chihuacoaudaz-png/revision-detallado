@@ -1,0 +1,91 @@
+// SCRIPT DAX OFICIAL ROCKDRILL GROUP - VERTIPAQ TABULAR MODEL
+
+// Metraje Perforado Total (m) (Producción)
+// Sumatoria total del metraje físico perforado registrado en las guardias operativas.
+Metraje Perforado Total (m) = 
+    SUM(fact_perforacion_avance[metraje_guardia_m])
+
+// Metraje Promedio por Guardia (m/g) (Producción)
+// Promedio de avance físico alcanzado por guardia operativa.
+Metraje Promedio por Guardia (m/g) = 
+    AVERAGE(fact_perforacion_avance[metraje_guardia_m])
+
+// Metraje Turno A (Día) (Producción)
+// Metraje total perforado en el turno diurno (Guardia A).
+Metraje Turno A (Día) = 
+    CALCULATE([Metraje Perforado Total (m)], fact_perforacion_avance[turno_guardia] = "A")
+
+// Metraje Turno B (Noche) (Producción)
+// Metraje total perforado en el turno nocturno (Guardia B).
+Metraje Turno B (Noche) = 
+    CALCULATE([Metraje Perforado Total (m)], fact_perforacion_avance[turno_guardia] = "B")
+
+// Balance Turno (% Día) (Producción)
+// Porcentaje de producción aportado por el turno día sobre el total.
+Balance Turno (% Día) = 
+    DIVIDE([Metraje Turno A (Día)], [Metraje Perforado Total (m)], 0)
+
+// Horas Totales Reportadas (h) (Tiempos)
+// Sumatoria total de horas registradas en todas las actividades.
+Horas Totales Reportadas (h) = 
+    SUM(fact_horas_operativas[horas_reportadas])
+
+// Horas Perforación Efectiva (h) (Tiempos)
+// Horas dedicadas a perforación directa en roca (La Brújula).
+Horas Perforación Efectiva (h) = 
+    CALCULATE(SUM(fact_horas_operativas[horas_reportadas]), dim_taxonomia_actividad[categoria_disponibilidad] = "Tiempo Efectivo")
+
+// Horas Mantenimiento (h) (Tiempos)
+// Horas de mantenimiento preventivo y correctivo de la perforadora.
+Horas Mantenimiento (h) = 
+    CALCULATE(SUM(fact_horas_operativas[horas_reportadas]), dim_taxonomia_actividad[categoria_disponibilidad] = "Mantenimiento")
+
+// Horas Stand By Operativo (h) (Tiempos)
+// Horas en maniobras operativas y ensayos geotécnicos.
+Horas Stand By Operativo (h) = 
+    CALCULATE(SUM(fact_horas_operativas[horas_reportadas]), dim_taxonomia_actividad[categoria_disponibilidad] = "Stand By Operativo")
+
+// Horas Stand By Inoperativo (h) (Tiempos)
+// Horas no cobrables por paradas internas (traslados, refrigerios, esperas RD).
+Horas Stand By Inoperativo (h) = 
+    CALCULATE(SUM(fact_horas_operativas[horas_reportadas]), dim_taxonomia_actividad[categoria_disponibilidad] = "Stand By Inoperativo")
+
+// Horas Stand By Cliente (h) (Tiempos)
+// Horas imputables al cliente minero (voladuras, falta de ventilación, scoop, agua).
+Horas Stand By Cliente (h) = 
+    CALCULATE(SUM(fact_horas_operativas[horas_reportadas]), dim_taxonomia_actividad[categoria_disponibilidad] = "Stand By Cliente")
+
+// Horas Cobrables Totales (h) (Facturabilidad)
+// Total de horas valorizables ante el cliente minero.
+Horas Cobrables Totales (h) = 
+    CALCULATE(SUM(fact_horas_operativas[horas_reportadas]), fact_horas_operativas[es_cobrable] = TRUE())
+
+// Ratio de Penetración (m/h) (Eficiencia)
+// Velocidad real de perforación por hora efectiva de broca en fondo.
+Ratio de Penetración (m/h) = 
+    DIVIDE([Metraje Perforado Total (m)], [Horas Perforación Efectiva (h)], 0)
+
+// Disponibilidad Mecánica (DM %) (Eficiencia)
+// Porcentaje de tiempo en que el equipo estuvo mecánicamente apto para operar.
+Disponibilidad Mecánica (DM %) = 
+    DIVIDE([Horas Totales Reportadas (h)] - [Horas Mantenimiento (h)], [Horas Totales Reportadas (h)], 0)
+
+// Utilización Operativa (UT %) (Eficiencia)
+// Porcentaje del tiempo disponible que se destinó efectivamente a perforar.
+Utilización Operativa (UT %) = 
+    DIVIDE([Horas Perforación Efectiva (h)], [Horas Totales Reportadas (h)] - [Horas Mantenimiento (h)], 0)
+
+// Ratio de Cobrabilidad (% Facturable) (Facturabilidad)
+// Porcentaje de horas facturables sobre el total reportado en mina.
+Ratio de Cobrabilidad (% Facturable) = 
+    DIVIDE([Horas Cobrables Totales (h)], [Horas Totales Reportadas (h)], 0)
+
+// Meta Metraje Mes (m) (Cumplimiento)
+// Meta acumulada de perforación comprometida contractualmente para el mes operativo.
+Meta Metraje Mes (m) = 
+    SUM(fact_metas_mensuales[meta_metraje_m])
+
+// Cumplimiento de Meta (% Meta) (Cumplimiento)
+// Porcentaje de avance alcanzado respecto a la meta contractual mensual.
+Cumplimiento de Meta (% Meta) = 
+    DIVIDE([Metraje Perforado Total (m)], [Meta Metraje Mes (m)], 0)

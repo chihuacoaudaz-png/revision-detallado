@@ -20,7 +20,6 @@ tools:
     - define_subagent
     - invoke_subagent
     - manage_subagents
-hidden: true
 inheritMcp: true
 ---
 

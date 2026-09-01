@@ -53,10 +53,10 @@ gantt
 | **Fase 1** | 1.6 Clave de 4 Niveles (`FECHA-CTR-MAQUINA-TURNO`) | ✅ CERRADO | 100% | Aislamiento de transferencias (`XRD125USS-001`) |
 | **Fase 1** | 1.7 Documentación Técnica Oficial de Fase 1 | ✅ CERRADO | 100% | [`docs/09_DOCUMENTACION_COMPLETA_ETL_LIMPIEZA_Y_CONCILIACION.md`](file:///C:/Proyectos%20Python/Detallados/docs/09_DOCUMENTACION_COMPLETA_ETL_LIMPIEZA_Y_CONCILIACION.md) |
 | **Fase 1** | 1.8 Reorganización y Archivo Histórico (`baul_desuso/`) | ✅ CERRADO | 100% | [`baul_desuso/README.md`](file:///C:/Proyectos%20Python/Detallados/baul_desuso/README.md) |
-| **Fase 2** | 2.1 Modelo Dimensional (Esquema Estrella: Fact y Dims) | ⏳ PENDIENTE | 0% | *Próximo a iniciar* |
-| **Fase 2** | 2.2 Normalización de Aditivos y Tiempos (Unpivot) | ⏳ PENDIENTE | 0% | *Próximo a iniciar* |
-| **Fase 2** | 2.3 Medidas y KPIs DAX ($m/h$, Disponibilidad, Utilización) | ⏳ PENDIENTE | 0% | *Próximo a iniciar* |
-| **Fase 3** | 3.1 Dashboards Power BI Operativo y Gerencial | ⏳ PENDIENTE | 0% | *Próximo a iniciar* |
+| **Fase 2** | 2.1 Modelo Dimensional (Esquema Estrella: Fact y Dims) | ✅ CERRADO | 100% | [`src/modelado_dimensional.py`](file:///C:/Proyectos%20Python/Detallados/src/modelado_dimensional.py) & `output/star_schema/` |
+| **Fase 2** | 2.2 Normalización de Aditivos y Tiempos (Unpivot) | ✅ CERRADO | 100% | `output/star_schema/fact_horas_operativas.parquet` (3,965 filas) |
+| **Fase 2** | 2.3 Medidas y KPIs DAX ($m/h$, Disponibilidad, Utilización) | ✅ CERRADO | 100% | [`docs/03_CATALOGO_MEDIDAS_DAX_OFICIALES.md`](file:///C:/Proyectos%20Python/Detallados/docs/03_CATALOGO_MEDIDAS_DAX_OFICIALES.md) & [`docs/medidas_dax_powerbi.dax`](file:///C:/Proyectos%20Python/Detallados/docs/medidas_dax_powerbi.dax) |
+| **Fase 3** | 3.1 Dashboards Power BI Operativo y Gerencial | ⏳ PENDIENTE | 0% | *Listo para iniciar en Power BI Desktop* |
 
 ---
 

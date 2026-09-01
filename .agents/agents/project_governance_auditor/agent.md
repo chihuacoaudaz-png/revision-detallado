@@ -17,7 +17,6 @@ tools:
     - run_command
     - manage_task
     - notebook_edit
-hidden: true
 inheritMcp: true
 ---
 
