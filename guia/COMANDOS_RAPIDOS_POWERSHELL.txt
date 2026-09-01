@@ -1,0 +1,39 @@
+================================================================================
+ROCKDRILL GROUP - CHEAT SHEET DE COMANDOS GIT PARA POWERSHELL
+Repositorio: https://github.com/chihuacoaudaz-png/revision-detallado.git
+Rama: main
+================================================================================
+
+1. COMANDO RÁPIDO DE 1 LÍNEA (GUARDAR Y SUBIR TODO A GITHUB):
+--------------------------------------------------------------------------------
+git add -A ; git commit -m "actualizacion de modelos y reportes" ; git push origin main
+
+
+2. COMANDOS PASO A PASO:
+--------------------------------------------------------------------------------
+# Paso 1: Ver qué archivos fueron modificados
+git status
+
+# Paso 2: Preparar todos los cambios
+git add -A
+
+# Paso 3: Guardar el cambio localmente con un mensaje
+git commit -m "feat: tu mensaje aqui"
+
+# Paso 4: Subir los cambios a GitHub
+git push origin main
+
+
+3. DESCARGAR CAMBIOS NUEVOS DESDE GITHUB (SINCRONIZAR):
+--------------------------------------------------------------------------------
+git pull origin main
+
+
+4. HISTORIAL DE COMMITS RECIENTES:
+--------------------------------------------------------------------------------
+git log --oneline -n 5
+
+
+5. DESHACER CAMBIOS LOCALES (SI TE EQUIVOCASTE EN UN ARCHIVO):
+--------------------------------------------------------------------------------
+git restore nombre_del_archivo.xlsx
