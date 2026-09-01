@@ -1,9 +1,9 @@
 // ==============================================================================
-// QUERY 2: Consolidado_Control_Interno (Estructura Idéntica a Consolidado_Operaciones)
+// QUERY 2: Consolidado_Control_Interno (Código Final Oficial SharePoint Cloud)
 // Nombre de la consulta en Power Query: Consolidado_Control_Interno
 // Ubicación: apppowerbi/02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt
-// Descripción: Extrae y compila las pestañas diarias (dd.mm) de Control Interno (RD.402.P.01.F.04)
-// desde SharePoint siguiendo exactamente la misma arquitectura que Consolidado_Operaciones.
+// Descripción: Extrae y compila las pestañas diarias (dd.mm de 5 caracteres con punto)
+// de Control Interno (RD.402.P.01.F.04) desde SharePoint.
 // ==============================================================================
 let
     // -------------------------------------------------------------------------
@@ -144,7 +144,6 @@ let
         not Text.StartsWith([Name], "~$")
     ),
     
-    // Tomar el archivo más reciente
     AgruparArchivos = Table.Group(FiltrarExcel, {"Folder Path"}, {
         {"UltimoArchivo", each Table.Max(_, "Date modified")}
     }),
@@ -155,10 +154,10 @@ let
     
     HojasVisibles = Table.SelectRows(ExpandirLibros, each ([Hidden] = false) and ([Kind] = "Sheet")),
     
-    // Filtrar pestañas con fecha diaria: contienen "." y longitud menor o igual a 5 (ej. "26.08", "27.08")
+    // VALIDACIÓN ESTRICTA: Contener punto "." y tener exactamente 5 caracteres (ej. "26.08", "27.08")
     HojasDiarias = Table.SelectRows(HojasVisibles, each 
         Text.Contains([SheetName], ".") and 
-        Text.Length(Text.Trim([SheetName])) <= 5
+        Text.Length(Text.Trim([SheetName])) = 5
     ),
     
     ProcesarHojas = Table.AddColumn(HojasDiarias, "TablaNormalizada", each 

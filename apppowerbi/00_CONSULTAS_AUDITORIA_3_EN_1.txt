@@ -6,7 +6,7 @@ para armar el libro de conciliación donde una persona real audita día a día l
 
 ESTRUCTURA DE HOJAS / CONSULTAS EN POWER QUERY:
   1. "Consolidado_Operaciones"         -> Extracción SharePoint de los 18 Detallados (168 cols)
-  2. "Consolidado_Control_Interno"    -> Extracción SharePoint de Control Interno (hojas dd.mm)
+  2. "Consolidado_Control_Interno"    -> Extracción SharePoint de Control Interno (hojas dd.mm de 5 caracteres)
   3. "Matriz_Comparativa_Dia_a_Dia"   -> Cruce 1-a-1 por ID_CLAVE_UNICA con Metrajes y Diferencias
 
 ================================================================================
@@ -294,7 +294,7 @@ let
     HojasVisibles = Table.SelectRows(ExpandirLibros, each ([Hidden] = false) and ([Kind] = "Sheet")),
     HojasDiarias = Table.SelectRows(HojasVisibles, each 
         Text.Contains([SheetName], ".") and 
-        Text.Length(Text.Trim([SheetName])) <= 5
+        Text.Length(Text.Trim([SheetName])) = 5
     ),
     ProcesarHojas = Table.AddColumn(HojasDiarias, "TablaNormalizada", each 
         try fn_ProcesarPestanaCI([Data], [SheetName]) otherwise null
