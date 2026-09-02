@@ -1,4 +1,4 @@
-actividad_sk,nombre_actividad,bloque_funcional,categoria_disponibilidad,es_cobrable,impacta_disp_mecanica
+actividad_sk,nombre_actividad,bloque_funcional,categoria_disponibilidad,es_cobrable_estandar,impacta_disp_mecanica
 -1,[ACTIVIDAD NO CATALOGADA],NO CATALOGADO,Stand By Inoperativo,False,False
 1,Perforación,Tiempos Operativos Directos,Tiempo Efectivo - Operativo,True,False
 2,Rimado,Tiempos Operativos Directos,Tiempo Efectivo - Operativo,True,False

@@ -245,6 +245,10 @@ def construir_modelo_dimensional(
             "mes_anio_operativo": "N/D",
             "periodo_operativo_sort": 190001,
             "dia_ciclo_operativo": 0,
+            "semana_calendario_num": -1,
+            "semana_calendario_label": "N/D",
+            "semana_operativa_num": -1,
+            "semana_operativa_label": "N/D",
             "es_cierre_operativo": False
         }
     ]
@@ -268,6 +272,12 @@ def construir_modelo_dimensional(
         periodo_sort = op_anio * 100 + op_mes_num
         mes_anio_op = f"{op_mes_nom[:3].upper()}-{str(op_anio)[2:]}"
         
+        # Semanas calendario (ISO) y operativas (Ciclo 26 al 25)
+        semana_cal_num = int(dt.isocalendar().week)
+        semana_cal_label = f"Sem {semana_cal_num:02d} ({dt.year})"
+        sem_op_num = int(((dia_ciclo - 1) // 7) + 1)
+        sem_op_label = f"Semana Op {sem_op_num}" if sem_op_num <= 4 else "Semana Op 5 (Cierre)"
+        
         cal_rows.append({
             "calendario_sk": cal_sk,
             "fecha_dt": dt.strftime("%Y-%m-%d"),
@@ -285,6 +295,10 @@ def construir_modelo_dimensional(
             "mes_anio_operativo": mes_anio_op,
             "periodo_operativo_sort": periodo_sort,
             "dia_ciclo_operativo": dia_ciclo,
+            "semana_calendario_num": semana_cal_num,
+            "semana_calendario_label": semana_cal_label,
+            "semana_operativa_num": sem_op_num,
+            "semana_operativa_label": sem_op_label,
             "es_cierre_operativo": dt.day == 25
         })
         
@@ -313,8 +327,8 @@ def construir_modelo_dimensional(
             "contrato_cd": ctr,
             "nombre_contrato": f"CONTRATO {ctr}",
             "cliente_minero": "CLIENTE MINERO TITULAR",
-            "zona_geografica": "CENTRO" if "ANDAYCHAGUA" in ctr or "CHUNGAR" in ctr or "TICLIO" in ctr or "MOROCOCHA" in ctr or "SAN CRISTOBAL" in ctr or "YAULIYACU" in ctr else ("SUR" if "INMACULADA" in ctr or "TAMBOJASA" in ctr else "CENTRO"),
-            "tipo_operacion": "SUPERFICIE" if "CUCULI" in ctr else "SUBTERRANEA",
+            "zona_geografica": "CENTRO" if any(k in ctr for k in ["ANDAYCHAGUA", "CHUNGAR", "TICLIO", "MOROCOCHA", "SAN CRISTOBAL", "YAULIYACU"]) else ("SUR" if any(k in ctr for k in ["INMACULADA", "TAMBOJASA"]) else "CENTRO"),
+            "tipo_operacion": "SUBTERRANEA",
             "estado_vigencia": "ACTIVO"
         })
         ctr_sk_map[ctr] = idx
@@ -332,6 +346,7 @@ def construir_modelo_dimensional(
             "codigo_sap": "SAP-000",
             "modelo_fabricante": "[EQUIPO NO ASIGNADO]",
             "fabricante": "ROCKDRILL",
+            "tipo_servicio": "NO DEFINIDO",
             "tipo_energia": "ELECTRO-HIDRAULICA",
             "horas_dia_planeadas": 24,
             "contrato_sk_asignado": -1,
@@ -341,12 +356,14 @@ def construir_modelo_dimensional(
     maq_sk_map = {("NO_ASIGNADO", -1): -1}
     for idx, (maq, ctr) in enumerate(maqs_unicas, start=1):
         c_sk = ctr_sk_map.get(ctr, -1)
+        tipo_serv = "SUPERFICIE" if ("DE710" in maq or "LF90" in maq or "CUCULI" in ctr) else "INTERIOR MINA"
         maq_rows.append({
             "equipo_sk": idx,
             "equipo_cd": maq,
             "codigo_sap": f"SAP-{maq}",
             "modelo_fabricante": maq,
             "fabricante": "ROCKDRILL",
+            "tipo_servicio": tipo_serv,
             "tipo_energia": "DIESEL" if "DE710" in maq or "LF90" in maq else "ELECTRO-HIDRAULICA",
             "horas_dia_planeadas": 24,
             "contrato_sk_asignado": c_sk,
@@ -422,7 +439,7 @@ def construir_modelo_dimensional(
     dim_personal = pd.DataFrame(personal_rows)
 
     # =========================================================================
-    # 6. DIMENSIÓN: dim_sondaje_taladro
+    # 6. DIMENSIÓN: dim_sondaje_taladro (Limpia sin atributos físicos variables)
     # =========================================================================
     print("  [6/10] Generando dim_sondaje_taladro...", flush=True)
     sondajes_unicos = sorted(df[["SONDAJE_NORM", "CTR_NORM"]].drop_duplicates().values, key=lambda x: (x[1], x[0]))
@@ -432,9 +449,7 @@ def construir_modelo_dimensional(
             "sondaje_cd": "NO_ASIGNADO",
             "contrato_sk": -1,
             "sondaje_padre_sk": -1,
-            "tipo_taladro": "ORIGINAL",
-            "profundidad_programada_m": 0.0,
-            "inclinacion_grados": 0.0
+            "tipo_taladro": "ORIGINAL"
         }
     ]
     sondaje_sk_map = {("NO_ASIGNADO", -1): -1}
@@ -446,9 +461,7 @@ def construir_modelo_dimensional(
             "sondaje_cd": sond,
             "contrato_sk": c_sk,
             "sondaje_padre_sk": -1,
-            "tipo_taladro": "RAMAL_PARALELO" if es_ramal else "ORIGINAL",
-            "profundidad_programada_m": 300.0,
-            "inclinacion_grados": -45.0
+            "tipo_taladro": "RAMAL_PARALELO" if es_ramal else "ORIGINAL"
         })
         sondaje_sk_map[(sond, c_sk)] = idx
         sondaje_sk_map[sond] = idx
@@ -464,7 +477,7 @@ def construir_modelo_dimensional(
             "nombre_actividad": "[ACTIVIDAD NO CATALOGADA]",
             "bloque_funcional": "NO CATALOGADO",
             "categoria_disponibilidad": "Stand By Inoperativo",
-            "es_cobrable": False,
+            "es_cobrable_estandar": False,
             "impacta_disp_mecanica": False
         }
     ]
@@ -475,7 +488,7 @@ def construir_modelo_dimensional(
             "nombre_actividad": nombre,
             "bloque_funcional": bloque,
             "categoria_disponibilidad": categ,
-            "es_cobrable": cobrable,
+            "es_cobrable_estandar": cobrable,
             "impacta_disp_mecanica": disp_mec
         })
         actividad_sk_map[nombre] = idx
@@ -489,6 +502,16 @@ def construir_modelo_dimensional(
     col_met = "METRAJE" if "METRAJE" in df.columns else "METRAJE_PERFORADO"
     col_desde = "DESDE" if "DESDE" in df.columns else "DESDE_M"
     col_hasta = "HASTA" if "HASTA" in df.columns else "HASTA_M"
+    
+    # Columnas de Herramientas de Corte (Brocas y Escariadores)
+    col_marca_broca = next((c for c in df.columns if str(c).strip().upper() == "MARCA"), None)
+    col_serie_broca = next((c for c in df.columns if str(c).strip().upper() == "SERIE"), None)
+    col_n_broca = next((c for c in df.columns if "BROCA" in str(c).upper() and any(k in str(c).upper() for k in ["N", "NUM", "N°", "Nº", "CORRELATIVO"])), None)
+    col_estado_broca = next((c for c in df.columns if "ESTADO" in str(c).upper() and "BROCA" in str(c).upper()), None)
+    
+    col_marca_escar = next((c for c in df.columns if str(c).strip().upper() in ["MARCA_1", "MARCA ESCARIADOR"]), None)
+    col_n_escar = next((c for c in df.columns if "ESCARIADOR" in str(c).upper() and any(k in str(c).upper() for k in ["N", "NUM", "N°", "Nº", "CORRELATIVO"])), None)
+    col_estado_escar = next((c for c in df.columns if "ESTADO" in str(c).upper() and "ESCARIADOR" in str(c).upper()), None)
     
     records = df.to_dict('records')
     
@@ -505,6 +528,13 @@ def construir_modelo_dimensional(
         desde = clean_number_value(row.get(col_desde)) or 0.0
         hasta = clean_number_value(row.get(col_hasta)) or 0.0
         
+        # Identificadores y atributos de brocas y escariadores
+        n_broca_val = clean_number_value(row.get(col_n_broca)) if col_n_broca else None
+        n_broca_str = f"{int(n_broca_val)}" if (n_broca_val is not None and not pd.isna(n_broca_val)) else "SIN_NUMERO"
+        
+        n_escar_val = clean_number_value(row.get(col_n_escar)) if col_n_escar else None
+        n_escar_str = f"{int(n_escar_val)}" if (n_escar_val is not None and not pd.isna(n_escar_val)) else "SIN_NUMERO"
+        
         avance_rows.append({
             "avance_id": len(avance_rows) + 1,
             "calendario_sk": cal_sk,
@@ -517,6 +547,13 @@ def construir_modelo_dimensional(
             "desde_m": round(desde, 2),
             "hasta_m": round(hasta, 2),
             "metraje_guardia_m": round(metraje, 2),
+            "marca_broca": str(row.get(col_marca_broca) or "NO REGISTRADO").strip().upper() if col_marca_broca else "NO REGISTRADO",
+            "serie_broca": str(row.get(col_serie_broca) or "NO REGISTRADO").strip().upper() if col_serie_broca else "NO REGISTRADO",
+            "n_broca": n_broca_str,
+            "estado_broca": str(row.get(col_estado_broca) or "NO REGISTRADO").strip().upper() if col_estado_broca else "NO REGISTRADO",
+            "marca_escariador": str(row.get(col_marca_escar) or "NO REGISTRADO").strip().upper() if col_marca_escar else "NO REGISTRADO",
+            "n_escariador": n_escar_str,
+            "estado_escariador": str(row.get(col_estado_escar) or "NO REGISTRADO").strip().upper() if col_estado_escar else "NO REGISTRADO",
             "es_reperforacion": False,
             "id_clave_unica": row.get("ID_CLAVE_UNICA_CANONICA")
         })
