@@ -49,3 +49,7 @@ Thumbs.db
 # Workspace / IDE settings
 .vscode/
 .idea/
+
+# PyInstaller distribution folder
+BBDD/EJECUTAR_BBDD/
+*.exe
