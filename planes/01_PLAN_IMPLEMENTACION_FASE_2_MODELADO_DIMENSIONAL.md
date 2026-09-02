@@ -1,10 +1,10 @@
-# 📐 PLAN MAESTRO DE IMPLEMENTACIÓN - FASE 2: MODELADO DIMENSIONAL KIMBALL (STAR SCHEMA)
+# 📐 PLAN MAESTRO DE IMPLEMENTACIÓN - FASE 2: MODELADO DIMENSIONAL KIMBALL Y ESTRATEGIA DE ESCALABILIDAD
 ## Sistema Integral de Business Intelligence y Analítica de Perforación (Rockdrill Group)
 
 **Ubicación Oficial:** [`planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md`](file:///c:/Proyectos%20Python/Detallados/planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md)  
-**Fecha:** 01 de Septiembre de 2026  
+**Fecha de Actualización:** 02 de Septiembre de 2026  
 **Autoridad de Control:** Squad de 10 Agentes Especializados de Rockdrill Group  
-**Estado:** **PLAN MAESTRO ESTRUCTURADO Y LISTO PARA VISTO BUENO (V°B°)**  
+**Estado:** **PLAN MAESTRO ESTRUCTURADO Y PENDIENTE DE VISTO BUENO (V°B°) DEL STAKEHOLDER**  
 
 ---
 
@@ -59,90 +59,156 @@ flowchart TD
 
 ---
 
-## 🎯 2. OBJETIVO DEL PROYECTO EN LA FASE 2
+## 🎯 2. ACLARACIONES Y DECISIONES TÉCNICAS DE NEGOCIO (FEEDBACK STAKEHOLDER)
 
-Transformar la base consolidada y auditada de la **Fase 1** (`Consolidado_Operaciones` de 3,492 filas $\times$ 172 columnas) en un **Data Warehouse Dimensional Kimball (Esquema Estrella)** de alto rendimiento procesado mediante un **Pipeline Python (< 2.0 segundos)** que genere tablas normalizadas en formato `.csv`, `.parquet` y `.xlsx`, listo para ser consumido en Power BI / Microsoft Fabric / SQL sin arrastrar la lentitud ni el sesgo de "tablas sábana" monolíticas.
+A partir de la retroalimentación directa del Stakeholder, se establecen 5 directrices inviolables de diseño:
+
+### 2.1. Dimensión Tiempo: Semanas Calendario vs. Semanas Operativas
+1. **Semana Calendario Civil (`semana_calendario_num`):**
+   * Estándar ISO de Lunes a Domingo, numerada de la 1 a la 52/53 desde el inicio del año civil.
+   * Utilidad: Análisis comparativo tradicional, reportería contable general y cruces con sistemas externos.
+2. **Semana Operativa Transcurrida (`semana_operativa_num`):**
+   * Lógica de Período Minero: Inicia el día 26 del mes anterior y concluye el día 25 del mes en curso.
+   * División fija de 7 días independientemente del día de la semana en que caiga el día 26:
+     * **Día Ciclo 1 a 7:** Semana Operativa 1 (`Semana Op 1`).
+     * **Día Ciclo 8 a 14:** Semana Operativa 2 (`Semana Op 2`).
+     * **Día Ciclo 15 a 21:** Semana Operativa 3 (`Semana Op 3`).
+     * **Día Ciclo 22 a 28:** Semana Operativa 4 (`Semana Op 4`).
+     * **Día Ciclo 29 al Cierre (Día 25):** Semana Operativa 5 / Días de Cierre (`Semana Op 5 (Cierre)`).
+   * Fórmula algorítmica: `((dia_ciclo_operativo - 1) // 7) + 1`.
+
+### 2.2. Contratos Mineros y Tipo de Servicio de Máquina
+* **En `dim_contrato_minero`:** Se **mantiene el campo `tipo_operacion` como `SUBTERRÁNEA`** para la totalidad de los 18 contratos vigentes de Rockdrill Group, protegiendo la identidad contractual corporativa.
+* **En `dim_equipo_perforadora`:** Se incorpora el atributo de servicio físico **`tipo_servicio` / `ambiente_operacion`** con valores:
+  * `SUPERFICIE`: Equipos asignados a plataformas de superficie, proyectos Greenfield o pozos geotécnicos exteriores (ej. perforadoras sobre orugas `DE710ST`, `LF90D ST`, o sondajes superficiales de `CUCULI`).
+  * `INTERIOR MINA`: Equipos compactos para galerías y cámaras subterráneas (ej. `XRD50U`, `XRD80U`, `XRD90U`, `TL55`).
+
+### 2.3. Taxonomía de Tiempos y Cobrabilidad Contractual
+* **Pregunta del Stakeholder:** *¿Si una actividad cambia de nombre o pasa de Standby Operativo a Operativo o a Standby Cliente, con cambiarlo en la dimensión se actualiza todo?*  
+  **Respuesta Técnica (Rol DBA & Data Scientist):** **SÍ, TOTALMENTE**. Debido al uso de la llave subrogada `actividad_sk` en `fact_horas_operativas`, la tabla de hechos nunca almacena nombres de texto ni clasificaciones rígidas. Al modificar la fila correspondiente en `dim_taxonomia_actividad`, el cambio se propaga de forma instantánea a todas las filas de hechos, agregaciones y dashboards en Power BI sin reescribir una sola línea de transacciones.
+* **Cobrabilidad Variable por Contrato:**  
+  La cobrabilidad de una parada (ej. cementación, rimado de casing, esperas específicas) varía según los términos contractuales de cada CTR. El modelo contempla:
+  1. En `dim_taxonomia_actividad`: Atributo `es_cobrable_estandar` (regla corporativa por defecto).
+  2. En el modelo escalado: Tabla relacional de precios unitarios `rel_contrato_actividad_pu` con el atributo `es_cobrable_contratado` y `tarifa_hora_usd` específica por contrato.
+
+### 2.4. Sondajes: Desacoplamiento de Profundidad, Línea e Inclinación
+* En `dim_sondaje_taladro` **NO se incluyen** los atributos `profundidad`, `linea` ni `inclinacion`.
+* **Justificación Minera:** Un sondaje diamantino es dinámico: el avance en metros cambia guardia a guardia, la línea de tubería se reduce progresivamente en profundidad (ej. inicia en HQ y se reduce a NQ), y la inclinación sufre deflexiones geológicas.
+* Por lo tanto, `dim_sondaje_taladro` conserva únicamente su identidad: `sondaje_sk`, `sondaje_cd`, `contrato_sk` y `tipo_taladro` (`ORIGINAL` o `RAMAL_PARALELO`). La línea utilizada (`linea_sk`) y las cotas (`desde_m`, `hasta_m`, `metraje_guardia_m`) se registran en `fact_perforacion_avance`.
+
+### 2.5. Herramientas de Corte: Identificador Único de Broca (`n_broca`) y Escariador
+* En la estructura inicial se preservan los campos originales de herramientas:
+  * **Brocas (Cols 19-22):** `marca_broca`, `serie_broca`, `n_broca` (identificador único del activo) y `estado_broca` (Nueva, Usada, Descartada, Pulida).
+  * **Escariadores (Cols 23-25):** `marca_escariador`, `n_escariador` (identificador único del activo) y `estado_escariador`.
+* El atributo `n_broca` se preserva como clave natural de integración para el futuro acoplamiento con la dimensión de herramientas diamantadas en la estructura escalada.
 
 ---
 
-## 🏛️ 3. ARQUITECTURA DEL MODELO DIMENSIONAL (MERMAID ERD)
+## 🗺️ 3. MAPEO EXHAUSTIVO COLUMNA POR COLUMNA (168 COLUMNAS SIG `RD.402.P.01.F.01`)
+
+A continuación se detalla el destino de cada una de las 168 columnas oficiales en la arquitectura:
+
+| N° Col | Letra | Nombre Oficial en Detallado | Bloque Funcional | Destino en Estructura Inicial (Fase 2) | Destino en Estructura Escalada (Fase 3 / DW) |
+| :---: | :---: | :--- | :--- | :--- | :--- |
+| **1** | A | DÍAS | Identificación | `dim_tiempo_calendario.fecha_dt` | `dim_tiempo_calendario` |
+| **2** | B | NOMBRE | Sondaje | `dim_sondaje_taladro.sondaje_cd` | `dim_sondaje_taladro` |
+| **3** | C | PROFUNDIDAD | Sondaje | Descartado de Dim (Variable física) | Atributo de auditoría en staging |
+| **4** | D | LINEA | Sondaje | `dim_linea_diametro.linea_cd` | `dim_linea_diametro` |
+| **5** | E | INCLINACIÓN | Sondaje | Descartado de Dim (Medición Gyro) | `fact_trayectoria_sondaje` (Geología) |
+| **6** | F | DESDE | Avance Físico | `fact_perforacion_avance.desde_m` | `fact_perforacion_avance` |
+| **7** | G | HASTA | Avance Físico | `fact_perforacion_avance.hasta_m` | `fact_perforacion_avance` |
+| **8** | H | TURNO (A=1;B=2) | Avance Físico | `fact_perforacion_avance.turno_guardia` | `fact_perforacion_avance` |
+| **9** | I | GRUPO | Cuadrilla | `brg_cuadrilla_guardia.grupo_cuadrilla` | `brg_cuadrilla_guardia` |
+| **10** | J | METRAJE | Avance Físico | `fact_perforacion_avance.metraje_guardia_m` | `fact_perforacion_avance` |
+| **11** | K | HORAS EXTRAS | Cuadrilla | `brg_cuadrilla_guardia.horas_extras` | `brg_cuadrilla_guardia` |
+| **12** | L | PERFORISTA | Cuadrilla | `dim_personal` & `brg_cuadrilla_guardia` | `dim_personal` & `brg_cuadrilla_guardia` |
+| **13** | M | AYUDANTE 1 | Cuadrilla | `dim_personal` & `brg_cuadrilla_guardia` | `dim_personal` & `brg_cuadrilla_guardia` |
+| **14** | N | AYUDANTE 2 | Cuadrilla | `dim_personal` & `brg_cuadrilla_guardia` | `dim_personal` & `brg_cuadrilla_guardia` |
+| **15** | O | TOTAL metraje del dia | Avance Físico | Descartado (Redundante; se calcula en DAX) | Calculado en Capa Semántica |
+| **16** | P | ACUMULADO | Comparativo | Descartado (Redundante; Curva S en DAX) | Calculado en Capa Semántica |
+| **17** | Q | PROYECTADO | Comparativo | `fact_metas_mensuales.proyectado_m` | `fact_metas_mensuales` |
+| **18** | R | META | Comparativo | `fact_metas_mensuales.meta_metraje_m` | `fact_metas_mensuales` |
+| **19** | S | MARCA (Broca) | Brocas | `fact_perforacion_avance.marca_broca` | `dim_herramienta_diamantada.marca` |
+| **20** | T | SERIE (Broca) | Brocas | `fact_perforacion_avance.serie_broca` | `dim_herramienta_diamantada.serie` |
+| **21** | U | Nº BROCA | Brocas | `fact_perforacion_avance.n_broca` (Key) | `dim_herramienta_diamantada.n_herramienta` |
+| **22** | V | ESTADO DE LA BROCA | Brocas | `fact_perforacion_avance.estado_broca` | `fact_rendimiento_diamantados.estado` |
+| **23** | W | MARCA (Escariador) | Escariadores | `fact_perforacion_avance.marca_escariador` | `dim_herramienta_diamantada.marca` |
+| **24** | X | Nº ESCARIADOR | Escariadores | `fact_perforacion_avance.n_escariador` (Key) | `dim_herramienta_diamantada.n_herramienta` |
+| **25** | Y | ESTADO DEL ESCARIADOR | Escariadores | `fact_perforacion_avance.estado_escariador` | `fact_rendimiento_diamantados.estado` |
+| **26..50** | Z..AX | Consumo Aditivos (Bentonita, PAC, etc.) | Aditivos | Reservado en Staging / Validado en Consolidado | `fact_consumo_aditivos` (Unpivot) |
+| **51..52** | AY..AZ | Diésel (Cantidad y Galones) | Combustible | `fact_horas_operativas.petroleo_gln` | `fact_control_horometros_combustible` |
+| **53..56** | BA..BD | Tiempos Operativos Directos (4 cols) | Tiempos Directos | `fact_horas_operativas` (Tiempo Efectivo) | `fact_horas_operativas` |
+| **57..58** | BE..BF | Mantenimiento Preventivo/Correctivo | Tiempos Mtto | `fact_horas_operativas` (Mantenimiento) | `fact_horas_operativas` |
+| **59..77** | BG..BY | Maniobras Operativas (19 cols) | Maniobras | `fact_horas_operativas` (Stand By Operativo) | `fact_horas_operativas` |
+| **78..97** | BZ..CS | Ensayos Geotécnicos (20 cols) | Geotecnia | `fact_horas_operativas` (Stand By Operativo) | `fact_horas_operativas` |
+| **98..118** | CT..DN | Soporte y Seguridad (21 cols) | Soporte/Seg. | `fact_horas_operativas` (Stand By Inoperativo) | `fact_horas_operativas` |
+| **119..145**| DO..EO | Condiciones Cliente (27 cols) | Cliente | `fact_horas_operativas` (Stand By Cliente) | `fact_horas_operativas` |
+| **146..152**| EP..EV | Resúmenes de Horas (7 cols) | Resumen Horario | Validadores de Invariante 12h en QA | Reglas de Calidad / DAX Checks |
+| **153..156**| EW..EZ | Rimado con Casing HWT/HQ (4 cols) | Metraje Especial | `fact_perforacion_avance.metraje_casing_m` | `fact_metrajes_especiales` |
+| **157..160**| FA..FD | Reperforación (4 cols) | Metraje Especial | `fact_perforacion_avance.metraje_reperfo_m` | `fact_metrajes_especiales` |
+| **161..164**| FE..FH | Horómetros Inicial/Final (4 cols) | Motor Perforadora | `fact_perforacion_avance.horometro_delta` | `fact_control_horometros_combustible` |
+| **165..168**| FI..FL | Bitácora, Litología y Comentarios | Bitácora Campo | Campos de Texto descriptivo | `dim_bitacora_observaciones` |
+
+---
+
+## 🏛️ 4. COMPARATIVA Y ACOPLAMIENTO DE LAS DOS ESTRUCTURAS DE DATOS
+
+### 4.1. Estructura 1: Inicial (Centrada en lo Operativo - Fase 2 Actual)
+Diseñada para maximizar el rendimiento analítico inmediato de perforación, cuadrillas y tiempos:
 
 ```mermaid
 erDiagram
-    dim_tiempo_calendario ||--o{ fact_perforacion_avance : "calendario_sk (1:N)"
-    dim_tiempo_calendario ||--o{ fact_horas_operativas : "calendario_sk (1:N)"
-    dim_tiempo_calendario ||--o{ brg_cuadrilla_guardia : "calendario_sk (1:N)"
+    dim_tiempo_calendario ||--o{ fact_perforacion_avance : "calendario_sk"
+    dim_tiempo_calendario ||--o{ fact_horas_operativas : "calendario_sk"
+    dim_tiempo_calendario ||--o{ brg_cuadrilla_guardia : "calendario_sk"
     
-    dim_contrato_minero ||--o{ fact_perforacion_avance : "contrato_sk (1:N)"
-    dim_contrato_minero ||--o{ fact_horas_operativas : "contrato_sk (1:N)"
-    dim_contrato_minero ||--o{ fact_metas_mensuales : "contrato_sk (1:N)"
+    dim_contrato_minero ||--o{ fact_perforacion_avance : "contrato_sk"
+    dim_contrato_minero ||--o{ fact_horas_operativas : "contrato_sk"
+    dim_contrato_minero ||--o{ fact_metas_mensuales : "contrato_sk"
     
-    dim_equipo_perforadora ||--o{ fact_perforacion_avance : "equipo_sk (1:N)"
-    dim_equipo_perforadora ||--o{ fact_horas_operativas : "equipo_sk (1:N)"
-    dim_equipo_perforadora ||--o{ fact_metas_mensuales : "equipo_sk (1:N)"
-    dim_equipo_perforadora ||--o{ brg_cuadrilla_guardia : "equipo_sk (1:N)"
+    dim_equipo_perforadora ||--o{ fact_perforacion_avance : "equipo_sk"
+    dim_equipo_perforadora ||--o{ fact_horas_operativas : "equipo_sk"
+    dim_equipo_perforadora ||--o{ brg_cuadrilla_guardia : "equipo_sk"
     
-    dim_linea_diametro ||--o{ fact_perforacion_avance : "linea_sk (1:N)"
-    
-    dim_personal ||--o{ fact_perforacion_avance : "perforista_sk (1:N)"
-    dim_personal ||--o{ brg_cuadrilla_guardia : "personal_sk (1:N)"
-    
-    dim_sondaje_taladro ||--o{ fact_perforacion_avance : "sondaje_sk (1:N)"
-    dim_taxonomia_actividad ||--o{ fact_horas_operativas : "actividad_sk (1:N)"
+    dim_linea_diametro ||--o{ fact_perforacion_avance : "linea_sk"
+    dim_personal ||--o{ fact_perforacion_avance : "perforista_sk"
+    dim_personal ||--o{ brg_cuadrilla_guardia : "personal_sk"
+    dim_sondaje_taladro ||--o{ fact_perforacion_avance : "sondaje_sk"
+    dim_taxonomia_actividad ||--o{ fact_horas_operativas : "actividad_sk"
 
     dim_tiempo_calendario {
-        INT calendario_sk PK "YYYYMMDD o -1"
-        DATE fecha_dt "2026-08-26"
-        VARCHAR mes_nom_civil "Agosto"
-        VARCHAR mes_nom_operativo "Agosto"
+        INT calendario_sk PK
+        DATE fecha_dt
+        SMALLINT semana_calendario_num "1..53"
+        VARCHAR semana_calendario_label "Sem 35 (2026)"
+        SMALLINT semana_operativa_num "1..5 (Ciclo 26-25)"
+        SMALLINT dia_ciclo_operativo "1..31"
         INT periodo_operativo_sort "202609"
-        BOOLEAN es_cierre_operativo "Día 25"
+        BOOLEAN es_cierre_operativo
     }
 
     dim_contrato_minero {
-        SMALLINT contrato_sk PK "1..18 o -1"
-        VARCHAR contrato_cd "AMERICANA, CHUNGAR"
-        VARCHAR nombre_contrato "CONTRATO AMERICANA"
-        VARCHAR zona_geografica "CENTRO, SUR"
-        VARCHAR tipo_operacion "SUBTERRANEA, SUPERFICIE"
+        SMALLINT contrato_sk PK
+        VARCHAR contrato_cd
+        VARCHAR nombre_contrato
+        VARCHAR cliente_minero
+        VARCHAR tipo_operacion "SUBTERRANEA (Fijo)"
     }
 
     dim_equipo_perforadora {
-        SMALLINT equipo_sk PK "1..56 o -1"
-        VARCHAR equipo_cd "XRD50USS-001"
-        VARCHAR codigo_sap "SAP-XRD50USS-001"
-        VARCHAR tipo_energia "ELECTRO-HIDRAULICA"
+        SMALLINT equipo_sk PK
+        VARCHAR equipo_cd
+        VARCHAR codigo_sap
+        VARCHAR tipo_servicio "SUPERFICIE / INTERIOR MINA"
+        VARCHAR tipo_energia "DIESEL / ELECTRO-HIDRAULICA"
         SMALLINT contrato_sk_asignado FK
     }
 
-    dim_linea_diametro {
-        SMALLINT linea_sk PK "1..5 o -1"
-        VARCHAR linea_cd "HQ, NQ, BQ, PQ, HWT"
-        DECIMAL diametro_corona_mm "96.0"
-        DECIMAL diametro_testigo_mm "63.5"
-    }
-
-    dim_personal {
-        INT personal_sk PK "1..N o -1"
-        VARCHAR personal_cd "PER-0001"
-        VARCHAR nombre_completo "JUAN PEREZ"
-        VARCHAR rol_estandarizado "PERFORISTA, AYUDANTE"
-    }
-
     dim_sondaje_taladro {
-        INT sondaje_sk PK "1..N o -1"
-        VARCHAR sondaje_cd "SDJ-26-001"
+        INT sondaje_sk PK
+        VARCHAR sondaje_cd
         SMALLINT contrato_sk FK
-        VARCHAR tipo_taladro "ORIGINAL, RAMAL"
-    }
-
-    dim_taxonomia_actividad {
-        SMALLINT actividad_sk PK "1..116 o -1"
-        VARCHAR nombre_actividad "Perforación, Ensayo Lefranc"
-        VARCHAR bloque_funcional "Tiempos Operativos Directos"
-        VARCHAR categoria_disponibilidad "Tiempo Efectivo, Mantenimiento, etc."
-        BOOLEAN es_cobrable "TRUE / FALSE"
-        BOOLEAN impacta_disp_mecanica "TRUE / FALSE"
+        VARCHAR tipo_taladro "ORIGINAL / RAMAL"
     }
 
     fact_perforacion_avance {
@@ -156,8 +222,10 @@ erDiagram
         VARCHAR turno_guardia "A, B"
         DECIMAL desde_m
         DECIMAL hasta_m
-        DECIMAL metraje_guardia_m "Metraje físico"
-        VARCHAR id_clave_unica "Trazabilidad de auditoría"
+        DECIMAL metraje_guardia_m
+        VARCHAR n_broca "Preservado para enlace"
+        VARCHAR n_escariador "Preservado para enlace"
+        VARCHAR id_clave_unica
     }
 
     fact_horas_operativas {
@@ -167,123 +235,123 @@ erDiagram
         SMALLINT equipo_sk FK
         SMALLINT actividad_sk FK
         VARCHAR turno_guardia "A, B"
-        DECIMAL horas_reportadas "Horas > 0.0"
-        BOOLEAN es_cobrable
+        DECIMAL horas_reportadas
         VARCHAR categoria_disponibilidad
-        VARCHAR id_clave_unica "Trazabilidad de auditoría"
-    }
-
-    brg_cuadrilla_guardia {
-        BIGINT asignacion_id PK
-        INT calendario_sk FK
-        SMALLINT equipo_sk FK
-        INT personal_sk FK
-        VARCHAR rol_desempenado "PERFORISTA, AYUDANTE 1, AYUDANTE 2"
-        DECIMAL horas_laboradas "12.0"
-        VARCHAR id_clave_unica "Trazabilidad de auditoría"
+        VARCHAR id_clave_unica
     }
 ```
 
 ---
 
-## 🔬 4. DESGLOSE TÉCNICO DE TABLAS Y EJEMPLIFICACIÓN CON DATA REAL
+### 4.2. Estructura 2: Escalada Final (Boceto del Data Warehouse Completo)
+Muestra cómo la Estructura Inicial se expande de forma natural sin romper ninguna relación existente:
 
-A continuación, se detalla cómo los registros reales de la base `Consolidado_Operaciones` se deconstruyen en el Esquema Estrella:
+```mermaid
+erDiagram
+    %% ESTRUCTURA BASE EXISTENTE (PRESERVADA)
+    dim_tiempo_calendario ||--o{ fact_perforacion_avance : "calendario_sk"
+    dim_tiempo_calendario ||--o{ fact_horas_operativas : "calendario_sk"
+    dim_contrato_minero ||--o{ fact_perforacion_avance : "contrato_sk"
+    dim_equipo_perforadora ||--o{ fact_perforacion_avance : "equipo_sk"
+    
+    %% MODULOS ESCALADOS NUEVOS
+    dim_herramienta_diamantada ||--o{ fact_rendimiento_diamantados : "herramienta_sk"
+    fact_perforacion_avance ||--o{ fact_rendimiento_diamantados : "n_broca = n_herramienta"
+    
+    dim_catalogo_insumo ||--o{ fact_consumo_aditivos : "insumo_sk"
+    dim_contrato_minero ||--o{ fact_consumo_aditivos : "contrato_sk"
+    dim_tiempo_calendario ||--o{ fact_consumo_aditivos : "calendario_sk"
+    
+    dim_equipo_perforadora ||--o{ fact_control_horometros_combustible : "equipo_sk"
+    dim_tiempo_calendario ||--o{ fact_control_horometros_combustible : "calendario_sk"
+    
+    dim_contrato_minero ||--o{ rel_contrato_actividad_pu : "contrato_sk"
+    dim_taxonomia_actividad ||--o{ rel_contrato_actividad_pu : "actividad_sk"
+    rel_contrato_actividad_pu ||--o{ fact_valorizacion_contractual : "contrato_actividad_id"
 
-### 📝 Ejemplo de Entrada Real (`Consolidado_Operaciones`):
-* **Registro:** Fecha: `2026-08-26`, CTR: `CTR_AMERICANA`, Máquina: `XRD50U-002`, Turno: `A` (1), Perforista: `QUISPE MAMANI PEDRO`, Ayudante 1: `FLORES LUIS`, Sondaje: `AM-26-01`, Línea: `HQ`, Desde: `0.00`, Hasta: `35.00`, Metraje: `35.00 m`, Horas Perforación: `8.50 h`, Horas Ensayo Lefranc: `2.00 h`, Mantenimiento Preventivo: `0.50 h`, Refrigerio: `1.00 h`.
-* **Clave de Auditoría de 4 Niveles:** `20260826-CTR_AMERICANA-XRD50U-002-A`.
+    dim_herramienta_diamantada {
+        INT herramienta_sk PK
+        VARCHAR n_herramienta "n_broca / n_escariador"
+        VARCHAR tipo_herramienta "BROCA / ESCARIADOR"
+        VARCHAR marca
+        VARCHAR serie_fabrica
+        DECIMAL diametro_nominal_mm
+    }
+
+    fact_rendimiento_diamantados {
+        BIGINT rendimiento_id PK
+        INT herramienta_sk FK
+        INT calendario_sk FK
+        SMALLINT equipo_sk FK
+        DECIMAL metros_perforados_turno
+        DECIMAL metros_acumulados_vida_util
+        VARCHAR estado_desgaste "N, U, D, P"
+        DECIMAL desgaste_altura_matriz_mm
+    }
+
+    dim_catalogo_insumo {
+        INT insumo_sk PK
+        VARCHAR codigo_sap_insumo
+        VARCHAR nombre_comercial
+        VARCHAR familia_quimica "Bentonitas, Polímeros, Grasas"
+        VARCHAR unidad_medida "KG, BALDE, GLN"
+    }
+
+    fact_consumo_aditivos {
+        BIGINT consumo_id PK
+        INT calendario_sk FK
+        SMALLINT contrato_sk FK
+        SMALLINT equipo_sk FK
+        INT insumo_sk FK
+        DECIMAL cantidad_dosificada
+        DECIMAL costo_estimado_usd
+    }
+
+    fact_control_horometros_combustible {
+        BIGINT control_motor_id PK
+        INT calendario_sk FK
+        SMALLINT equipo_sk FK
+        DECIMAL horometro_inicial
+        DECIMAL horometro_final
+        DECIMAL horas_motor_guardia
+        DECIMAL petroleo_consumido_gln
+        DECIMAL ratio_consumo_gln_hora
+    }
+
+    rel_contrato_actividad_pu {
+        INT contrato_actividad_id PK
+        SMALLINT contrato_sk FK
+        SMALLINT actividad_sk FK
+        BOOLEAN es_cobrable_contratado
+        DECIMAL tarifa_hora_usd
+        VARCHAR codigo_item_facturacion
+    }
+
+    fact_valorizacion_contractual {
+        BIGINT valorizacion_id PK
+        INT calendario_sk FK
+        SMALLINT contrato_sk FK
+        SMALLINT equipo_sk FK
+        DECIMAL monto_avance_metros_usd
+        DECIMAL monto_horas_standby_usd
+        DECIMAL total_facturable_guardia_usd
+    }
+```
 
 ---
 
-### 📊 Desglose en Tablas de Destino:
+## 🔗 5. VIABILIDAD Y ACOPLAMIENTO FUTURO (CERO RETRABAJO)
 
-#### 1. `dim_tiempo_calendario` (Dimensión Fecha)
-| calendario_sk | fecha_dt | mes_nom_civil | anio_operativo | mes_nom_operativo | periodo_operativo_sort | es_cierre_operativo |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **-1** | 1900-01-01 | [NO DEFINIDO] | 1900 | [NO DEFINIDO] | 190001 | FALSE |
-| **20260826** | 2026-08-26 | Agosto | 2026 | Setiembre | 202609 | FALSE |
-| **20260825** | 2026-08-25 | Agosto | 2026 | Agosto | 202608 | **TRUE** |
-
-> [!NOTE]
-> **Lógica del Ciclo Minero 26 al 25:**  
-> Del día 26 en adelante, la fecha pertenece operativamente al mes siguiente (`periodo_operativo_sort = 202609`), alineando la facturación con los cortes de valorización de las minas.
+1. **La Estructura Inicial es un Subconjunto Puro de la Final:**  
+   Ninguna tabla creada en la Fase 2 será destruida ni renombrada al pasar a la Fase 3/DW. Las llaves subrogadas (`_sk`) ya implementadas actuarán como anclas de integración.
+2. **Enlace de Brocas y Escariadores:**  
+   Al mantener `n_broca` y `n_escariador` en `fact_perforacion_avance`, el módulo de diamantados solo requerirá ejecutar un `INNER JOIN` sobre este código para asociar el historial completo de vida útil de la corona.
+3. **Escalamiento de Cobrabilidad por PU:**  
+   La introducción de `rel_contrato_actividad_pu` permitirá cruzar `fact_horas_operativas` con las tarifas contractuales sin tocar las horas reportadas en mina.
 
 ---
 
-#### 2. `dim_contrato_minero` (Dimensión Contrato)
-| contrato_sk | contrato_cd | nombre_contrato | cliente_minero | zona_geografica | tipo_operacion |
-| :---: | :--- | :--- | :--- | :---: | :---: |
-| **-1** | NO_ASIGNADO | [CTR NO ASIGNADO] | NO ESPECIFICADO | CENTRO | SUBTERRANEA |
-| **1** | CTR_AMERICANA | CONTRATO AMERICANA | COMPAÑÍA MINERA AMERICANA | CENTRO | SUBTERRANEA |
-| **2** | CTR_ANDAYCHAGUA | CONTRATO ANDAYCHAGUA | VOLCAN COMPAÑÍA MINERA | CENTRO | SUBTERRANEA |
-| **9** | CTR_CUCULI | CONTRATO CUCULI | MINERA CUCULI | SUR | **SUPERFICIE** |
-
----
-
-#### 3. `dim_equipo_perforadora` (Dimensión Máquina)
-| equipo_sk | equipo_cd | codigo_sap | modelo_fabricante | tipo_energia | contrato_sk_asignado |
-| :---: | :--- | :--- | :--- | :--- | :---: |
-| **-1** | NO_ASIGNADO | SAP-000 | [EQUIPO NO ASIGNADO] | ELECTRO-HIDRAULICA | -1 |
-| **1** | XRD50U-002 | SAP-XRD50U-002 | XRD 50U | ELECTRO-HIDRAULICA | 1 |
-| **2** | LF90D ST-002 | SAP-LF90DST002 | BOART LONGYEAR LF90 | **DIESEL** | 2 |
-
----
-
-#### 4. `dim_taxonomia_actividad` (Dimensión Actividades y Tiempos - 116 Registros)
-| actividad_sk | nombre_actividad | bloque_funcional | categoria_disponibilidad | es_cobrable | impacta_disp_mecanica |
-| :---: | :--- | :--- | :--- | :---: | :---: |
-| **-1** | [NO CATALOGADA] | NO CATALOGADO | Stand By Inoperativo | FALSE | FALSE |
-| **1** | Perforación | Tiempos Operativos Directos | **Tiempo Efectivo** | **TRUE** | FALSE |
-| **5** | Preventivo | Tiempos de Mantenimiento | **Mantenimiento** | FALSE | **TRUE** |
-| **21** | Ensayo Lefranc | Ensayos Geotécnicos | **Stand By Operativo** | **TRUE** | FALSE |
-| **82** | Refrigerio | Soporte y Seguridad | **Stand By Inoperativo** | FALSE | FALSE |
-| **105** | Espera de Scoop | Condiciones Cliente | **Stand By Cliente** | **TRUE** | FALSE |
-
----
-
-#### 5. `fact_perforacion_avance` (Hechos de Metraje Físico)
-| avance_id | calendario_sk | contrato_sk | equipo_sk | sondaje_sk | perforista_sk | turno_guardia | desde_m | hasta_m | metraje_guardia_m | id_clave_unica |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **1** | 20260826 | 1 | 1 | 1 | 42 | A | 0.00 | 35.00 | **35.00** | `20260826-CTR_AMERICANA-XRD50U-002-A` |
-| **2** | 20260826 | 1 | 1 | 1 | 42 | B | 35.00 | 50.50 | **15.50** | `20260826-CTR_AMERICANA-XRD50U-002-B` |
-
-> [!IMPORTANT]
-> **Control de Auditoría QA (`audit_common_sense_agent`):**  
-> $\sum \text{metraje\_guardia\_m} = \mathbf{6,252.38\text{ m}}$, coincidiendo exactamente con el total verificado en Fase 1.
-
----
-
-#### 6. `fact_horas_operativas` (Hechos de Tiempos con Unpivoting Filtrado a $> 0$)
-| hora_evento_id | calendario_sk | contrato_sk | equipo_sk | actividad_sk | turno_guardia | horas_reportadas | es_cobrable | categoria_disponibilidad | id_clave_unica |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- | :--- |
-| **101** | 20260826 | 1 | 1 | **1 (Perforación)** | A | **8.50** | TRUE | Tiempo Efectivo | `20260826-CTR_AMERICANA-XRD50U-002-A` |
-| **102** | 20260826 | 1 | 1 | **21 (Lefranc)** | A | **2.00** | TRUE | Stand By Operativo | `20260826-CTR_AMERICANA-XRD50U-002-A` |
-| **103** | 20260826 | 1 | 1 | **5 (Preventivo)** | A | **0.50** | FALSE | Mantenimiento | `20260826-CTR_AMERICANA-XRD50U-002-A` |
-| **104** | 20260826 | 1 | 1 | **82 (Refrigerio)** | A | **1.00** | FALSE | Stand By Inoperativo | `20260826-CTR_AMERICANA-XRD50U-002-A` |
-
-$$\text{Suma de Guardia A} = 8.50 + 2.00 + 0.50 + 1.00 = \mathbf{12.00\text{ h (Balance Perfecto)}}$$
-
----
-
-#### 7. `brg_cuadrilla_guardia` (Tabla Puente Cuadrillas / Personal)
-| asignacion_id | calendario_sk | equipo_sk | personal_sk | rol_desempenado | horas_laboradas | id_clave_unica |
-| :---: | :---: | :---: | :---: | :--- | :---: | :--- |
-| **501** | 20260826 | 1 | 42 (Quispe Pedro) | PERFORISTA | 12.0 | `20260826-CTR_AMERICANA-XRD50U-002-A` |
-| **502** | 20260826 | 1 | 88 (Flores Luis) | AYUDANTE 1 | 12.0 | `20260826-CTR_AMERICANA-XRD50U-002-A` |
-
----
-
-## 🛠️ 5. CAMBIOS TÉCNICOS Y MÓDULOS CONSTRUIDOS
-
-1. **Pipeline de Modelado Python ([`src/modelado_dimensional.py`](file:///c:/Proyectos%20Python/Detallados/src/modelado_dimensional.py)):**
-   * Motor vectorizado que genera en `output/star_schema/` los datasets en `.csv`, `.parquet` y `ESQUEMA_ESTRELLA_COMPLETO.xlsx` en **< 1.8 segundos**.
-2. **Generador de Medidas DAX ([`src/generar_medidas_dax.py`](file:///c:/Proyectos%20Python/Detallados/src/generar_medidas_dax.py)):**
-   * Creación del catálogo oficial en [`docs/03_CATALOGO_MEDIDAS_DAX_OFICIALES.md`](file:///c:/Proyectos%20Python/Detallados/docs/03_CATALOGO_MEDIDAS_DAX_OFICIALES.md) y del script [`docs/medidas_dax_powerbi.dax`](file:///c:/Proyectos%20Python/Detallados/docs/medidas_dax_powerbi.dax).
-
----
-
-## 🛡️ 6. PROTOCOLO DE VERIFICACIÓN Y QUALITY GATES (AUDITORES)
+## 🛡️ 6. PROTOCOLO DE VERIFICACIÓN Y ROLES EN LA AUDITORÍA
 
 ```mermaid
 flowchart LR
@@ -293,16 +361,16 @@ flowchart LR
     QG4 --> QG5["🚪 QG5: Handoff & Cierre<br/>(PM Lead & Stakeholder)"]
 ```
 
-### Invariantes Validadas por el Squad:
-1. **Conservación de Metraje (`audit_common_sense_agent`):** $\sum \text{fact\_perforacion\_avance.metraje\_guardia\_m} \equiv \mathbf{6,252.38\text{ m}}$ (cero pérdidas, cero duplicaciones).
-2. **Cero Nulos en Llaves (`database_administrator`):** Todas las filas poseen llaves enteras válidas ($\ge 1$ o igual a $-1$).
-3. **Integridad Referencial 100% (`database_administrator`):** Todas las `_sk` de las tablas de hechos existen en sus respectivas dimensiones.
-4. **Monotonía y Balance de 12h (`qa_data_auditor`):** $HASTA \ge DESDE$ y balance horario de 12.0h por guardia verificado.
-5. **Rendimiento (`data_scientist_architect`):** Ejecución completa en menos de 2.0 segundos.
+* **`audit_common_sense_agent`:** Valida que el metraje físico sume exactamente **6,252.38 m** en cualquier tabla de hechos.
+* **`qa_data_auditor`:** Audita que cada guardia sume **12.0h** y que $HASTA \ge DESDE$.
+* **`database_administrator`:** Verifica que no existan llaves foráneas huérfanas y que todas las tablas posean su miembro `sk = -1`.
+* **`project_governance_auditor`:** Firma formalmente cada Quality Gate antes del pase a producción.
 
 ---
 
 ## 🚦 7. ESPACIO PARA VISTO BUENO (V°B°) DEL STAKEHOLDER
 
-Para proceder a la siguiente fase (Fase 3: Visualización en Power BI Desktop), el Stakeholder puede revisar este documento directamente en su explorador de archivos o editor de código en:  
+Este documento técnico se encuentra disponible directamente en el repositorio local para su revisión y visto bueno:  
 👉 [`planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md`](file:///c:/Proyectos%20Python/Detallados/planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md)
+
+*Nota: Conforme a la instrucción del Stakeholder, no se ha ejecutado ninguna alteración en la base de datos ni en el pipeline; únicamente se ha actualizado el plan para su previa aprobación.*
