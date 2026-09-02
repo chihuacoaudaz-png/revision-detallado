@@ -439,28 +439,49 @@ def construir_modelo_dimensional(
     dim_personal = pd.DataFrame(personal_rows)
 
     # =========================================================================
-    # 6. DIMENSIÓN: dim_sondaje_taladro (Limpia sin atributos físicos variables)
+    # 6. DIMENSIÓN: dim_sondaje_taladro (Con Atributos Técnicos de Diseño de Pozo)
     # =========================================================================
     print("  [6/10] Generando dim_sondaje_taladro...", flush=True)
-    sondajes_unicos = sorted(df[["SONDAJE_NORM", "CTR_NORM"]].drop_duplicates().values, key=lambda x: (x[1], x[0]))
+    col_prof = "PROFUNDIDAD" if "PROFUNDIDAD" in df.columns else None
+    col_inc = next((c for c in df.columns if "INCLINAC" in str(c).upper()), None)
+    
     sondaje_rows = [
         {
             "sondaje_sk": -1,
             "sondaje_cd": "NO_ASIGNADO",
             "contrato_sk": -1,
             "sondaje_padre_sk": -1,
+            "profundidad_programada_m": 0.0,
+            "linea_programada": "NO ESPECIFICADO",
+            "inclinacion_grados": 0.0,
             "tipo_taladro": "ORIGINAL"
         }
     ]
     sondaje_sk_map = {("NO_ASIGNADO", -1): -1}
-    for idx, (sond, ctr) in enumerate(sondajes_unicos, start=1):
+    
+    sond_groups = df.groupby(["SONDAJE_NORM", "CTR_NORM"])
+    for idx, ((sond, ctr), grp) in enumerate(sond_groups, start=1):
         c_sk = ctr_sk_map.get(ctr, -1)
         es_ramal = sond.endswith("A") or sond.endswith("B") or sond.endswith("R")
+        
+        prof_val = 0.0
+        if col_prof and grp[col_prof].notna().any():
+            prof_val = clean_number_value(grp[col_prof].dropna().iloc[0]) or 0.0
+            
+        linea_val = grp["LINEA_NORM"].dropna().iloc[0] if grp["LINEA_NORM"].notna().any() else "HQ"
+        
+        inc_val = -90.0
+        if col_inc and grp[col_inc].notna().any():
+            inc_val = clean_number_value(grp[col_inc].dropna().iloc[0]) or -90.0
+            
         sondaje_rows.append({
             "sondaje_sk": idx,
             "sondaje_cd": sond,
             "contrato_sk": c_sk,
             "sondaje_padre_sk": -1,
+            "profundidad_programada_m": round(prof_val, 2),
+            "linea_programada": str(linea_val).strip().upper(),
+            "inclinacion_grados": round(inc_val, 2),
             "tipo_taladro": "RAMAL_PARALELO" if es_ramal else "ORIGINAL"
         })
         sondaje_sk_map[(sond, c_sk)] = idx
@@ -513,6 +534,14 @@ def construir_modelo_dimensional(
     col_n_escar = next((c for c in df.columns if "ESCARIADOR" in str(c).upper() and any(k in str(c).upper() for k in ["N", "NUM", "N°", "Nº", "CORRELATIVO"])), None)
     col_estado_escar = next((c for c in df.columns if "ESTADO" in str(c).upper() and "ESCARIADOR" in str(c).upper()), None)
     
+    # Columnas especiales de avance, motor y observaciones
+    col_casing_met = next((c for c in df.columns if "CASING" in str(c).upper() and "METRAJE" in str(c).upper()), None)
+    col_reperfo_met = next((c for c in df.columns if any(k in str(c).upper() for k in ["REPERF", "RE-PERF"]) and "METRAJE" in str(c).upper()), None)
+    col_horom_delta = next((c for c in df.columns if "HOROMETRO" in str(c).upper() and "TOTAL" in str(c).upper()), None)
+    col_petroleo = next((c for c in df.columns if "PETROLEO" in str(c).upper() and "GLN" in str(c).upper()), None)
+    col_litologia = next((c for c in df.columns if "LITOL" in str(c).upper()), None)
+    col_comentarios = next((c for c in df.columns if "COMENTARIOS" in str(c).upper()), None)
+    
     records = df.to_dict('records')
     
     for row in records:
@@ -535,6 +564,11 @@ def construir_modelo_dimensional(
         n_escar_val = clean_number_value(row.get(col_n_escar)) if col_n_escar else None
         n_escar_str = f"{int(n_escar_val)}" if (n_escar_val is not None and not pd.isna(n_escar_val)) else "SIN_NUMERO"
         
+        casing_m = clean_number_value(row.get(col_casing_met)) or 0.0
+        reperfo_m = clean_number_value(row.get(col_reperfo_met)) or 0.0
+        horom_d = clean_number_value(row.get(col_horom_delta)) or 0.0
+        petro_g = clean_number_value(row.get(col_petroleo)) or 0.0
+        
         avance_rows.append({
             "avance_id": len(avance_rows) + 1,
             "calendario_sk": cal_sk,
@@ -554,7 +588,13 @@ def construir_modelo_dimensional(
             "marca_escariador": str(row.get(col_marca_escar) or "NO REGISTRADO").strip().upper() if col_marca_escar else "NO REGISTRADO",
             "n_escariador": n_escar_str,
             "estado_escariador": str(row.get(col_estado_escar) or "NO REGISTRADO").strip().upper() if col_estado_escar else "NO REGISTRADO",
-            "es_reperforacion": False,
+            "casing_metraje_m": round(casing_m, 2),
+            "reperfo_metraje_m": round(reperfo_m, 2),
+            "horometro_delta": round(horom_d, 2),
+            "petroleo_gln": round(petro_g, 2),
+            "descripcion_litologica": str(row.get(col_litologia) or "").strip(),
+            "comentarios_guardia": str(row.get(col_comentarios) or "").strip(),
+            "es_reperforacion": reperfo_m > 0.0,
             "id_clave_unica": row.get("ID_CLAVE_UNICA_CANONICA")
         })
     fact_perforacion_avance = pd.DataFrame(avance_rows)

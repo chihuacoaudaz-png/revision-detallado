@@ -1,24 +1,26 @@
 # 📊 ESTADO DEL PROYECTO - ROCKDRILL CONTROL DE OPERACIONES
-## Informe de Estado PMO, Cumplimiento de Entregables y Guía de Contexto para Agentes AI
+## Informe de Estado PMO, Cumplimiento de Entregables y Contexto Oficial para Agentes AI
 
-**Última Actualización:** 01 de Septiembre de 2026  
-**Fase Actual:** **FASE 1 COMPLETADA AL 100% | LISTOS PARA FASE 2**  
+**Última Actualización:** 02 de Setiembre de 2026  
+**Fase Actual:** **FASE 2 CERRADA AL 100% | FASE 3 EN EJECUCIÓN (POWER BI DASHBOARD)**  
 **Repositorio Oficial:** `chihuacoaudaz-png/revision-detallado` (Rama: `main`)  
 **Autoridad de Control:** PMO & Control de Proyectos - Rockdrill Group  
 
 ---
 
-## 🎯 1. FICHA TÉCNICA DEL PROYECTO
+## 🎯 1. FICHA TÉCNICA DEL PROYECTO Y ESTADO DEL MODELO
 
-| Atributo | Detalle |
+| Atributo | Detalle Validado en Datos |
 | :--- | :--- |
-| **Nombre del Proyecto** | Sistema Integral de Ingesta, Conciliación Pericial y Modelado Dimensional de Operaciones |
-| **Alcance** | 18 Contratos Mineros Activos en Perú (Superficie e Interior Mina) |
-| **Fuente de Datos** | Microsoft SharePoint Online (`Rockdrill_Control_Operaciones`) |
-| **Motor de Extracción** | Power Query (M) Cloud Engine de Alto Rendimiento |
-| **Muestra de Validación** | 600 Guardias Operativas (Ciclo activo: 26.08 al 30.08) |
-| **Tasa de Conciliación** | **97.33% Coincidencia Exacta (584 de 600 guardias exactas al 100%)** |
-| **Discrepancias de Sistema** | **0.00% (Cero errores de ETL, cero nulos, cero duplicados)** |
+| **Nombre del Proyecto** | Sistema Integral de Ingesta, Modelado Dimensional Kimball y Dashboard Power BI |
+| **Alcance** | 22 Contratos Mineros Activos en Perú (Superficie e Interior Mina) y 96 Perforadoras |
+| **Base Operativa Oficial** | `CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx` (176 Columnas, 3,505 Filas) |
+| **Maestro de Metas Oficial** | `METAS.xlsx` (1,052 Registros Históricos de Metas por CTR y Máquina, 2025–2026) |
+| **Metraje Perforado Auditado** | **`7,502.91 m`** en 3,505 guardias (100% exacto, verificado en Power BI) |
+| **Horas Reportadas Auditadas** | **`7,687.00 h`** en 4,747 eventos operativos categorizados en 5 grupos SIG |
+| **Meta Activa Setiembre 2026** | **`52,295.17 m`** distribuidos en 64 máquinas activas |
+| **Esquema Relacional Power BI** | **16 de 16 Relaciones Físicas Activas (`1:*`)** en `DASH.pbix` (0 huérfanos) |
+| **Duración de Jornadas** | 12.0h general | Excepciones: Catalina Huanca (10.15h) y Yauliyacu (11.0h) |
 
 ---
 
@@ -28,94 +30,43 @@
 gantt
     title Cronograma General de Fases - Rockdrill Group
     dateFormat  YYYY-MM-DD
-    section Fase 1: ETL y Conciliación
-    Estandarización 168 Cols       :done, 2026-08-20, 2026-08-25
-    Ingesta SharePoint y Anti-Timeout:done, 2026-08-26, 2026-08-30
-    Auditoría 1-a-1 y Matriz Buffer :done, 2026-08-31, 2026-09-01
+    section Fase 1: ETL y Conciliacion
+    Estandarizacion 168 Cols       :done, 2026-08-20, 2026-08-25
+    Ingesta SharePoint y Buffer    :done, 2026-08-26, 2026-08-30
+    Auditoria 1-a-1 y Matriz Final :done, 2026-08-31, 2026-09-01
     section Fase 2: Modelado Dimensional
-    Esquema Estrella (Fact y Dims)  :active, 2026-09-02, 2026-09-06
-    Unpivot Aditivos y Tiempos      : 2026-09-07, 2026-09-10
-    Métricas DAX y Capa Semántica   : 2026-09-11, 2026-09-15
-    section Fase 3: Visualización BI
-    Dashboard Operativo Mina        : 2026-09-16, 2026-09-20
-    Dashboard Gerencial y Costos    : 2026-09-21, 2026-09-25
+    Esquema Estrella (11 Tablas)   :done, 2026-09-01, 2026-09-02
+    Integracion Oficial METAS.xlsx :done, 2026-09-02, 2026-09-02
+    Correccion Regional M (en-US)  :done, 2026-09-02, 2026-09-02
+    section Fase 3: Visualizacion BI
+    Guia Tecnica en PDF            :done, 2026-09-02, 2026-09-02
+    Plan Maestro Indicadores (03)  :done, 2026-09-02, 2026-09-02
+    Medidas DAX Avanzadas e IBCS   :active, 2026-09-02, 2026-09-05
 ```
 
-### Resumen de Cumplimiento de Entregables (WBS):
+### Resumen de Entregables Clave (WBS):
 
-| Fase | Entregable / Hito | Estado | Progreso | Evidencia / Ubicación |
-| :--- | :--- | :---: | :---: | :--- |
-| **Fase 1** | 1.1 Estandarización de 168 Columnas Oficiales | ✅ CERRADO | 100% | [`docs/11_nuevo_estandar_sig_f01_168_columnas.md`](file:///C:/Proyectos%20Python/Detallados/docs/11_nuevo_estandar_sig_f01_168_columnas.md) |
-| **Fase 1** | 1.2 Motor Ingesta SharePoint (`Consolidado_Operaciones`) | ✅ CERRADO | 100% | [`apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt`](file:///C:/Proyectos%20Python/Detallados/apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt) |
-| **Fase 1** | 1.3 Extracción Control Interno (`Consolidado_Control_Interno`)| ✅ CERRADO | 100% | [`apppowerbi/02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt`](file:///C:/Proyectos%20Python/Detallados/apppowerbi/02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt) |
-| **Fase 1** | 1.4 Matriz Conciliación 1-a-1 (`Matriz_Comparativa_Dia_a_Dia`)| ✅ CERRADO | 100% | [`apppowerbi/03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt`](file:///C:/Proyectos%20Python/Detallados/apppowerbi/03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt) |
-| **Fase 1** | 1.5 Corrección Duplicidad 2X (Filtro Anti-Totales de Mes) | ✅ CERRADO | 100% | [`apppowerbi/codigo final.txt`](file:///C:/Proyectos%20Python/Detallados/apppowerbi/codigo%20final.txt) |
-| **Fase 1** | 1.6 Clave de 4 Niveles (`FECHA-CTR-MAQUINA-TURNO`) | ✅ CERRADO | 100% | Aislamiento de transferencias (`XRD125USS-001`) |
-| **Fase 1** | 1.7 Documentación Técnica Oficial de Fase 1 | ✅ CERRADO | 100% | [`docs/09_DOCUMENTACION_COMPLETA_ETL_LIMPIEZA_Y_CONCILIACION.md`](file:///C:/Proyectos%20Python/Detallados/docs/09_DOCUMENTACION_COMPLETA_ETL_LIMPIEZA_Y_CONCILIACION.md) |
-| **Fase 1** | 1.8 Reorganización y Archivo Histórico (`baul_desuso/`) | ✅ CERRADO | 100% | [`baul_desuso/README.md`](file:///C:/Proyectos%20Python/Detallados/baul_desuso/README.md) |
-| **Fase 2** | 2.1 Modelo Dimensional (Esquema Estrella: Fact y Dims) | ✅ CERRADO | 100% | [`src/modelado_dimensional.py`](file:///C:/Proyectos%20Python/Detallados/src/modelado_dimensional.py) & `output/star_schema/` |
-| **Fase 2** | 2.2 Normalización de Aditivos y Tiempos (Unpivot) | ✅ CERRADO | 100% | `output/star_schema/fact_horas_operativas.parquet` (3,965 filas) |
-| **Fase 2** | 2.3 Medidas y KPIs DAX ($m/h$, Disponibilidad, Utilización) | ✅ CERRADO | 100% | [`docs/03_CATALOGO_MEDIDAS_DAX_OFICIALES.md`](file:///C:/Proyectos%20Python/Detallados/docs/03_CATALOGO_MEDIDAS_DAX_OFICIALES.md) & [`docs/medidas_dax_powerbi.dax`](file:///C:/Proyectos%20Python/Detallados/docs/medidas_dax_powerbi.dax) |
-| **Fase 3** | 3.1 Dashboards Power BI Operativo y Gerencial | ⏳ PENDIENTE | 0% | *Listo para iniciar en Power BI Desktop* |
+| Fase | Entregable / Hito | Estado | Ubicación / Evidencia |
+| :--- | :--- | :---: | :--- |
+| **Fase 2** | Generador Dimensional Python | ✅ CERRADO | `BBDD/generar_base_datos_dimensional.py` (24.7 s) |
+| **Fase 2** | Ejecutable Autónomo sin Python | ✅ CERRADO | `BBDD/EJECUTAR_BBDD.bat` y `BBDD/EJECUTAR_BBDD/` |
+| **Fase 2** | Salida Dimensional (11 Tablas) | ✅ CERRADO | `BBDD/output_star_schema/` (.csv, .parquet, .xlsx) |
+| **Fase 2** | Ingesta Oficial de Metas | ✅ CERRADO | `METAS.xlsx` integrado en `fact_metas_mensuales` |
+| **Fase 2** | Corrección Regional Power Query | ✅ CERRADO | `QUERYS_POWER_QUERY_M_ESTRELLA.txt` (Cultura en-US) |
+| **Fase 3** | Modelo Power BI Desktop Activo | ✅ EN REGLA | `DASH.pbix` (16 relaciones activas, 7,502.91 m) |
+| **Fase 3** | Guía Técnica del Modelo (PDF) | ✅ CERRADO | `GUIA_TECNICA_OPERATIVA_DASHBOARD_BI.pdf` (3 Págs) |
+| **Fase 3** | Plan Maestro de Visualizaciones | ✅ CERRADO | `planes/03_PLAN_VISUALIZACIONES_E_INDICADORES_AVANZADOS.md` |
+| **Fase 3** | Catálogo Oficial 49 Medidas DAX| ✅ CERRADO | `planes/04_GUIA_PASO_A_PASO_MEDIDAS_Y_CARPETAS_POWER_BI.md` & `docs/CATALOGO_OFICIAL_49_MEDIDAS_DAX.txt` |
+| **Gobierno** | Squad de 11 Agentes Especializados | ✅ CERRADO | `AGENTES.md` y `.agents/agents/agente_finalizador/` |
 
 ---
 
-## 🔬 3. HITOS TÉCNICOS Y RESOLUCIONES CLAVE LOGRADAS
+## 🏛️ 3. ACUERDOS Y DEFINICIONES DE ARQUITECTURA VIGENTES
 
-1. **Rendimiento de Ingesta:** Eliminación de timeouts de 4 min $\rightarrow$ Tipado nativo C++/VertiPaq en **~70 segundos**.
-2. **Soporte Multi-Fila:** Días con 3 o más filas de sondaje se agrupan y suman automáticamente por guardia.
-3. **Sinceramiento de Metraje:** Se eliminaron las filas de totales de mes ($6,177.38\text{ m}$), sincerando el metraje total en **6,252.38 m exactos**.
-4. **Matriz Comparativa en <3s:** Implementación de `Table.Buffer` en memoria RAM para un cruce instantáneo y libre de errores.
-5. **Máquinas Transferidas:** Incorporación del contrato en la clave única (`FECHA-CTR-MAQUINA-TURNO`), eliminando el 100% de falsas discrepancias en equipos móviles (ej. `XRD125USS-001` en Yauliyacu y Americana).
-6. **Escalabilidad Dinámica:** Soporte automático para cualquier nueva carpeta de contrato (`CTR_...`) que se añada en SharePoint.
-
----
-
-## 🤖 4. GUÍA DE CONTEXTO RÁPIDO PARA AGENTES AI (POST-LIMPIEZA DE CHAT)
-
-> [!IMPORTANT]
-> **Instrucciones para el Agente AI al iniciar una nueva sesión:**
-> 1. Lee este archivo [`ESTADO_DEL_PROYECTO.md`](file:///C:/Proyectos%20Python/Detallados/ESTADO_DEL_PROYECTO.md) y [`docs/09_DOCUMENTACION_COMPLETA_ETL_LIMPIEZA_Y_CONCILIACION.md`](file:///C:/Proyectos%20Python/Detallados/docs/09_DOCUMENTACION_COMPLETA_ETL_LIMPIEZA_Y_CONCILIACION.md) para absorber todo el contexto de la Fase 1.
-> 2. **NO modifiques las consultas Power Query M de la Fase 1**, las cuales ya están 100% probadas y validadas en [`apppowerbi/codigo final.txt`](file:///C:/Proyectos%20Python/Detallados/apppowerbi/codigo%20final.txt).
-> 3. **Reglas de Negocio Inviolables:**
->    * El **Rimado** y la **Reperforación** NO suman metraje perforado (son actividades complementarias).
->    * Los turnos se estandarizan como **`A` (Día / 1)** y **`B` (Noche / 2)**.
->    * La clave única obligatoria es: `YYYYMMDD-CTR-MAQUINA-TURNO`.
->    * En perforación diamantina, una máquina perfora entre **10m y 45m por guardia**. Una discrepancia de >100m es un artefacto de descalce de fechas o duplicidad de mes, nunca una realidad física.
-> 4. **Foco de Trabajo Actual:** Proceder directamente con la **Fase 2 (Estructuración y Modelado Dimensional)**.
-
----
-
-## 📂 5. MAPA DE ARCHIVOS DEL PROYECTO
-
-```
-Detallados/
-├── ESTADO_DEL_PROYECTO.md                      # 🌟 ESTE DOCUMENTO (PMO & Handoff AI)
-├── PROJECT.md                                  # 📖 Metadatos generales del proyecto
-├── README.md                                   # 📖 Introducción técnica
-├── apppowerbi/                                 # 🚀 Códigos Power Query y Workbook Activo
-│   ├── 00_CONSULTAS_AUDITORIA_3_EN_1.txt
-│   ├── 01_QUERY_CONSOLIDADO_OPERACIONES.txt
-│   ├── 02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt
-│   ├── 03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt
-│   ├── codigo final.txt                        # Código final 3-en-1 listo para inyectar
-│   ├── resultado.xlsx                          # Excel de validación estructurado
-│   └── archive/                                # Pruebas tempranas archivadas
-├── docs/                                       # 📘 Documentación Maestra
-│   ├── 09_DOCUMENTACION_COMPLETA_ETL_LIMPIEZA_Y_CONCILIACION.md
-│   ├── 01_ARQUITECTURA_EMPRESARIAL_ERD_Y_SQL.md
-│   ├── 06_REGLA_DE_NEGOCIO_CONCILIACION_Y_AUDITORIA_SENTIDO_COMUN.md
-│   └── (Glosarios y manuales operativos)
-├── baul_desuso/                                # 📦 Archivo Histórico (No tocar)
-│   ├── README.md
-│   ├── archivos_raiz_temporales/
-│   ├── copias_detallados_antiguas/
-│   ├── contexto_y_guias_previas/
-│   └── historicos_pesados/
-├── Estructura base/                            # 📁 Réplica local SharePoint Cloud
-├── power_query_m/                              # ⚙️ Módulos de soporte M
-├── plantillas/                                 # 📋 Formatos oficiales 168 cols
-├── src/                                        # 🐍 Pipelines auxiliares Python
-├── sql/                                        # 🗄️ Modelos DDL relacionales
-└── tests/                                      # 🧪 Suite de pruebas unitarias
-```
+1. **Esquema Estrella Puro:** No existen enlaces entre dimensiones. La relación `dim_sondaje_taladro -> dim_contrato_minero` fue suprimida para mantener activas las 16 relaciones físicas con las tablas de hechos.
+2. **Cultura 'en-US' Obligatoria en Power Query M:** Todo archivo CSV debe transformarse usando cultura `"en-US"` para evitar que Windows en español trate el punto decimal como separador de miles.
+3. **Estructura Dual de Horas Meta:**
+   * *Pilar I (Fijo):* Mantenimiento Mecánico Meta = 15.0% (mínimo 85% DM). Perforación Efectiva Meta calculada según el ratio m/h del mes récord de cumplimiento.
+   * *Pilar II (Paramétrico):* Standbys Operativo, Cliente e Inoperativo calibrables mediante estudios de tiempos (actividades recurrentes) o convenciones de Gerencia.
+4. **Doble Ratio para Metros Perdidos:** Conmutable vía selector DAX entre Ratio Real del Mes y Ratio Promedio Ponderado de 3 Meses (Rolling 3M).
+5. **Gobernanza de Medidas:** Organización estricta de las 49 medidas DAX en 7 Display Folders dentro de la tabla contenedora `_Medidas` y 2 tablas estáticas de gobernanza (`tbl_selector_ratio` y `tbl_parametros_umbrales`).

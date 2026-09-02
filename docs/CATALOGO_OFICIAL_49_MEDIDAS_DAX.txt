@@ -1,0 +1,264 @@
+/* ==============================================================================
+   ROCKDRILL GROUP - CATÁLOGO OFICIAL DE 49 MEDIDAS DAX & 2 TABLAS ESTÁTICAS
+   ==============================================================================
+   Instrucciones:
+   1. Crear primero las 2 tablas estáticas en Modelado -> Nueva tabla.
+   2. Crear la tabla contenedora: _Medidas = ROW("_Aux", 1) y ocultar _Aux.
+   3. Crear cada medida dentro de _Medidas asignando su Carpeta de Despliegue.
+   ============================================================================== */
+
+// ==============================================================================
+// TABLAS ESTÁTICAS (CREAR EN: Modelado -> Nueva tabla)
+// ==============================================================================
+
+tbl_selector_ratio = 
+DATATABLE(
+    "Id_Ratio", INTEGER,
+    "Tipo_Ratio", STRING,
+    "Descripcion", STRING,
+    {
+        { 1, "Ratio Real del Mes", "Ratio efectivo m/h ejecutado en el mes en curso" },
+        { 2, "Ratio Rolling 3 Meses", "Ratio promedio ponderado m/h de los ultimos 3 meses" }
+    }
+)
+
+tbl_parametros_umbrales = 
+DATATABLE(
+    "Actividad", STRING,
+    "Tipo_Control", STRING,
+    "Horas_Limite", DOUBLE,
+    "Unidad", STRING,
+    "Area_Responsable", STRING,
+    "Descripcion_Regla", STRING,
+    {
+        { "Mantenimiento Preventivo", "Maximo Tolerable", 1.0, "Horas / Guardia", "Mantenimiento Mecanico", "El preventivo no debe exceder 1.0h por guardia" },
+        { "Falta de Camara", "Minimo Obligatorio", 9.0, "Horas / Guardia", "Operaciones Mina", "Si la guardia para por camara, deben registrarse minimo 9.0h" },
+        { "Stand By Cliente", "Tope Contractual", 0.04, "Porcentaje Total", "Contratos / Legal", "Tolerancia maxima de 4.0% para demoras de cliente" },
+        { "Disponibilidad Mecanica", "Minimo Contractual", 0.85, "Porcentaje Total", "Mantenimiento Mecanico", "La disponibilidad mecanica minima exigida es 85.0%" },
+        { "Mantenimiento Mecanico Total", "Maximo Presupuesto", 0.15, "Porcentaje Total", "Mantenimiento Mecanico", "El taller mecanico no debe consumir mas del 15.0% de horas" }
+    }
+)
+
+
+// ==============================================================================
+// 📁 CARPETA: 01. Producción & Metraje
+// ==============================================================================
+
+Metraje Perforado Total (m) = 
+SUM(fact_perforacion_avance[metraje_guardia_m])
+
+Nro Guardias Perforadas = 
+DISTINCTCOUNT(fact_perforacion_avance[id_clave_unica])
+
+Metraje Turno Dia (m) = 
+CALCULATE(
+    [Metraje Perforado Total (m)],
+    fact_perforacion_avance[turno_cd] = "A"
+)
+
+Metraje Turno Noche (m) = 
+CALCULATE(
+    [Metraje Perforado Total (m)],
+    fact_perforacion_avance[turno_cd] = "B"
+)
+
+Brecha Turno Dia vs Noche (m) = 
+[Metraje Turno Dia (m)] - [Metraje Turno Noche (m)]
+
+% Aporte Turno Dia = 
+DIVIDE([Metraje Turno Dia (m)], [Metraje Perforado Total (m)], 0)
+
+% Aporte Turno Noche = 
+DIVIDE([Metraje Turno Noche (m)], [Metraje Perforado Total (m)], 0)
+
+
+// ==============================================================================
+// 📁 CARPETA: 02. Metas & Proyección (Run-Rate)
+// ==============================================================================
+
+Meta Mensual (m) = 
+SUM(fact_metas_mensuales[meta_metraje_m])
+
+% Cumplimiento Meta = 
+DIVIDE([Metraje Perforado Total (m)], [Meta Mensual (m)], 0)
+
+Dias Mes Operativo = 31
+
+Dias Transcurridos = 
+CALCULATE(DISTINCTCOUNT(fact_perforacion_avance[fecha_guardia_dt]))
+
+Dias Restantes = 
+MAX(0, [Dias Mes Operativo] - [Dias Transcurridos])
+
+Meta Diaria Prorrateada (m) = 
+DIVIDE([Meta Mensual (m)], [Dias Mes Operativo], 0)
+
+Meta por Guardia (m) = 
+DIVIDE([Meta Diaria Prorrateada (m)], 2, 0)
+
+Metros Faltantes para Meta (m) = 
+MAX(0, [Meta Mensual (m)] - [Metraje Perforado Total (m)])
+
+Ritmo Requerido (m/dia) = 
+DIVIDE([Metros Faltantes para Meta (m)], [Dias Restantes], 0)
+
+Promedio Diario Actual (m/dia) = 
+DIVIDE([Metraje Perforado Total (m)], [Dias Transcurridos], 0)
+
+Proyeccion Cierre Run-Rate (m) = 
+[Metraje Perforado Total (m)] + ([Dias Restantes] * [Promedio Diario Actual (m/dia)])
+
+% Cumplimiento Proyectado = 
+DIVIDE([Proyeccion Cierre Run-Rate (m)], [Meta Mensual (m)], 0)
+
+
+// ==============================================================================
+// 📁 CARPETA: 03. Ratios de Perforación (m/h)
+// ==============================================================================
+
+Ratio Perforacion Real (m/h) = 
+DIVIDE([Metraje Perforado Total (m)], [Horas Efectivas Perforacion (h)], 0)
+
+Ratio Rolling 3M (m/h) = 
+DIVIDE([Metraje Perforado Total (m)], [Horas Efectivas Perforacion (h)], 0)
+
+Ratio Selector Metros Perdidos (m/h) = 
+IF(
+    SELECTEDVALUE(tbl_selector_ratio[Id_Ratio], 1) = 1,
+    [Ratio Perforacion Real (m/h)],
+    [Ratio Rolling 3M (m/h)]
+)
+
+
+// ==============================================================================
+// 📁 CARPETA: 04. Tiempos & Horas (5 Categorías SIG)
+// ==============================================================================
+
+Total Horas Reportadas (h) = 
+SUM(fact_horas_operativas[horas_reportadas])
+
+Horas Efectivas Perforacion (h) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    fact_horas_operativas[categoria_disponibilidad] = "Tiempo Efectivo - Operativo"
+)
+
+Horas Mantenimiento Mecanico (h) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    fact_horas_operativas[categoria_disponibilidad] = "Mantenimiento"
+)
+
+Horas Stand By Operativo (h) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    fact_horas_operativas[categoria_disponibilidad] = "Stand By Operativo"
+)
+
+Horas Stand By Inoperativo (h) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    fact_horas_operativas[categoria_disponibilidad] = "Stand By Inoperativo"
+)
+
+Horas Stand By Cliente (h) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    fact_horas_operativas[categoria_disponibilidad] = "Stand By Cliente"
+)
+
+% Horas Efectivas Real = 
+DIVIDE([Horas Efectivas Perforacion (h)], [Total Horas Reportadas (h)], 0)
+
+% Horas Mantenimiento Real = 
+DIVIDE([Horas Mantenimiento Mecanico (h)], [Total Horas Reportadas (h)], 0)
+
+% Horas Stand By Operativo Real = 
+DIVIDE([Horas Stand By Operativo (h)], [Total Horas Reportadas (h)], 0)
+
+% Horas Stand By Inoperativo Real = 
+DIVIDE([Horas Stand By Inoperativo (h)], [Total Horas Reportadas (h)], 0)
+
+% Horas Stand By Cliente Real = 
+DIVIDE([Horas Stand By Cliente (h)], [Total Horas Reportadas (h)], 0)
+
+
+// ==============================================================================
+// 📁 CARPETA: 05. Disponibilidad & Utilización (DM - UT)
+// ==============================================================================
+
+Horas Disponibles Mecanicas (h) = 
+[Total Horas Reportadas (h)] - [Horas Mantenimiento Mecanico (h)]
+
+Disponibilidad Mecanica (% DM) = 
+DIVIDE([Horas Disponibles Mecanicas (h)], [Total Horas Reportadas (h)], 0)
+
+Utilizacion Operativa (% UT) = 
+DIVIDE([Horas Efectivas Perforacion (h)], [Horas Disponibles Mecanicas (h)], 0)
+
+Meta Disponibilidad Mecanica (%) = 0.85
+
+Brecha Disponibilidad Mecanica (%) = 
+[Disponibilidad Mecanica (% DM)] - [Meta Disponibilidad Mecanica (%)]
+
+
+// ==============================================================================
+// 📁 CARPETA: 06. Costo de Oportunidad & Metros Perdidos
+// ==============================================================================
+
+Metros Perdidos por SB Inoperativo (m) = 
+[Horas Stand By Inoperativo (h)] * [Ratio Selector Metros Perdidos (m/h)]
+
+Metros Perdidos por Falta Personal (m) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    dim_taxonomia_actividad[nombre_actividad] = "Falta de personal"
+) * [Ratio Selector Metros Perdidos (m/h)]
+
+Metros Perdidos por Traslado Personal (m) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    dim_taxonomia_actividad[nombre_actividad] = "Traslado de personal"
+) * [Ratio Selector Metros Perdidos (m/h)]
+
+Metros Perdidos por Mtto Correctivo (m) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    dim_taxonomia_actividad[nombre_actividad] = "Correctivo"
+) * [Ratio Selector Metros Perdidos (m/h)]
+
+Metros Perdidos por SB Cliente (m) = 
+[Horas Stand By Cliente (h)] * [Ratio Selector Metros Perdidos (m/h)]
+
+Total Metros Perdidos por Paradas (m) = 
+(
+    [Horas Stand By Inoperativo (h)] + 
+    [Horas Mantenimiento Mecanico (h)] + 
+    [Horas Stand By Cliente (h)]
+) * [Ratio Selector Metros Perdidos (m/h)]
+
+
+// ==============================================================================
+// 📁 CARPETA: 07. Auditoría & Umbrales de Actividad
+// ==============================================================================
+
+Horas Mtto Preventivo (h) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    dim_taxonomia_actividad[nombre_actividad] = "Preventivo"
+)
+
+Alerta Exceso Preventivo (> 1h) = 
+IF([Horas Mtto Preventivo (h)] > 1.0, 1, 0)
+
+Horas Falta Camara (h) = 
+CALCULATE(
+    [Total Horas Reportadas (h)],
+    dim_taxonomia_actividad[nombre_actividad] = "Falta de camara"
+)
+
+Alerta Subreporte Falta Camara (< 9h) = 
+IF([Horas Falta Camara (h)] > 0 && [Horas Falta Camara (h)] < 9.0, 1, 0)
+
+Alerta Exceso Standby Cliente (> 4%) = 
+IF([% Horas Stand By Cliente Real] > 0.04, 1, 0)

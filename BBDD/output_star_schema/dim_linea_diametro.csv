@@ -1,0 +1,5 @@
+﻿linea_sk,linea_cd,descripcion,diametro_corona_mm,diametro_testigo_mm
+-1,NO_DEFINIDO,[LÍNEA NO DEFINIDA],0.0,0.0
+1,BQ,Línea de perforación BQ,60.0,36.4
+2,HQ,Línea de perforación HQ,96.0,63.5
+3,NQ,Línea de perforación NQ,75.7,47.6

@@ -20,6 +20,7 @@
 | 8 | **`qa_data_auditor`** | Senior QA & Data Integrity Auditor (Monotonía de Cotas, Balance Horario, Pruebas Unitarias) | [`.agents/agents/qa_data_auditor/agent.md`](file:///c:/Proyectos%20Python/Detallados/.agents/agents/qa_data_auditor/agent.md) |
 | 9 | **`business_domain_specialist`** | Mining & Diamond Drilling Domain Specialist (SIG 168 Cols, Precios Unitarios PU, Ensayos Geotécnicos) | [`.agents/agents/business_domain_specialist/agent.md`](file:///c:/Proyectos%20Python/Detallados/.agents/agents/business_domain_specialist/agent.md) |
 | 10 | **`business_vision_strategist`** | Mining Operations & Business Strategy Lead (Rentabilidad $/m y $/hr, Dispute Mitigation, Dashboards) | [`.agents/agents/business_vision_strategist/agent.md`](file:///c:/Proyectos%20Python/Detallados/.agents/agents/business_vision_strategist/agent.md) |
+| 11 | **`agente_finalizador`** | Release Engineer & Auditor de Cierre de Jornada (Comando: **`final del dia`** -> Auditoría, Contexto, Git Commit & Push) | [`.agents/agents/agente_finalizador/agent.md`](file:///c:/Proyectos%20Python/Detallados/.agents/agents/agente_finalizador/agent.md) |
 
 ---
 
@@ -90,6 +91,16 @@ flowchart TD
 * **Especialidad:** Estrategia Operativa y Mecánica Financiera de Mina.
 * **Funciones:** Análisis de los 2 motores de facturación (Metraje perforado en $/m y Horas cobrables en $/h), detección y mitigación de disputas por paradas de cliente (voladura, falta de scoop/agua/energía) y optimización de márgenes operativos.
 
+### 11. `agente_finalizador`
+* **Especialidad:** Release Engineer, Custodio de Contexto y Auditor de Cierre de Jornada.
+* **Disparador:** Se activa exclusivamente cuando el usuario escribe el comando **`"final del dia"`**.
+* **Funciones:**
+  1. Audita la integridad de todos los archivos del proyecto en sus carpetas definitivas (`BBDD/`, `planes/`, `docs/`, raíz).
+  2. Sobrescribe y actualiza el contexto del proyecto en [`ESTADO_DEL_PROYECTO.md`](file:///c:/Proyectos%20Python/Detallados/ESTADO_DEL_PROYECTO.md) eliminando datos obsoletos del día anterior.
+  3. Sincroniza el catálogo de subagentes y el grafo de conocimiento (`graphify`).
+  4. Ejecuta con autorización expresa el ciclo Git: `git add .`, `git commit -m "feat(cierre-YYYY-MM-DD): ..."` y `git push origin main`.
+  5. Entrega el reporte final de cierre con el hash de commit al usuario.
+
 ---
 
 ## 📂 3. ESTRUCTURA DE ARCHIVOS DE LOS AGENTES EN EL REPOSITORIO
@@ -111,7 +122,8 @@ Detallados/
 │       ├── project_governance_auditor/agent.md
 │       ├── qa_data_auditor/agent.md
 │       ├── business_domain_specialist/agent.md
-│       └── business_vision_strategist/agent.md
+│       ├── business_vision_strategist/agent.md
+│       └── agente_finalizador/agent.md
 ```
 
 ---

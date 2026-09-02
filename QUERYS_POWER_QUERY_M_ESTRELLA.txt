@@ -1,0 +1,263 @@
+====================================================================================================
+ROCKDRILL GROUP — CONSULTAS POWER QUERY M OFICIALES (ESQUEMA ESTRELLA 100% VALIDADO)
+====================================================================================================
+INSTRUCCIONES DE USO:
+1. En Power BI Desktop, haga clic en "Transformar datos" para abrir el Editor de Power Query.
+2. Seleccione la consulta correspondiente (ej. fact_perforacion_avance).
+3. En la cinta de opciones, haga clic en "Editor Avanzado" (Advanced Editor).
+4. Reemplace todo el contenido existente por el bloque de código M correspondiente que figura abajo.
+5. Haga clic en "Listo" (Done).
+6. Repita para las tablas que lo requieran y al finalizar haga clic en "Cerrar y aplicar".
+
+NOTA CRÍTICA DE CONFIGURACIÓN REGIONAL:
+Todas las transformaciones numéricas incluyen el parámetro "en-US". Esto le indica a Power BI 
+que el archivo CSV utiliza el punto (.) como separador decimal, evitando que números como 28.3 
+se conviertan en 283 o que 676.8 se multiplique a 6768.
+
+====================================================================================================
+01. TABLA: dim_tiempo_calendario
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\dim_tiempo_calendario.csv"), [Delimiter = ",", Columns = 21, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"calendario_sk", Int64.Type}, 
+        {"fecha_dt", type text}, 
+        {"anio_civil", Int64.Type}, 
+        {"mes_num_civil", Int64.Type}, 
+        {"mes_nom_civil", type text}, 
+        {"dia_mes", Int64.Type}, 
+        {"dia_semana_num", Int64.Type}, 
+        {"dia_semana_nom", type text}, 
+        {"es_fin_semana", type logical}, 
+        {"trimestre_civil", type text}, 
+        {"anio_operativo", Int64.Type}, 
+        {"mes_num_operativo", Int64.Type}, 
+        {"mes_nom_operativo", type text}, 
+        {"mes_anio_operativo", type text}, 
+        {"periodo_operativo_sort", Int64.Type}, 
+        {"dia_ciclo_operativo", Int64.Type}, 
+        {"semana_calendario_num", Int64.Type}, 
+        {"semana_calendario_label", type text}, 
+        {"semana_operativa_num", Int64.Type}, 
+        {"semana_operativa_label", type text}, 
+        {"es_cierre_operativo", type logical}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+02. TABLA: dim_contrato_minero
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\dim_contrato_minero.csv"), [Delimiter = ",", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"contrato_sk", Int64.Type}, 
+        {"contrato_cd", type text}, 
+        {"nombre_contrato", type text}, 
+        {"cliente_minero", type text}, 
+        {"zona_geografica", type text}, 
+        {"tipo_operacion", type text}, 
+        {"estado_vigencia", type text}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+03. TABLA: dim_equipo_perforadora
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\dim_equipo_perforadora.csv"), [Delimiter = ",", Columns = 10, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"equipo_sk", Int64.Type}, 
+        {"equipo_cd", type text}, 
+        {"codigo_sap", type text}, 
+        {"modelo_fabricante", type text}, 
+        {"fabricante", type text}, 
+        {"tipo_servicio", type text}, 
+        {"tipo_energia", type text}, 
+        {"horas_dia_planeadas", Int64.Type}, 
+        {"contrato_sk_asignado", Int64.Type}, 
+        {"estado_operativo", type text}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+04. TABLA: dim_linea_diametro
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\dim_linea_diametro.csv"), [Delimiter = ",", Columns = 5, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"linea_sk", Int64.Type}, 
+        {"linea_cd", type text}, 
+        {"descripcion", type text}, 
+        {"diametro_corona_mm", type number}, 
+        {"diametro_testigo_mm", type number}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+05. TABLA: dim_personal
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\dim_personal.csv"), [Delimiter = ",", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"personal_sk", Int64.Type}, 
+        {"personal_cd", type text}, 
+        {"dni_carnet", type text}, 
+        {"nombre_completo", type text}, 
+        {"rol_estandarizado", type text}, 
+        {"contratista_propio", type text}, 
+        {"estado_personal", type text}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+06. TABLA: dim_sondaje_taladro
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\dim_sondaje_taladro.csv"), [Delimiter = ",", Columns = 8, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"sondaje_sk", Int64.Type}, 
+        {"sondaje_cd", type text}, 
+        {"contrato_sk", Int64.Type}, 
+        {"sondaje_padre_sk", Int64.Type}, 
+        {"profundidad_programada_m", type number}, 
+        {"linea_programada", type text}, 
+        {"inclinacion_grados", type number}, 
+        {"tipo_taladro", type text}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+07. TABLA: dim_taxonomia_actividad
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\dim_taxonomia_actividad.csv"), [Delimiter = ",", Columns = 6, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"actividad_sk", Int64.Type}, 
+        {"nombre_actividad", type text}, 
+        {"bloque_funcional", type text}, 
+        {"categoria_disponibilidad", type text}, 
+        {"es_cobrable_estandar", type logical}, 
+        {"impacta_disp_mecanica", type logical}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+08. TABLA: fact_perforacion_avance  *** (TABLA CLAVE DE METRAJE - 7,502.91 m) ***
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\fact_perforacion_avance.csv"), [Delimiter = ",", Columns = 26, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"avance_id", Int64.Type}, 
+        {"calendario_sk", Int64.Type}, 
+        {"contrato_sk", Int64.Type}, 
+        {"equipo_sk", Int64.Type}, 
+        {"sondaje_sk", Int64.Type}, 
+        {"perforista_sk", Int64.Type}, 
+        {"linea_sk", Int64.Type}, 
+        {"turno_guardia", type text}, 
+        {"desde_m", type number}, 
+        {"hasta_m", type number}, 
+        {"metraje_guardia_m", type number}, 
+        {"marca_broca", type text}, 
+        {"serie_broca", type text}, 
+        {"n_broca", type text}, 
+        {"estado_broca", type text}, 
+        {"marca_escariador", type text}, 
+        {"n_escariador", type text}, 
+        {"estado_escariador", type text}, 
+        {"casing_metraje_m", type number}, 
+        {"reperfo_metraje_m", type number}, 
+        {"horometro_delta", type number}, 
+        {"petroleo_gln", type number}, 
+        {"descripcion_litologica", type text}, 
+        {"comentarios_guardia", type text}, 
+        {"es_reperforacion", type logical}, 
+        {"id_clave_unica", type text}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+09. TABLA: fact_horas_operativas  *** (TABLA CLAVE DE TIEMPOS Y DISPONIBILIDAD) ***
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\fact_horas_operativas.csv"), [Delimiter = ",", Columns = 10, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"hora_evento_id", Int64.Type}, 
+        {"calendario_sk", Int64.Type}, 
+        {"contrato_sk", Int64.Type}, 
+        {"equipo_sk", Int64.Type}, 
+        {"actividad_sk", Int64.Type}, 
+        {"turno_guardia", type text}, 
+        {"horas_reportadas", type number}, 
+        {"es_cobrable", type logical}, 
+        {"categoria_disponibilidad", type text}, 
+        {"id_clave_unica", type text}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+10. TABLA: brg_cuadrilla_guardia
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\brg_cuadrilla_guardia.csv"), [Delimiter = ",", Columns = 8, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"asignacion_id", Int64.Type}, 
+        {"calendario_sk", Int64.Type}, 
+        {"equipo_sk", Int64.Type}, 
+        {"personal_sk", Int64.Type}, 
+        {"rol_desempenado", type text}, 
+        {"horas_laboradas", type number}, 
+        {"horas_extras", type number}, 
+        {"id_clave_unica", type text}
+    }, "en-US")
+in
+    #"Tipo cambiado"
+
+
+====================================================================================================
+11. TABLA: fact_metas_mensuales  *** (ALIMENTADA DESDE METAS.xlsx) ***
+====================================================================================================
+let
+    Origen = Csv.Document(File.Contents("C:\Users\PERDLAP33\OneDrive - ROCK DRILL\Archivos de Pedro Gamarra - CONTROL DE PROYECTOS\12. DASHBOARD\Dashboard_Nuevo\BBDD\output_star_schema\fact_metas_mensuales.csv"), [Delimiter = ",", Columns = 9, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {
+        {"meta_id", Int64.Type}, 
+        {"calendario_sk", Int64.Type}, 
+        {"periodo_operativo_sort", Int64.Type}, 
+        {"mes_operativo_dt", type text}, 
+        {"contrato_sk", Int64.Type}, 
+        {"equipo_sk", Int64.Type}, 
+        {"tipo_maquina", type text}, 
+        {"meta_metraje_m", type number}, 
+        {"proyectado_m", type number}
+    }, "en-US")
+in
+    #"Tipo cambiado"
