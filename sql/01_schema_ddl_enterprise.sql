@@ -30,6 +30,10 @@ CREATE TABLE dim_tiempo_calendario (
     periodo_operativo_sort  INT NOT NULL,                        -- YYYYMM (202601)
     dia_ciclo_operativo     SMALLINT NOT NULL,
     es_cierre_operativo     BOOLEAN NOT NULL,
+    -- Atributos de Visualización y Ordenamiento Cronológico Minero (SortByColumn)
+    fecha_corta_label       VARCHAR(10) NOT NULL,                -- '26-Ago', '01-Set' (SortBy: calendario_sk)
+    dia_ciclo_label         VARCHAR(25) NOT NULL,                -- 'Día 01 (26-Ago)' (SortBy: dia_ciclo_operativo)
+    fecha_operativa_dt      DATE NOT NULL,                       -- Tipo DATE nativo para series de tiempo
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -38,6 +42,7 @@ CREATE TABLE dim_contrato_minero (
     contrato_sk             SMALLINT NOT NULL PRIMARY KEY,       -- -1 para CTR No Asignado
     contrato_cd             VARCHAR(30) NOT NULL UNIQUE,         -- 'COLQUIJIRCA', 'RAURA'
     nombre_contrato         VARCHAR(100) NOT NULL,
+    nombre_contrato_corto   VARCHAR(50) NOT NULL,                -- 'Catalina Huanca', 'Cobriza' (limpio sin prefijos)
     cliente_minero          VARCHAR(100) NOT NULL,
     grupo_empresarial       VARCHAR(60),
     zona_geografica         VARCHAR(20) NOT NULL,                -- 'CENTRO', 'SUR', 'NORTE'
@@ -218,8 +223,8 @@ INSERT INTO dim_tiempo_calendario (calendario_sk, fecha_dt, anio_civil, mes_num_
 VALUES (-1, '1900-01-01', 1900, 1, 'SIN FECHA', 1, 1, 'NO DEFINIDO', FALSE, 'N/A', 1900, 1, 'SIN MES', 'S/M', 190001, 1, FALSE)
 ON CONFLICT (calendario_sk) DO NOTHING;
 
-INSERT INTO dim_contrato_minero (contrato_sk, contrato_cd, nombre_contrato, cliente_minero, zona_geografica, tipo_operacion)
-VALUES (-1, 'SIN_CTR', 'CONTRATO NO ESPECIFICADO', 'NO ASIGNADO', 'CENTRO', 'DESCONOCIDO')
+INSERT INTO dim_contrato_minero (contrato_sk, contrato_cd, nombre_contrato, nombre_contrato_corto, cliente_minero, zona_geografica, tipo_operacion)
+VALUES (-1, 'SIN_CTR', 'CONTRATO NO ESPECIFICADO', 'No Asignado', 'NO ASIGNADO', 'CENTRO', 'DESCONOCIDO')
 ON CONFLICT (contrato_sk) DO NOTHING;
 
 INSERT INTO dim_equipo_perforadora (equipo_sk, equipo_cd, codigo_sap, modelo_fabricante, tipo_energia, tipo_aplicacion, contrato_sk_asignado)

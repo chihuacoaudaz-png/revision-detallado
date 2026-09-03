@@ -1,0 +1,13 @@
+El slicer de mes_anio_operativo no esta bien ordenado mes a mes se muestran intercalados los anos ,adicionalmente lo optimo seria un slider de ano y otro de mes operativo
+Varias cuestione para las tarjetas del slide 1 quiero cambiar los formatos de las unidaes pero no se cambia a pesar de que ponga decimal con 2 decimales.
+El subtexto no se como ponerlo y ademas se supone que debe ser dinamico como lo dinamizo tanto para meta mes como para aceleracion requerida
+incluso para la utilizacion pensaria que se ve mejor que sean campos ambos y no utilizacion etiqueta , ya que se ve muy pequeno
+los tooltips en el visual de bullet chart no hacen ningun cambio. Se busca resaltar la meta en el bullet chart solo seria cabiar el color o hay otra forma mas llamativa , adicionalmente se debe mostrar en algun lado el dia opertaivo y cuantos dias restan.
+en el grafico de cruva s no se muestra acumulado se muestar dia  a dia y en cuanto llega a un dia donde no hay data se cae , eso tambien esta para corregir
+Para la matriz de control no me gusta que sea una sola matriz por varias cosas primero el codigo que se muestra dice antes SAP-(Codigo de maquina) y como son 60 maquinas se hace una lista interminable cambiemos eso del plan 
+El visual dumbell tiene de campos xaxis y axis legend y tooltips no se si sea por la licencia pero es asi. de igual manera el visual 3 como tabla no esta bien es dificil de ver a primera vista
+el scatter plot esta bien pero no importa casi nada diferenciar si es superficial o subterraneo, el caso es correccion por ctr. y que va a estar en al leyenda no se muestre como "Contrato Catalina " o CTR_CATALINA_HUANCA. Sino como Catalina Huanca , nada mas 
+lo del ratio promedio general tambien debe ser dinamico no se como ponerlo como linea constante con valores se pone solo el sum de toda la medida . en el grafico de barras apiladas debe haber un campo en eje y no puede no haber ahi tu pones solo el nombre
+Para descomposition tree solo hay treemap no el otro . para el pareto se puede poner filtro solo a la grafica interactivamente ? como un slider o es desde la ventana filtros si es asi solo funcionaria para ese grafico no ?
+cascada solo tiene categoria desglose eje y e informacion sobre herramientas , no los campos que describes
+tampoco mencionas el slicer para cada slide. corrijamos todo eso verificando dentro del archivo mismop que hay y que no hay junto con los visuales y optimiza la visualizacion de lo que se te dijo tampoco hay sliders de turnos , ni top de perforista, ni ratio por maquina , realmente visiable en todo caso en el scatter deberia tener un slider para cada ctr o algo asi 

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Rockdrill - Guía Maestra Maquetación Power BI</title>
+  <style>
+    :root {
+      --primary: #1E3A8A;
+      --secondary: #4A5568;
+      --success: #0F9D58;
+      --warning: #F59E0B;
+      --danger: #D93025;
+      --bg: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --text: #1E293B;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    header {
+      background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    h1 { margin: 0 0 10px 0; font-size: 26px; }
+    h2 { color: var(--primary); border-bottom: 2px solid #E2E8F0; padding-bottom: 8px; margin-top: 35px; }
+    h3 { color: #334155; margin-top: 25px; }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-right: 5px;
+    }
+    .badge-okviz { background: #DBEAFE; color: #1E40AF; }
+    .badge-novasilva { background: #F3E8FF; color: #6B21A8; }
+    .badge-native { background: #E2E8F0; color: #334155; }
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--primary);
+    }
+    .card-kpi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .kpi-box {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .kpi-val { font-size: 22px; font-weight: bold; color: var(--primary); }
+    .kpi-ref { font-size: 13px; color: #64748B; margin-top: 4px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #E2E8F0;
+      font-size: 14px;
+    }
+    th {
+      background-color: #F1F5F9;
+      color: #334155;
+      font-weight: 600;
+    }
+    tr:hover { background-color: #F8FAFC; }
+    code {
+      background: #F1F5F9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      color: #0F172A;
+    }
+    .field-slot { font-weight: 600; color: #0284C7; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📊 GUÍA MAESTRA: MAQUETACIÓN VISUAL POWER BI</h1>
+      <p style="margin:0; opacity:0.9;">Rockdrill Group — Control de Operaciones DDH | Archivo: DASH.pbix</p>
+    </header>
+
+    <h2>🎯 1. Arquitectura de las 4 Slides</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:15px;">
+      <div class="card">
+        <h3>Slide 1: Macro & Metas</h3>
+        <p>Dirección y Gerencia. Control de los 52,295 m de meta, ritmo diario y curva S de avance.</p>
+      </div>
+      <div class="card">
+        <h3>Slide 2: Flota & Turnos</h3>
+        <p>Operaciones y Residentes. Matriz de máquinas, brecha Día vs Noche y cuadrantes m/h.</p>
+      </div>
+      <div class="card">
+        <h3>Slide 3: Tiempos & SIG</h3>
+        <p>Mantenimiento y Control. Distribución de 7,687h en 5 grupos SIG y fiscalización 85% DM.</p>
+      </div>
+      <div class="card">
+        <h3>Slide 4: Costo Oportunidad</h3>
+        <p>Directorio y Contratos. Cascada de 17,112 m perdidos (personal, traslados, mina).</p>
+      </div>
+    </div>
+
+    <h2>🖥️ 2. Slide 1: Torre de Control Operativa & Metas CTR</h2>
+    <div class="card">
+      <div class="card-kpi">
+        <div class="kpi-box">
+          <div>Metraje Total Real</div>
+          <div class="kpi-val">7,502.91 m</div>
+          <div class="kpi-ref">Cumplimiento: 14.3%</div>
+        </div>
+        <div class="kpi-box">
+          <div>Proyección Cierre</div>
+          <div class="kpi-val">38,765.04 m</div>
+          <div class="kpi-ref">Estimado: 74.1% de Meta</div>
+        </div>
+        <div class="kpi-box">
+          <div>Ritmo Requerido</div>
+          <div class="kpi-val">1,791.69 m/d</div>
+          <div class="kpi-ref">Promedio Actual: 1,250 m/d</div>
+        </div>
+        <div class="kpi-box">
+          <div>Balance DM / UT</div>
+          <div class="kpi-val">95.7% / 27.5%</div>
+          <div class="kpi-ref">Meta DM: >= 85.0%</div>
+        </div>
+      </div>
+
+      <h3>Visual 1: Ranking por Contrato vs Meta <span class="badge badge-okviz">OKViz Bullet Chart</span></h3>
+      <p>Configuración exacta de campos:</p>
+      <ul>
+        <li><span class="field-slot">Category:</span> <code>dim_contrato_minero[nombre_contrato_minero]</code></li>
+        <li><span class="field-slot">Value:</span> <code>_Medidas[Metraje Perforado Total (m)]</code></li>
+        <li><span class="field-slot">Target:</span> <code>_Medidas[Meta Mensual (m)]</code></li>
+        <li><span class="field-slot">Comparison Value:</span> <code>_Medidas[Proyeccion Cierre Run-Rate (m)]</code></li>
+        <li><span class="field-slot">Tooltips:</span> <code>[% Cumplimiento Meta]</code>, <code>[Dias Transcurridos]</code></li>
+      </ul>
+
+      <h3>Visual 2: Curva S de Avance Acumulado <span class="badge badge-native">Líneas Nativo</span></h3>
+      <ul>
+        <li><span class="field-slot">Eje X:</span> <code>dim_tiempo_calendario[dia_ciclo_operativo]</code> (Días 1 al 31)</li>
+        <li><span class="field-slot">Línea 1 (Real):</span> <code>_Medidas[Metraje Perforado Total (m)]</code></li>
+        <li><span class="field-slot">Línea 2 (Meta):</span> <code>[Meta Diaria Prorrateada (m)] * [dia_ciclo_operativo]</code></li>
+      </ul>
+    </div>
+
+    <h2>🚜 3. Slide 2: Flota, Máquinas y Turnos Día vs Noche</h2>
+    <div class="card">
+      <h3>Visual 1: Matriz de Control Diario por Máquina <span class="badge badge-native">Matriz Nativa</span></h3>
+      <ul>
+        <li><span class="field-slot">Filas:</span> <code>dim_equipo_perforadora[codigo_maquina_sap]</code></li>
+        <li><span class="field-slot">Valores:</span> <code>[Meta por Guardia (m)]</code>, <code>[Metraje Turno Dia (m)]</code>, <code>[Metraje Turno Noche (m)]</code>, <code>[Metraje Perforado Total (m)]</code>, <code>[% Cumplimiento Meta]</code></li>
+        <li><span class="field-slot">Formato:</span> Activar Data Bars (Barras de Datos verdes) en % Cumplimiento Meta.</li>
+      </ul>
+
+      <h3>Visual 2: Brecha Turno Día vs Noche <span class="badge badge-novasilva">Nova Silva Dumbbell</span></h3>
+      <ul>
+        <li><span class="field-slot">Category:</span> <code>dim_contrato_minero[nombre_contrato_minero]</code></li>
+        <li><span class="field-slot">Value 1 (Día):</span> <code>_Medidas[Metraje Turno Dia (m)]</code> (Color: Celeste #3B82F6)</li>
+        <li><span class="field-slot">Value 2 (Noche):</span> <code>_Medidas[Metraje Turno Noche (m)]</code> (Color: Azul #1E1B4B)</li>
+        <li><span class="field-slot">Tooltips:</span> <code>[Brecha Turno Dia vs Noche (m)]</code>, <code>[% Aporte Turno Dia]</code></li>
+      </ul>
+
+      <h3>Visual 3: Cuadrante de Productividad <span class="badge badge-native">Scatter Plot Nativo</span></h3>
+      <ul>
+        <li><span class="field-slot">Valores:</span> <code>dim_equipo_perforadora[codigo_maquina_sap]</code></li>
+        <li><span class="field-slot">Eje X:</span> <code>_Medidas[Horas Efectivas Perforacion (h)]</code></li>
+        <li><span class="field-slot">Eje Y:</span> <code>_Medidas[Ratio Perforacion Real (m/h)]</code></li>
+        <li><span class="field-slot">Tamaño:</span> <code>_Medidas[Metraje Perforado Total (m)]</code></li>
+      </ul>
+    </div>
+
+    <h2>⏱️ 4. Slide 3: Tiempos, Disponibilidad y Taxonomía SIG</h2>
+    <div class="card">
+      <h3>Visual 1: Árbol de Descomposición <span class="badge badge-native">Decomposition Tree</span></h3>
+      <ul>
+        <li><span class="field-slot">Analyze:</span> <code>_Medidas[Total Horas Reportadas (h)]</code></li>
+        <li><span class="field-slot">Explain by:</span> <code>categoria_disponibilidad</code> &rarr; <code>bloque_funcional</code> &rarr; <code>nombre_actividad</code> &rarr; <code>codigo_maquina_sap</code></li>
+      </ul>
+
+      <h3>Visual 2: Distribución Meta vs Real de Horas <span class="badge badge-native">Barras 100% Apiladas</span></h3>
+      <ul>
+        <li><span class="field-slot">Eje Y:</span> Escenario ("Meta Dual" vs "Real")</li>
+        <li><span class="field-slot">Valores:</span> <code>[% Horas Efectivas Real]</code>, <code>[% Horas Mantenimiento Real]</code>, <code>[% Horas Stand By Operativo Real]</code>, <code>[% Horas Stand By Cliente Real]</code>, <code>[% Horas Stand By Inoperativo Real]</code></li>
+      </ul>
+    </div>
+
+    <h2>💰 5. Slide 4: Costo de Oportunidad & Cascada de Metros</h2>
+    <div class="card">
+      <h3>Visual 1: Cascada de Metros Perdidos <span class="badge badge-native">Waterfall Chart</span></h3>
+      <ul>
+        <li><span class="field-slot">Inicio:</span> <code>_Medidas[Meta Mensual (m)]</code> (+52,295.17 m)</li>
+        <li><span class="field-slot">Caída Personal:</span> <code>-[_Medidas[Metros Perdidos por Falta Personal (m)]]</code> (-2,429.27 m)</li>
+        <li><span class="field-slot">Caída Traslados:</span> <code>-[_Medidas[Metros Perdidos por Traslado Personal (m)]]</code> (-4,190.95 m)</li>
+        <li><span class="field-slot">Caída Taller:</span> <code>-[_Medidas[Metros Perdidos por Mtto Correctivo (m)]]</code> (-500.69 m)</li>
+        <li><span class="field-slot">Caída Cliente:</span> <code>-[_Medidas[Metros Perdidos por SB Cliente (m)]]</code> (-1,075.55 m)</li>
+        <li><span class="field-slot">Total Final:</span> <code>_Medidas[Metraje Perforado Total (m)]</code> (7,502.91 m)</li>
+      </ul>
+
+      <h3>Visual 2: Selector de Ratios de Gobernanza</h3>
+      <ul>
+        <li><span class="field-slot">Campo:</span> <code>tbl_selector_ratio[Tipo_Ratio]</code></li>
+        <li><span class="field-slot">Opciones:</span> Ratio Real del Mes (3.71 m/h) | Ratio Rolling 3 Meses (3.71 m/h)</li>
+      </ul>
+    </div>
+
+    <h2>📋 6. Matriz Resumen de Arrastre de Campos</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Slide</th>
+          <th>Visual</th>
+          <th>Tipo / Objeto</th>
+          <th>Eje / Filas / Categoría</th>
+          <th>Medida Principal</th>
+          <th>Referencia / Target</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>01</strong></td>
+          <td>Ranking Metas</td>
+          <td><span class="badge badge-okviz">OKViz Bullet</span></td>
+          <td><code>dim_contrato_minero[nombre_contrato_minero]</code></td>
+          <td><code>[Metraje Total (m)]</code></td>
+          <td><code>[Meta Mensual (m)]</code></td>
+        </tr>
+        <tr>
+          <td><strong>01</strong></td>
+          <td>Curva S Avance</td>
+          <td><span class="badge badge-native">Líneas</span></td>
+          <td><code>dim_tiempo_calendario[dia_ciclo_operativo]</code></td>
+          <td><code>[Metraje Total (m)]</code></td>
+          <td>Meta Acumulada</td>
+        </tr>
+        <tr>
+          <td><strong>02</strong></td>
+          <td>Matriz Máquinas</td>
+          <td><span class="badge badge-native">Matriz</span></td>
+          <td><code>dim_equipo_perforadora[codigo_maquina_sap]</code></td>
+          <td><code>[Metraje Día]</code>, <code>[Metraje Noche]</code></td>
+          <td>Data Bars en <code>[% Cump Meta]</code></td>
+        </tr>
+        <tr>
+          <td><strong>02</strong></td>
+          <td>Brecha Turnos</td>
+          <td><span class="badge badge-novasilva">Nova Silva Dumbbell</span></td>
+          <td><code>dim_contrato_minero[nombre_contrato_minero]</code></td>
+          <td>Día: <code>[Metraje Día]</code></td>
+          <td>Noche: <code>[Metraje Noche]</code></td>
+        </tr>
+        <tr>
+          <td><strong>02</strong></td>
+          <td>Dispersión Flota</td>
+          <td><span class="badge badge-native">Scatter Plot</span></td>
+          <td><code>dim_equipo_perforadora[codigo_maquina_sap]</code></td>
+          <td>X: <code>[Horas Op]</code>, Y: <code>[Ratio m/h]</code></td>
+          <td>Size: <code>[Metraje Total]</code></td>
+        </tr>
+        <tr>
+          <td><strong>03</strong></td>
+          <td>Árbol Paradas</td>
+          <td><span class="badge badge-native">Decomposition Tree</span></td>
+          <td>Categoría &rarr; Bloque &rarr; Actividad</td>
+          <td><code>[Total Horas Reportadas]</code></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>04</strong></td>
+          <td>Cascada Pérdidas</td>
+          <td><span class="badge badge-native">Waterfall</span></td>
+          <td>Motivo de Parada</td>
+          <td>Meta &rarr; Caídas por Parada</td>
+          <td>Total: Real</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

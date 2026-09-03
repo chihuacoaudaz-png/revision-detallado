@@ -114,7 +114,7 @@ DISTINCTCOUNT(fact_perforacion_avance[id_clave_unica])
 Metraje Turno Dia (m) = 
 CALCULATE(
     [Metraje Perforado Total (m)],
-    fact_perforacion_avance[turno_cd] = "A"
+    fact_perforacion_avance[turno_guardia] = "A"
 )
 ```
 
@@ -124,7 +124,7 @@ CALCULATE(
 Metraje Turno Noche (m) = 
 CALCULATE(
     [Metraje Perforado Total (m)],
-    fact_perforacion_avance[turno_cd] = "B"
+    fact_perforacion_avance[turno_guardia] = "B"
 )
 ```
 
@@ -157,48 +157,108 @@ DIVIDE([Metraje Turno Noche (m)], [Metraje Perforado Total (m)], 0)
 * **Formato:** `#,##0.00`
 ```dax
 Meta Mensual (m) = 
-SUM(fact_metas_mensuales[meta_metraje_m])
+VAR _HayFiltroFecha = 
+    ISFILTERED(dim_tiempo_calendario[periodo_operativo_sort])
+    || ISFILTERED(dim_tiempo_calendario[mes_nom_operativo])
+    || ISFILTERED(dim_tiempo_calendario[mes_anio_operativo])
+    || ISFILTERED(dim_tiempo_calendario[fecha_dt])
+    || ISFILTERED(dim_tiempo_calendario[anio_operativo])
+RETURN
+    IF(
+        _HayFiltroFecha,
+        CALCULATE(
+            SUM(fact_metas_mensuales[meta_metraje_m]),
+            TREATAS(
+                VALUES(dim_tiempo_calendario[periodo_operativo_sort]),
+                fact_metas_mensuales[periodo_operativo_sort]
+            ),
+            REMOVEFILTERS(dim_tiempo_calendario)
+        ),
+        CALCULATE(
+            SUM(fact_metas_mensuales[meta_metraje_m]),
+            TREATAS(
+                CALCULATETABLE(
+                    VALUES(dim_tiempo_calendario[periodo_operativo_sort]),
+                    fact_perforacion_avance
+                ),
+                fact_metas_mensuales[periodo_operativo_sort]
+            ),
+            REMOVEFILTERS(dim_tiempo_calendario)
+        )
+    )
 ```
 
 #### 9. % Cumplimiento Meta
 * **Formato:** `0.0%`
 ```dax
 % Cumplimiento Meta = 
-DIVIDE([Metraje Perforado Total (m)], [Meta Mensual (m)], 0)
+DIVIDE([Metraje Perforado Total (m)], [Meta Mensual (m)])
 ```
 
 #### 10. Días Mes Operativo
 * **Formato:** `0`
 ```dax
-Dias Mes Operativo = 31
+Dias Mes Operativo = 
+VAR _HayFiltroFecha = 
+    ISFILTERED(dim_tiempo_calendario[periodo_operativo_sort])
+    || ISFILTERED(dim_tiempo_calendario[mes_nom_operativo])
+    || ISFILTERED(dim_tiempo_calendario[mes_anio_operativo])
+    || ISFILTERED(dim_tiempo_calendario[fecha_dt])
+    || ISFILTERED(dim_tiempo_calendario[anio_operativo])
+RETURN
+    IF(
+        _HayFiltroFecha,
+        CALCULATE(
+            COUNTROWS(dim_tiempo_calendario),
+            TREATAS(
+                VALUES(dim_tiempo_calendario[periodo_operativo_sort]),
+                dim_tiempo_calendario[periodo_operativo_sort]
+            ),
+            REMOVEFILTERS(dim_tiempo_calendario)
+        ),
+        CALCULATE(
+            COUNTROWS(dim_tiempo_calendario),
+            TREATAS(
+                CALCULATETABLE(
+                    VALUES(dim_tiempo_calendario[periodo_operativo_sort]),
+                    fact_perforacion_avance
+                ),
+                dim_tiempo_calendario[periodo_operativo_sort]
+            ),
+            REMOVEFILTERS(dim_tiempo_calendario)
+        )
+    )
 ```
 
 #### 11. Días Transcurridos
 * **Formato:** `0`
 ```dax
 Dias Transcurridos = 
-CALCULATE(DISTINCTCOUNT(fact_perforacion_avance[fecha_guardia_dt]))
+CALCULATE(
+    DISTINCTCOUNT(fact_perforacion_avance[calendario_sk]),
+    fact_perforacion_avance[metraje_guardia_m] > 0
+)
 ```
 
 #### 12. Días Restantes
 * **Formato:** `0`
 ```dax
 Dias Restantes = 
-MAX(0, [Dias Mes Operativo] - [Dias Transcurridos])
+MAX(0, [Dias Mes Operativo] - COALESCE([Dias Transcurridos], 0))
 ```
 
 #### 13. Meta Diaria Prorrateada (m)
 * **Formato:** `#,##0.00`
 ```dax
 Meta Diaria Prorrateada (m) = 
-DIVIDE([Meta Mensual (m)], [Dias Mes Operativo], 0)
+DIVIDE([Meta Mensual (m)], [Dias Mes Operativo])
 ```
 
 #### 14. Meta por Guardia (m)
 * **Formato:** `#,##0.00`
 ```dax
 Meta por Guardia (m) = 
-DIVIDE([Meta Diaria Prorrateada (m)], 2, 0)
+DIVIDE([Meta Diaria Prorrateada (m)], 2)
 ```
 
 #### 15. Metros Faltantes para Meta (m)
@@ -212,28 +272,35 @@ MAX(0, [Meta Mensual (m)] - [Metraje Perforado Total (m)])
 * **Formato:** `#,##0.00`
 ```dax
 Ritmo Requerido (m/dia) = 
-DIVIDE([Metros Faltantes para Meta (m)], [Dias Restantes], 0)
+DIVIDE([Metros Faltantes para Meta (m)], [Dias Restantes])
 ```
 
 #### 17. Promedio Diario Actual (m/día)
 * **Formato:** `#,##0.00`
 ```dax
 Promedio Diario Actual (m/dia) = 
-DIVIDE([Metraje Perforado Total (m)], [Dias Transcurridos], 0)
+DIVIDE([Metraje Perforado Total (m)], [Dias Transcurridos])
 ```
 
 #### 18. Proyección Cierre Run-Rate (m)
 * **Formato:** `#,##0.00`
 ```dax
 Proyeccion Cierre Run-Rate (m) = 
-[Metraje Perforado Total (m)] + ([Dias Restantes] * [Promedio Diario Actual (m/dia)])
+VAR _AvanceActual = [Metraje Perforado Total (m)]
+VAR _DiasRest = [Dias Restantes]
+VAR _PromDiario = [Promedio Diario Actual (m/dia)]
+RETURN
+    IF(
+        NOT ISBLANK(_AvanceActual),
+        _AvanceActual + (_DiasRest * COALESCE(_PromDiario, 0))
+    )
 ```
 
 #### 19. % Cumplimiento Proyectado
 * **Formato:** `0.0%`
 ```dax
 % Cumplimiento Proyectado = 
-DIVIDE([Proyeccion Cierre Run-Rate (m)], [Meta Mensual (m)], 0)
+DIVIDE([Proyeccion Cierre Run-Rate (m)], [Meta Mensual (m)])
 ```
 
 ---
