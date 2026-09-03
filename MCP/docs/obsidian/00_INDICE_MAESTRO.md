@@ -54,6 +54,11 @@ mindmap
       Paso a Paso desde Cero
       Power Query M Scripts
       Estructura de Visuales y Filtros
+    Habilitación CAPITANA
+      [[09_ACTUALIZACION_Y_HABILITACION_CAPITANA]]
+      Desbloqueo Filtros M
+      Cuadratura 1-a-1 Metrajes
+      Modelo Dimensional XRD150U-010
 ```
 
 ---
@@ -70,6 +75,7 @@ mindmap
 | **06** | [[06_GUIA_RECONSTRUCCION_TOTAL\|Guía de Reconstrucción Total]] | Manual paso a paso para levantar el proyecto desde cero en un `.pbix` en blanco. |
 | **07** | [[07_RECOPILADOR_POWERQUERY_Y_168_COLUMNAS\|Recopilador Power Query M y 168 Cols]] | Arquitectura Power Query M de 168 columnas, corrección del duplicado 2X y conciliación diaria. |
 | **08** | [[08_MOTOR_DE_ENCABEZADOS_Y_CASOS_BORDE_ETL\|Motor de Encabezados y Casos Borde]] | Construcción dual-row de cabeceras, forward-fill horizontal, `FillDown`/`FillUp` y homologación SAP. |
+| **09** | [[09_ACTUALIZACION_Y_HABILITACION_CAPITANA\|Habilitación Contrato CAPITANA]] | Diagnóstico, desbloqueo en Power Query M (F01/F04), cuadratura 1-a-1 y modelo dimensional. |
 
 ---
 

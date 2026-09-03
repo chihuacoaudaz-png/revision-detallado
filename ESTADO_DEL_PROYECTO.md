@@ -65,6 +65,8 @@ gantt
 | **Fase 3** | Diseño Time Intelligence Ciclo 26-25 | ✅ CERRADO | `planes/07_DISENO_TIME_INTELLIGENCE_Y_RESILIENCIA_TEMPORAL.md` |
 | **Fase 3** | Script Automatización TOM | ✅ CERRADO | `scripts/apply_dim_tiempo_columns_tom.ps1` (SortByColumn en VertiPaq) |
 | **Fase 3** | DDL Corporativo Actualizado | ✅ CERRADO | `sql/01_schema_ddl_enterprise.sql` (columnas tiempo y nombre contrato corto) |
+| **Fase 3** | Habilitación Contrato CAPITANA | ✅ CERRADO | `observaciones.txt`, `config.py`, `apppowerbi/` (Cuadratura 1-a-1, 57.20 m) |
+| **Gobierno** | Vault Técnico en Obsidian | ✅ CERRADO | `MCP/docs/obsidian/` (Módulos 00 a 09, inclusión oficial de Capitana) |
 | **Gobierno** | Squad de 11 Agentes Especializados | ✅ CERRADO | `AGENTES.md` y `.agents/agents/` |
 
 ---

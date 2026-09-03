@@ -262,7 +262,7 @@ let
         
     // 2. Filtrar subcarpetas 02_Detallado de cada contrato
     FiltrarRuta = Table.SelectRows(Origen, each Text.Contains([Folder Path], "CTR_") and Text.Contains([Folder Path], "02_Detallado")),
-    ExcluirExcluidos = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA") and not Text.Contains(Text.Upper([Folder Path]), "CAPITANA")),
+    ExcluirExcluidos = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA")),
     FiltrarExcel = Table.SelectRows(ExcluirExcluidos, each (Text.EndsWith([Name], ".xlsx") or Text.EndsWith([Name], ".xlsm")) and not Text.StartsWith([Name], "~$")),
     
     // 3. Extraer Nombre del Contrato (CTR) desde la ruta de carpetas

@@ -55,6 +55,7 @@ let
             let raw = Text.Upper(Text.Trim(Text.From([CTR_RAW]))) in 
             if Text.Contains(raw, "AMERICANA") then "AMERICANA"
             else if Text.Contains(raw, "ANDAYCHAGUA") then "ANDAYCHAGUA"
+            else if Text.Contains(raw, "CAPITANA") then "CAPITANA"
             else if Text.Contains(raw, "CATALINA") or Text.Contains(raw, "HUANCA") then "CATALINA HUANCA"
             else if Text.Contains(raw, "CERRO") then "CERRO"
             else if Text.Contains(raw, "CHUNGAR") then "CHUNGAR"
@@ -76,7 +77,7 @@ let
         
         // Excluir CTRs fuera de alcance
         ExcluirNoOperativos = Table.SelectRows(ConCTR, each 
-            not Text.Contains([CTR], "COLQUIJIRCA") and not Text.Contains([CTR], "CAPITANA")
+            not Text.Contains([CTR], "COLQUIJIRCA")
         ),
         
         // Homologación SAP de Nombres de Máquina

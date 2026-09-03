@@ -12,7 +12,7 @@ El consolidador unifica los reportes detallados `RD.402.P.01.F.01` desde SharePo
 
 ```mermaid
 flowchart TD
-    SP["🌐 SharePoint: Rockdrill_Control_Operaciones/"] --> FLTR["🔍 Filtrar Carpetas CTR_*/02_Detallado<br/>(Excluir CAPITANA y COLQUIJIRCA)"]
+    SP["🌐 SharePoint: Rockdrill_Control_Operaciones/"] --> FLTR["🔍 Filtrar Carpetas CTR_*/02_Detallado<br/>(Excluir únicamente COLQUIJIRCA; CAPITANA Activo)"]
     FLTR --> GROUP["📦 Agrupar por CTR y Seleccionar<br/>Table.Max(_, 'Date modified')"]
     GROUP --> WB["📖 Excel.Workbook([Content], false)"]
     WB --> SHT_FLTR["📑 Filtrar Hojas Visibles Operativas<br/>(Excluir Blacklist Administrativa)"]
@@ -46,6 +46,7 @@ Auditoría 1-a-1 realizada sobre **3,492 registros** y **580 claves guardia a gu
 
 | Contrato (CTR) | 26.08 (m)<br>CI / RES | 27.08 (m)<br>CI / RES | 28.08 (m)<br>CI / RES | 29.08 (m)<br>CI / RES | 30.08 (m)<br>CI / RES | Total CI (m) | Total RES (m) | Diferencia (m) | Estado de Cuadratura |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **CAPITANA** | 16.20 / 16.20 | 7.10 / 7.10 | 5.30 / 5.30 | 0.00 / 0.00 | 0.00 / 0.00 | 28.60 | 28.60 | **0.00** | ✅ **100% Cuadratura Exacta** |
 | **CATALINA HUANCA** | 108.30 / 108.30 | 125.50 / 125.50 | 91.20 / 91.20 | 87.50 / 87.50 | 85.70 / 85.70 | 498.20 | 498.20 | **0.00** | ✅ **100% Cuadratura Exacta** |
 | **CHUNGAR** | 121.60 / 121.60 | 123.20 / 123.20 | 132.25 / 132.25 | 168.50 / 168.50 | 86.05 / 86.05 | 631.60 | 631.60 | **0.00** | ✅ **100% Cuadratura Exacta** |
 | **COBRIZA** | 105.80 / 105.80 | 126.70 / 126.70 | 183.90 / 183.90 | 201.80 / 201.80 | 192.30 / 192.30 | 810.50 | 810.50 | **0.00** | ✅ **100% Cuadratura Exacta** |

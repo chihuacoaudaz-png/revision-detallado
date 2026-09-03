@@ -2057,7 +2057,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udccb 7. matriz maestra de asignacion de campos (cheat sheet)",
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L283"
+      "source_location": "L289"
     },
     {
       "id": "planes_05_guia_paso_a_paso_construccion_slides_y_visuales_pbi_8_checklist_final_de_calidad_en_power_bi_desktop",
@@ -2069,7 +2069,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udd12 8. checklist final de calidad en power bi desktop",
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L311"
+      "source_location": "L317"
     },
     {
       "id": "planes_05_guia_paso_a_paso_construccion_slides_y_visuales_pbi_a_fila_de_tarjetas_kpi_ejecutivas_y_65px_alto_100px",
@@ -2177,7 +2177,7 @@
       "node_kind": "heading",
       "norm_label": "b. visual 2: matriz de control de umbrales operativos de actividad",
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L263"
+      "source_location": "L269"
     },
     {
       "id": "planes_05_guia_paso_a_paso_construccion_slides_y_visuales_pbi_b_visual_principal_izquierdo_cumplimiento_de_metas_por_ctr_okviz_bullet_chart",
@@ -2213,7 +2213,7 @@
       "node_kind": "heading",
       "norm_label": "c. visual 3: tarjeta de desviacion real a la fecha",
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L276"
+      "source_location": "L282"
     },
     {
       "id": "planes_05_guia_paso_a_paso_construccion_slides_y_visuales_pbi_c_visual_3_top_10_perforistas_por_eficiencia_operativa_ratio_m_guardia",
@@ -14896,7 +14896,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83d\udcc8 2. tablero de control pmo (cumplimiento por fases)",
       "source_file": "ESTADO_DEL_PROYECTO.md",
-      "source_location": "L27"
+      "source_location": "L30"
     },
     {
       "id": "estado_del_proyecto_3_acuerdos_y_definiciones_de_arquitectura_vigentes",
@@ -14908,7 +14908,7 @@
       "node_kind": "heading",
       "norm_label": "\ud83c\udfdb\ufe0f 3. acuerdos y definiciones de arquitectura vigentes",
       "source_file": "ESTADO_DEL_PROYECTO.md",
-      "source_location": "L64"
+      "source_location": "L72"
     },
     {
       "id": "estado_del_proyecto_estado_del_proyecto_rockdrill_control_de_operaciones",
@@ -14944,7 +14944,7 @@
       "node_kind": "heading",
       "norm_label": "resumen de entregables clave (wbs):",
       "source_file": "ESTADO_DEL_PROYECTO.md",
-      "source_location": "L47"
+      "source_location": "L52"
     },
     {
       "id": "src_distribuidor_ctrs",
@@ -50536,7 +50536,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "ESTADO_DEL_PROYECTO.md",
-      "source_location": "L47",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -50569,7 +50569,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "ESTADO_DEL_PROYECTO.md",
-      "source_location": "L27",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -50580,7 +50580,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "ESTADO_DEL_PROYECTO.md",
-      "source_location": "L64",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -56773,7 +56773,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L263",
+      "source_location": "L269",
       "weight": 1.0
     },
     {
@@ -56784,7 +56784,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L276",
+      "source_location": "L282",
       "weight": 1.0
     },
     {
@@ -56850,7 +56850,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L283",
+      "source_location": "L289",
       "weight": 1.0
     },
     {
@@ -56861,7 +56861,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md",
-      "source_location": "L311",
+      "source_location": "L317",
       "weight": 1.0
     },
     {
@@ -62565,5 +62565,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "08f306e881f953747f57fcea2351b821b0595991"
+  "built_at_commit": "d0cdb6b1341543d232babb4c87db668d8e949e57"
 }

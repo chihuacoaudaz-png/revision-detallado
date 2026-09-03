@@ -110,7 +110,7 @@ in
         SharePoint.Files(UrlSharePoint, [ApiVersion = 15]),
         
     FiltrarRuta = Table.SelectRows(Origen, each Text.Contains([Folder Path], "CTR_") and Text.Contains([Folder Path], "02_Detallado")),
-    ExcluirExcluidos = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA") and not Text.Contains(Text.Upper([Folder Path]), "CAPITANA")),
+    ExcluirExcluidos = Table.SelectRows(FiltrarRuta, each not Text.Contains(Text.Upper([Folder Path]), "COLQUIJIRCA")),
     FiltrarExcel = Table.SelectRows(ExcluirExcluidos, each (Text.EndsWith([Name], ".xlsx") or Text.EndsWith([Name], ".xlsm")) and not Text.StartsWith([Name], "~$")),
     
     AgregarCTR = Table.AddColumn(FiltrarExcel, "CTR_Nombre", each 

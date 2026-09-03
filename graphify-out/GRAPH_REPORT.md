@@ -1,16 +1,16 @@
 # Graph Report - Detallados  (2026-09-03)
 
 ## Corpus Check
-- 308 files · ~4,091,492 words
+- 309 files · ~4,094,930 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2801 nodes · 2598 edges · 398 communities (266 shown, 132 thin omitted)
+- 2811 nodes · 2609 edges · 402 communities (271 shown, 131 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 24 edges (avg confidence: 0.89)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `08f306e8`
+- Built from commit: `d0cdb6b1`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -92,7 +92,7 @@
 - 3. Catálogo Detallado de Columnas
 - 3. Catálogo Detallado de Columnas
 - COLQUIJIRCA.md
-- load_machine_exceptions
+- __init__.py
 - Independent Review & Adversarial Quality Assessment Report
 - 📊 PLAN MAESTRO DE VISUALIZACIONES, INDICADORES Y ARQUITECTURA DE INFORMACIÓN
 - 📧 06. Flujo de Descarga de Correos OWA, Reglas por CTR y Reportes Detallados (Rockdrill)
@@ -107,7 +107,7 @@
 - BRIEFING — 2026-08-19T17:06:00Z
 - BRIEFING — 2026-08-19T11:43:00-05:00
 - 🚀 05. Guía de Ejecución, Automatización y Mantenimiento
-- Matriz de Personalización por Contrato (CTR) y Visibilidad
+- HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md
 - 🏗️ Arquitectura de Datos y Pipeline ETL
 - BRIEFING — 2026-08-19T16:55:30Z
 - BRIEFING — 2026-08-19T12:11:00-05:00
@@ -122,7 +122,7 @@
 - 2. Implementación de Fórmulas DAX
 - Project: Rockdrill Group Detailed Reporting Pipeline
 - 🛠️ Rockdrill Group - Pipeline ETL de Detallados y Control Interno
-- clean_number_value
+- .procesar_todos_los_ctrs
 - 3. Detailed Dimension Analysis
 - BRIEFING — 2026-08-19T16:58:00Z
 - 1. REGLAS INQUEBRANTABLES (NON-NEGOTIABLE CORE RULES)
@@ -137,14 +137,14 @@
 - RD.402.P.01.F.01_INMACULADA_d782e5f4.md
 - 🔬 2. DETALLE DE RESPONSABILIDADES POR AGENTE
 - generar_base_datos_dimensional.py
-- __init__.py
+- pipeline.py
 - BRIEFING — 2026-08-19T17:26:00Z
 - BRIEFING — 2026-08-19T16:27:00Z
 - BRIEFING — 2026-08-19T11:23:40-05:00
 - BRIEFING — 2026-08-19T16:25:20Z
 - 1. Mapeo de Pasos ETL: Lógica Agnóstica vs Traducción Power Query M
 - 03. Especificación Funcional de Dashboards: Visión de Impacto y Desglose Táctico
-- pipeline.py
+- run_full_pipeline
 - 📜 Historial Completo de Preguntas, Requerimientos y Respuestas
 - 🛠️ Guía Maestra de Reconstrucción Total desde Cero
 - 🔍 Diagnóstico Técnico y Puntos a Corregir Mañana
@@ -197,7 +197,7 @@
 - RD.402.P.01.F.01_SAN_CRISTOBAL_beca7984.md
 - 📐 GUÍA PASO A PASO: MEDIDAS DAX, CARPETAS Y TABLAS ESTÁTICAS DE GOBERNANZA
 - 📋 Protocolo de Ejecución en 5 Pasos de Cierre
-- run_etl_detallados
+- NumberedCanvas
 - 2.0.0 (1 March, 2017)
 - v0.6.0 (10 September, 2015)
 - 🏗️ 01. Arquitectura del Pipeline ETL y Sustitución de Power Query
@@ -258,7 +258,12 @@
 - RD.402.P.01.F.01_COLQUISIRI_3fb08dbb.md
 - METAS_914e89f4.md
 - RD.402.P.01.F.01_CUCULI_ee7b71d1.md
+- ⛏️ Módulo 09: Habilitación Integral y Auditoría del Contrato CAPITANA
+- config.py
 - RD.402.P.01.F.01_TICLIO_dc4c7903.md
+- INFORME TÉCNICO OFICIAL: ESTRUCTURA LÓGICA DE 166 COLUMNAS Y GLOSARIO DE TÉRMINOS OPERACIONALES
+- GLOSARIO_TERMINOS_V3.md
+- 1.4.1 (26 August, 2016)
 - 📊 BI Control de Operaciones y Residentes - Rock Drill
 - generador_excel_powerquery.py
 - 1.1.1 (4 February, 2016)
@@ -395,10 +400,9 @@
 - inspect_shifts.py
 - 🛡️ 3. Reglas Críticas de Tratamiento de Datos
 - 🚀 2. Guía de Configuración Paso a Paso en Excel
-- HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md
+- GLOSARIO DIDÁCTICO OFICIAL DE TÉRMINOS — REPORTE DETALLADO DE AVANCE (168 COLUMNAS)
 - 🗺️ Índice Maestro: BI Control de Operaciones y Perforación (Rock Drill)
 - ESQUEMA_ESTRELLA_COMPLETO_4449006a.md
-- 🔗 Modelo Relacional y Esquema Tabular Kimball Empresarial
 - ⚡ Recopilador Oficial Power Query M y Ecosistema 168 Columnas
 - resultado_4282fb9d.md
 
@@ -429,7 +433,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (398 total, 132 thin omitted)
+## Communities (402 total, 131 thin omitted)
 
 ### Community 0 - "Nuevo Estándar SIG (168 Columnas)"
 Cohesion: 0.12
@@ -437,7 +441,7 @@ Nodes (16): Glosario Oficial de Términos y Columnas v3, Manual de Operaciones p
 
 ### Community 1 - "Git LFS Changelog"
 Cohesion: 0.05
-Nodes (43): 1.0.1 (23 October, 2015), 1.0.2 (28 October, 2015), 1.1.0 (18 November, 2015), 1.1.2 (1 March, 2016), 1.4.1 (26 August, 2016), 1.5.1 (18 November, 2016), 1.5.5 (12 January, 2017), 1.5.6 (16 February, 2017) (+35 more)
+Nodes (40): 1.0.1 (23 October, 2015), 1.0.2 (28 October, 2015), 1.1.0 (18 November, 2015), 1.1.2 (1 March, 2016), 1.5.1 (18 November, 2016), 1.5.5 (12 January, 2017), 1.5.6 (16 February, 2017), 2.0.1 (6 March, 2017) (+32 more)
 
 ### Community 2 - "**2. COPIA DE REGISTRO ÚNICO CONTRIBUYENTE**"
 Cohesion: 0.05
@@ -448,8 +452,8 @@ Cohesion: 0.05
 Nodes (38): ACTUALIZACIÓN_CTR- AMERICANA.md, ACTUALIZACIÓN_CTR-COLQUISIRI.md, ACTUALIZACIÓN_CTR - VOLCAN.md, ACTUALIZACIÓN_CTR-YAULIYACU.md, ACTUALIZACIÓN_SERVICIOS ESPECIALES-VOLCAN_Propuesta Animon RB Superficie 1501-260702-003.1.md, ACTUALIZACIÓN_SERVICIOS ESPECIALES-VOLCAN_Propuesta TL Servicios Animon 1503-260702-003.md, AMERICANA.md, AND-SUBTE.md (+30 more)
 
 ### Community 4 - "descargar_detallados.py"
-Cohesion: 0.09
-Nodes (27): Path, ===============================================================================…, Resuelve la carpeta 'Rockdrill_Control_Operaciones' según el modo configurado., Busca dinámicamente el libro maestro de Control Interno dentro de…, resolve_base_data_path(), resolve_control_interno_path(), build_ctrs_config(), buscar_en_owa() (+19 more)
+Cohesion: 0.19
+Nodes (19): build_ctrs_config(), buscar_en_owa(), cargar_config(), cerrar_dialogos_abiertos(), descargar_adjunto_individual(), descargar_via_zip(), ejecutar(), ejecutar_setup() (+11 more)
 
 ### Community 5 - "1. Mecanismos de Descarga Automatizada OWA (`descargar_detallados.py`)"
 Cohesion: 0.06
@@ -540,8 +544,8 @@ Cohesion: 0.12
 Nodes (15): **ACLARACIONES A LA PROPUESTA**, **ADJUDICACIÓN**, **AGENDA**, **ALCANCE DEL SERVICIO 01**, **COORDINACIONES 05**, **CORREO ADJUDICACION**, **GH**, **LOGÍSTICA** (+7 more)
 
 ### Community 65 - "📊 Resumen de Tablas del Modelo"
-Cohesion: 0.14
-Nodes (14): 📊 Resumen de Tablas del Modelo, 🗃️ Tabla: `Consumo Consolidado`, 🗃️ Tabla: `Dim_Calendario`, 🗃️ Tabla: `Dim_CTR`, 🗃️ Tabla: `Dim_Familias`, 🗃️ Tabla: `Dim_Maquina`, 🗃️ Tabla: `Dim_Personal`, 🗃️ Tabla: `Dim_Sondaje` (+6 more)
+Cohesion: 0.12
+Nodes (15): 📖 Diccionario de Datos del Modelo Tabular, 📊 Resumen de Tablas del Modelo, 🗃️ Tabla: `Consumo Consolidado`, 🗃️ Tabla: `Dim_Calendario`, 🗃️ Tabla: `Dim_CTR`, 🗃️ Tabla: `Dim_Familias`, 🗃️ Tabla: `Dim_Maquina`, 🗃️ Tabla: `Dim_Personal` (+7 more)
 
 ### Community 66 - "1. Cluster de Rendimiento y ROP (Rate of Penetration)"
 Cohesion: 0.12
@@ -568,8 +572,8 @@ Cohesion: 0.13
 Nodes (14): **1.PLAN DE TRABAJO 1.CARTA RESUMEN DE LA PROPUESTA ECONOMICA.**, **2.PLANILLA DE PRECIOS.**, **3.ACLARACIONES A LA 1.Organigrama de la empresa ASPECTOS TÉCNICOS PROPUESTA. (Formulario 7)**, **Consideraciones:**, **PROPUESTA ECONOMICA:**, **PROPUESTA ECONÓMICA**, **SOCIEDAD MINERA CORONA S.A.**, **SOCIEDAD MINERA CORONA S.A.** (+6 more)
 
 ### Community 72 - "📖 3. Glosario de Términos Operacionales y Contractuales"
-Cohesion: 0.13
-Nodes (14): 🎯 1. Evaluación de Ordenamiento, Jerarquía y Estructura Lógica, 📋 2. Catálogo Maestro de las 166 Columnas Oficiales, 📖 3. Glosario de Términos Operacionales y Contractuales, 🛠️ 4. Recomendaciones de Calibración de Fórmulas en Excel, A. Metadatos, Sondaje y Avance, ✅ Aspectos Sobresalientes de la Estructura:, B. Herramientas de Corte e Insumos, C. Categoría 1: OPERATIVO [COBRABLE] (+6 more)
+Cohesion: 0.22
+Nodes (9): 📖 3. Glosario de Términos Operacionales y Contractuales, A. Metadatos, Sondaje y Avance, B. Herramientas de Corte e Insumos, C. Categoría 1: OPERATIVO [COBRABLE], D. Categoría 2: MANTENIMIENTO [NO COBRABLE], E. Categoría 3: STAND BY OPERATIVO [COBRABLE], F. Categoría 4: STAND BY INOPERATIVO [NO COBRABLE], G. Categoría 5: STAND BY CLIENTE [COBRABLE] (+1 more)
 
 ### Community 73 - "🔍 RESOLUCIÓN DETALLADA DE LAS 13 OBSERVACIONES"
 Cohesion: 0.04
@@ -587,9 +591,9 @@ Nodes (13): 📊 02. Diccionario de Datos y Tipado Estricto (135 Columnas Oficia
 Cohesion: 0.14
 Nodes (13): **1. Planilla de Precios Unitarios 1. Planilla de Precios Unitarios.**, **2. Aclaraciones a la Propuesta**, **3. Ratios**, **3.** **<u>PROPUESTA ECONÓMICA ROCK DRILL (TARIFA FIJA MENSUAL)</u>**, **PERDORACIÓN DE PRODUCCIÓN WDTH** **<u>(CONTRATO 24 MESES)</u>**, **ROCK DRILL CONT. CIV. Y MIN. S.A.C.**, SMEB=SI CONTRATISTA= NO, **SOCIEDAD MINERA EL BROCAL S.A.A.** (+5 more)
 
-### Community 77 - "load_machine_exceptions"
-Cohesion: 0.17
-Nodes (14): DataFrame, Path, ETL de Compilación de Control Interno (RD.402.P.01.F.04)…, Extrae y compila las pestañas diarias del libro maestro de Control Interno., run_etl_control_interno(), construir_modelo_dimensional(), DataFrame, Path (+6 more)
+### Community 77 - "__init__.py"
+Cohesion: 0.16
+Nodes (19): DataFrame, Path, ETL de Compilación de Control Interno (RD.402.P.01.F.04)…, Extrae y compila las pestañas diarias del libro maestro de Control Interno., run_etl_control_interno(), Módulo Principal de Ingeniería de Datos - Pipeline Rockdrill…, construir_modelo_dimensional(), DataFrame (+11 more)
 
 ### Community 78 - "Independent Review & Adversarial Quality Assessment Report"
 Cohesion: 0.15
@@ -603,6 +607,10 @@ Nodes (27): 1. Meta Diaria Prorrateada por Máquina y Guardia, 🎯 1. VISIÓN G
 Cohesion: 0.15
 Nodes (12): 📧 06. Flujo de Descarga de Correos OWA, Reglas por CTR y Reportes Detallados (Rockdrill), 🗓️ 17/08/2026 (Perforación del 16/08/2026), 🔐 1. Autenticación Delegada Local (Edge Persistent Context):, 🎯 1. Principio Operacional y Flujo de Envío Diario, 🌐 2. Compatibilidad de Idioma (ES/EN):, 📑 2. Tipología de Reportes Operacionales, 🔍 3. Algoritmo de Búsqueda y Selección Estricta:, 🏢 3. Catálogo de los 18 Contratos Mineros (CTRs) y Particularidades (+4 more)
 
+### Community 81 - "00_INDICE_MAESTRO.md"
+Cohesion: 0.27
+Nodes (4): 1. Diagrama Entidad-Relación Enterprise (Mermaid ERD), 2. Matriz de Tablas del Esquema Estrella en Producción, 3. Principios de Diseño de Ingeniería, 🔗 Modelo Relacional y Esquema Tabular Kimball Empresarial
+
 ### Community 82 - "5. Cluster de Metraje Perdido y Disponibilidad Global"
 Cohesion: 0.15
 Nodes (13): 5. Cluster de Metraje Perdido y Disponibilidad Global, 📐 Catálogo Exhaustivo de Medidas DAX, 🔹 `[Disponibilidad global].[Dias Sin Perforar]`, 🔹 `[Disponibilidad global].[Metros DG]`, 🔹 `[Disponibilidad global].[Metros Perdidos DG]`, 🔹 `[Disponibilidad global].[Turnos Sin Perforar]`, 🔹 `[Disponibilidad global].[Valor no ganado]`, 🔹 `[Disponibilidad global].[Valor Perdido]` (+5 more)
@@ -612,8 +620,8 @@ Cohesion: 0.15
 Nodes (13): 7. Cluster de Brocas y Consumo de Insumos, 🔹 `[Consumo Consolidado].[Cantidad Brocas consumidas]`, 🔹 `[Medidas].[Abastecimiento Cantidad]`, 🔹 `[Medidas].[Cantidad Brocas]`, 🔹 `[Medidas].[Cantidad Brocas (Con Metraje)]`, 🔹 `[Medidas].[Cantidad Brocas CONSUMO]`, 🔹 `[Medidas].[Cantidad Brocas Usadas]`, 🔹 `[Medidas].[Cantidad Maquinas Activas]` (+5 more)
 
 ### Community 84 - "etl_detallados.py"
-Cohesion: 0.19
-Nodes (12): assign_daily_turnos_fast(), build_dual_row_headers_from_rows(), normalize_turno_val(), any, ETL de Reportes Detallados de Avance (RD.402.P.01.F.01) - 168 Columnas…, Construye cabeceras únicas a partir de las filas 23 y 24 de Excel con filldown…, Asignación universal y matemática de turnos operativos (A = Día / B = Noche)., Pipeline Maestro Modular de Ingesta, Limpieza, Detección de Anomalías y… (+4 more)
+Cohesion: 0.14
+Nodes (17): generar_excel_powerquery_completo(), Script Oficial Definitivo: Generación de Excel con Power Query M Nativo y Base…, assign_daily_turnos_fast(), build_dual_row_headers_from_rows(), normalize_turno_val(), any, DataFrame, Path (+9 more)
 
 ### Community 85 - "BRIEFING — 2026-08-19T16:51:30Z"
 Cohesion: 0.17
@@ -643,8 +651,8 @@ Nodes (11): Artifact Index, BRIEFING — 2026-08-19T11:43:00-05:00, Change Track
 Cohesion: 0.17
 Nodes (11): 🚀 05. Guía de Ejecución, Automatización y Mantenimiento, 🧭 1. Flujo Operativo Punta a Punta, 📦 2. Requisitos y Entorno de Ejecución, ⚡ 3. Guía de Ejecución Diaria, 📁 4. Estructura Limpia del Proyecto (Lista para OneDrive), 🔒 5. Variables de Configuración en `ejecutar_pipeline_completo.py`, 🔗 Notas Relacionadas, Paso 1: Configuración Inicial de Sesión (Solo la 1ra vez por usuario) (+3 more)
 
-### Community 92 - "Matriz de Personalización por Contrato (CTR) y Visibilidad"
-Cohesion: 0.40
+### Community 92 - "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md"
+Cohesion: 0.29
 Nodes (4): 1. Reglas de Visibilidad por Tipo de Operación, 2. Pestañas con Ensayos Geotécnicos e Hidrogeológicos Habilitados, 3. Catálogo de los 21 Archivos Oficiales por CTR Generados, Matriz de Personalización por Contrato (CTR) y Visibilidad
 
 ### Community 93 - "🏗️ Arquitectura de Datos y Pipeline ETL"
@@ -692,7 +700,7 @@ Cohesion: 0.18
 Nodes (10): Sheet: Aditivos, Sheet: Listas, Sheet: XLM75UFDR-003, Sheet: XRD125UFDR-002, Sheet: XRD150U-008, Sheet: XRD220ST-003, Sheet: XRD50UFDR-001, Sheet: XRD50USS-002 (+2 more)
 
 ### Community 104 - "2. Implementación de Fórmulas DAX"
-Cohesion: 0.18
+Cohesion: 0.17
 Nodes (11): 1. Fundamento Matemático, 1️⃣ `[Medidas].[ROP_Efectivo]`, 2. Implementación de Fórmulas DAX, 2️⃣ `[Medidas].[f_efectivo]`, 3. Matriz Visual en Power BI, 3️⃣ `[Medidas].[m_perdido_ajustado]` *(Con Corrección de Totales para Múltiples CTRs)*, A. $\text{ROP}_{\text{Efectivo}}$ (Velocidad Neta de Penetración en Roca), B. $f_{\text{efectivo}}$ (Factor de Corrección por Eficiencia de Guardia) (+3 more)
 
 ### Community 105 - "Project: Rockdrill Group Detailed Reporting Pipeline"
@@ -703,9 +711,9 @@ Nodes (10): Architecture, Code Layout, Downloader ↔ ETL Detallados, ETL Detall
 Cohesion: 0.18
 Nodes (10): 1️⃣ Paso 1: Configuración Inicial (Solo la primera vez), 2️⃣ Paso 2: Descargar los Reportes del Día, 3️⃣ Paso 3: Ejecutar el Procesamiento y Conciliación, ⚙️ ¿Cómo cambiar parámetros y rutas? (`config.py`), 🚀 ¿Cómo usar el sistema en 3 simples pasos?, 📚 Documentación Técnica Detallada, 📁 Estructura del Proyecto, 🛠️ Instalación para Desarrolladores (+2 more)
 
-### Community 107 - "clean_number_value"
-Cohesion: 0.22
-Nodes (8): PipelineDetalladosModular, DataFrame, Ejecuta el pipeline completo de punta a punta., Orquestador de producción para lectura recursiva por CTR, resolución de…, Escanea y procesa todos los libros de trabajo en las carpetas de CTRs., clean_number_value(), any, Convierte cualquier valor heterogéneo a float válido o None. Maneja formatos…
+### Community 107 - ".procesar_todos_los_ctrs"
+Cohesion: 0.29
+Nodes (5): PipelineDetalladosModular, DataFrame, Ejecuta el pipeline completo de punta a punta., Orquestador de producción para lectura recursiva por CTR, resolución de…, Escanea y procesa todos los libros de trabajo en las carpetas de CTRs.
 
 ### Community 108 - "3. Detailed Dimension Analysis"
 Cohesion: 0.20
@@ -763,9 +771,9 @@ Nodes (17): 10. `business_vision_strategist`, 11. `agente_finalizador`, 1. `bi_v
 Cohesion: 0.17
 Nodes (15): cargar_datos_consolidador(), cargar_datos_metas(), clean_number(), ejecutar_pipeline_dimensional(), ===============================================================================…, Limpia cadenas o valores numéricos eliminando caracteres no válidos., Localiza automáticamente el archivo CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx., Carga el DataFrame de operaciones desde CONSOLIDADOR_DETALLADOS_POWERQUERY.xlsx. (+7 more)
 
-### Community 122 - "__init__.py"
-Cohesion: 0.24
-Nodes (8): Módulo Principal de Ingeniería de Datos - Pipeline Rockdrill…, clasificar_discrepancia(), DataFrame, Path, Módulo de Reconciliación y Matriz Comparativa de Metrajes…, Clasifica un registro individual en una de las 5 categorías oficiales…, Cruza los datos de Detallados y Control Interno, clasifica las discrepancias…, reconciliar_metrajes()
+### Community 122 - "pipeline.py"
+Cohesion: 0.15
+Nodes (13): Orquestador Principal del Pipeline ETL y Modelado Dimensional (Rockdrill)…, clasificar_discrepancia(), DataFrame, Path, Módulo de Reconciliación y Matriz Comparativa de Metrajes…, Clasifica un registro individual en una de las 5 categorías oficiales…, Cruza los datos de Detallados y Control Interno, clasifica las discrepancias…, reconciliar_metrajes() (+5 more)
 
 ### Community 123 - "BRIEFING — 2026-08-19T17:26:00Z"
 Cohesion: 0.22
@@ -791,9 +799,9 @@ Nodes (8): 1. Mapeo de Pasos ETL: Lógica Agnóstica vs Traducción Power Query 
 Cohesion: 0.22
 Nodes (8): 03. Especificación Funcional de Dashboards: Visión de Impacto y Desglose Táctico, 🎨 1. Principios de Visualización de Alto Impacto (Google Data Viz), 🌟 2. Slide 1: Impacto Ejecutivo y Monitoreo Estratégico (Hero Slide), 🛠️ 3. Slide 2: Diagnóstico Táctico y Rendimiento Operativo, 🔍 4. Slide 3: Desglose Granular de 24h, Causa Raíz y Auditoría de Campo, 🎯 Propósito:, 🎯 Propósito:, 🎯 Propósito:
 
-### Community 129 - "pipeline.py"
-Cohesion: 0.15
-Nodes (14): main(), ===============================================================================…, generar_pdf(), Path, DataFrame, Path, Orquestador Principal del Pipeline ETL y Modelado Dimensional (Rockdrill)…, Ejecuta el pipeline integral de datos (Detallados + Control Interno +… (+6 more)
+### Community 129 - "run_full_pipeline"
+Cohesion: 0.33
+Nodes (6): main(), ===============================================================================…, DataFrame, Path, Ejecuta el pipeline integral de datos (Detallados + Control Interno +…, run_full_pipeline()
 
 ### Community 130 - "📜 Historial Completo de Preguntas, Requerimientos y Respuestas"
 Cohesion: 0.14
@@ -1003,9 +1011,9 @@ Nodes (9): 🎯 1. PRINCIPIOS DE ORGANIZACIÓN Y GOBERNANZA DEL MODELO, 🏛️ 
 Cohesion: 0.22
 Nodes (8): 1. Auditoría de Archivos y Entregables del Proyecto, 2. Sincronización y Sobrescritura de Contexto (`ESTADO_DEL_PROYECTO.md`), 3. Sincronización del Catálogo de Subagentes (`AGENTES.md`), 4. Actualización del Grafo de Conocimiento (Graphify), 5. Versionamiento Seguro en Git (Commit & Push), Agente Finalizador - Rockdrill Group, 🚀 Disparador Oficial de Activación, 📋 Protocolo de Ejecución en 5 Pasos de Cierre
 
-### Community 182 - "run_etl_detallados"
-Cohesion: 0.33
-Nodes (6): generar_excel_powerquery_completo(), Script Oficial Definitivo: Generación de Excel con Power Query M Nativo y Base…, DataFrame, Path, Recopila y consolida todos los reportes detallados en las 168 columnas…, run_etl_detallados()
+### Community 182 - "NumberedCanvas"
+Cohesion: 0.28
+Nodes (4): generar_pdf(), NumberedCanvas, Path, Generador del Informe Técnico en PDF: Propuesta de Estandarización del Reporte…
 
 ### Community 183 - "2.0.0 (1 March, 2017)"
 Cohesion: 0.29
@@ -1219,9 +1227,29 @@ Nodes (3): Sheet: Aditivos, Sheet: Listas, Sheet: XRD80USS-012
 Cohesion: 0.50
 Nodes (3): Sheet: Aditivos, Sheet: Listas, Sheet: XRD100ST-001
 
+### Community 244 - "⛏️ Módulo 09: Habilitación Integral y Auditoría del Contrato CAPITANA"
+Cohesion: 0.22
+Nodes (9): 🔍 1. Diagnóstico de Causa Raíz del Bloqueo, 🛠️ 2. Arquitectura Rectificada (Flujo Unificado), 📊 3. Evidencia Forense de Cuadratura 1-a-1, 🏛️ 4. Integración en el Esquema Estrella Kimball, 📁 5. Catálogo de Archivos Actualizados, ❌ A. Exclusión en la Consulta de Control Interno (`Consolidado`), ❌ B. Exclusión en la Consulta de Detallados (`Detallados`), ❌ C. Exclusión en el Pipeline Central Python (+1 more)
+
+### Community 245 - "config.py"
+Cohesion: 0.33
+Nodes (6): Path, ===============================================================================…, Resuelve la carpeta 'Rockdrill_Control_Operaciones' según el modo configurado., Busca dinámicamente el libro maestro de Control Interno dentro de…, resolve_base_data_path(), resolve_control_interno_path()
+
 ### Community 246 - "RD.402.P.01.F.01_TICLIO_dc4c7903.md"
 Cohesion: 0.50
 Nodes (3): Sheet: Aditivos, Sheet: Listas, Sheet: XRD150USS-001
+
+### Community 247 - "INFORME TÉCNICO OFICIAL: ESTRUCTURA LÓGICA DE 166 COLUMNAS Y GLOSARIO DE TÉRMINOS OPERACIONALES"
+Cohesion: 0.33
+Nodes (5): 🎯 1. Evaluación de Ordenamiento, Jerarquía y Estructura Lógica, 📋 2. Catálogo Maestro de las 166 Columnas Oficiales, 🛠️ 4. Recomendaciones de Calibración de Fórmulas en Excel, ✅ Aspectos Sobresalientes de la Estructura:, INFORME TÉCNICO OFICIAL: ESTRUCTURA LÓGICA DE 166 COLUMNAS Y GLOSARIO DE TÉRMINOS OPERACIONALES
+
+### Community 248 - "GLOSARIO_TERMINOS_V3.md"
+Cohesion: 0.40
+Nodes (4): REPORTE DE PERFORACIÓN, REPORTE DE PERFORACIÓN, REPORTE DE PERFORACIÓN, **<u>GLOSARIO DE TÉRMINOS</u>**
+
+### Community 249 - "1.4.1 (26 August, 2016)"
+Cohesion: 0.67
+Nodes (3): 1.4.1 (26 August, 2016), Features, Misc
 
 ### Community 250 - "📊 BI Control de Operaciones y Residentes - Rock Drill"
 Cohesion: 0.50
@@ -1427,9 +1455,9 @@ Nodes (9): 1. Aislamiento Estricto de `FillDown` de Fecha:, 🏗️ 1. Anatomía
 Cohesion: 0.18
 Nodes (10): 🔍 1. Diagnóstico del Error Previo en `TablasValidas`, 🚀 2. Guía de Configuración Paso a Paso en Excel, 📂 3. Mapa de Archivos TXT con el Código Fuente M, 📘 Guía Paso a Paso: Implementación del Recopilador de 168 Columnas en Excel Power Query, Paso 1: Configurar los Parámetros de Origen, Paso 2: Crear la Función `fn_ProcesarHojaDetallado`, Paso 3: Crear la Consulta Consolidadora `Consolidado_Detallados`, Paso 4: Ajustar la Configuración de Privacidad (Evitar Formula Firewall) (+2 more)
 
-### Community 399 - "HANDOFF_KNOWLEDGE_BASE_OBSIDIAN.md"
-Cohesion: 0.17
-Nodes (8): GLOSARIO DIDÁCTICO OFICIAL DE TÉRMINOS — REPORTE DETALLADO DE AVANCE (168 COLUMNAS), 📖 Glosario Exhaustivo de las 168 Columnas del Detallado, 📌 Reglas de Oro para el Llenado Diario del Detallado, 🎨 Semáforo de Cobrabilidad y Tipos de Stand By, REPORTE DE PERFORACIÓN, REPORTE DE PERFORACIÓN, REPORTE DE PERFORACIÓN, **<u>GLOSARIO DE TÉRMINOS</u>**
+### Community 399 - "GLOSARIO DIDÁCTICO OFICIAL DE TÉRMINOS — REPORTE DETALLADO DE AVANCE (168 COLUMNAS)"
+Cohesion: 0.40
+Nodes (4): GLOSARIO DIDÁCTICO OFICIAL DE TÉRMINOS — REPORTE DETALLADO DE AVANCE (168 COLUMNAS), 📖 Glosario Exhaustivo de las 168 Columnas del Detallado, 📌 Reglas de Oro para el Llenado Diario del Detallado, 🎨 Semáforo de Cobrabilidad y Tipos de Stand By
 
 ### Community 400 - "🗺️ Índice Maestro: BI Control de Operaciones y Perforación (Rock Drill)"
 Cohesion: 0.50
@@ -1439,33 +1467,29 @@ Nodes (4): 🧭 Mapa de Contenidos (MOC), 📌 Metadatos del Sistema, 📑 Módu
 Cohesion: 0.17
 Nodes (11): Sheet: brg_cuadrilla_guardia, Sheet: dim_contrato_minero, Sheet: dim_equipo_perforadora, Sheet: dim_linea_diametro, Sheet: dim_personal, Sheet: dim_sondaje_taladro, Sheet: dim_taxonomia_actividad, Sheet: dim_tiempo_calendario (+3 more)
 
-### Community 404 - "🔗 Modelo Relacional y Esquema Tabular Kimball Empresarial"
-Cohesion: 0.50
-Nodes (4): 1. Diagrama Entidad-Relación Enterprise (Mermaid ERD), 2. Matriz de Tablas del Esquema Estrella en Producción, 3. Principios de Diseño de Ingeniería, 🔗 Modelo Relacional y Esquema Tabular Kimball Empresarial
-
 ### Community 405 - "⚡ Recopilador Oficial Power Query M y Ecosistema 168 Columnas"
-Cohesion: 0.25
+Cohesion: 0.29
 Nodes (7): 🎯 1. Arquitectura de Extracción Power Query M, 🔍 2. Diagnóstico y Corrección del Duplicado de Metraje 2.00x, 📊 3. Auditoría de Conciliación Día a Día vs Control Interno (26.08 al 30.08), 📁 4. Archivos Clave del Módulo, 🔴 Causa Raíz del 2X en el Código Previo:, ⚡ Recopilador Oficial Power Query M y Ecosistema 168 Columnas, 🟢 Solución Definitiva en `codigo_corregido.txt`:
 
 ## Knowledge Gaps
-- **1816 isolated node(s):** `2026-08-19T16:19:00Z`, `R1. Descargador OWA Robusto y Bilingüe`, `R2. Extracción y Normalización de Reportes Detallados`, `R3. Compilación de Control Interno`, `R4. Conciliación y Auditoría Turno a Turno` (+1811 more)
+- **1823 isolated node(s):** `2026-08-19T16:19:00Z`, `R1. Descargador OWA Robusto y Bilingüe`, `R2. Extracción y Normalización de Reportes Detallados`, `R3. Compilación de Control Interno`, `R4. Conciliación y Auditoría Turno a Turno` (+1818 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **132 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **131 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `📐 Catálogo Exhaustivo de Medidas DAX` connect `5. Cluster de Metraje Perdido y Disponibilidad Global` to `1. Cluster de Rendimiento y ROP (Rate of Penetration)`, `3. Cluster de Metas y Cumplimiento de Programa`, `00_INDICE_MAESTRO.md`, `7. Cluster de Brocas y Consumo de Insumos`, `6. Cluster de Costos y Control Presupuestal`, `4. Cluster de Control de Tiempos y Horas Operativas`, `2. Cluster de Metraje y Avance Físico`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `Git LFS Changelog` connect `Git LFS Changelog` to `1.3.1 (2 August 2016)`, `1.4.0 (19 August, 2016)`, `1.4.2 (10 October, 2016)`, `1.5.0 (17 November, 2016)`, `1.5.2 (22 November, 2016)`, `2.0.2 (29 March, 2017)`, `2.10.0 (21 January 2020)`, `2.11.0 (8 May 2020)`, `2.12.0 (1 Sep 2020)`, `2.13.0 (10 Dec 2020)`, `2.1.0 (28 April, 2017)`, `2.2.0 (27 June, 2017)`, `2.3.0 (14 September, 2017)`, `2.3.1 (27 September, 2017)`, `2.3.2 (3 October, 2017)`, `2.4.0 (2 March, 2018)`, `2.4.1 (18 May, 2018)`, `2.5.0 (26 July, 2018)`, `2.5.1 (2 August, 2018)`, `2.6.0 (1 November, 2018)`, `2.7.0 (15 February 2019)`, `2.8.0 (23 July 2019)`, `2.9.0 (17 October 2019)`, `2.9.1 (25 November 2019)`, `3.0.0 (24 Sep 2021)`, `3.1.0 (14 Feb 2022)`, `3.2.0 (25 May 2022)`, `3.3.0 (30 November 2022)`, `3.4.0 (26 July 2023)`, `3.5.0 (28 February 2024)`, `v0.6.0 (10 September, 2015)`, `1.2.0 (14 April 2016)`, `1.4.3 (17 October, 2016)`, `1.4.4 (24 October, 2016)`, `1.5.3 (5 December, 2016)`, `1.5.4 (27 December, 2016)`, `2.0.0 (1 March, 2017)`, `2.13.3 (26 Mar 2021)`, `2.1.1 (19 May, 2017)`, `2.2.1 (10 July, 2017)`, `2.3.4 (18 October, 2017)`, `2.5.2 (17 September, 2018)`, `2.9.2 (12 December 2019)`, `3.0.2 (28 Oct 2021)`, `3.1.2 (16 Feb 2022)`, `3.1.3 (19 Apr 2022)`, `1.1.1 (4 February, 2016)`, `1.2.1 (2 June 2016)`, `1.3.0 (21 July 2016)`?**
+- **Why does `Git LFS Changelog` connect `Git LFS Changelog` to `1.3.1 (2 August 2016)`, `1.4.0 (19 August, 2016)`, `1.4.2 (10 October, 2016)`, `1.5.0 (17 November, 2016)`, `1.5.2 (22 November, 2016)`, `2.0.2 (29 March, 2017)`, `2.10.0 (21 January 2020)`, `2.11.0 (8 May 2020)`, `2.12.0 (1 Sep 2020)`, `2.13.0 (10 Dec 2020)`, `2.1.0 (28 April, 2017)`, `2.2.0 (27 June, 2017)`, `2.3.0 (14 September, 2017)`, `2.3.1 (27 September, 2017)`, `2.3.2 (3 October, 2017)`, `2.4.0 (2 March, 2018)`, `2.4.1 (18 May, 2018)`, `2.5.0 (26 July, 2018)`, `2.5.1 (2 August, 2018)`, `2.6.0 (1 November, 2018)`, `2.7.0 (15 February 2019)`, `2.8.0 (23 July 2019)`, `2.9.0 (17 October 2019)`, `2.9.1 (25 November 2019)`, `3.0.0 (24 Sep 2021)`, `3.1.0 (14 Feb 2022)`, `3.2.0 (25 May 2022)`, `3.3.0 (30 November 2022)`, `3.4.0 (26 July 2023)`, `3.5.0 (28 February 2024)`, `v0.6.0 (10 September, 2015)`, `1.2.0 (14 April 2016)`, `1.4.3 (17 October, 2016)`, `1.4.4 (24 October, 2016)`, `1.5.3 (5 December, 2016)`, `1.5.4 (27 December, 2016)`, `2.0.0 (1 March, 2017)`, `2.13.3 (26 Mar 2021)`, `2.1.1 (19 May, 2017)`, `2.2.1 (10 July, 2017)`, `2.3.4 (18 October, 2017)`, `2.5.2 (17 September, 2018)`, `2.9.2 (12 December 2019)`, `3.0.2 (28 Oct 2021)`, `3.1.2 (16 Feb 2022)`, `3.1.3 (19 Apr 2022)`, `1.4.1 (26 August, 2016)`, `1.1.1 (4 February, 2016)`, `1.2.1 (2 June 2016)`, `1.3.0 (21 July 2016)`?**
   _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **Why does `1. Cluster de Rendimiento y ROP (Rate of Penetration)` connect `1. Cluster de Rendimiento y ROP (Rate of Penetration)` to `5. Cluster de Metraje Perdido y Disponibilidad Global`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **What connects `2026-08-19T16:19:00Z`, `R1. Descargador OWA Robusto y Bilingüe`, `R2. Extracción y Normalización de Reportes Detallados` to the rest of the system?**
-  _1816 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1823 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Nuevo Estándar SIG (168 Columnas)` be split into smaller, more focused modules?**
   _Cohesion score 0.125 - nodes in this community are weakly interconnected._
 - **Should `Git LFS Changelog` be split into smaller, more focused modules?**
-  _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
 - **Should `**2. COPIA DE REGISTRO ÚNICO CONTRIBUYENTE**` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._

@@ -1,8 +1,8 @@
 {
   "config.py": {
-    "mtime": 1787171788.562859,
-    "seen": 1787182285.6396916,
-    "ast_hash": "75b2793d53e790deea04fb82bcc5d56e",
+    "mtime": 1788475713.2479112,
+    "seen": 1788475979.5026276,
+    "ast_hash": "15235a3c9e4cb55e96a132c878259802",
     "semantic_hash": ""
   },
   "descargar_detallados.py": {
@@ -690,9 +690,9 @@
     "semantic_hash": ""
   },
   "src/crear_excel_powerquery_nativo.py": {
-    "mtime": 1788213659.2972307,
-    "seen": 1788213780.3328054,
-    "ast_hash": "b66586cb46b6fdab2af4b880684c6af3",
+    "mtime": 1788475878.9766076,
+    "seen": 1788475979.5056205,
+    "ast_hash": "96859543b7a82689f3bf83e43b228802",
     "semantic_hash": ""
   },
   "src/distribuidor_ctrs.py": {
@@ -1602,9 +1602,9 @@
     "semantic_hash": ""
   },
   "power_query_m/CONSULTAS_POWERQUERY_M_PARAMETRIZADAS.txt": {
-    "mtime": 1788213601.7763662,
-    "seen": 1788213780.4451537,
-    "ast_hash": "928e5467e62e46be6b4f3b652d655994",
+    "mtime": 1788475860.2639468,
+    "seen": 1788475979.6099908,
+    "ast_hash": "14cec08afcf64bc57caf3fa673cf7514",
     "semantic_hash": ""
   },
   "tools/git-lfs-temp/git-lfs-3.5.1/CHANGELOG.md": {
@@ -1662,9 +1662,9 @@
     "semantic_hash": ""
   },
   "power_query_m/03_CONSOLIDADO_DETALLADOS.txt": {
-    "mtime": 1788213601.7726924,
-    "seen": 1788213780.4451537,
-    "ast_hash": "15641ea71e3a3c7a410b51929e902275",
+    "mtime": 1788475870.2397301,
+    "seen": 1788475979.6099908,
+    "ast_hash": "f0c2f9bbfe17498fbff7b2c822c01ef6",
     "semantic_hash": ""
   },
   "docs/GUIA_TECNICA_CONSTRUCCION_ENCABEZADOS_Y_PIPELINE_ETL.md": {
@@ -1770,9 +1770,9 @@
     "semantic_hash": ""
   },
   "ESTADO_DEL_PROYECTO.md": {
-    "mtime": 1788392492.458833,
-    "seen": 1788472996.1360238,
-    "ast_hash": "a21ec05aba3580d8f424507d7950a439",
+    "mtime": 1788474629.9020078,
+    "seen": 1788475979.5516672,
+    "ast_hash": "52ebee73ad4e63d6c38c09816b504e42",
     "semantic_hash": ""
   },
   "QUERYS_POWER_QUERY_M_ESTRELLA.txt": {
@@ -1782,21 +1782,21 @@
     "semantic_hash": ""
   },
   "apppowerbi/00_CONSULTAS_AUDITORIA_3_EN_1.txt": {
-    "mtime": 1788296860.1164818,
-    "seen": 1788472996.1451213,
-    "ast_hash": "4ba1c0c45298028379bb584ba1a70350",
+    "mtime": 1788475849.9739969,
+    "seen": 1788475979.5576532,
+    "ast_hash": "ed6d1ea58f1cd96310751648438fb5bc",
     "semantic_hash": ""
   },
   "apppowerbi/01_QUERY_CONSOLIDADO_OPERACIONES.txt": {
-    "mtime": 1788296826.6165514,
-    "seen": 1788472996.1451213,
-    "ast_hash": "bead8eb64c7f61254c26218a614dd0ad",
+    "mtime": 1788475768.9598968,
+    "seen": 1788475979.5576532,
+    "ast_hash": "8602222288ac3c7a1b0dd19bb807e7b5",
     "semantic_hash": ""
   },
   "apppowerbi/02_QUERY_CONSOLIDADO_CONTROL_INTERNO.txt": {
-    "mtime": 1788296836.6273177,
-    "seen": 1788472996.1451213,
-    "ast_hash": "9fbb166586652a63103e9adbdfa7ddc1",
+    "mtime": 1788475782.3930805,
+    "seen": 1788475979.5576532,
+    "ast_hash": "a778060c0ea6cc34b7e7d808bb081694",
     "semantic_hash": ""
   },
   "apppowerbi/03_QUERY_MATRIZ_COMPARATIVA_DIA_A_DIA.txt": {
@@ -1824,9 +1824,9 @@
     "semantic_hash": ""
   },
   "apppowerbi/codigo final.txt": {
-    "mtime": 1788289071.9451709,
-    "seen": 1788472996.1451213,
-    "ast_hash": "4b247f48dac8fa7b025fd4e621064a4b",
+    "mtime": 1788475808.0424075,
+    "seen": 1788475979.5598207,
+    "ast_hash": "582d7f8ddd79363a51a77b130b59b432",
     "semantic_hash": ""
   },
   "baul_desuso/README.md": {
@@ -1968,9 +1968,9 @@
     "semantic_hash": ""
   },
   "observaciones.txt": {
-    "mtime": 1788451668.3787656,
-    "seen": 1788472996.2226796,
-    "ast_hash": "d5330eee1796718d106181d77f0add98",
+    "mtime": 1788475759.3606968,
+    "seen": 1788475979.6073353,
+    "ast_hash": "f7d0135119c9d32996f82a6e0c3c3d3a",
     "semantic_hash": ""
   },
   "planes/01_PLAN_IMPLEMENTACION_FASE_2_MODELADO_DIMENSIONAL.md": {
@@ -1998,15 +1998,15 @@
     "semantic_hash": ""
   },
   "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.html": {
-    "mtime": 1788472847.5476797,
-    "seen": 1788472996.2226796,
+    "mtime": 1788473674.8059359,
+    "seen": 1788473868.0990682,
     "ast_hash": "09bc693dcbaf218ccd853bf8311d9ff8",
     "semantic_hash": ""
   },
   "planes/05_GUIA_PASO_A_PASO_CONSTRUCCION_SLIDES_Y_VISUALES_PBI.md": {
-    "mtime": 1788472839.2260838,
-    "seen": 1788472996.2226796,
-    "ast_hash": "9ff874456d1865448a8c311600569956",
+    "mtime": 1788473664.5386937,
+    "seen": 1788473868.0990682,
+    "ast_hash": "e31959b2d2b903048c71c9efd3d13cde",
     "semantic_hash": ""
   },
   "planes/06_RESOLUCION_OBSERVACIONES_VISUALES_PBI.md": {
@@ -2043,6 +2043,12 @@
     "mtime": 1788367304.5354476,
     "seen": 1788472996.2290761,
     "ast_hash": "8577154d33edfc1b0a9612802863aa7a",
+    "semantic_hash": ""
+  },
+  "docs/OBSERVACIONES_FEEDBACK_USUARIO_PBI.txt": {
+    "mtime": 1788451668.3787656,
+    "seen": 1788475979.579676,
+    "ast_hash": "d5330eee1796718d106181d77f0add98",
     "semantic_hash": ""
   }
 }

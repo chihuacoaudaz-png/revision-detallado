@@ -44,7 +44,7 @@ RUTA_CUSTOM: Path = Path(r"C:\Users\tu_usuario\OneDrive - ROCKDRILL GROUP\Rockdr
 # ==============================================================================
 
 # Contratos mineros excluidos del control de metrajes (según regla corporativa)
-CTRS_EXCLUIDOS: Set[str] = {"COLQUIJIRCA", "CAPITANA"}
+CTRS_EXCLUIDOS: Set[str] = {"COLQUIJIRCA"}
 
 # Hojas no operativas a ignorar en los libros Excel
 HOJAS_EXCLUIDAS: Set[str] = {
