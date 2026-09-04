@@ -21,6 +21,8 @@
    - Guía paso a paso de implementación en Excel Power Query, prevención de Formula Firewall y catálogo de consultas M.
 7. [**`07_RESUMEN_EJECUTIVO_Y_DECISIONES_ARQUITECTURA.md`**](file:///C:/Proyectos%20Python/Detallados/docs/07_RESUMEN_EJECUTIVO_Y_DECISIONES_ARQUITECTURA.md)
    - Resumen ejecutivo, axioma de conciliación 1-a-1 y mapa de entregables oficiales.
+8. [**`10_DIAGNOSTICO_Y_PLAN_MIGRACION_BASE_HISTORICA_2026.md`**](file:///C:/Proyectos%20Python/Detallados/docs/10_DIAGNOSTICO_Y_PLAN_MIGRACION_BASE_HISTORICA_2026.md)
+   - Diagnóstico de la base histórica (64,607 filas), auditoría de anomalías 2026 (Tambojasa, etc.), mecanismo Otros vs. razones específicas, matriz de subsunción y arquitectura Cold/Hot.
 
 ---
 
